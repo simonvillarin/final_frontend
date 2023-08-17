@@ -71,6 +71,52 @@
         <div class="p-fluid">
           <!-- ... continue adding other form fields for step 2 -->
         </div>
+        <div class="p-field">
+          <label for="suffix">Suffix</label>
+          <input id="suffix" type="text" pInputText formControlName="suffix" />
+        </div>
+        <div class="p-field">
+          <label htmlFor="Gender">Gender</label>
+          <input id="gender" type="text" pInputText formControlName="gender" />
+        </div>
+        <div class="p-field">
+          <label for="birthdate">Birthdate</label>
+          <input
+            id="birthDate"
+            type="text"
+            pInputText
+            formControlName="birthDate"
+          />
+        </div>
+        <div class="p-field">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            pInputText
+            formControlName="username"
+          />
+        </div>
+        <div class="p-field">
+          <label for="password">password</label>
+          <input
+            id="password"
+            type="text"
+            pInputText
+            formControlName="password"
+          />
+        </div>
+        <!-- ... continue adding other form fields for step 1 -->
+      </div>
+    </div>
+    <div *ngSwitchCase="1">
+      <div class="p-fluid">
+        <!-- ... continue adding other form fields for step 2 -->
+      </div>
+    </div>
+    <div *ngSwitchCase="2">
+      <div class="p-fluid">
+        <!-- ... continue adding other form fields for step 2 -->
       </div>
     </div>
   </form>
