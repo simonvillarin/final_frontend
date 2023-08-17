@@ -9,6 +9,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ServicesComponent } from './components/services/services.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StepsModule } from 'primeng/steps';
+import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     LandingRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    StepsModule,
+    HttpClientModule,
+    ButtonModule,
+    InputTextModule,
   ],
 })
 export class LandingModule {}
