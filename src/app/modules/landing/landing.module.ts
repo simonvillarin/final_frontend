@@ -5,6 +5,7 @@ import { AboutComponent } from './components/about/about.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LandingRoutingModule } from './landing-routing.module';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
