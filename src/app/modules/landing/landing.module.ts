@@ -7,6 +7,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { LandingRoutingModule } from './landing-routing.module';
 import { RegisterComponent } from './pages/register/register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { StepsModule } from 'primeng/steps';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -16,6 +21,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HomeComponent,
     RegisterComponent,
   ],
-  imports: [CommonModule, LandingRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    LandingRoutingModule,
+    SharedModule,
+    StepsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    ButtonModule,
+    InputTextModule,
+  ],
 })
 export class LandingModule {}
