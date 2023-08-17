@@ -34,3 +34,9 @@ textarea {
   outline: none;
   border: none;
 }
+
+.container {
+  width: min(1140px, 100%);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
