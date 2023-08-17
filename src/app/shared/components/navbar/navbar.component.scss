@@ -1,0 +1,39 @@
+nav {
+  position: fixed;
+  width: 100%;
+  color: var(--light);
+
+  z-index: 100;
+}
+
+.nav-bg-change {
+  background-color: var(--primary);
+}
+
+.container {
+  height: 4.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo,
+.nav-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: 5rem;
+}
+
+span {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.nav-link {
+  padding: 0.75rem;
+  cursor: pointer;
+}

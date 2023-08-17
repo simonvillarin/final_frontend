@@ -1,0 +1,26 @@
+section {
+  width: 100%;
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: image 10s infinite;
+}
+
+@keyframes image {
+  0% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+      url("../../../../../assets/images/farmer1.jpg");
+    background-size: cover;
+  }
+  50% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+      url("../../../../../assets/images/farmer2.jpg");
+    background-size: cover;
+  }
+  100% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+      url("../../../../../assets/images/home.jpg");
+    background-size: cover;
+  }
+}
