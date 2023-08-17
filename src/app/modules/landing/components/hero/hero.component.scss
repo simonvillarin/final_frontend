@@ -1,10 +1,41 @@
 section {
-  width: 100%;
-  min-height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   animation: image 10s infinite;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: var(--light);
+}
+
+h1 {
+  font-size: clamp(2.75rem, 1.2195rem + 3.9024vw, 4.5rem);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: clamp(1.125rem, 1.0518rem + 0.3659vw, 1.3125rem);
+  margin-bottom: 1.25rem;
+}
+
+.btn-primary {
+  position: relative;
+  font-size: clamp(1rem, 0.9024rem + 0.4878vw, 1.25rem);
+  padding: 0.75rem 1.5rem;
+  color: var(--light);
+  background-color: transparent;
+  border: 1px solid var(--light);
+  cursor: pointer;
+  z-index: 2;
 }
 
 @keyframes image {
@@ -22,5 +53,11 @@ section {
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
       url("../../../../../assets/images/home.jpg");
     background-size: cover;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .btn-primary {
+    padding: 1.25rem 2.5rem;
   }
 }

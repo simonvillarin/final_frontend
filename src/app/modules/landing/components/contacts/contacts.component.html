@@ -1,0 +1,60 @@
+<section id="contact">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15444.962660524012!2d121.0614005!3d14.5853578!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c81751e0f9d5%3A0xff1378b728feff76!2sSeven%20Seven%20Global%20Services%2C%20Inc.!5e0!3m2!1sen!2sph!4v1692271809834!5m2!1sen!2sph"
+    width="100%"
+    height="600"
+    style="border: 0"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+  <div class="form">
+    <h3>SEND US A MESSAGE</h3>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label>Name<span>*</span></label>
+        <input type="text" pInputText formControlName="name" />
+        <div *ngIf="name.invalid && (name?.dirty || name?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="name?.errors?.['required']"
+            >Name is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Email<span>*</span></label>
+        <input type="text" pInputText formControlName="email" />
+        <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email?.errors?.['required']"
+            >Email is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email?.errors?.['email']"
+            >Email is Invalid</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Message<span>*</span></label>
+        <textarea
+          rows="5"
+          cols="30"
+          pInputTextarea
+          formControlName="message"
+        ></textarea>
+        <div *ngIf="message.invalid && (message?.dirty || message?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="message.errors?.['required']"
+            >Message is required</small
+          >
+        </div>
+      </div>
+      <button type="submit">SEND</button>
+    </form>
+  </div>
+</section>

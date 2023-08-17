@@ -1,16 +1,46 @@
-<nav [ngClass]="scrolled ? 'nav-bg-change' : ''">
+<nav [class.nav-bg-change]="scrolled">
   <div class="container">
     <div class="logo">
       <img src="../../../../assets/images/logo.png" alt="Logo" />
       <span>HACIENDA</span>
     </div>
 
-    <div class="nav-list">
-      <div class="nav-link">Home</div>
-      <div class="nav-link">About</div>
-      <div class="nav-link">Services</div>
-      <div class="nav-link">Testimonials</div>
-      <div class="nav-link">Contact Us</div>
+    <div
+      routerLink="/home#home"
+      class="nav-list"
+      [class.show-mobile-nav]="mobile"
+      (click)="toggleMobile()"
+    >
+      <div class="nav-link" [class.border]="home" (click)="onHome()">Home</div>
+      <div
+        routerLink="/home#about"
+        class="nav-link"
+        [class.border]="about"
+        (click)="onAbout()"
+      >
+        About
+      </div>
+      <div
+        routerLink="/home#services"
+        class="nav-link"
+        [class.border]="services"
+        (click)="onServices()"
+      >
+        Services
+      </div>
+      <div class="nav-link" [class.border]="contact" (click)="onContact()">
+        Contact Us
+      </div>
+      <div class="nav-link">Sign Up</div>
+      <div class="nav-link">Login</div>
+
+      <div class="close">
+        <span class="material-symbols-rounded" id="close"> close </span>
+      </div>
+    </div>
+
+    <div class="menu" (click)="toggleMobile()">
+      <span class="material-symbols-rounded" id="menu"> menu </span>
     </div>
   </div>
 </nav>
