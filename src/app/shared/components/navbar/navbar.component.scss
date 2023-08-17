@@ -2,6 +2,7 @@ nav {
   position: fixed;
   width: 100%;
   color: var(--light);
+  background-color: var(--primary);
   z-index: 100;
   transition: background-color 200ms ease-in-out;
 }

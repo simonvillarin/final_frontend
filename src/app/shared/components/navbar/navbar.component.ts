@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -6,17 +7,15 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  scrolled = false;
   mobile = false;
   home = true;
   about = false;
   services = false;
   contact = false;
+  signUp = false;
+  login = false;
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.scrolled = window.scrollY > 0;
-  }
+  constructor(private router: Router) {}
 
   toggleMobile = () => {
     this.mobile = !this.mobile;
@@ -27,6 +26,8 @@ export class NavbarComponent {
     this.about = false;
     this.services = false;
     this.contact = false;
+    this.signUp = false;
+    this.login = false;
   };
 
   onAbout = () => {
@@ -34,6 +35,8 @@ export class NavbarComponent {
     this.about = true;
     this.services = false;
     this.contact = false;
+    this.signUp = false;
+    this.login = false;
   };
 
   onServices = () => {
@@ -41,6 +44,8 @@ export class NavbarComponent {
     this.about = false;
     this.services = true;
     this.contact = false;
+    this.signUp = false;
+    this.login = false;
   };
 
   onContact = () => {
@@ -48,5 +53,26 @@ export class NavbarComponent {
     this.about = false;
     this.services = false;
     this.contact = true;
+    this.signUp = false;
+    this.login = false;
+  };
+
+  onSignUp = () => {
+    this.home = false;
+    this.about = false;
+    this.services = false;
+    this.contact = false;
+    this.signUp = true;
+    this.login = false;
+    this.router.navigate(['/register']);
+  };
+
+  onLogin = () => {
+    this.home = false;
+    this.about = false;
+    this.services = false;
+    this.contact = false;
+    this.signUp = false;
+    this.login = true;
   };
 }
