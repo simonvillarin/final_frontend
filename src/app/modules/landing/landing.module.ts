@@ -5,6 +5,7 @@ import { AboutComponent } from './components/about/about.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LandingRoutingModule } from './landing-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,6 @@ import { LandingRoutingModule } from './landing-routing.module';
     TestimonialsComponent,
     HomeComponent,
   ],
-  imports: [CommonModule, LandingRoutingModule],
+  imports: [CommonModule, LandingRoutingModule, SharedModule],
 })
 export class LandingModule {}
