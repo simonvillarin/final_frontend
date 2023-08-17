@@ -1,89 +1,100 @@
 <app-navbar></app-navbar>
-<p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
-<form [formGroup]="registrationForm">
-  <div [ngSwitch]="activeIndex">
-    <div *ngSwitchCase="0">
-      <div class="p-fluid">
-        <div class="p-field">
-          <label for="firstName">First Name</label>
-          <input
-            id="firstName"
-            type="text"
-            pInputText
-            formControlName="firstName"
-          />
+<div class="container">
+  <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
+  <form [formGroup]="registrationForm">
+    <div [ngSwitch]="activeIndex">
+      <div *ngSwitchCase="0">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="firstName">First Name</label>
+            <input
+              id="firstName"
+              type="text"
+              pInputText
+              formControlName="firstName"
+            />
+          </div>
+          <div class="p-field">
+            <label for="middleName">Middle Name</label>
+            <input
+              id="middleName"
+              type="text"
+              pInputText
+              formControlName="middleName"
+            />
+          </div>
+          <div class="p-field">
+            <label for="lastName">Last Name</label>
+            <input
+              id="lastName"
+              type="text"
+              pInputText
+              formControlName="lastName"
+            />
+          </div>
+          <div class="p-field">
+            <label for="suffix">Suffix</label>
+            <input
+              id="suffix"
+              type="text"
+              pInputText
+              formControlName="suffix"
+            />
+          </div>
+          <div class="p-field">
+            <label htmlFor="Gender">Gender</label>
+            <input
+              id="gender"
+              type="text"
+              pInputText
+              formControlName="gender"
+            />
+          </div>
+          <div class="p-field">
+            <label for="birthdate">Birthdate</label>
+            <input
+              id="birthDate"
+              type="text"
+              pInputText
+              formControlName="birthDate"
+            />
+          </div>
+          <!-- ... continue adding other form fields for step 1 -->
         </div>
-        <div class="p-field">
-          <label for="middleName">Middle Name</label>
-          <input
-            id="middleName"
-            type="text"
-            pInputText
-            formControlName="middleName"
-          />
+      </div>
+      <div *ngSwitchCase="1">
+        <div class="p-fluid">
+          <!-- ... continue adding other form fields for step 2 -->
         </div>
-        <div class="p-field">
-          <label for="lastName">Last Name</label>
-          <input
-            id="lastName"
-            type="text"
-            pInputText
-            formControlName="lastName"
-          />
+      </div>
+      <div *ngSwitchCase="2">
+        <div class="p-fluid">
+          <!-- ... continue adding other form fields for step 2 -->
         </div>
-        <div class="p-field">
-          <label for="suffix">Suffix</label>
-          <input id="suffix" type="text" pInputText formControlName="suffix" />
-        </div>
-        <div class="p-field">
-          <label htmlFor="Gender">Gender</label>
-          <input id="gender" type="text" pInputText formControlName="gender" />
-        </div>
-        <div class="p-field">
-          <label for="birthdate">Birthdate</label>
-          <input
-            id="birthDate"
-            type="text"
-            pInputText
-            formControlName="birthDate"
-          />
-        </div>
-        <!-- ... continue adding other form fields for step 1 -->
       </div>
     </div>
-    <div *ngSwitchCase="1">
-      <div class="p-fluid">
-        <!-- ... continue adding other form fields for step 2 -->
-      </div>
-    </div>
-    <div *ngSwitchCase="2">
-      <div class="p-fluid">
-        <!-- ... continue adding other form fields for step 2 -->
-      </div>
-    </div>
+  </form>
+  <div class="p-mt-2">
+    <button
+      pButton
+      type="button"
+      label="Back"
+      (click)="activeIndex = activeIndex - 1"
+      [disabled]="activeIndex === 0"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Next"
+      (click)="activeIndex = activeIndex + 1"
+      [disabled]="!registrationForm.valid || activeIndex === items.length - 1"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Register"
+      (click)="register()"
+      [disabled]="!registrationForm.valid"
+    ></button>
   </div>
-</form>
-
-<div class="p-mt-2">
-  <button
-    pButton
-    type="button"
-    label="Back"
-    (click)="activeIndex = activeIndex - 1"
-    [disabled]="activeIndex === 0"
-  ></button>
-  <button
-    pButton
-    type="button"
-    label="Next"
-    (click)="activeIndex = activeIndex + 1"
-    [disabled]="!registrationForm.valid || activeIndex === items.length - 1"
-  ></button>
-  <button
-    pButton
-    type="button"
-    label="Register"
-    (click)="register()"
-    [disabled]="!registrationForm.valid"
-  ></button>
 </div>
