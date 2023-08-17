@@ -28,6 +28,10 @@ import { InputTextModule } from 'primeng/inputtext';
     LandingRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    StepsModule,
+    HttpClientModule,
+    ButtonModule,
+    InputTextModule,
   ],
 })
 export class LandingModule {}
