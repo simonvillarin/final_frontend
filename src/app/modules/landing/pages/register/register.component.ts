@@ -186,7 +186,11 @@ export class RegisterComponent implements OnInit {
   };
 
   onRegionChange = (region: any) => {
-    if (region !== '') {
+    if (region !== '' && region !== undefined) {
+      this.provinces = [];
+      this.cities = [];
+      this.barangays = [];
+
       this.provinces = this.tempProvinces.filter(
         (province: any) => province.region_code === region.id
       );
@@ -194,7 +198,12 @@ export class RegisterComponent implements OnInit {
   };
 
   onProvinceChange = (province: any) => {
+    console.log(province);
+
     if (province !== '') {
+      this.cities = [];
+      this.barangays = [];
+
       this.cities = this.tempCities.filter(
         (city: any) => city.province_code === province.id
       );
@@ -202,7 +211,8 @@ export class RegisterComponent implements OnInit {
   };
 
   onCityChange = (city: any) => {
-    if (city !== '') {
+    if (city !== '' && city !== undefined) {
+      this.barangays = [];
       this.barangays = this.tempBarangays.filter(
         (barangay: any) => barangay.city_code === city.id
       );
