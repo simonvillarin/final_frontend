@@ -1,119 +1,161 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
-  <form [formGroup]="registrationForm">
-    <div [ngSwitch]="activeIndex">
-      <div *ngSwitchCase="0">
-        <div class="p-fluid">
-          <div class="p-field">
-            <label for="firstName">First Name</label>
-            <input
-              id="firstName"
-              type="text"
-              pInputText
-              formControlName="firstName"
-            />
-          </div>
-          <div class="p-field">
-            <label for="middleName">Middle Name</label>
-            <input
-              id="middleName"
-              type="text"
-              pInputText
-              formControlName="middleName"
-            />
-          </div>
-          <div class="p-field">
-            <label for="lastName">Last Name</label>
-            <input
-              id="lastName"
-              type="text"
-              pInputText
-              formControlName="lastName"
-            />
-          </div>
-          <div class="p-field">
-            <label for="suffix">Suffix</label>
-            <input
-              id="suffix"
-              type="text"
-              pInputText
-              formControlName="suffix"
-            />
-          </div>
-          <div class="p-field">
-            <label htmlFor="Gender">Gender</label>
-            <input
-              id="gender"
-              type="text"
-              pInputText
-              formControlName="gender"
-            />
-          </div>
-          <div class="p-field">
-            <label for="birthdate">Birthdate</label>
-            <input
-              id="birthDate"
-              type="text"
-              pInputText
-              formControlName="birthDate"
-            />
-          </div>
-          <div class="p-field">
-            <label for="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              pInputText
-              formControlName="username"
-            />
-          </div>
-          <div class="p-field">
-            <label for="password">Password</label>
-            <input
-              id="password"
-              type="text"
-              pInputText
-              formControlName="password"
-            />
-          </div>
-          <!-- ... continue adding other form fields for step 1 -->
+  <div class="role-container">
+    <h3>Choose a User Type<span class="required">*</span></h3>
+    <div class="type-container">
+      <div class="types">
+        <div class="img-container">
+          <img src="../../../../../assets/images/farmer.png" alt="" />
         </div>
-        <div *ngSwitchCase="1">
-          <div class="p-fluid">
-            <!-- ... continue adding other form fields for step 2 -->
-          </div>
+        <div class="type">
+          <input type="radio" name="type" class="radio" />
+          <div>FARMER</div>
         </div>
-        <div *ngSwitchCase="2">
-          <div class="p-fluid">
-            <!-- ... continue adding other form fields for step 2 -->
-          </div>
+      </div>
+      <div class="types">
+        <div class="img-container">
+          <img src="../../../../../assets/images/supplier.png" alt="" />
         </div>
-        <!-- ... continue adding other form fields for step 1 -->
+        <div class="type">
+          <input type="radio" name="type" class="radio" />
+          <div>SUPPLIER</div>
+        </div>
       </div>
     </div>
-  </form>
-  <div class="p-mt-2">
-    <button
-      pButton
-      type="button"
-      label="Back"
-      (click)="activeIndex = activeIndex - 1"
-      [disabled]="activeIndex === 0"
-    ></button>
-    <button
-      pButton
-      type="button"
-      label="Next"
-      (click)="activeIndex = activeIndex + 1"
-      [disabled]="!registrationForm.valid || activeIndex === items.length - 1"
-    ></button>
-    <button
-      pButton
-      type="button"
-      label="Register"
-      (click)="register()"
-      [disabled]="!registrationForm.valid"
-    ></button>
   </div>
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <label>First Name<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Middle Name</label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Last Name<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Suffix<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Gender<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a gender"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Birthday<span class="required">*</span></label>
+        <p-calendar
+          [style]="{
+            width: '100%'
+          }"
+        ></p-calendar>
+      </div>
+      <div class="input-group">
+        <label>Unit<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Street<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Village<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Barangay<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a gender"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>City<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a gender"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Region<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a gender"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Zipcode<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Contact<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Email Address<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Username<span class="required">*</span></label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Password<span class="required">*</span></label>
+        <div class="password-container">
+          <input
+            pInputText
+            [type]="password ? 'text' : 'password'"
+            [style]="{
+              width: '100%'
+            }"
+          />
+          <div class="pass-icon" (click)="togglePassword()">
+            <span class="material-symbols-rounded">
+              {{ password ? "visibility" : "visibility_off" }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Confirm Password<span class="required">*</span></label>
+        <div class="password-container">
+          <input
+            pInputText
+            [type]="confirmPassword ? 'text' : 'password'"
+            [style]="{
+              width: '100%'
+            }"
+          />
+          <div class="pass-icon" (click)="toggleConfirmPassword()">
+            <span class="material-symbols-rounded">
+              {{ confirmPassword ? "visibility" : "visibility_off" }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
 </div>

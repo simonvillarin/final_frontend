@@ -1,6 +1,6 @@
 <nav>
   <div class="container">
-    <div class="logo">
+    <div class="logo" (click)="onHome()">
       <img src="../../../../assets/images/logo.png" alt="Logo" />
       <span>HACIENDA</span>
     </div>
@@ -12,20 +12,10 @@
       (click)="toggleMobile()"
     >
       <div class="nav-link" [class.border]="home" (click)="onHome()">Home</div>
-      <div
-        routerLink="/home#about"
-        class="nav-link"
-        [class.border]="about"
-        (click)="onAbout()"
-      >
+      <div class="nav-link" [class.border]="about" (click)="onAbout()">
         About
       </div>
-      <div
-        routerLink="/home#services"
-        class="nav-link"
-        [class.border]="services"
-        (click)="onServices()"
-      >
+      <div class="nav-link" [class.border]="services" (click)="onServices()">
         Services
       </div>
       <div class="nav-link" [class.border]="contact" (click)="onContact()">

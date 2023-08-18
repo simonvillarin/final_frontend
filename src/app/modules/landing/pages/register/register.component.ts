@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, map } from 'rxjs';
 import { AddressService } from 'src/app/shared/services/address-service.service';
@@ -9,7 +9,12 @@ import { RegisterService } from 'src/app/shared/services/register.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RegisterComponent implements OnInit {
+  genders = ['Male', 'Female', 'Others'];
+
+  password = false;
+  confirmPassword = false;
+
   regions: Observable<any[]> = new Observable<any[]>();
   selectedRegion: any;
   provinces: Observable<any[]> = new Observable<any[]>();
@@ -25,14 +30,6 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   registrationForm!: FormGroup;
   contactInfoFormGroup!: FormGroup;
   activeIndex: number = 0;
-
-  items: any[] = [
-    { label: 'Step 1' },
-    { label: 'Step 2' },
-    { label: 'Step 3' },
-  ];
-
-  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
@@ -63,13 +60,20 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.provinces = this.addressService.getProvinces();
     this.regions = this.addressService.getRegions();
   }
-  ngOnDestroy(): void {}
 
   constructor(
     private addressService: AddressService,
     private formBuilder: FormBuilder,
     private registerService: RegisterService
   ) {}
+
+  togglePassword = () => {
+    this.password = !this.password;
+  };
+
+  toggleConfirmPassword = () => {
+    this.confirmPassword = !this.confirmPassword;
+  };
 
   register(): void {
     if (this.registrationForm.valid) {

@@ -28,6 +28,7 @@ export class NavbarComponent {
     this.contact = false;
     this.signUp = false;
     this.login = false;
+    this.router.navigate(['/'], { fragment: 'home' });
   };
 
   onAbout = () => {
@@ -37,6 +38,7 @@ export class NavbarComponent {
     this.contact = false;
     this.signUp = false;
     this.login = false;
+    this.router.navigate(['/'], { fragment: 'about' });
   };
 
   onServices = () => {
@@ -46,6 +48,7 @@ export class NavbarComponent {
     this.contact = false;
     this.signUp = false;
     this.login = false;
+    this.router.navigate(['/'], { fragment: 'services' });
   };
 
   onContact = () => {
@@ -55,6 +58,7 @@ export class NavbarComponent {
     this.contact = true;
     this.signUp = false;
     this.login = false;
+    this.router.navigate(['/'], { fragment: 'contact' });
   };
 
   onSignUp = () => {
