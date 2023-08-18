@@ -6,8 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, Subscription, map } from 'rxjs';
-import { AddressService } from 'src/app/shared/services/address-service.service';
-import { RegisterService } from 'src/app/shared/services/register.service';
+import { AddressService } from 'src/app/shared/services/address/address.service';
 
 @Component({
   selector: 'app-register',
@@ -39,17 +38,17 @@ export class RegisterComponent implements OnInit {
   activeIndex: number = 0;
 
   ngOnInit(): void {
-    this.barangays = this.addressService.getBarangay();
-    this.cities = this.addressService.getCities();
-    this.provinces = this.addressService.getProvinces();
-    this.regions = this.addressService.getRegions();
+    // this.barangays = this.addressService.getBarangay();
+    // this.cities = this.addressService.getCities();
+    // this.provinces = this.addressService.getProvinces();
+    // this.regions = this.addressService.getRegions();
+    this.getBarangay();
+    this.getCity();
+    this.getProvince();
+    this.getRegion();
   }
 
-  constructor(
-    private addressService: AddressService,
-    private fb: FormBuilder,
-    private registerService: RegisterService
-  ) {
+  constructor(private fb: FormBuilder, private addressService: AddressService) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       middleName: [''],
@@ -157,14 +156,30 @@ export class RegisterComponent implements OnInit {
     this.confirmPass = !this.confirmPass;
   };
 
+  getBarangay = () => {
+    this.addressService.getBarangay().subscribe((data) => console.log(data));
+  };
+
+  getCity = () => {
+    this.addressService.getCity().subscribe((data) => console.log(data));
+  };
+
+  getProvince = () => {
+    this.addressService.getProvince().subscribe((data) => console.log(data));
+  };
+
+  getRegion = () => {
+    this.addressService.getRegion().subscribe((data) => console.log(data));
+  };
+
   register(): void {
-    if (this.registrationForm.valid) {
-      const formData = this.registrationForm.value;
-      this.registerService.registerUser(formData).subscribe((response) => {
-        this.registrationForm.reset();
-        this.activeIndex = 0;
-      });
-    }
+    // if (this.registrationForm.valid) {
+    //   const formData = this.registrationForm.value;
+    //   this.registerService.registerUser(formData).subscribe((response) => {
+    //     this.registrationForm.reset();
+    //     this.activeIndex = 0;
+    //   });
+    // }
   }
 
   populateProvince(form: string): void {

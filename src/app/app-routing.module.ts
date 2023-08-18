@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './modules/error/pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: '',
     pathMatch: 'full',
   },
   {
     path: '',
     loadChildren: () =>
       import('./modules/landing/landing.module').then((m) => m.LandingModule),
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 
