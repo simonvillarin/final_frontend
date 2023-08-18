@@ -25,11 +25,11 @@ export class RegisterComponent implements OnInit {
   tempBarangays: any = [];
   tempCities: any = [];
   tempProvinces: any = [];
+  tempRegions: any = [];
 
   regionSelected: any;
-  provinceSelected = '';
-  citySelected = '';
-  barangaySelected = '';
+  provinceSelected: any;
+  citySelected: any;
 
   pass = false;
   confirmPass = false;
@@ -199,12 +199,37 @@ export class RegisterComponent implements OnInit {
   };
 
   onRegionChange = (region: any) => {
-    if (region != '') {
-      console.log(region);
-      console.log(this.tempProvinces);
+    if (region != '' && region != null) {
+      this.provinces = [];
 
       this.provinces = this.tempProvinces.filter(
         (province: any) => province.region_code == region.id
+      );
+
+      this.barangays = [];
+      this.cities = [];
+      // this.registerForm.patchValue({
+      //   region: region.name,
+      // });
+    }
+  };
+
+  onProvinceChange = (province: any) => {
+    if (province != '') {
+      this.cities = [];
+      this.cities = this.tempCities.filter(
+        (city: any) => city.province_code == province.id
+      );
+
+      this.barangays = [];
+    }
+  };
+
+  onCityChange = (city: any) => {
+    if (city != '') {
+      this.barangays = [];
+      this.barangays = this.tempBarangays.filter(
+        (barangay: any) => barangay.city_code == city.id
       );
     }
   };
