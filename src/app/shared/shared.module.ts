@@ -8,13 +8,15 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent],
+  declarations: [NavbarComponent, FooterComponent, NavComponent],
   imports: [CommonModule, InputTextModule, InputTextareaModule, ButtonModule],
   exports: [
     NavbarComponent,
     FooterComponent,
+    NavComponent,
     InputTextModule,
     InputTextareaModule,
     ButtonModule,

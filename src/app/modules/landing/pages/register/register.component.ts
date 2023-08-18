@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Observable, Subscription, map } from 'rxjs';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 
 @Component({
@@ -25,11 +24,14 @@ export class RegisterComponent implements OnInit {
   tempBarangays: any = [];
   tempCities: any = [];
   tempProvinces: any = [];
+  tempRegions: any = [];
 
+  type: string = '';
   regionSelected: any;
   provinceSelected: any;
   citySelected: any;
 
+  error = false;
   pass = false;
   confirmPass = false;
 
@@ -61,7 +63,7 @@ export class RegisterComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      role: ['', Validators.required],
+      role: [''],
     });
   }
 
@@ -186,11 +188,7 @@ export class RegisterComponent implements OnInit {
   };
 
   onRegionChange = (region: any) => {
-    if (region !== '' && region !== undefined) {
-      this.provinces = [];
-      this.cities = [];
-      this.barangays = [];
-
+    if (region != '') {
       this.provinces = this.tempProvinces.filter(
         (province: any) => province.region_code === region.id
       );
@@ -198,29 +196,45 @@ export class RegisterComponent implements OnInit {
   };
 
   onProvinceChange = (province: any) => {
-    console.log(province);
-
-    if (province !== '') {
-      this.cities = [];
-      this.barangays = [];
-
+    if (province != '') {
       this.cities = this.tempCities.filter(
-        (city: any) => city.province_code === province.id
+        (city: any) => city.province_code == province.id
       );
     }
   };
 
   onCityChange = (city: any) => {
-    if (city !== '' && city !== undefined) {
-      this.barangays = [];
+    if (city != '') {
       this.barangays = this.tempBarangays.filter(
-        (barangay: any) => barangay.city_code === city.id
+        (barangay: any) => barangay.city_code == city.id
       );
+    }
+  };
+
+  onRoleChange = (role: string) => {
+    if (role != '') {
+      this.error = false;
+      this.registerForm.patchValue({
+        role: role,
+      });
     }
   };
 
   onSubmit = () => {
     if (this.registerForm.valid) {
+      if (this.type != '') {
+        this.registerForm.patchValue({
+          region: this.registerForm.get('region')?.value.name,
+          province: this.registerForm.get('province')?.value.name,
+          city: this.registerForm.get('city')?.value.name,
+          barangay: this.registerForm.get('barangay')?.value.name,
+        });
+
+        this.registerForm.reset();
+      } else {
+        this.error = true;
+        scroll(0, 0);
+      }
     } else {
       this.registerForm.markAllAsTouched();
     }

@@ -2,26 +2,41 @@
 <div class="container">
   <div class="role-container">
     <h3>Choose a User Type<span class="required">*</span></h3>
-    <div class="type-container">
-      <div class="types">
+    <div class="type-container" [class.mb]="!error">
+      <div class="types" [class.border]="error">
         <div class="img-container">
           <img src="../../../../../assets/images/farmer.png" alt="" />
         </div>
         <div class="type">
-          <input type="radio" name="type" class="radio" />
+          <input
+            type="radio"
+            name="type"
+            class="radio"
+            value="Farmer"
+            [(ngModel)]="type"
+            (ngModelChange)="onRoleChange($event)"
+          />
           <div>FARMER</div>
         </div>
       </div>
-      <div class="types">
+      <div class="types" [class.border]="error">
         <div class="img-container">
           <img src="../../../../../assets/images/supplier.png" alt="" />
         </div>
         <div class="type">
-          <input type="radio" name="type" class="radio" />
+          <input
+            type="radio"
+            name="type"
+            class="radio"
+            [(ngModel)]="type"
+            value="Supplier"
+            (ngModelChange)="onRoleChange($event)"
+          />
           <div>SUPPLIER</div>
         </div>
       </div>
     </div>
+    <div class="error" *ngIf="error">User type is required</div>
   </div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -84,7 +99,7 @@
           }"
           appendTo="body"
           [showIcon]="true"
-          formControlName="gender"
+          formControlName="birthdate"
         ></p-calendar>
         <div
           *ngIf="birthdate.invalid && (birthdate?.dirty || birthdate.touched)"
@@ -219,7 +234,7 @@
       </div>
       <div class="input-group">
         <label>Zipcode<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="zipCode" />
         <div *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
