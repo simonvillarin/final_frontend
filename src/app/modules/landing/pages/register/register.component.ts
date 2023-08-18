@@ -61,6 +61,7 @@ export class RegisterComponent implements OnInit {
       village: ['', Validators.required],
       barangay: ['', Validators.required],
       city: ['', Validators.required],
+      province: ['', Validators.required],
       region: ['', Validators.required],
       zipCode: ['', Validators.required],
       contact: ['', Validators.required],
@@ -114,6 +115,10 @@ export class RegisterComponent implements OnInit {
 
   get city() {
     return this.registerForm.get('city') as FormControl;
+  }
+
+  get province() {
+    return this.registerForm.get('province') as FormControl;
   }
 
   get region() {

@@ -66,12 +66,19 @@ img {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.last {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
 }
 
 .password-container {
@@ -118,6 +125,10 @@ button:focus {
 
   .form-group {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .last {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   button {

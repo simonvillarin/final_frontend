@@ -189,6 +189,25 @@
         </div>
       </div>
       <div class="input-group">
+        <label>Province<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a region"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="region"
+        ></p-dropdown>
+        <div *ngIf="province.invalid && (province?.dirty || province.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="province.errors?.['required']"
+            >Province is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
         <label>Zipcode<span class="required">*</span></label>
         <input pInputText />
         <div *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)">
@@ -221,6 +240,8 @@
           >
         </div>
       </div>
+    </div>
+    <div class="last">
       <div class="input-group">
         <label>Username<span class="required">*</span></label>
         <input pInputText formControlName="username" />
@@ -288,6 +309,7 @@
         </div>
       </div>
     </div>
+
     <button type="submit">Submit</button>
   </form>
 </div>
