@@ -34,8 +34,18 @@ nav {
 }
 
 img {
-  filter: invert(1);
   width: 5rem;
+  filter: invert(1);
+  animation: spin 3s infinite ease-in-out;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 .logo > span {
