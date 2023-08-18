@@ -1,36 +1,52 @@
-.logo-container {
-  animation-name: spin;
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  filter: invert(1);
-}
-
-@keyframes spin {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-button {
+section {
   width: 100%;
+  background-image: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5)),
+    url("../../../../../assets/images/login-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.forgot-password {
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 450px;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--light);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  text-align: center;
+  line-height: 1.2;
+}
+
+p {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+}
+
+.forgot {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  text-align: right;
   cursor: pointer;
 }
 
-.forgot-password:hover {
+.forgot:hover {
   text-decoration: underline;
-}
-
-img {
-  width: 7rem;
-  height: 7rem;
-  margin-bottom: 0.5rem;
 }
 
 .input-group {
@@ -39,19 +55,12 @@ img {
   gap: 0.25rem;
 }
 
+label {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+}
+
 .required {
   color: var(--red);
-}
-
-small {
-  margin-left: 15px;
-  color: var(--red);
-}
-
-.last {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
 }
 
 .password-container {
@@ -74,46 +83,20 @@ span {
   user-select: none;
 }
 
-// Responsive Styles
-@media (max-width: 837px) {
-  .left-container {
-    display: none;
-  }
-
-  .right-container {
-    background-image: url("/assets/images/farmer2.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    justify-content: center;
-    width: 100%;
-  }
-}
-
-.home-image {
+button {
   width: 100%;
-  min-height: 110%;
-  filter: brightness(50%);
-  object-fit: cover;
+  margin-top: 1rem;
+  padding: 0.875rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
 }
 
-.home-container {
- width: 100%;
- height: 110%;
- background-repeat: no-repeat;
- background-size: cover;
- display: flex;
- justify-content: center;
- align-items: center;
- flex-direction: column;
- overflow: hidden;
-}
-
-.home-text {
-  position: absolute;
-  z-index: 1;
-  margin-top: 30px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #e7ecef;
+button:hover,
+button:focus {
+  background-color: var(--darker-primary);
 }

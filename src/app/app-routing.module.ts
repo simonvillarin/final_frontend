@@ -14,6 +14,13 @@ const routes: Routes = [
       import('./modules/landing/landing.module').then((m) => m.LandingModule),
   },
   {
+    path: 'supplier',
+    loadChildren: () =>
+      import('./modules/supplier/supplier.module').then(
+        (m) => m.SupplierModule
+      ),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
