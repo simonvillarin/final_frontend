@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
   password = false;
   confirmPassword = false;
 
+  selectedDate: any;
+
   regions: Observable<any[]> = new Observable<any[]>();
   selectedRegion: any;
   provinces: Observable<any[]> = new Observable<any[]>();

@@ -10,7 +10,6 @@ import { ServicesComponent } from './components/services/services.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { CalendarModule } from 'primeng/calendar';
     SharedModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CalendarModule,
   ],
 })
 export class LandingModule {}
