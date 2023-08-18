@@ -1,75 +1,81 @@
 <app-navbar></app-navbar>
-<div class="custom-container">
-  <div class="left-container">
-    <div class="bg-container"></div>
-  </div>
-  <div class="right-container">
-    <div class="logo-container">
-      <img src="assets/images/logo.png" style="filter: invert(1);"/>
+
+<section class="home-container">
+  <img
+    src="./assets/images/login-bg.jpg"
+    class="home-image"
+  />
+  <div class="home-text">
+    <div class="logo-container" style="text-align: center">
+      <img src="assets/images/logo.png" />
     </div>
-    <!-- <div class="sub-text"> 
-      <p>HACIENDA</p>
-    </div> -->
-
-    <!-- <div 
-      class="alert alert-danger invalid-container"
-      role="alert"
-    >
-      <p>Incorrect username or password.</p>
-      <mat-icon class="icon-style">close </mat-icon>
-    </div> -->
-
-    <mat-card class="card-container">
-      <form [formGroup]="loginForm" >
-        <mat-card-content>
-          <p>Username or ID number</p>
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="username" />
-            <mat-error
-            >
-              Username is required
-            </mat-error>
-          </mat-form-field>
-
-          <p>Password</p>
-          <mat-form-field appearance="outline">
-            <input
-              matInput
-              formControlName="password"
-              [type]="showPassword ? 'text' : 'password'"
-            />
-            <mat-icon matSuffix>
-              {{ showPassword ? "visibility" : "visibility_off" }}
-            </mat-icon>
-            <mat-error
-            >
-              Password is required
-            </mat-error>
-          </mat-form-field>
-
-          <p class="forgot-password">Forgot password?</p>
-          <button
-            mat-raised-button
-            [disabled]="loginForm.invalid"
-            class="color-button"
-            type="submit"
-          >
-            Login
-          </button>
-        </mat-card-content>
-      </form>
-    </mat-card>
-
     <div class="card flex justify-content-center">
-      <p-card header="Welcome to Hacienda" subheader="where no farmers are left behind" [style]="{ width: '360px' }">
-          <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-              quas!
-          </p>
-          <ng-template pTemplate="footer">
-              <p-button label="Login" icon="pi pi-check"  [style]="{ 'width': '100%' }"></p-button>
-          </ng-template>
+      <p-card
+        header="Welcome to Hacienda"
+        subheader="where no farmers are left behind"
+        [style]="{ width: '360px'}"
+      >
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <div class="last">
+              <div class="input-group">
+                <label>Username<span class="required">*</span></label>
+                <input pInputText formControlName="username" />
+                <div
+                  *ngIf="
+                    username.invalid && (username?.dirty || username.touched)
+                  "
+                >
+                  <small
+                    [style]="{ color: 'var(--red)' }"
+                    *ngIf="username.errors?.['required']"
+                    >Username is required</small
+                  >
+                </div>
+              </div>
+              <div class="input-group">
+                <label>Password<span class="required">*</span></label>
+                <div class="password-container">
+                  <input
+                    pInputText
+                    [type]="pass ? 'text' : 'password'"
+                    [style]="{
+                      width: '100%'
+                    }"
+                    formControlName="password"
+                  />
+                  <div class="pass-icon" (click)="togglePassword()">
+                    <span class="material-symbols-rounded">
+                      {{ pass ? "visibility" : "visibility_off" }}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    password.invalid && (password?.dirty || password.touched)
+                  "
+                >
+                  <small
+                    [style]="{ color: 'var(--red)' }"
+                    *ngIf="password.errors?.['required']"
+                    >Password is required</small
+                  >
+                </div>
+              </div>
+           
+            </div>
+          </div>
+        </form>
+
+        <ng-template pTemplate="footer">
+          <p class="forgot-password" style="padding-bottom: 15px;">Forgot password?</p>
+          <p-button
+            label="Login"
+            icon="pi pi-check"
+            [style]="{ width: '100%'}"
+          ></p-button>
+        </ng-template>
       </p-card>
+    </div>
   </div>
-  </div>
-</div>
+</section>

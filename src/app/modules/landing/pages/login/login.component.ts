@@ -13,9 +13,10 @@ import { ErrorStateMatcher } from '@angular/material/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  showPassword: boolean = false;
-  userType!: string;
   loginForm: FormGroup;
+  showPassword: boolean = false;
+  pass = false;
+  confirmPass = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,13 +24,29 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
   ) {
     this.loginForm = formBuilder.group({
-      username: [''],
-      password: [''],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {}
 
-  
+  get username() {
+    return this.loginForm.get('username') as FormControl;
+  }
 
+  get password() {
+    return this.loginForm.get('password') as FormControl;
+  }
+
+  togglePassword = () => {
+    this.pass = !this.pass;
+  };
+
+  onSubmit = () => {
+    if (this.loginForm.valid) {
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
+  };
 }
