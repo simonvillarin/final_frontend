@@ -78,5 +78,6 @@ export class NavbarComponent {
     this.contact = false;
     this.signUp = false;
     this.login = true;
+    this.router.navigate(['/login']);
   };
 }
