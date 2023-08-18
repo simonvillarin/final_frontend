@@ -7,6 +7,17 @@ import {
 } from '@angular/forms';
 import { Observable, Subscription, map } from 'rxjs';
 import { AddressService } from 'src/app/shared/services/address/address.service';
+import {
+  PasswordLengthValidator,
+  hasUppercaseValidator,
+  hasLowercaseValidator,
+  hasNumberValidator,
+  hasSymbolValidator,
+  zipcodeValidator,
+  mobileNumberValidator,
+  birthdateValidator,
+  confirmPasswordValidator,
+} from 'src/app/shared/validators/custom.validator';
 
 @Component({
   selector: 'app-register',
@@ -48,7 +59,7 @@ export class RegisterComponent implements OnInit {
       lastName: ['', Validators.required],
       suffix: [''],
       gender: ['', Validators.required],
-      birthdate: ['', Validators.required],
+      birthdate: ['', Validators.required, birthdateValidator()],
       unit: ['', Validators.required],
       street: ['', Validators.required],
       village: ['', Validators.required],
@@ -56,12 +67,22 @@ export class RegisterComponent implements OnInit {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', Validators.required],
-      contact: ['', Validators.required],
+      zipCode: ['', Validators.required, zipcodeValidator()],
+      contact: ['', Validators.required, mobileNumberValidator()],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          PasswordLengthValidator(),
+          hasUppercaseValidator(),
+          hasLowercaseValidator(),
+          hasNumberValidator(),
+          hasSymbolValidator(),
+        ],
+      ],
+      confirmPassword: ['', Validators.required, confirmPasswordValidator()],
       role: ['', Validators.required],
     });
   }
@@ -196,9 +217,6 @@ export class RegisterComponent implements OnInit {
 
       this.barangays = [];
       this.cities = [];
-      // this.registerForm.patchValue({
-      //   region: region.name,
-      // });
     }
   };
 
