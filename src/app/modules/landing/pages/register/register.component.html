@@ -23,23 +23,39 @@
       </div>
     </div>
   </div>
-  <form>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <div class="input-group">
         <label>First Name<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="firstName" />
+        <div
+          *ngIf="firstName.invalid && (firstName?.dirty || firstName?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="firstName?.errors?.['required']"
+            >First name is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Middle Name</label>
-        <input pInputText />
+        <input pInputText formControlName="middleName" />
       </div>
       <div class="input-group">
         <label>Last Name<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="lastName" />
+        <div *ngIf="lastName.invalid && (lastName?.dirty || lastName?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="lastName?.errors?.['required']"
+            >Last name is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Suffix<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="suffix" />
       </div>
       <div class="input-group">
         <label>Gender<span class="required">*</span></label>
@@ -50,7 +66,15 @@
             width: '100%'
           }"
           appendTo="body"
+          formControlName="gender"
         ></p-dropdown>
+        <div *ngIf="gender.invalid && (gender?.dirty || gender.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="gender.errors?.['required']"
+            >Gender is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Birthday<span class="required">*</span></label>
@@ -60,19 +84,52 @@
           }"
           appendTo="body"
           [showIcon]="true"
+          formControlName="gender"
         ></p-calendar>
+        <div
+          *ngIf="birthdate.invalid && (birthdate?.dirty || birthdate.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate.errors?.['required']"
+            >Birthday is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Unit<span class="required">*</span></label>
-        <input pInputText />
+        <label>Unit No / House No<span class="required">*</span></label>
+        <input pInputText formControlName="unit" />
+        <div *ngIf="unit.invalid && (unit?.dirty || unit.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="unit.errors?.['required']"
+            >Unit No / House No is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Street<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="street" />
+        <div *ngIf="street.invalid && (street?.dirty || street.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="street.errors?.['required']"
+            >Street is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Village<span class="required">*</span></label>
-        <input pInputText />
+        <label
+          >Subdivision / Village / Bldg<span class="required">*</span></label
+        >
+        <input pInputText formControlName="village" />
+        <div *ngIf="village.invalid && (village?.dirty || village.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="village.errors?.['required']"
+            >Subdivision / Village / Bldg is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Barangay<span class="required">*</span></label>
@@ -83,7 +140,15 @@
             width: '100%'
           }"
           appendTo="body"
+          formControlName="barangay"
         ></p-dropdown>
+        <div *ngIf="barangay.invalid && (barangay?.dirty || barangay.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="barangay.errors?.['required']"
+            >Barangay is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>City<span class="required">*</span></label>
@@ -94,7 +159,15 @@
             width: '100%'
           }"
           appendTo="body"
+          formControlName="city"
         ></p-dropdown>
+        <div *ngIf="city.invalid && (city?.dirty || city.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="city.errors?.['required']"
+            >City is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Region<span class="required">*</span></label>
@@ -105,39 +178,83 @@
             width: '100%'
           }"
           appendTo="body"
+          formControlName="region"
         ></p-dropdown>
+        <div *ngIf="region.invalid && (region?.dirty || region.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="region.errors?.['required']"
+            >Region is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Zipcode<span class="required">*</span></label>
         <input pInputText />
+        <div *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="zipCode.errors?.['required']"
+            >Zipcode is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Contact<span class="required">*</span></label>
-        <input pInputText />
+        <label>Contact No<span class="required">*</span></label>
+        <input pInputText formControlName="contact" />
+        <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact.errors?.['required']"
+            >Contact No is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Email Address<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="email" />
+        <div *ngIf="email.invalid && (email?.dirty || email.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email.errors?.['required']"
+            >Email address is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Username<span class="required">*</span></label>
-        <input pInputText />
+        <input pInputText formControlName="username" />
+        <div *ngIf="username.invalid && (username?.dirty || username.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="username.errors?.['required']"
+            >Username is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Password<span class="required">*</span></label>
         <div class="password-container">
           <input
             pInputText
-            [type]="password ? 'text' : 'password'"
+            [type]="pass ? 'text' : 'password'"
             [style]="{
               width: '100%'
             }"
+            formControlName="password"
           />
           <div class="pass-icon" (click)="togglePassword()">
             <span class="material-symbols-rounded">
-              {{ password ? "visibility" : "visibility_off" }}
+              {{ pass ? "visibility" : "visibility_off" }}
             </span>
           </div>
+        </div>
+        <div *ngIf="password.invalid && (password?.dirty || password.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password.errors?.['required']"
+            >Password is required</small
+          >
         </div>
       </div>
       <div class="input-group">
@@ -145,16 +262,29 @@
         <div class="password-container">
           <input
             pInputText
-            [type]="confirmPassword ? 'text' : 'password'"
+            [type]="confirmPass ? 'text' : 'password'"
             [style]="{
               width: '100%'
             }"
+            formControlName="confirmPass"
           />
           <div class="pass-icon" (click)="toggleConfirmPassword()">
             <span class="material-symbols-rounded">
-              {{ confirmPassword ? "visibility" : "visibility_off" }}
+              {{ confirmPass ? "visibility" : "visibility_off" }}
             </span>
           </div>
+        </div>
+        <div
+          *ngIf="
+            confirmPassword.invalid &&
+            (confirmPassword?.dirty || confirmPassword.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="confirmPassword.errors?.['required']"
+            >Cornfirm password is required</small
+          >
         </div>
       </div>
     </div>
