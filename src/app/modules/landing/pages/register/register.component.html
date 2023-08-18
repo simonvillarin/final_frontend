@@ -132,28 +132,52 @@
         </div>
       </div>
       <div class="input-group">
-        <label>Barangay<span class="required">*</span></label>
+        <label>Region<span class="required">*</span></label>
         <p-dropdown
-          [options]="genders"
-          placeholder="Select a barangay"
+          [options]="regions"
+          optionLabel="name"
+          placeholder="Select a region"
           [style]="{
             width: '100%'
           }"
           appendTo="body"
-          formControlName="barangay"
+          formControlName="region"
+          [(ngModel)]="regionSelected"
+          (ngModelChange)="onRegionChange($event)"
         ></p-dropdown>
-        <div *ngIf="barangay.invalid && (barangay?.dirty || barangay.touched)">
+        <div *ngIf="region.invalid && (region?.dirty || region.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
-            *ngIf="barangay.errors?.['required']"
-            >Barangay is required</small
+            *ngIf="region.errors?.['required']"
+            >Region is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Province<span class="required">*</span></label>
+        <p-dropdown
+          [options]="provinces"
+          optionLabel="name"
+          placeholder="Select a province"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="region"
+        ></p-dropdown>
+        <div *ngIf="province.invalid && (province?.dirty || province.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="province.errors?.['required']"
+            >Province is required</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>City<span class="required">*</span></label>
         <p-dropdown
-          [options]="genders"
+          [options]="cities"
+          optionLabel="name"
           placeholder="Select a city"
           [style]="{
             width: '100%'
@@ -170,40 +194,22 @@
         </div>
       </div>
       <div class="input-group">
-        <label>Region<span class="required">*</span></label>
+        <label>Barangay<span class="required">*</span></label>
         <p-dropdown
-          [options]="genders"
-          placeholder="Select a region"
+          [options]="barangays"
+          optionLabel="name"
+          placeholder="Select a barangay"
           [style]="{
             width: '100%'
           }"
           appendTo="body"
-          formControlName="region"
+          formControlName="barangay"
         ></p-dropdown>
-        <div *ngIf="region.invalid && (region?.dirty || region.touched)">
+        <div *ngIf="barangay.invalid && (barangay?.dirty || barangay.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
-            *ngIf="region.errors?.['required']"
-            >Region is required</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Province<span class="required">*</span></label>
-        <p-dropdown
-          [options]="genders"
-          placeholder="Select a region"
-          [style]="{
-            width: '100%'
-          }"
-          appendTo="body"
-          formControlName="region"
-        ></p-dropdown>
-        <div *ngIf="province.invalid && (province?.dirty || province.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="province.errors?.['required']"
-            >Province is required</small
+            *ngIf="barangay.errors?.['required']"
+            >Barangay is required</small
           >
         </div>
       </div>

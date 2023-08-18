@@ -17,31 +17,36 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   genders = ['Male', 'Female', 'Others'];
+  barangays: any = [];
+  cities: any = [];
+  provinces: any = [];
+  regions: any = [];
+
+  tempBarangays: any = [];
+  tempCities: any = [];
+  tempProvinces: any = [];
+
+  regionSelected: any;
+  provinceSelected = '';
+  citySelected = '';
+  barangaySelected = '';
 
   pass = false;
   confirmPass = false;
 
-  regions: Observable<any[]> = new Observable<any[]>();
-  selectedRegion: any;
-  provinces: Observable<any[]> = new Observable<any[]>();
-  filteredProvinces: Observable<any[]> = new Observable<any[]>();
-  selectedProvince: any;
-  cities: Observable<any[]> = new Observable<any[]>();
-  filteredCities: Observable<any[]> = new Observable<any[]>();
-  selectedCity: any;
-  barangays: Observable<any[]> = new Observable<any[]>();
-  filteredBarangays: Observable<any[]> = new Observable<any[]>();
-  selectedBarangay: any;
+  // selectedRegion: any;
+  // filteredProvinces: Observable<any[]> = new Observable<any[]>();
+  // selectedProvince: any;
+  // filteredCities: Observable<any[]> = new Observable<any[]>();
+  // selectedCity: any;
+  // filteredBarangays: Observable<any[]> = new Observable<any[]>();
+  // selectedBarangay: any;
 
-  registrationForm!: FormGroup;
-  contactInfoFormGroup!: FormGroup;
-  activeIndex: number = 0;
+  // registrationForm!: FormGroup;
+  // contactInfoFormGroup!: FormGroup;
+  // activeIndex: number = 0;
 
   ngOnInit(): void {
-    // this.barangays = this.addressService.getBarangay();
-    // this.cities = this.addressService.getCities();
-    // this.provinces = this.addressService.getProvinces();
-    // this.regions = this.addressService.getRegions();
     this.getBarangay();
     this.getCity();
     this.getProvince();
@@ -153,6 +158,38 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('role') as FormControl;
   }
 
+  getBarangay = () => {
+    this.addressService.getBarangay().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempBarangays.push(arr);
+      });
+    });
+  };
+
+  getCity = () => {
+    this.addressService.getCity().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempCities.push(arr);
+      });
+    });
+  };
+
+  getProvince = () => {
+    this.addressService.getProvince().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempProvinces.push(arr);
+      });
+    });
+  };
+
+  getRegion = () => {
+    this.addressService.getRegion().subscribe((data: any) => {
+      data.map((region: any) => {
+        this.regions.push(region);
+      });
+    });
+  };
+
   togglePassword = () => {
     this.pass = !this.pass;
   };
@@ -161,20 +198,15 @@ export class RegisterComponent implements OnInit {
     this.confirmPass = !this.confirmPass;
   };
 
-  getBarangay = () => {
-    this.addressService.getBarangay().subscribe((data) => console.log(data));
-  };
+  onRegionChange = (region: any) => {
+    if (region != '') {
+      console.log(region);
+      console.log(this.tempProvinces);
 
-  getCity = () => {
-    this.addressService.getCity().subscribe((data) => console.log(data));
-  };
-
-  getProvince = () => {
-    this.addressService.getProvince().subscribe((data) => console.log(data));
-  };
-
-  getRegion = () => {
-    this.addressService.getRegion().subscribe((data) => console.log(data));
+      this.provinces = this.tempProvinces.filter(
+        (province: any) => province.region_code == region.id
+      );
+    }
   };
 
   register(): void {
@@ -187,81 +219,81 @@ export class RegisterComponent implements OnInit {
     // }
   }
 
-  populateProvince(form: string): void {
-    const selectedRegion: any = this.contactInfoFormGroup.get(
-      `${form}Region`
-    )?.value;
-    const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
+  // populateProvince(form: string): void {
+  //   const selectedRegion: any = this.contactInfoFormGroup.get(
+  //     `${form}Region`
+  //   )?.value;
+  //   const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
 
-    if (selectedRegionCode) {
-      this.filteredProvinces = this.provinces.pipe(
-        map((provinces: any[]) => {
-          return provinces.filter(
-            (province: any) => province.region_code === selectedRegionCode
-          );
-        })
-      );
-    } else {
-      this.filteredProvinces = new Observable<any[]>();
-    }
-  }
+  //   if (selectedRegionCode) {
+  //     this.filteredProvinces = this.provinces.pipe(
+  //       map((provinces: any[]) => {
+  //         return provinces.filter(
+  //           (province: any) => province.region_code === selectedRegionCode
+  //         );
+  //       })
+  //     );
+  //   } else {
+  //     this.filteredProvinces = new Observable<any[]>();
+  //   }
+  // }
 
-  populateCities(form: string): void {
-    const selectedRegion: any = this.contactInfoFormGroup?.get(
-      `${form}Region`
-    )?.value;
-    const selectedProvince: any = this.contactInfoFormGroup?.get(
-      `${form}Province`
-    )?.value;
-    const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
-    const selectedProvinceCode = selectedProvince ? selectedProvince.id : null;
+  // populateCities(form: string): void {
+  //   const selectedRegion: any = this.contactInfoFormGroup?.get(
+  //     `${form}Region`
+  //   )?.value;
+  //   const selectedProvince: any = this.contactInfoFormGroup?.get(
+  //     `${form}Province`
+  //   )?.value;
+  //   const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
+  //   const selectedProvinceCode = selectedProvince ? selectedProvince.id : null;
 
-    if (selectedRegionCode && selectedProvinceCode) {
-      this.filteredCities = this.cities.pipe(
-        map((cities: any[]) => {
-          return cities.filter((city: any) => {
-            return (
-              city.region_code === selectedRegionCode &&
-              city.province_code === selectedProvinceCode
-            );
-          });
-        })
-      );
-    } else {
-      this.filteredCities = new Observable<any[]>();
-    }
-  }
+  //   if (selectedRegionCode && selectedProvinceCode) {
+  //     this.filteredCities = this.cities.pipe(
+  //       map((cities: any[]) => {
+  //         return cities.filter((city: any) => {
+  //           return (
+  //             city.region_code === selectedRegionCode &&
+  //             city.province_code === selectedProvinceCode
+  //           );
+  //         });
+  //       })
+  //     );
+  //   } else {
+  //     this.filteredCities = new Observable<any[]>();
+  //   }
+  // }
 
-  populateBarangays(form: string): void {
-    const selectedRegion: any = this.contactInfoFormGroup?.get(
-      `${form}Region`
-    )?.value;
-    const selectedProvince: any = this.contactInfoFormGroup?.get(
-      `${form}Province`
-    )?.value;
-    const selectedCity: any = this.contactInfoFormGroup?.get(
-      `${form}City`
-    )?.value;
-    const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
-    const selectedProvinceCode = selectedProvince ? selectedProvince.id : null;
-    const selectedCityCode = selectedCity ? selectedCity.id : null;
+  // populateBarangays(form: string): void {
+  //   const selectedRegion: any = this.contactInfoFormGroup?.get(
+  //     `${form}Region`
+  //   )?.value;
+  //   const selectedProvince: any = this.contactInfoFormGroup?.get(
+  //     `${form}Province`
+  //   )?.value;
+  //   const selectedCity: any = this.contactInfoFormGroup?.get(
+  //     `${form}City`
+  //   )?.value;
+  //   const selectedRegionCode = selectedRegion ? selectedRegion.id : null;
+  //   const selectedProvinceCode = selectedProvince ? selectedProvince.id : null;
+  //   const selectedCityCode = selectedCity ? selectedCity.id : null;
 
-    if (selectedRegionCode && selectedProvinceCode && selectedCityCode) {
-      this.filteredBarangays = this.barangays.pipe(
-        map((barangays: any[]) => {
-          return barangays.filter((barangay: any) => {
-            return (
-              barangay.region_code === selectedRegionCode &&
-              barangay.province_code === selectedProvinceCode &&
-              barangay.city_code === selectedCityCode
-            );
-          });
-        })
-      );
-    } else {
-      this.filteredBarangays = new Observable<any[]>();
-    }
-  }
+  //   if (selectedRegionCode && selectedProvinceCode && selectedCityCode) {
+  //     this.filteredBarangays = this.barangays.pipe(
+  //       map((barangays: any[]) => {
+  //         return barangays.filter((barangay: any) => {
+  //           return (
+  //             barangay.region_code === selectedRegionCode &&
+  //             barangay.province_code === selectedProvinceCode &&
+  //             barangay.city_code === selectedCityCode
+  //           );
+  //         });
+  //       })
+  //     );
+  //   } else {
+  //     this.filteredBarangays = new Observable<any[]>();
+  //   }
+  // }
 
   onSubmit = () => {
     if (this.registerForm.valid) {
