@@ -80,7 +80,7 @@
         <label>Birthday<span class="required">*</span></label>
         <p-calendar
           [style]="{
-            width: '100%'
+            width: '100%',
           }"
           appendTo="body"
           [showIcon]="true"
@@ -163,7 +163,9 @@
             width: '100%'
           }"
           appendTo="body"
-          formControlName="region"
+          formControlName="province"
+          [(ngModel)]="provinceSelected"
+          (ngModelChange)="onProvinceChange($event)"
         ></p-dropdown>
         <div *ngIf="province.invalid && (province?.dirty || province.touched)">
           <small
@@ -184,6 +186,8 @@
           }"
           appendTo="body"
           formControlName="city"
+          [(ngModel)]="citySelected"
+          (ngModelChange)="onCityChange($event)"
         ></p-dropdown>
         <div *ngIf="city.invalid && (city?.dirty || city.touched)">
           <small

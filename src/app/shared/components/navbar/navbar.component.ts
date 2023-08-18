@@ -28,7 +28,7 @@ export class NavbarComponent {
     this.contact = false;
     this.signUp = false;
     this.login = false;
-    this.router.navigate(['/'], { fragment: 'home' });
+    this.router.navigate(['/']);
   };
 
   onAbout = () => {
