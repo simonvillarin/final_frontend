@@ -106,8 +106,14 @@
         >
           <small
             [style]="{ color: 'var(--red)' }"
-            *ngIf="birthdate.errors?.['required']"
+            *ngIf="birthdate?.errors?.['required']"
             >Birthday is required</small
+          >
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate?.errors?.['futureDate']"
+            >You cannot select a future date</small
           >
         </div>
       </div>
@@ -241,6 +247,11 @@
             *ngIf="zipCode.errors?.['required']"
             >Zipcode is required</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="zipCode.errors?.['maxLength']"
+            >Zipcode must be 4 digits</small
+          >
         </div>
       </div>
       <div class="input-group">
@@ -251,6 +262,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="contact.errors?.['required']"
             >Contact No is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact?.errors?.['mobileNoIsValid']"
+            >Incorrect mobile no. format</small
           >
         </div>
       </div>
@@ -301,6 +317,31 @@
             *ngIf="password.errors?.['required']"
             >Password is required</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password?.errors?.['passwordLength']"
+            >Password should be at least 8 characters long</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password?.errors?.['hasUppercase']"
+            >Password should contain at least one uppercase letter</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password?.errors?.['hasLowercase']"
+            >Password should contain at least one lowercase letter</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password?.errors?.['hasNumber']"
+            >Password should contain atleast one number</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="password?.errors?.['hasSymbol']"
+            >Password should contain at least one special character</small
+          >
         </div>
       </div>
       <div class="input-group">
@@ -330,6 +371,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="confirmPassword.errors?.['required']"
             >Cornfirm password is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="confirmPassword?.errors?.['passwordMismatch']"
+            >Passwords does not match</small
           >
         </div>
       </div>
