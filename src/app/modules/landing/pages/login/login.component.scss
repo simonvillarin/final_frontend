@@ -1,0 +1,119 @@
+.logo-container {
+  animation-name: spin;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  filter: invert(1);
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+button {
+  width: 100%;
+}
+
+.forgot-password {
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+img {
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.required {
+  color: var(--red);
+}
+
+small {
+  margin-left: 15px;
+  color: var(--red);
+}
+
+.last {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.password-container {
+  position: relative;
+}
+
+span {
+  color: var(--primary);
+}
+
+.pass-icon {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+// Responsive Styles
+@media (max-width: 837px) {
+  .left-container {
+    display: none;
+  }
+
+  .right-container {
+    background-image: url("/assets/images/farmer2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.home-image {
+  width: 100%;
+  min-height: 110%;
+  filter: brightness(50%);
+  object-fit: cover;
+}
+
+.home-container {
+ width: 100%;
+ height: 110%;
+ background-repeat: no-repeat;
+ background-size: cover;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ overflow: hidden;
+}
+
+.home-text {
+  position: absolute;
+  z-index: 1;
+  margin-top: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e7ecef;
+}
