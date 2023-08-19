@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddressService } from 'src/app/shared/services/address/address.service';
+import { RegisterService } from 'src/app/shared/services/register/register.service';
 import {
   PasswordLengthValidator,
   hasUppercaseValidator,
@@ -53,14 +54,18 @@ export class RegisterComponent implements OnInit {
     this.getRegion();
   }
 
-  constructor(private fb: FormBuilder, private addressService: AddressService) {
+  constructor(
+    private fb: FormBuilder,
+    private addressService: AddressService,
+    private registerService: RegisterService
+  ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       middleName: [''],
       lastName: ['', Validators.required],
       suffix: [''],
       gender: ['', Validators.required],
-      birthdate: ['', Validators.required, birthdateValidator()],
+      birthdate: ['', [Validators.required, birthdateValidator()]],
       unit: ['', Validators.required],
       street: ['', Validators.required],
       village: ['', Validators.required],
@@ -68,8 +73,8 @@ export class RegisterComponent implements OnInit {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', Validators.required, zipcodeValidator()],
-      contact: ['', Validators.required, mobileNumberValidator()],
+      zipCode: ['', [Validators.required, zipcodeValidator()]],
+      contact: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       password: [
@@ -83,7 +88,7 @@ export class RegisterComponent implements OnInit {
           hasSymbolValidator(),
         ],
       ],
-      confirmPassword: ['', Validators.required, confirmPasswordValidator()],
+      confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
       role: [''],
     });
   }
@@ -256,6 +261,13 @@ export class RegisterComponent implements OnInit {
           city: this.registerForm.get('city')?.value.name,
           barangay: this.registerForm.get('barangay')?.value.name,
         });
+
+        this.registerService
+          .registerUser(this.registerForm.value)
+          .subscribe((response) => {
+            console.log('Registration successful:', response);
+            this.registerForm.reset();
+          });
 
         this.registerForm.reset();
       } else {
