@@ -9,10 +9,17 @@ import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { NavComponent } from './components/nav/nav.component';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent, NavComponent],
-  imports: [CommonModule, InputTextModule, InputTextareaModule, ButtonModule],
+  imports: [
+    CommonModule,
+    InputTextModule,
+    InputTextareaModule,
+    ButtonModule,
+    MessagesModule,
+  ],
   exports: [
     NavbarComponent,
     FooterComponent,
@@ -23,6 +30,7 @@ import { NavComponent } from './components/nav/nav.component';
     FormsModule,
     CalendarModule,
     DropdownModule,
+    MessagesModule,
   ],
 })
 export class SharedModule {}

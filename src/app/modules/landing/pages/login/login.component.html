@@ -5,6 +5,7 @@
       <h2>Welcome to Hacienda</h2>
       <p>Where no farmers are left behind</p>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="alert" *ngIf="isError">Invalid username or password</div>
         <div class="form-group">
           <div class="input-group">
             <label>Username<span class="required">*</span></label>

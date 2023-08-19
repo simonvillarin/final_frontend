@@ -22,6 +22,7 @@ section {
 
 h2 {
   font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  font-weight: 400;
   text-align: center;
   line-height: 1.2;
 }
@@ -99,4 +100,18 @@ button {
 button:hover,
 button:focus {
   background-color: var(--darker-primary);
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  border-left: 2px solid var(--red);
+  color: var(--light);
+  background-color: var(--red);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.mb {
+  margin-bottom: 0.5rem;
 }

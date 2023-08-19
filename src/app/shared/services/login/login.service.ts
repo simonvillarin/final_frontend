@@ -1,9 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  baseUrl = 'http://localhost:8080/api';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
+
+  login = (user: any) => {
+    return this.http.post(`${this.baseUrl}/auth/login`, user);
+  };
 }

@@ -41,9 +41,7 @@ import { CardModule } from 'primeng/card';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-
-    CardModule
-    
+    CardModule,
   ],
 })
 export class LandingModule {}

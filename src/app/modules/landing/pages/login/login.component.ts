@@ -6,22 +6,23 @@ import { tap } from 'rxjs';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+
   showPassword: boolean = false;
   pass = false;
   confirmPass = false;
+  isError = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginService: LoginService,
+    private loginService: LoginService
   ) {
     this.loginForm = formBuilder.group({
       username: ['', Validators.required],
@@ -45,6 +46,26 @@ export class LoginComponent implements OnInit {
 
   onSubmit = () => {
     if (this.loginForm.valid) {
+      this.loginService.login(this.loginForm.value).subscribe(
+        (res: any) => {
+          const user = {
+            token: res.token,
+            id: res.id,
+            role: res.role,
+          };
+          localStorage.setItem('user', JSON.stringify(user));
+
+          if (res.role == 'Supplier') {
+            this.router.navigate(['/supplier/dashboard']);
+          }
+
+          this.loginForm.reset();
+        },
+        () => {
+          this.isError = true;
+          setTimeout(() => (this.isError = false), 3000);
+        }
+      );
     } else {
       this.loginForm.markAllAsTouched();
     }
