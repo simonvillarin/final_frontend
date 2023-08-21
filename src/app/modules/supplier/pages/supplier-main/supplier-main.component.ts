@@ -41,7 +41,7 @@ export class SupplierMainComponent {
     const currentLocation = this.location.path();
     const splitLocation = currentLocation.split('/');
     const loc = splitLocation[splitLocation.length - 1];
-    if (loc == 'Dashboard') {
+    if (loc == 'dashboard') {
       return 'Dashboard';
     } else if (loc == 'advertisement') {
       return 'Advertisement';
