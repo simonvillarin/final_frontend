@@ -5,6 +5,7 @@ import { AdminMainComponent } from './pages/admin-main/admin-main.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
+import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'farming-tips',
         component: FarmingTipsComponent,
+      },
+      {
+        path: 'profile',
+        component: AdminProfileComponent,
       },
     ],
   },
