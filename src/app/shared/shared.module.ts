@@ -8,11 +8,10 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import { NavComponent } from './components/nav/nav.component';
 import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent, NavComponent],
+  declarations: [NavbarComponent, FooterComponent],
   imports: [
     CommonModule,
     InputTextModule,
@@ -23,7 +22,6 @@ import { MessagesModule } from 'primeng/messages';
   exports: [
     NavbarComponent,
     FooterComponent,
-    NavComponent,
     InputTextModule,
     InputTextareaModule,
     ButtonModule,

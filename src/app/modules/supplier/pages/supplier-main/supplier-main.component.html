@@ -1,5 +1,78 @@
-<app-nav></app-nav>
-<div class="container">
-  <router-outlet></router-outlet>
+<div class="sidebar" [class.hide]="!isShowMobileNav">
+  <div class="logo">
+    <div class="logo-img">
+      <img src="../../../../../assets/images/logo.png" alt="Logo" />
+    </div>
+    <span>Hacienda</span>
+  </div>
+  <nav>
+    <div class="close" (click)="closeMobileNav()">
+      <span class="material-symbols-rounded"> close </span>
+    </div>
+    <div
+      class="link"
+      routerLink="/supplier/dashboard"
+      routerLinkActive="link-active"
+    >
+      <span class="material-symbols-rounded"> dashboard </span>
+      <span>Dashboard</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/supplier/advertisement"
+      routerLinkActive="link-active"
+    >
+      <span class="material-symbols-rounded"> add_ad </span>
+      <span>Advertisement</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/supplier/payments"
+      routerLinkActive="link-active"
+    >
+      <span class="material-symbols-rounded"> receipt_long </span>
+      <span>Crop Payment</span>
+    </div>
+  </nav>
 </div>
-<app-footer></app-footer>
+
+<main [class.overflow-hidden]="isShowMobileNav">
+  <header>
+    <div class="left-header">
+      <div class="menu-icon" (click)="openMobileNav()">
+        <span class="material-symbols-rounded"> menu </span>
+      </div>
+    </div>
+    <div class="right-header">
+      <div class="profile">
+        <div class="avatar" (click)="toggleShowDropdown()">
+          <img
+            src="{{ '../../../../../../../assets/images/itachi.jpg' }}"
+            alt="Profile Image"
+          />
+        </div>
+        <div class="name">
+          <div class="type">
+            <span>Simon James Villarin</span>
+            <div>Supplier</div>
+          </div>
+          <div class="arrow" (click)="toggleShowDropdown()">
+            <span
+              class="material-symbols-rounded arrow"
+              [class.arrow-active]="isShowDropdown"
+            >
+              expand_more
+            </span>
+          </div>
+        </div>
+
+        <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+          <div class="dropdown-link" (click)="profile()">Profile</div>
+          <div class="dropdown-link" (click)="logout()">Logout</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <router-outlet></router-outlet>
+</main>
