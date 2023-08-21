@@ -15,12 +15,15 @@ main {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   color: var(--light);
   background-color: var(--primary);
-  font-size: 1rem;
   cursor: pointer;
+}
+
+.btn-post > span {
+  font-size: 1.25rem;
 }
 
 .layout-container {
@@ -31,6 +34,9 @@ main {
 }
 
 .layout-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--primary);
   cursor: pointer;
   user-select: none;
@@ -55,14 +61,13 @@ main {
 }
 
 .dialog-btn {
-  width: 7rem;
-  height: 3rem;
+  width: 5.5rem;
+  height: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.25rem;
   color: var(--light);
   background-color: var(--primary);
   border-radius: 0.25rem;
@@ -83,4 +88,22 @@ main {
 .cancel:hover,
 .cancel:focus {
   background-color: var(--darker-red);
+}
+
+@media screen and (min-width: 768px) {
+  .btn-post {
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .btn-post > span {
+    font-size: 1.5rem;
+  }
+
+  .dialog-btn {
+    width: 7rem;
+    height: 3rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
 }
