@@ -6,7 +6,7 @@ import { SupplierMainComponent } from './pages/supplier-main/supplier-main.compo
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { ReceivedComponent } from './pages/received/received.component';
-import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
+import { SupplierProfileComponent } from './pages/supplier-profile/supplier-profile.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
-        component: AdminProfileComponent,
+        component: SupplierProfileComponent,
       },
     ],
   },

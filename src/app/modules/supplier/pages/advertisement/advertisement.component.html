@@ -1,1 +1,33 @@
-<p>advertisement works!</p>
+<main>
+  <div class="actions">
+    <button class="btn-post" (click)="openAddDialog()">
+      <span class="material-symbols-rounded"> add </span>POST
+    </button>
+    <div class="layout-container">
+      <div class="layout-icon" title="Grid">
+        <span class="material-symbols-rounded"> grid_view </span>
+      </div>
+      <div class="layout-icon" title="Table">
+        <span class="material-symbols-rounded"> table </span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<p-dialog
+  [(visible)]="addDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Post Advertisement</div>
+  </p-header>
+  <form></form>
+  <div class="dialog-actions">
+    <button type="button" class="dialog-btn cancel">Cancel</button>
+    <button type="submit" class="dialog-btn submit">Save</button>
+  </div>
+</p-dialog>

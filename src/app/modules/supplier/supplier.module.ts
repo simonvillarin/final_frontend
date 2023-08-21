@@ -7,10 +7,17 @@ import { SupplierRoutingModule } from './supplier-routing.module';
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { ReceivedComponent } from './pages/received/received.component';
-import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
+import { SupplierProfileComponent } from './pages/supplier-profile/supplier-profile.component';
 
 @NgModule({
-  declarations: [SupplierMainComponent, DashboardComponent, AdvertisementComponent, PaymentsComponent, ReceivedComponent, AdminProfileComponent],
+  declarations: [
+    SupplierMainComponent,
+    DashboardComponent,
+    AdvertisementComponent,
+    PaymentsComponent,
+    ReceivedComponent,
+    SupplierProfileComponent,
+  ],
   imports: [CommonModule, SharedModule, SupplierRoutingModule],
 })
 export class SupplierModule {}

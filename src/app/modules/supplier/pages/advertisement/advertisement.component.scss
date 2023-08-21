@@ -1,0 +1,86 @@
+main {
+  min-height: calc(100vh - 4rem);
+  padding: 1rem 1.5rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.layout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.layout-icon {
+  color: var(--primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.layout-icon > span {
+  font-size: 1.75rem;
+}
+
+.dialog-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.5rem);
+}
+
+.dialog-body {
+  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.dialog-btn {
+  width: 7rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--light);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus {
+  background-color: var(--darker-primary);
+}
+
+.cancel {
+  color: var(--light);
+  background-color: var(--red);
+}
+
+.cancel:hover,
+.cancel:focus {
+  background-color: var(--darker-red);
+}
