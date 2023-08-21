@@ -6,6 +6,7 @@ import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.componen
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
+import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     AdminMainComponent,
     FarmingTipsComponent,
     ComplaintsComponent,
+    AdminProfileComponent,
   ],
   imports: [CommonModule, SharedModule, AdminRoutingModule],
 })
