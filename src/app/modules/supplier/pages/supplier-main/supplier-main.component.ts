@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-supplier-main',
@@ -12,7 +13,11 @@ export class SupplierMainComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   toggleMobile = () => {
     this.mobile = !this.mobile;
@@ -32,8 +37,25 @@ export class SupplierMainComponent {
     this.isShowMobileNav = false;
   };
 
+  getLocation = () => {
+    const currentLocation = this.location.path();
+    const splitLocation = currentLocation.split('/');
+    const loc = splitLocation[splitLocation.length - 1];
+    if (loc == 'Dashboard') {
+      return 'Dashboard';
+    } else if (loc == 'advertisement') {
+      return 'Advertisement';
+    } else if (loc == 'payments') {
+      return 'Crop Payment';
+    } else if (loc == 'received') {
+      return 'Crop Received';
+    } else {
+      return 'Profile';
+    }
+  };
+
   profile = () => {
-    this.router.navigate(['/admin/profile']);
+    this.router.navigate(['/supplier/profile']);
     this.isShowDropdown = false;
   };
 
