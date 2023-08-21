@@ -12,12 +12,126 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="gridLayout">
+    <div class="card-container">
+      <div class="card" *ngFor="let ad of ads">
+        <div class="card-img-container">
+          <img src="{{ ad.image }}" alt="Crop" />
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">{{ ad.name }}</div>
+            <div class="category">{{ ad.category }}</div>
+          </div>
+          <div class="description">
+            {{ ad.description }}
+          </div>
+          <div class="card-num-container">
+            <div class="card-num">
+              <span class="card-num-label">Mass: </span>
+              <div>25<sub>kg</sub></div>
+            </div>
+            <div class="card-num">
+              <span class="card-num-label">Quantity: </span>
+              <div>{{ ad.quantity }}</div>
+            </div>
+            <div class="card-num">
+              <span class="card-num-label">Price: </span>
+              <div>PHP {{ ad.price }}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="table-btn edit" title="Edit" (click)="onEdit(ad)">
+              <span class="material-symbols-rounded"> edit </span>
+            </button>
+            <button
+              class="table-btn delete"
+              title="Delete"
+              (click)="onRemove(ad)"
+            >
+              <span class="material-symbols-rounded"> delete </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="table" *ngIf="!gridLayout">
+    <p-table
+      [value]="ads"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      paginatorDropdownAppendTo="body"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 10%">Image</th>
+          <th style="width: 16%">Crop Name</th>
+          <th style="width: 15%">Category</th>
+          <th style="width: 17%">Description</th>
+          <th style="width: 10%">Quantity</th>
+          <th style="width: 10%">Mass</th>
+          <th style="width: 10%">Price</th>
+          <th style="width: 12%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ad>
+        <ng-container *ngIf="ad.status">
+          <tr>
+            <td>
+              <div class="crop-wrapper">
+                <div class="crop-container">
+                  <img src="{{ ad.image }}" />
+                </div>
+              </div>
+            </td>
+            <td>{{ ad.name }}</td>
+            <td>{{ ad.category }}</td>
+            <td>
+              {{ ad.description }}
+            </td>
+            <td>
+              {{ ad.quantity }}
+            </td>
+            <td>
+              {{ ad.mass }}
+            </td>
+            <td>
+              {{ ad.price }}
+            </td>
+            <td>
+              <div class="table-actions">
+                <button
+                  class="table-btn edit"
+                  title="Edit"
+                  (click)="onEdit(ad)"
+                >
+                  <span class="material-symbols-rounded"> edit </span>
+                </button>
+                <button
+                  class="table-btn delete"
+                  title="Delete"
+                  (click)="onRemove(ad)"
+                >
+                  <span class="material-symbols-rounded"> delete </span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
 </main>
 
 <p-dialog
   [(visible)]="addDialog"
   [modal]="true"
-  [breakpoints]="{ '600px': '90vw' }"
+  [breakpoints]="{ '992px': '90vw', }"
   [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
@@ -25,9 +139,177 @@
   <p-header>
     <div class="dialog-title">Post Advertisement</div>
   </p-header>
-  <form></form>
+  <form [formGroup]="adForm" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <div class="upload">
+        <div class="banner">
+          <div class="img-container" [class.error-border]="emptyImage">
+            <img
+              [src]="imagePreview"
+              alt="Crop"
+              class="image"
+              [class.img-active]="showImage"
+            />
+          </div>
+        </div>
+        <button class="btn-upload">
+          Upload<input
+            type="file"
+            class="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </button>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label>Crop Name<span class="required">*</span></label>
+          <input pInputText formControlName="name" />
+          <div *ngIf="name.invalid && (name?.dirty || name?.touched)">
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="name?.errors?.['required']"
+              >Crop name is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Category<span class="required">*</span></label>
+          <p-dropdown
+            [options]="categories"
+            placeholder="Select a category"
+            [style]="{
+              width: '100%',
+            }"
+            appendTo="body"
+            formControlName="category"
+          ></p-dropdown>
+          <div
+            *ngIf="category.invalid && (category?.dirty || category?.touched)"
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="category?.errors?.['required']"
+              >Category is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Description<span class="required">*</span></label>
+          <textarea
+            rows="2"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+          ></textarea>
+          <div
+            *ngIf="
+              description.invalid &&
+              (description?.dirty || description?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="description?.errors?.['required']"
+              >Description is required</small
+            >
+          </div>
+        </div>
+        <div class="num-group">
+          <div class="input-group">
+            <label>Quantity<span class="required">*</span></label>
+            <p-inputNumber
+              inputId="minmax"
+              inputId="minmax"
+              mode="decimal"
+              [min]="1"
+              [max]="100000"
+              [style]="{
+                width: '100%'
+              }"
+              formControlName="quantity"
+            >
+            </p-inputNumber>
+            <div
+              *ngIf="quantity.invalid && (quantity?.dirty || quantity?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="quantity?.errors?.['required']"
+                >Quantity is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Mass<span class="required">*</span></label>
+            <p-inputNumber
+              inputId="locale-user"
+              [minFractionDigits]="2"
+              [style]="{
+                width: '100%'
+              }"
+              formControlName="mass"
+            ></p-inputNumber>
+            <div *ngIf="mass.invalid && (mass?.dirty || mass?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="mass?.errors?.['required']"
+                >Mass is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Price<span class="required">*</span></label>
+            <p-inputNumber
+              inputId="locale-user"
+              [minFractionDigits]="2"
+              [style]="{
+                width: '100%'
+              }"
+              formControlName="price"
+            ></p-inputNumber>
+            <div *ngIf="price.invalid && (price?.dirty || price?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="price?.errors?.['required']"
+                >Price is required</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button
+        type="button"
+        class="dialog-btn cancel"
+        (click)="closeAddDialog()"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="dialog-btn submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Delete</div>
+  </p-header>
+  <div class="dialog-body">
+    Are you sure you want to delete this advertisement?
+  </div>
   <div class="dialog-actions">
-    <button type="button" class="dialog-btn cancel">Cancel</button>
-    <button type="submit" class="dialog-btn submit">Save</button>
+    <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (click)="onDelete()">Yes</button>
   </div>
 </p-dialog>

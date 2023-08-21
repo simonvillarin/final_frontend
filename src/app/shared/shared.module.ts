@@ -5,11 +5,13 @@ import { FooterComponent } from './components/footer/footer.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -20,6 +22,9 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     MessagesModule,
     DialogModule,
+    TableModule,
+    ReactiveFormsModule,
+    InputNumberModule,
   ],
   exports: [
     NavbarComponent,
@@ -32,6 +37,9 @@ import { DialogModule } from 'primeng/dialog';
     DropdownModule,
     MessagesModule,
     DialogModule,
+    TableModule,
+    ReactiveFormsModule,
+    InputNumberModule,
   ],
 })
 export class SharedModule {}
