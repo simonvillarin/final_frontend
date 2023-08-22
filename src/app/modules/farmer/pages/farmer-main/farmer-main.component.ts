@@ -43,8 +43,14 @@ export class FarmerMainComponent {
     const loc = splitLocation[splitLocation.length - 1];
     if (loc == 'dashboard') {
       return 'Dashboard';
+    } else if (loc == 'courses') {
+      return 'Courses';
     } else if (loc == 'advertisement') {
-      return 'Advertisement';
+      return 'Posts';
+    } else if (loc == 'complaints') {
+      return 'Complaints';
+    } else if (loc == 'sell-product') {
+      return 'Sell Product';
     } else if (loc == 'payments') {
       return 'Payments';
     } else if (loc == 'history') {
