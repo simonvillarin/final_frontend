@@ -105,24 +105,45 @@ export class FarmingTipsComponent {
 
   onEditTip = (tip: any) => {
     this.isEditing = true;
+    this.emptyImage = false;
+    this.imagePreview = tip.image;
+    this.showImage = true;
     this.tipForm.patchValue({
       tip: tip.tip,
-      image: tip.image,
+      filename: tip.filename,
+      mimeType: tip.mimeType,
+      data: tip.data,
     });
     this.tipId = tip.tipId;
-    this.showImage = true;
+    this.addDialog = true;
   };
 
   onSubmit = () => {
-    if (this.tipForm.valid) {
-      this.farmingTipsService.addTip(this.tipForm.value).subscribe(() => {
-        this.getAllFarmingTips();
-        this.tipForm.reset();
-        this.addDialog = false;
-      });
+    const tipPayload = {
+      tip: this.tipForm.get('tip')?.value,
+      filename: this.tipForm.get('filename')?.value,
+      mimeType: this.tipForm.get('mimeType')?.value,
+      data: this.tipForm.get('data')?.value,
+    };
+
+    if (this.isEditing) {
+      this.farmingTipsService
+        .updateTip(this.tipId, tipPayload)
+        .subscribe(() => {
+          this.getAllFarmingTips();
+          this.tipForm.reset();
+          this.addDialog = false;
+        });
     } else {
-      this.tipForm.markAllAsTouched();
-      this.emptyImage = true;
+      if (this.tipForm.valid) {
+        this.farmingTipsService.addTip(tipPayload).subscribe(() => {
+          this.getAllFarmingTips();
+          this.tipForm.reset();
+        });
+      } else {
+        this.tipForm.markAllAsTouched();
+        this.emptyImage = true;
+      }
     }
   };
 
