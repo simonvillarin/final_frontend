@@ -19,6 +19,7 @@ p-card {
 
 .farming-tips {
   margin: 20px;
+  margin-top: 0px;
   cursor: pointer;
   width: 96%;
   height: 140px;
@@ -35,7 +36,8 @@ p-card {
   justify-content: center;
   height: 100px;
   background-color: var(--semi-light);
-  padding-top: 20px;
+  padding: 20px;
+  padding-top: 40px;
 }
 
 form {
@@ -64,26 +66,24 @@ form input {
   background-color: rgba(234, 234, 234, 0.4);
   padding: 8px;
   border-radius: 20px;
-  width: 820px;
+  width: 840px;
   border: 1px solid var(--primary);
 }
 
-form button {
-  //padding: 10px 50px;
+form p-button {
+  padding: 4px;
   border: none;
   outline: none;
   color: #ffff;
   letter-spacing: 1px;
   cursor: pointer;
-  //font-size: 18px;
-  //border-radius: 10px;
   align-items: center;
   text-align: center;
+  border-radius: 10px;
 }
 
-form button:hover {
+form p-button:hover {
   background-color: var(--primary);
-  letter-spacing: 0.2rem;
 }
 
 form .button,
@@ -94,9 +94,9 @@ form .button,
 }
 
 .mat-icon {
-  left: 15px;
+  left: 20px;
   font-size: 30px;
-  color: #1f0404;
+  color: var(--light-black);
 }
 
 @media (max-width: 500px) {
