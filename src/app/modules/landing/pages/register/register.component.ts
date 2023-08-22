@@ -215,15 +215,12 @@ export class RegisterComponent implements OnInit {
 
   onRegionChange = (region: any) => {
     if (region != '') {
+      this.barangays = [];
+      this.cities = [];
+      this.provinces = [];
       this.provinces = this.tempProvinces.filter(
         (province: any) => province.region_code === region.id
       );
-
-      this.barangays = [];
-      this.cities = [];
-      // this.registerForm.patchValue({
-      //   region: region.name,
-      // });
     }
   };
 

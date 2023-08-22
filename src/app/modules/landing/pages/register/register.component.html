@@ -266,7 +266,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="contact?.errors?.['mobileNoIsValid']"
-            >Incorrect mobile no. format</small
+            >Invalid mobile no. format</small
           >
         </div>
       </div>
@@ -278,6 +278,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="email.errors?.['required']"
             >Email address is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email.errors?.['email']"
+            >Invalid email</small
           >
         </div>
       </div>
@@ -370,7 +375,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="confirmPassword.errors?.['required']"
-            >Cornfirm password is required</small
+            >Confirm password is required</small
           >
           <small
             [style]="{ color: 'var(--red)' }"

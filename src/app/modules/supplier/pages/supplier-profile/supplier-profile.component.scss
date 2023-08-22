@@ -2,7 +2,7 @@
   min-height: calc(100vh - 4rem);
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.5fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
   grid-template-areas:
     "image"
     "personal"
@@ -96,7 +96,7 @@ img {
 
 .form-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
 }
 
@@ -165,10 +165,28 @@ span {
   overflow: auto;
 }
 
+.alert {
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border-left: 2px solid var(--primary);
+  color: var(--light);
+  background-color: var(--primary);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.error {
+  background-color: var(--red);
+}
+
+.half {
+  width: 100%;
+}
+
 @media screen and (min-width: 992px) {
   .profile {
     grid-template-columns: 0.5fr 1.5fr;
-    grid-template-rows: 360px 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
       "image personal"
       "additional additional";
@@ -187,7 +205,15 @@ span {
     border-bottom: 2px solid var(--primary);
   }
 
+  .form-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .f-group {
+    width: 50%;
+  }
+
+  .half {
     width: 50%;
   }
 }
