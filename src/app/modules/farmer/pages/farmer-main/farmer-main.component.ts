@@ -72,8 +72,12 @@ export class FarmerMainComponent {
       return 'Payments';
     } else if (loc == 'history') {
       return 'History';
-    } else {
+    } else if (loc == 'history') {
+      return 'History';
+    } else if (loc == 'profile') {
       return 'Profile';
+    } else {
+      return this.router.navigate(['/farmer/dashboard']);
     }
   };
 
