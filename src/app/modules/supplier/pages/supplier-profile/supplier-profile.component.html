@@ -1,1 +1,238 @@
-<p>supplier-profile works!</p>
+<div class="profile">
+  <div class="profile-container">
+    <div class="img-container">
+      <img src="{{ imagePreview }}" alt="Profile" />
+    </div>
+    <button class="btn-upload">
+      Upload<input
+        type="file"
+        class="file"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+      />
+    </button>
+  </div>
+  <div class="personal">
+    <div>
+      <div class="title">Full Name</div>
+      <div class="data">Simon James Hatamosa Villarin</div>
+    </div>
+    <div>
+      <div class="title">Gender</div>
+      <div class="data">Male</div>
+    </div>
+    <div>
+      <div class="title">Birthday</div>
+      <div class="data">February 21, 2000</div>
+    </div>
+    <div>
+      <div class="title">Email</div>
+      <div class="data">simon.villarin@gmail.com</div>
+    </div>
+    <div>
+      <div class="title">Contact No</div>
+      <div class="data">09270445766</div>
+    </div>
+    <div>
+      <div class="title t1">Address</div>
+      <div class="data d1">
+        No. 1 Sample 1, Sample 3, Pamplona 1. Las Pinas City
+      </div>
+    </div>
+  </div>
+  <div class="additional">
+    <p-tabView>
+      <p-tabPanel header="Edit Personal Information">
+        <form>
+          <div class="form-group">
+            <div class="input-group">
+              <label>First Name<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Middle Name</label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Last Name<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Suffix</label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Gender<span class="required">*</span></label>
+              <p-dropdown
+                [options]="genders"
+                placeholder="Select a gender"
+                [style]="{
+                  width: '100%'
+                }"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Birthday<span class="required">*</span></label>
+              <p-calendar
+                [style]="{
+            width: '100%',
+          }"
+                appendTo="body"
+                [showIcon]="true"
+              ></p-calendar>
+            </div>
+            <div class="input-group">
+              <label>Contact No<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Email Address<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+          </div>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      </p-tabPanel>
+      <p-tabPanel header="Edit Address">
+        <form>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Unit No / House No<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Street<span class="required">*</span></label>
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label
+                >Subdivision / Village / Bldg<span class="required"
+                  >*</span
+                ></label
+              >
+              <input pInputText />
+            </div>
+            <div class="input-group">
+              <label>Region<span class="required">*</span></label>
+              <p-dropdown
+                [options]="regions"
+                optionLabel="name"
+                placeholder="Select a region"
+                [style]="{
+                  width: '100%'
+                }"
+                appendTo="body"
+                [(ngModel)]="regionSelected"
+                (ngModelChange)="onRegionChange($event)"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Province<span class="required">*</span></label>
+              <p-dropdown
+                [options]="provinces"
+                optionLabel="name"
+                placeholder="Select a province"
+                [style]="{
+                  width: '100%'
+                }"
+                appendTo="body"
+                [(ngModel)]="provinceSelected"
+                (ngModelChange)="onProvinceChange($event)"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>City<span class="required">*</span></label>
+              <p-dropdown
+                [options]="cities"
+                optionLabel="name"
+                placeholder="Select a city"
+                [style]="{
+                  width: '100%'
+                }"
+                appendTo="body"
+                [(ngModel)]="citySelected"
+                (ngModelChange)="onCityChange($event)"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Barangay<span class="required">*</span></label>
+              <p-dropdown
+                [options]="barangays"
+                optionLabel="name"
+                placeholder="Select a barangay"
+                [style]="{
+                  width: '100%'
+                }"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Zipcode<span class="required">*</span></label>
+              <input pInputText pKeyFilter="int" />
+            </div>
+          </div>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      </p-tabPanel>
+      <p-tabPanel header="Edit Login Information">
+        <form>
+          <div class="f-group">
+            <div class="input-group">
+              <label>Current Password<span class="required">*</span></label>
+              <div class="password-container">
+                <input
+                  pInputText
+                  [type]="currentPass ? 'text' : 'password'"
+                  [style]="{
+                    width: '100%'
+                  }"
+                />
+                <div class="pass-icon" (click)="toggleCurrentPassword()">
+                  <span class="material-symbols-rounded">
+                    {{ currentPass ? "visibility" : "visibility_off" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Password<span class="required">*</span></label>
+              <div class="password-container">
+                <input
+                  pInputText
+                  [type]="pass ? 'text' : 'password'"
+                  [style]="{
+                    width: '100%'
+                  }"
+                />
+                <div class="pass-icon" (click)="togglePassword()">
+                  <span class="material-symbols-rounded">
+                    {{ pass ? "visibility" : "visibility_off" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Confirm Password<span class="required">*</span></label>
+              <div class="password-container">
+                <input
+                  pInputText
+                  [type]="confirmPass ? 'text' : 'password'"
+                  [style]="{
+                    width: '100%'
+                  }"
+                />
+                <div class="pass-icon" (click)="toggleConfirmPassword()">
+                  <span class="material-symbols-rounded">
+                    {{ confirmPass ? "visibility" : "visibility_off" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

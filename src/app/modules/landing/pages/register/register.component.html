@@ -240,7 +240,7 @@
       </div>
       <div class="input-group">
         <label>Zipcode<span class="required">*</span></label>
-        <input pInputText formControlName="zipCode" />
+        <input pInputText pKeyFilter="int" formControlName="zipCode" />
         <div *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
