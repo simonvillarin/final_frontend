@@ -59,6 +59,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/supplier/dashboard']);
           } else if (res.role == 'Admin') {
             this.router.navigate(['/admin/dashboard']);
+          } else if (res.role == 'Farmer') {
+            this.router.navigate(['/farmer/dashboard']);
           }
 
           this.loginForm.reset();
