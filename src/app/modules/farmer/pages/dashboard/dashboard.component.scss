@@ -1,0 +1,130 @@
+.card {
+  gap: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  //box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  background-color: var(--semi-light);
+  padding-bottom: 3rem;
+}
+
+p-card {
+  margin: 20px;
+  cursor: pointer;
+  width: 300px;
+  height: 300px;
+}
+
+.farming-tips {
+  margin: 20px;
+  cursor: pointer;
+  width: 96%;
+  height: 140px;
+}
+
+.tips-button {
+  margin-left: 54rem;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: var(--semi-light);
+  padding-top: 20px;
+}
+
+form {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  position: relative;
+  margin: 0 20px;
+  border-radius: 8px;
+  background-color: var(--primary);
+}
+
+form input {
+  border: none;
+  height: 100%;
+  width: 100%;
+  padding: 0 155px 0 65px;
+  font-size: 18px;
+  font-weight: 300;
+  background-color: #fff6;
+  outline: none;
+}
+
+::-webkit-input-placeholder {
+  font-size: 18px;
+  background-color: rgba(234, 234, 234, 0.4);
+  padding: 8px;
+  border-radius: 20px;
+  width: 820px;
+  border: 1px solid var(--primary);
+}
+
+form button {
+  //padding: 10px 50px;
+  border: none;
+  outline: none;
+  color: #ffff;
+  letter-spacing: 1px;
+  cursor: pointer;
+  //font-size: 18px;
+  //border-radius: 10px;
+  align-items: center;
+  text-align: center;
+}
+
+form button:hover {
+  background-color: var(--primary);
+  letter-spacing: 0.2rem;
+}
+
+form .button,
+.mat-icon {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.mat-icon {
+  left: 15px;
+  font-size: 30px;
+  color: #1f0404;
+}
+
+@media (max-width: 500px) {
+  form {
+      height: 66px;
+      margin: 0 8px;
+      min-width: none;
+  }
+
+  .mat-icon {
+      left: 12px;
+      font-size: 25px;
+  }
+
+  form input {
+      padding: 0 112px 0 50px;
+  }
+
+  form .button {
+      font-size: 14px;
+      padding: 8px 14px;
+  }
+
+  ::-webkit-input-placeholder {
+      font-size: 15px;
+      width: 200px;
+      border: 1px solid var(--primary);
+  }
+}
+
+

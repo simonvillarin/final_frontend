@@ -1,1 +1,107 @@
-<p>dashboard works!</p>
+<div class="container">
+  <form>
+    <mat-icon>search</mat-icon>
+    <input type="text" placeholder="Search anything here" />
+    <p-button label="Search" (click)="search()"></p-button>
+  </form>
+</div>
+
+<div class="card flex justify-content-center">
+  <p-card
+    header="Farming Tips"
+    subheader="Enhance your farming skills"
+    class="farming-tips"
+  >
+    <p-button
+      label="View More"
+      routerLink="/farmer/courses"
+      class="tips-button"
+    ></p-button>
+  </p-card>
+</div>
+
+<div class="card flex justify-content-center">
+  <p-card
+    header="Courses"
+    subheader="Learn something"
+    routerLink="/farmer/courses"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/courses"></p-button>
+  </p-card>
+
+  <p-card
+    header="Posts"
+    subheader="Learn something"
+    routerLink="/farmer/advertisement"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/advertisement"></p-button>
+  </p-card>
+
+  <p-card
+    header="Sell Product"
+    subheader="Learn something"
+    routerLink="/farmer/sell-product"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/sell-product"></p-button>
+  </p-card>
+
+  <p-card
+    header="Complaints"
+    subheader="Learn something"
+    routerLink="/farmer/complaints"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/complaints"></p-button>
+  </p-card>
+
+  <p-card
+    header="Payments"
+    subheader="Learn something"
+    routerLink="/farmer/payments"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/payments"></p-button>
+  </p-card>
+
+  <p-card
+    header="History"
+    subheader="Learn something"
+    routerLink="/farmer/history"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/farmer/history"></p-button>
+  </p-card>
+</div>
