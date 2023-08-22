@@ -25,9 +25,9 @@ p-card {
   height: 140px;
 }
 
-.tips-button {
+/**.tips-button {
   margin-left: 54rem;
-}
+}**/
 
 .container {
   width: 100%;
@@ -115,9 +115,8 @@ form .button,
       padding: 0 112px 0 50px;
   }
 
-  form .button {
+  form p-button {
       font-size: 14px;
-      padding: 8px 14px;
   }
 
   ::-webkit-input-placeholder {
