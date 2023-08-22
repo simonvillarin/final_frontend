@@ -13,6 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -43,6 +44,7 @@ import { TabViewModule } from 'primeng/tabview';
     ReactiveFormsModule,
     InputNumberModule,
     TabViewModule,
+    KeyFilterModule,
   ],
 })
 export class SharedModule {}

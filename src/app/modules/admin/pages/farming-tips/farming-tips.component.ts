@@ -34,7 +34,9 @@ export class FarmingTipsComponent {
   ) {
     this.tipForm = fb.group({
       tip: ['', Validators.required],
-      image: ['', Validators.required],
+      filename: ['', Validators.required],
+      mimeType: ['', Validators.required],
+      data: ['', Validators.required],
     });
   }
 
@@ -83,7 +85,6 @@ export class FarmingTipsComponent {
         const fileName = file.name;
 
         this.tipForm.patchValue({
-          supplierId: this.authService.getUserId(),
           filename: fileName,
           mimeType: mimeType,
           data: Array.from(bytes),
