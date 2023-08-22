@@ -26,6 +26,11 @@ const routes: Routes = [
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
+    path: 'farmer',
+    loadChildren: () =>
+      import('./modules/farmer/farmer.module').then((m) => m.FarmerModule),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

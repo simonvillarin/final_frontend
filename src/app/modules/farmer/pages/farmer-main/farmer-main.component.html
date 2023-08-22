@@ -1,0 +1,118 @@
+<div class="sidebar" [class.hide]="!isShowMobileNav">
+  <div class="logo">
+    <div class="logo-img">
+      <img src="../../../../../assets/images/logo.png" alt="Logo" />
+    </div>
+    <span>Hacienda</span>
+  </div>
+  <nav>
+    <div class="close" (click)="closeMobileNav()">
+      <span class="material-symbols-rounded"> close </span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/dashboard"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> dashboard </span>
+      <span>Dashboard</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/courses"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> school </span>
+      <span>Courses</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/advertisement"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> add_ad </span>
+      <span>Posts</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/complaints"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> support_agent </span>
+      <span>Complaints</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/sell-product"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> support_agent </span>
+      <span>Sell Product</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/payments"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> receipt_long </span>
+      <span>Payments</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/history"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> history </span>
+      <span>History</span>
+    </div>
+  </nav>
+</div>
+
+<main [class.overflow-hidden]="isShowMobileNav">
+  <header>
+    <div class="left-header">
+      <div class="menu-icon" (click)="openMobileNav()">
+        <span class="material-symbols-rounded"> menu </span>
+      </div>
+      <div class="location">{{ getLocation() }}</div>
+    </div>
+    <div class="right-header">
+      <div class="profile">
+        <div class="avatar" (click)="toggleShowDropdown()">
+          <img
+            src="{{ '../../../../../../../assets/images/itachi.jpg' }}"
+            alt="Profile Image"
+          />
+        </div>
+        <div class="name">
+          <div class="type">
+            <span>Simon James Villarin</span>
+            <div>Supplier</div>
+          </div>
+          <div class="arrow" (click)="toggleShowDropdown()">
+            <span
+              class="material-symbols-rounded arrow"
+              [class.arrow-active]="isShowDropdown"
+            >
+              expand_more
+            </span>
+          </div>
+        </div>
+
+        <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+          <div class="dropdown-link" (click)="profile()">Profile</div>
+          <div class="dropdown-link" (click)="logout()">Logout</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <router-outlet></router-outlet>
+</main>
