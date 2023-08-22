@@ -12,6 +12,7 @@ import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -25,6 +26,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TableModule,
     ReactiveFormsModule,
     InputNumberModule,
+    TabViewModule,
   ],
   exports: [
     NavbarComponent,
@@ -40,6 +42,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TableModule,
     ReactiveFormsModule,
     InputNumberModule,
+    TabViewModule,
   ],
 })
 export class SharedModule {}
