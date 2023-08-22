@@ -18,7 +18,7 @@ export class AdminService {
 
   getUser = (id: number): Observable<any> => {
     return this.http
-      .get<any[]>(`${this.serverUrl}/farming/users/${id}`)
+      .get<any[]>(`${this.serverUrl}/farming/user/${id}`)
       .pipe(tap((x) => x));
   };
 }

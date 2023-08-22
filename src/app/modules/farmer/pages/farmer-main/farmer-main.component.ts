@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Location } from '@angular/common';
+import { AdminService } from 'src/app/shared/services/admin/admin.service';
 
 @Component({
   selector: 'app-farmer-main',
@@ -13,11 +14,27 @@ export class FarmerMainComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
 
+  farmer: any;
+
   constructor(
     private router: Router,
     private authService: AuthService,
-    private location: Location
+    private location: Location,
+    private userService: AdminService
   ) {}
+
+  ngOnInit(): void {
+    this.getFarmerById();
+  }
+
+  getFarmerById = () => {
+    this.userService
+      .getUser(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.farmer = data;
+        console.log(data);
+      });
+  };
 
   toggleMobile = () => {
     this.mobile = !this.mobile;
@@ -55,8 +72,12 @@ export class FarmerMainComponent {
       return 'Payments';
     } else if (loc == 'history') {
       return 'History';
-    } else {
+    } else if (loc == 'history') {
+      return 'History';
+    } else if (loc == 'profile') {
       return 'Profile';
+    } else {
+      return this.router.navigate(['/farmer/dashboard']);
     }
   };
 

@@ -3,7 +3,7 @@
     <div class="logo-img">
       <img src="../../../../../assets/images/logo.png" alt="Logo" />
     </div>
-    <span>Hacienda</span>
+    <span>HACIENDA</span>
   </div>
   <nav>
     <div class="close" (click)="closeMobileNav()">
@@ -38,21 +38,21 @@
     </div>
     <div
       class="link"
+      routerLink="/farmer/sell-product"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> local_mall </span>
+      <span>Sell Product</span>
+    </div>
+    <div
+      class="link"
       routerLink="/farmer/complaints"
       routerLinkActive="link-active"
       (click)="closeMobileNav()"
     >
       <span class="material-symbols-rounded"> support_agent </span>
       <span>Complaints</span>
-    </div>
-    <div
-      class="link"
-      routerLink="/farmer/sell-product"
-      routerLinkActive="link-active"
-      (click)="closeMobileNav()"
-    >
-      <span class="material-symbols-rounded"> support_agent </span>
-      <span>Sell Product</span>
     </div>
     <div
       class="link"
@@ -93,7 +93,10 @@
         </div>
         <div class="name">
           <div class="type">
-            <span>Simon James Villarin</span>
+            <span
+              >{{ farmer?.firstName }} {{ farmer?.middleName }}
+              {{ farmer?.lastName }} {{ farmer?.suffix }}</span
+            >
             <div>Farmer</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { AdminService } from 'src/app/shared/services/admin/admin.service';
 
 @Component({
   selector: 'app-admin-main',
@@ -13,11 +14,27 @@ export class AdminMainComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
 
+  admin: any;
+
   constructor(
     private router: Router,
     private authService: AuthService,
-    private location: Location
+    private location: Location,
+    private userService: AdminService
   ) {}
+
+  ngOnInit(): void {
+    this.getAdminById();
+  }
+
+  getAdminById = () => {
+    this.userService
+      .getUser(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.admin = data;
+        console.log(data);
+      });
+  };
 
   toggleMobile = () => {
     this.mobile = !this.mobile;
