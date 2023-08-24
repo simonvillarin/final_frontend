@@ -14,6 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FarmerRoutingModule } from './farmer-routing.module';
 import { CardModule } from 'primeng/card';
 import { MatIconModule } from '@angular/material/icon';
+import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
     AdvertisementComponent,
     FarmerProfileComponent,
     FarmerMainComponent,
+    FarmingTipsComponent,
   ],
   imports: [
     CommonModule,

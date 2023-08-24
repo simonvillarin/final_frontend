@@ -79,6 +79,10 @@ export class AdminMainComponent {
       return 'Complaints';
     } else if (loc == 'farming-tips') {
       return 'Farming Tips';
+    } else if (loc == 'farmers') {
+      return 'Farmers';
+    } else if (loc == 'suppliers') {
+      return 'Suppliers';
     } else if (loc == 'profile') {
       return 'Profile';
     } else {
