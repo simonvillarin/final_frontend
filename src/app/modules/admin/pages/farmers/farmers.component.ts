@@ -9,7 +9,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 export class FarmersComponent {
   farmers: any = [];
   statusArr: any = ['Active', 'Inactive'];
-  farmerIdToDelete: any;
+  farmerToUpdateStatus: any;
 
   confirmationDialog = false;
   gridLayout = false;
@@ -53,13 +53,13 @@ export class FarmersComponent {
   };
 
   onDelete(farmerId: any): void {
-    this.farmerIdToDelete = farmerId;
+    this.farmerToUpdateStatus = farmerId;
     this.confirmationDialog = true;
   }
 
   onConfirmDelete(): void {
     this.userService
-      .updateUser(this.farmerIdToDelete, { status: false })
+      .updateUser(this.farmerToUpdateStatus, { status: false })
       .subscribe(() => {
         this.getFarmers();
         this.confirmationDialog = false;
@@ -68,15 +68,22 @@ export class FarmersComponent {
 
   onCancelDelete(): void {
     this.confirmationDialog = false;
-    this.farmerIdToDelete = null;
+    this.farmerToUpdateStatus = null;
   }
 
-  onStatusChange(farmer: any, event: any): void {
-    const newStatus = event.checked;
+  openConfirmationDialog(farmer: any): void {
+    this.farmerToUpdateStatus = farmer.farmerId;
+    this.confirmationDialog = true;
+  }
+
+  onConfirmStatusChange(): void {
     this.userService
-      .updateUser(farmer.id, { status: newStatus })
+      .updateUser(this.farmerToUpdateStatus, {
+        status: this.farmerToUpdateStatus.status,
+      })
       .subscribe(() => {
-        farmer.status = newStatus;
+        this.farmerToUpdateStatus = null;
+        this.confirmationDialog = false;
       });
   }
 }

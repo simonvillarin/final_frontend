@@ -10,6 +10,7 @@ import { AdminProfileComponent } from './pages/admin-profile/admin-profile.compo
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { FarmersComponent } from './pages/farmers/farmers.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,12 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     SupplierComponent,
     FarmersComponent,
   ],
-  imports: [CommonModule, SharedModule, AdminRoutingModule, ToggleButtonModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    AdminRoutingModule,
+    ToggleButtonModule,
+    InputSwitchModule,
+  ],
 })
 export class AdminModule {}
