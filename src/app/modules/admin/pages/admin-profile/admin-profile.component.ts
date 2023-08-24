@@ -201,7 +201,6 @@ export class AdminProfileComponent {
           unit: data.unit,
           street: data.street,
           village: data.village,
-          zipCode: data.zipCode,
         });
 
         this.addressService.getRegion().subscribe((data: any) => {
