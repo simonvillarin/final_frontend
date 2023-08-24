@@ -43,5 +43,6 @@ import { CardModule } from 'primeng/card';
     MatButtonModule,
     CardModule,
   ],
+  exports: [LandingRoutingModule],
 })
 export class LandingModule {}

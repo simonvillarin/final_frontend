@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { CardModule } from 'primeng/card';
+import { LandingRoutingModule } from '../modules/landing/landing-routing.module';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -30,6 +31,7 @@ import { CardModule } from 'primeng/card';
     InputNumberModule,
     TabViewModule,
     CardModule,
+    LandingRoutingModule,
   ],
   exports: [
     NavbarComponent,

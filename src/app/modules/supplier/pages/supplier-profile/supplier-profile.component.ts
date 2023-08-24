@@ -67,8 +67,7 @@ export class SupplierProfileComponent implements OnInit {
     private addressService: AddressService,
     private userService: UserService,
     private authService: AuthService,
-    private profileService: ProfileService,
-    private router: Router
+    private profileService: ProfileService
   ) {
     this.personalForm = fb.group({
       firstName: ['', Validators.required],
@@ -179,17 +178,8 @@ export class SupplierProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRegion();
     this.getUserById();
   }
-
-  getRegion = () => {
-    // this.addressService.getRegion().subscribe((data: any) => {
-    //   data.map((region: any) => {
-    //     this.regions.push(region);
-    //   });
-    // });
-  };
 
   getUserById = () => {
     this.userService

@@ -1,6 +1,6 @@
 <nav>
   <div class="container">
-    <div class="logo" (click)="onHome()">
+    <div class="logo" routerLink="/">
       <img src="../../../../assets/images/logo.png" alt="Logo" />
       <span>HACIENDA</span>
     </div>
@@ -11,20 +11,22 @@
       [class.show-mobile-nav]="mobile"
       (click)="toggleMobile()"
     >
-      <div class="nav-link" [class.border]="home" (click)="onHome()">Home</div>
-      <div class="nav-link" [class.border]="about" (click)="onAbout()">
+      <div class="nav-link" routerLink="/home" routerLinkActive="border">
+        Home
+      </div>
+      <div class="nav-link" routerLink="/about" routerLinkActive="border">
         About
       </div>
-      <div class="nav-link" [class.border]="services" (click)="onServices()">
+      <div class="nav-link" routerLink="/services" routerLinkActive="border">
         Services
       </div>
-      <div class="nav-link" [class.border]="contact" (click)="onContact()">
+      <div class="nav-link" routerLink="/contact" routerLinkActive="border">
         Contact Us
       </div>
-      <div class="nav-link" [class.border]="signUp" (click)="onSignUp()">
+      <div class="nav-link" routerLink="/register" routerLinkActive="border">
         Sign Up
       </div>
-      <div class="nav-link" [class.border]="login" (click)="onLogin()">
+      <div class="nav-link" routerLink="/login" routerLinkActive="border">
         Login
       </div>
 
