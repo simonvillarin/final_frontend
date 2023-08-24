@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
@@ -57,6 +58,7 @@ export class SupplierProfileComponent implements OnInit {
   confirmPass = false;
   confirmationDialog = false;
   personal = false;
+  hasReloaded = false;
 
   alertMessage = '';
 
@@ -65,7 +67,8 @@ export class SupplierProfileComponent implements OnInit {
     private addressService: AddressService,
     private userService: UserService,
     private authService: AuthService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private router: Router
   ) {
     this.personalForm = fb.group({
       firstName: ['', Validators.required],
@@ -228,8 +231,7 @@ export class SupplierProfileComponent implements OnInit {
           });
 
           this.provinces = this.tempProvinces.filter(
-            (province: any) =>
-              province.region_code === this.regions[indexOfRegion].id
+            (province: any) => province.region_code === this.regionSelected.id
           );
           let index: number = 0;
           this.provinces.forEach((province: any, i: number) => {
@@ -238,6 +240,7 @@ export class SupplierProfileComponent implements OnInit {
             }
           });
           this.provinceSelected = this.provinces[index];
+          console.log(this.provinces);
         });
 
         this.addressService.getCity().subscribe((data: any) => {
@@ -256,6 +259,7 @@ export class SupplierProfileComponent implements OnInit {
             }
           });
           this.citySelected = this.cities[index];
+          console.log(this.cities);
         });
 
         this.addressService.getBarangay().subscribe((data: any) => {
@@ -274,6 +278,7 @@ export class SupplierProfileComponent implements OnInit {
             }
           });
           this.barangaySelected = this.barangays[index];
+          console.log(this.barangays);
         });
       });
   };

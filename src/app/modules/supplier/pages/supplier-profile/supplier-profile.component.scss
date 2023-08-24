@@ -236,6 +236,29 @@ span {
   background-color: var(--darker-red);
 }
 
+.preloader {
+  position: fixed;
+  display: none;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--light);
+  background-image: url("../../../../../assets/images/loader.gif");
+  background-size: 60vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1000;
+}
+
+.loader {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  #preloader {
+    background-size: 30vw;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .profile {
     grid-template-columns: 0.5fr 1.5fr;
