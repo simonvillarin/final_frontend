@@ -1,1 +1,127 @@
-<p>dashboard works!</p>
+<div class="container">
+  <form>
+    <mat-icon>search</mat-icon>
+    <input type="text" placeholder="Search anything here" />
+    <p-button label="Search" (click)="search()"></p-button>
+  </form>
+</div>
+
+<div class="card">
+  <p-card
+    header="Complaints"
+    subheader="Enhance your communication skills"
+    class="complaints-tips"
+  >
+    <div class="featured-tips-container">
+      <div class="featured-tips-video">
+        <iframe
+          src="https://www.youtube.com/embed/SZOxsuNxJF0?si=bjWMT-3KMS80XlXC"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="featured-tips-content">
+        <div class="small-heading gray">
+          <span><i class="material-icons primary-circle">lens</i></span>
+          Welcome to the World of Service
+        </div>
+        <div class="featured-tips-title">
+          <h3>How you should handle it</h3>
+        </div>
+        <div class="featured-tips-desc">PATIENCE AND EXCELLENCE COMES TOGETHER</div>
+        <div class="featured-tips-icons-container">
+          <div class="icons-row">
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Stay Calm.
+            </div>
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Acknowledge the Problem.
+            </div>
+          </div>
+          <div class="icons-row">
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Get the facts right.
+            </div>
+
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Offer a solution.
+            </div>
+          </div>
+        </div>
+
+        <p-button
+          label="View"
+          routerLink="/admin/complaints"
+          class="tips-button"
+        ></p-button>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<div class="card flex justify-content-center">
+  <p-card
+    header="Farming Tips"
+    subheader="Learn something"
+    routerLink="/admin/farming-tips"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/admin/farming-tips"></p-button>
+  </p-card>
+
+  <p-card
+    header="Farmers"
+    subheader="Learn something"
+    routerLink="/admin/farmers"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/admin/farmers"></p-button>
+  </p-card>
+
+  <p-card
+    header="Suppliers"
+    subheader="Learn something"
+    routerLink="/admin/suppliers"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/admin/suppliers"></p-button>
+  </p-card>
+</div>

@@ -20,6 +20,16 @@
   width: 5em;
   height: 5rem;
   overflow: hidden;
+  animation: spin 3s infinite ease-in-out;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 .logo > span {

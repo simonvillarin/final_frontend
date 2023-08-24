@@ -1,9 +1,13 @@
 <div class="sidebar" [class.hide]="!isShowMobileNav">
   <div class="logo">
     <div class="logo-img">
-      <img src="../../../../../assets/images/logo.png" alt="Logo" />
+      <img
+        src="../../../../../assets/images/logo.png"
+        alt="Logo"
+        routerLink="/supplier/dashboard"
+      />
     </div>
-    <span>HACIENDA</span>
+    <span routerLink="/supplier/dashboard">HACIENDA</span>
   </div>
   <nav>
     <div class="close" (click)="closeMobileNav()">
@@ -76,7 +80,7 @@
           />
         </div>
         <div class="name">
-          <div class="type">
+          <div class="type" (click)="toggleShowDropdown()">
             <span>{{ username }}</span>
             <div>Supplier</div>
           </div>

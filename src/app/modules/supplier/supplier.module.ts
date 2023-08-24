@@ -8,6 +8,7 @@ import { AdvertisementComponent } from './pages/advertisement/advertisement.comp
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { ReceivedComponent } from './pages/received/received.component';
 import { SupplierProfileComponent } from './pages/supplier-profile/supplier-profile.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,6 @@ import { SupplierProfileComponent } from './pages/supplier-profile/supplier-prof
     ReceivedComponent,
     SupplierProfileComponent,
   ],
-  imports: [CommonModule, SharedModule, SupplierRoutingModule],
+  imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule],
 })
 export class SupplierModule {}

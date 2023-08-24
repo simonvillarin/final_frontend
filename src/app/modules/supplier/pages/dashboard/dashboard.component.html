@@ -1,12 +1,127 @@
-<div>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse iure quo
-  architecto perferendis quas aliquid reprehenderit enim maiores dolore pariatur
-  adipisci provident asperiores nihil quaerat perspiciatis magnam, eos ad
-  explicabo! Cumque porro in nostrum alias repudiandae commodi incidunt pariatur
-  voluptates, tempora, et sit ea eligendi quis dicta, laborum qui. Magni omnis
-  illum beatae expedita obcaecati fugit sint quo quos, debitis rerum. Quisquam,
-  odio reiciendis odit magni possimus quo doloribus molestiae voluptates, unde
-  deleniti cum. Illo deleniti natus quas sunt. Porro explicabo ducimus
-  excepturi, consectetur iste dolorem ipsam repellat. Ea voluptates eius nostrum
-  nihil obcaecati, quidem nulla repellat doloribus pariatur id?
+<div class="container">
+  <form>
+    <mat-icon>search</mat-icon>
+    <input type="text" placeholder="Search anything here" />
+    <p-button label="Search" (click)="search()"></p-button>
+  </form>
+</div>
+
+<div class="card">
+  <p-card
+    header="Advertisement"
+    subheader="Enhance your marketing skills"
+    class="farming-tips"
+  >
+    <div class="featured-tips-container">
+      <div class="featured-tips-video">
+        <iframe
+          src="https://www.youtube.com/embed/RmwI_QqcPQc?si=QWYmOW6eBzAnNX0G"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="featured-tips-content">
+        <div class="small-heading gray">
+          <span><i class="material-icons primary-circle">lens</i></span>
+          Welcome to the future of Agriculture
+        </div>
+        <div class="featured-tips-title">
+          <h3>getting started with business</h3>
+        </div>
+        <div class="featured-tips-desc">MEET MARLEY</div>
+        <div class="featured-tips-icons-container">
+          <div class="icons-row">
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Effectiveness.
+            </div>
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Marketing Concept.
+            </div>
+          </div>
+          <div class="icons-row">
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              Compassion.
+            </div>
+
+            <div class="icon-heading">
+              <span
+                ><i class="material-icons blue-check-circle"
+                  >check_circle</i
+                ></span
+              >
+              One Goal.
+            </div>
+          </div>
+        </div>
+
+        <p-button
+          label="View More"
+          routerLink="/supplier/advertisement"
+          class="tips-button"
+        ></p-button>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<div class="card flex justify-content-center">
+  <p-card
+    header="Advertisement"
+    subheader="Learn something"
+    routerLink="/supplier/advertisement"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/supplier/advertisement"></p-button>
+  </p-card>
+
+  <p-card
+    header="Crop Payments"
+    subheader="Learn something"
+    routerLink="/suplier/payments"
+  >
+    <ng-template pTemplate="header">
+      <img
+        alt="Card"
+        src="https://primefaces.org/cdn/primeng/images/usercard.png"
+      />
+    </ng-template>
+    <p-button label="View" routerLink="/supplier/payments"></p-button>
+  </p-card>
+
+  <p-card
+  header="Crop Received"
+  subheader="Learn something"
+  routerLink="/supplier/received"
+>
+  <ng-template pTemplate="header">
+    <img
+      alt="Card"
+      src="https://primefaces.org/cdn/primeng/images/usercard.png"
+    />
+  </ng-template>
+  <p-button label="View" routerLink="/supplier/received"></p-button>
+</p-card>
 </div>
