@@ -139,6 +139,7 @@ export class FarmingTipsComponent {
         this.farmingTipsService.addTip(tipPayload).subscribe(() => {
           this.getAllFarmingTips();
           this.tipForm.reset();
+          this.addDialog = false;
         });
       } else {
         this.tipForm.markAllAsTouched();
