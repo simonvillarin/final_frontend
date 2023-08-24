@@ -1,5 +1,10 @@
 <app-navbar></app-navbar>
 <div class="container">
+  <div class="alert" [class.error]="isError" *ngIf="alert">
+    <span class="material-symbols-rounded" *ngIf="!isError"> done </span>
+    <span class="material-symbols-rounded" *ngIf="isError"> error </span>
+    {{ alertMessage }}
+  </div>
   <div class="role-container">
     <h3>Choose a User Type<span class="required">*</span></h3>
     <div class="type-container" [class.mb]="!error">
@@ -36,7 +41,6 @@
         </div>
       </div>
     </div>
-    <div class="error" *ngIf="error">User type is required</div>
   </div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -238,22 +242,6 @@
         </div>
       </div>
       <div class="input-group">
-        <label>Zipcode<span class="required">*</span></label>
-        <input pInputText pKeyFilter="int" formControlName="zipCode" />
-        <div *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="zipCode.errors?.['required']"
-            >Zipcode is required</small
-          >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="zipCode.errors?.['maxLength']"
-            >Zipcode must be 4 digits</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
         <label>Contact No<span class="required">*</span></label>
         <input pInputText formControlName="contact" />
         <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
@@ -285,8 +273,6 @@
           >
         </div>
       </div>
-    </div>
-    <div class="last">
       <div class="input-group">
         <label>Username<span class="required">*</span></label>
         <input pInputText formControlName="username" />
@@ -388,3 +374,5 @@
     <button type="submit">Submit</button>
   </form>
 </div>
+
+<app-footer></app-footer>
