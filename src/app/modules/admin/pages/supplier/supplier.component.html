@@ -63,10 +63,10 @@
             </div>
           </td>
           <td>
-            <p-toggleButton
-              [(ngModel)]="farmer.status"
-              (onChange)="onDelete(farmer)"
-            ></p-toggleButton>
+            <p-inputSwitch
+              [(ngModel)]="statusSwitch"
+              (ngModelChange)="onStatusChanged(farmer)"
+            ></p-inputSwitch>
           </td>
         </tr>
       </ng-template>
@@ -89,7 +89,7 @@
       <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onConfirmDelete()">Yes</button>
+      <button class="dialog-btn submit" (click)="onUpdateStatus()">Yes</button>
     </div>
   </p-dialog>
 </main>

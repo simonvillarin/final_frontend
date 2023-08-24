@@ -64,8 +64,8 @@
           </td>
           <td>
             <p-inputSwitch
-              [ngModel]="farmer.status"
-              (onChange)="openConfirmationDialog(farmer)"
+              [(ngModel)]="statusSwitch"
+              (ngModelChange)="onStatusChanged(farmer)"
             ></p-inputSwitch>
           </td>
         </tr>
@@ -89,9 +89,7 @@
       <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onConfirmStatusChange()">
-        Yes
-      </button>
+      <button class="dialog-btn submit" (click)="onUpdateStatus()">Yes</button>
     </div>
   </p-dialog>
 </main>

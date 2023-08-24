@@ -10,6 +10,8 @@ export class FarmersComponent {
   farmers: any = [];
   statusArr: any = ['Active', 'Inactive'];
   farmerToUpdateStatus: any;
+  farmerId: any;
+  statusSwitch: any;
 
   confirmationDialog = false;
   gridLayout = false;
@@ -68,22 +70,28 @@ export class FarmersComponent {
 
   onCancelDelete(): void {
     this.confirmationDialog = false;
-    this.farmerToUpdateStatus = null;
+    this.statusSwitch = this.farmerToUpdateStatus.status;
   }
 
-  openConfirmationDialog(farmer: any): void {
-    this.farmerToUpdateStatus = farmer.farmerId;
+  openConfirmationDialog(user: any): void {
+    this.farmerToUpdateStatus = user;
     this.confirmationDialog = true;
   }
 
-  onConfirmStatusChange(): void {
+  onUpdateStatus(): void {
     this.userService
-      .updateUser(this.farmerToUpdateStatus, {
-        status: this.farmerToUpdateStatus.status,
+      .updateUser(this.farmerToUpdateStatus.userId, {
+        status: !this.farmerToUpdateStatus.status,
       })
       .subscribe(() => {
-        this.farmerToUpdateStatus = null;
+        this.getFarmers();
         this.confirmationDialog = false;
+        this.statusSwitch = !this.farmerToUpdateStatus.status;
       });
   }
+
+  onStatusChanged = (farmer: any) => {
+    this.farmerToUpdateStatus = farmer;
+    this.confirmationDialog = true;
+  };
 }

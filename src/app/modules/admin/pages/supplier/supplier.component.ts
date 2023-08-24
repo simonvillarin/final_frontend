@@ -10,6 +10,8 @@ export class SupplierComponent {
   suppliers: any[] = [];
   statusArr: any = ['Active', 'Inactive'];
   farmerIdToDelete: any;
+  statusSwitch: any;
+  farmerToUpdateStatus: any;
 
   confirmationDialog = false;
   gridLayout = false;
@@ -71,4 +73,21 @@ export class SupplierComponent {
     this.confirmationDialog = false;
     this.farmerIdToDelete = null;
   }
+
+  onUpdateStatus(): void {
+    this.userService
+      .updateUser(this.farmerToUpdateStatus.userId, {
+        status: !this.farmerToUpdateStatus.status,
+      })
+      .subscribe(() => {
+        this.getSuppliers();
+        this.confirmationDialog = false;
+        this.statusSwitch = !this.farmerToUpdateStatus.status;
+      });
+  }
+
+  onStatusChanged = (farmer: any) => {
+    this.farmerToUpdateStatus = farmer;
+    this.confirmationDialog = true;
+  };
 }

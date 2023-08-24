@@ -13,7 +13,7 @@
     </div>
   </div>
   <!-- Grid layout for farming tips -->
-  <ng-container *ngIf="gridLayout">
+  <ng-container *ngIf="!gridLayout">
     <div class="card-container">
       <div class="card" *ngFor="let tip of tips">
         <div class="card-img-container">
