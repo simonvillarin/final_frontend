@@ -6,6 +6,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
 import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
+import { SupplierComponent } from './pages/supplier/supplier.component';
+import { FarmersComponent } from './pages/farmers/farmers.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
       {
         path: 'profile',
         component: AdminProfileComponent,
+      },
+      {
+        path: 'suppliers',
+        component: SupplierComponent,
+      },
+      {
+        path: 'farmers',
+        component: FarmersComponent,
       },
     ],
   },
