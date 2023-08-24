@@ -47,6 +47,12 @@ export class RegisterComponent implements OnInit {
   pass = false;
   confirmPass = false;
 
+  alert = false;
+  isError = false;
+  currentPass = false;
+
+  alertMessage = '';
+
   ngOnInit(): void {
     this.getBarangay();
     this.getCity();
@@ -264,6 +270,17 @@ export class RegisterComponent implements OnInit {
           .subscribe((response) => {
             console.log('Registration successful:', response);
             this.registerForm.reset();
+            if (response.message == 'Contact number already exists') {
+              this.alert = true;
+              this.isError = true;
+              this.alertMessage = 'Contact no already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            } else if (response.message == 'Email already exists') {
+              this.alert = true;
+              this.isError = true;
+              this.alertMessage = 'Email address already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            }
           });
 
         this.registerForm.reset();
