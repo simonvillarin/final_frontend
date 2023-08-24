@@ -48,7 +48,7 @@ p-card {
   align-items: center;
   justify-content: center;
   height: 100px;
-  background-color: var(--semi-light);
+  background-color: var(--light-grayish-blue);
   padding: 20px;
   padding-top: 40px;
 }
@@ -114,29 +114,27 @@ form .button,
 
 @media (max-width: 500px) {
   form {
-      height: 66px;
-      margin: 0 8px;
-      min-width: none;
+    height: 66px;
+    margin: 0 8px;
+    min-width: none;
   }
 
   .mat-icon {
-      left: 12px;
-      font-size: 25px;
+    left: 12px;
+    font-size: 25px;
   }
 
   form input {
-      padding: 0 112px 0 50px;
+    padding: 0 112px 0 50px;
   }
 
   form p-button {
-      font-size: 14px;
+    font-size: 14px;
   }
 
   ::-webkit-input-placeholder {
-      font-size: 15px;
-      width: 200px;
-      border: 1px solid var(--primary);
+    font-size: 15px;
+    width: 200px;
+    border: 1px solid var(--primary);
   }
 }
-
-
