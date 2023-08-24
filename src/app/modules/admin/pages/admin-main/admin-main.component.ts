@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-admin-main',
@@ -25,7 +26,7 @@ export class AdminMainComponent {
     private router: Router,
     private authService: AuthService,
     private location: Location,
-    private userService: AdminService,
+    private userService: UserService,
     private profileService: ProfileService
   ) {
     this.subscription = this.profileService.usernameSubject.subscribe(
@@ -42,11 +43,17 @@ export class AdminMainComponent {
 
   getAdminById = () => {
     this.userService
-      .getUser(this.authService.getUserId())
-      .subscribe((data: any) => {
+      .getUserById(this.authService.getUserId())
+      .subscribe((data) => {
         this.user = data;
         this.username =
-        data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
+          data.firstName +
+          ' ' +
+          data.middleName +
+          ' ' +
+          data.lastName +
+          ' ' +
+          data.suffix;
         this.userPic = data.image;
       });
   };
@@ -85,6 +92,10 @@ export class AdminMainComponent {
       return 'Suppliers';
     } else if (loc == 'profile') {
       return 'Profile';
+    } else if (loc == 'suppliers') {
+      return 'Suppliers';
+    } else if (loc == 'farmers') {
+      return 'Farmers';
     } else {
       return this.router.navigate(['/admin/dashboard']);
     }

@@ -1,34 +1,4 @@
 <main>
-  <ng-container *ngIf="gridLayout">
-    <div class="card-container">
-      <div class="card" *ngFor="let farmer of farmers">
-        <div class="card-content">
-          <div class="card-title">Farmer ID: {{ farmer.userId }}</div>
-          <div class="category">{{ farmer.role }}</div>
-          <div class="card-num-container">
-            <div class="card-num">
-              <span class="card-num-label">Contact: </span>
-              <div>{{ farmer.contact }}</div>
-            </div>
-            <div class="card-num">
-              <span class="card-num-label">Status: </span>
-              <div>{{ farmer.status ? "Active" : "Inactive" }}</div>
-            </div>
-          </div>
-          <div class="card-actions">
-            <button
-              class="table-btn delete"
-              title="Delete"
-              (click)="onDelete(farmer.userId)"
-            >
-              <span class="material-symbols-rounded"> delete </span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-
   <div class="table" *ngIf="!gridLayout">
     <p-table
       [value]="farmers"
