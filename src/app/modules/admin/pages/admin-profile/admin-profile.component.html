@@ -54,6 +54,15 @@
     <p-tabView>
       <p-tabPanel header="Edit Personal Information">
         <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()">
+          <div class="alert" [class.error]="isError" *ngIf="alert">
+            <span class="material-symbols-rounded" *ngIf="!isError">
+              done
+            </span>
+            <span class="material-symbols-rounded" *ngIf="isError">
+              error
+            </span>
+            {{ alertMessage }}
+          </div>
           <div class="form-group">
             <div class="input-group">
               <label>First Name<span class="required">*</span></label>
@@ -132,7 +141,6 @@
                   *ngIf="birthdate?.errors?.['required']"
                   >Birthday is required</small
                 >
-                >
                 <small
                   [style]="{ color: 'var(--red)' }"
                   *ngIf="birthdate?.errors?.['futureDate']"
@@ -180,6 +188,15 @@
       </p-tabPanel>
       <p-tabPanel header="Edit Address Information">
         <form [formGroup]="addressForm" (ngSubmit)="onSubmitAddress()">
+          <div class="alert" [class.error]="isError" *ngIf="alert">
+            <span class="material-symbols-rounded" *ngIf="!isError">
+              done
+            </span>
+            <span class="material-symbols-rounded" *ngIf="isError">
+              error
+            </span>
+            {{ alertMessage }}
+          </div>
           <div class="form-group">
             <div class="input-group">
               <label>Unit No / House No<span class="required">*</span></label>
@@ -301,6 +318,7 @@
                 }"
                 appendTo="body"
                 formControlName="barangay"
+                [(ngModel)]="barangaySelected"
               ></p-dropdown>
               <div
                 *ngIf="
@@ -339,6 +357,12 @@
       <p-tabPanel header="Edit Login Information">
         <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
           <div class="alert half" [class.error]="isError" *ngIf="alert">
+            <span class="material-symbols-rounded" *ngIf="!isError">
+              done
+            </span>
+            <span class="material-symbols-rounded" *ngIf="isError">
+              error
+            </span>
             {{ alertMessage }}
           </div>
           <div class="f-group">
@@ -349,6 +373,7 @@
                   pInputText
                   [type]="pass ? 'text' : 'password'"
                   [style]="{
+                    paddingRight: '2.75rem',
                     width: '100%'
                   }"
                   formControlName="password"
@@ -403,6 +428,7 @@
                   pInputText
                   [type]="confirmPass ? 'text' : 'password'"
                   [style]="{
+                    paddingRight: '2.75rem',
                     width: '100%'
                   }"
                   formControlName="confirmPassword"
@@ -438,3 +464,21 @@
     </p-tabView>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '40vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Confirmation</div>
+  </p-header>
+  <div class="dialog-body">Are you sure you want to edit this information?</div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel" (click)="onCancelSave()">Cancel</button>
+    <button class="dialog-btn submit" (click)="onSave()">Yes</button>
+  </div>
+</p-dialog>
