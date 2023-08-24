@@ -1,35 +1,25 @@
 <main>
   <ng-container *ngIf="gridLayout">
     <div class="card-container">
-      <div class="card" *ngFor="let complaint of complaints">
-        <div class="card-img-container">
-          <img src="{{ complaint.image }}" alt="Complaint Image" />
-        </div>
+      <div class="card" *ngFor="let farmer of farmers">
         <div class="card-content">
-          <div>
-            <div class="card-title">
-              Complaint ID: {{ complaint.complaintId }}
-            </div>
-            <div class="category">{{ complaint.complaintType }}</div>
-          </div>
-          <div class="description">
-            {{ complaint.complaintDetails }}
-          </div>
+          <div class="card-title">Farmer ID: {{ farmer.userId }}</div>
+          <div class="category">{{ farmer.role }}</div>
           <div class="card-num-container">
             <div class="card-num">
-              <span class="card-num-label">Date: </span>
-              <div>{{ complaint.date | date : "medium" }}</div>
+              <span class="card-num-label">Contact: </span>
+              <div>{{ farmer.contact }}</div>
             </div>
             <div class="card-num">
               <span class="card-num-label">Status: </span>
-              <div>{{ complaint.status ? "Active" : "Inactive" }}</div>
+              <div>{{ farmer.status ? "Active" : "Inactive" }}</div>
             </div>
           </div>
           <div class="card-actions">
             <button
               class="table-btn delete"
               title="Delete"
-              (click)="onRemove(complaint)"
+              (click)="onDelete(farmer.userId)"
             >
               <span class="material-symbols-rounded"> delete </span>
             </button>
@@ -38,11 +28,12 @@
       </div>
     </div>
   </ng-container>
+
   <div class="table" *ngIf="!gridLayout">
     <p-table
-      [value]="complaints"
+      [value]="farmers"
       [paginator]="true"
-      [rows]="5"
+      [rows]="6"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '80rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -52,40 +43,38 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Image</th>
-          <th style="width: 10%">Farmer ID</th>
-          <th style="width: 15%">Complaint Type</th>
-          <th style="width: 25%">Complaint Details</th>
-          <th style="width: 10%">Date</th>
+          <th style="width: 15%">First Name</th>
+          <th style="width: 25%">Middle Name</th>
+          <th style="width: 10%">Last Name</th>
           <th style="width: 10%">Status</th>
           <th style="width: 10%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-complaint>
+      <ng-template pTemplate="body" let-farmer>
         <tr>
           <td>
             <div class="crop-wrapper">
               <div class="crop-container">
-                <img src="{{ complaint.image }}" />
+                <img src="{{ farmer.image }}" />
               </div>
             </div>
           </td>
-          <td>{{ complaint.farmerId }}</td>
-          <td>{{ complaint.complaintType }}</td>
+          <td>{{ farmer.firstName }}</td>
           <td>
-            {{ complaint.complaintDetails }}
+            {{ farmer.middleName }}
           </td>
           <td>
-            {{ complaint.date | date : "medium" }}
+            {{ farmer.lastName }}
           </td>
           <td>
-            {{ complaint.status ? "Active" : "Inactive" }}
+            {{ farmer.status ? "Active" : "Inactive" }}
           </td>
           <td>
             <div class="table-actions">
               <button
                 class="table-btn delete"
                 title="Delete"
-                (click)="onRemove(complaint)"
+                (click)="onDelete(farmer)"
               >
                 <span class="material-symbols-rounded"> delete </span>
               </button>
@@ -107,14 +96,12 @@
     <p-header>
       <div class="dialog-title">Delete</div>
     </p-header>
-    <div class="dialog-body">
-      Are you sure you want to delete this complaint?
-    </div>
+    <div class="dialog-body">Are you sure you want to delete this farmer?</div>
     <div class="dialog-actions">
-      <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
+      <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onDelete()">Yes</button>
+      <button class="dialog-btn submit" (click)="onConfirmDelete()">Yes</button>
     </div>
   </p-dialog>
 </main>
