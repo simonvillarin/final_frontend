@@ -1,1 +1,81 @@
-<p>payments works!</p>
+<main>
+  <div class="table">
+    <div class="actions">
+      <div class="btn-actions">
+        <button class="btn-clear" (click)="onClear()">
+          <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+        </button>
+      </div>
+      <p-dropdown
+        [options]="categories"
+        placeholder="Filter by category"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
+    </div>
+    <p-table
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      paginatorDropdownAppendTo="body"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 10%">Image</th>
+          <th style="width: 16%">Crop Name</th>
+          <th style="width: 15%">Category</th>
+          <th style="width: 17%">Description</th>
+          <th style="width: 10%">Quantity</th>
+          <th style="width: 10%">Mass</th>
+          <th style="width: 10%">Price</th>
+          <th style="width: 12%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ad>
+        <ng-container *ngIf="ad.status">
+          <tr>
+            <td>
+              <div class="crop-wrapper">
+                <div class="crop-container">
+                  <img src="{{ ad.image }}" class="table-img" />
+                </div>
+              </div>
+            </td>
+            <td>{{ ad.name }}</td>
+            <td>{{ ad.category }}</td>
+            <td>
+              {{ ad.description }}
+            </td>
+            <td>
+              {{ ad.quantity }}
+            </td>
+            <td>
+              {{ ad.mass }}
+            </td>
+            <td>
+              {{ ad.price }}
+            </td>
+            <td>
+              <div class="table-actions">
+                <button class="table-btn edit" title="Edit">
+                  <span class="material-symbols-rounded"> edit </span>
+                </button>
+                <button class="table-btn delete" title="Delete">
+                  <span class="material-symbols-rounded"> delete </span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+</main>

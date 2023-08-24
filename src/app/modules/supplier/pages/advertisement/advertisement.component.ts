@@ -29,6 +29,7 @@ export class AdvertisementComponent implements OnInit {
   ads: any = [];
   img: any = {};
   postId: any;
+  categorySelected: string = '';
 
   addDialog = false;
   confirmationDialog = false;
@@ -132,6 +133,22 @@ export class AdvertisementComponent implements OnInit {
 
     reader.readAsArrayBuffer(file);
   }
+
+  onCategoryChange = (category: string) => {
+    if (this.categorySelected !== '') {
+      this.advertisementService
+        .getAdBySupplierId(this.authService.getUserId())
+        .subscribe((data: any) => {
+          this.ads = data.sort((a: any, b: any) => b.postId - a.postId);
+          this.ads = this.ads.filter((ad: any) => ad.category == category);
+        });
+    }
+  };
+
+  onClear = () => {
+    this.categorySelected = '';
+    this.getAdBySupplierId();
+  };
 
   openAddDialog = () => {
     this.isEditing = false;

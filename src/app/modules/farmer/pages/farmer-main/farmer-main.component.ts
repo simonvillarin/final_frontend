@@ -10,7 +10,7 @@ import { ProfileService } from 'src/app/shared/services/profile/profile.service'
 @Component({
   selector: 'app-farmer-main',
   templateUrl: './farmer-main.component.html',
-  styleUrls: ['./farmer-main.component.scss']
+  styleUrls: ['./farmer-main.component.scss'],
 })
 export class FarmerMainComponent {
   mobile = false;
@@ -48,10 +48,15 @@ export class FarmerMainComponent {
       .subscribe((data) => {
         this.user = data;
         this.username =
-          data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
+          data.firstName +
+          ' ' +
+          data.middleName +
+          ' ' +
+          data.lastName +
+          ' ' +
+          data.suffix;
         this.userPic = data.image;
       });
-  
   };
 
   toggleMobile = () => {
@@ -110,7 +115,7 @@ export class FarmerMainComponent {
     if (this.authService.isUserLoggedIn()) {
       localStorage.removeItem('user');
     }
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
     this.isShowDropdown = false;
   };
 }

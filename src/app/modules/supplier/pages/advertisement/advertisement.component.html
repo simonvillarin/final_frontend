@@ -1,9 +1,25 @@
 <main>
   <div class="table">
     <div class="actions">
-      <button class="btn-post" (click)="openAddDialog()">
-        <span class="material-symbols-rounded"> add </span>POST
-      </button>
+      <div class="btn-actions">
+        <button class="btn-post" (click)="openAddDialog()">
+          <span class="material-symbols-rounded"> add </span>POST
+        </button>
+        <button class="btn-clear" (click)="onClear()">
+          <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+        </button>
+      </div>
+      <p-dropdown
+        [options]="categories"
+        placeholder="Filter by category"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
     </div>
     <p-table
       [value]="ads"
