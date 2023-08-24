@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
 
 @Component({
   selector: 'app-admin-main',
@@ -14,14 +16,25 @@ export class AdminMainComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
 
-  admin: any;
+  user: any = {};
+  username: string = '';
+  userPic: string = '';
+  subscription: Subscription | undefined;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private location: Location,
-    private userService: AdminService
-  ) {}
+    private userService: AdminService,
+    private profileService: ProfileService
+  ) {
+    this.subscription = this.profileService.usernameSubject.subscribe(
+      (user) => (this.username = user)
+    );
+    this.subscription = this.profileService.userPicSubject.subscribe(
+      (user) => (this.userPic = user)
+    );
+  }
 
   ngOnInit(): void {
     this.getAdminById();
@@ -31,8 +44,10 @@ export class AdminMainComponent {
     this.userService
       .getUser(this.authService.getUserId())
       .subscribe((data: any) => {
-        this.admin = data;
-        console.log(data);
+        this.user = data;
+        this.username =
+          data.firstName + ' ' + data.middleName + ' ' + data.lastName;
+        this.userPic = data.image;
       });
   };
 
