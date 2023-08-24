@@ -87,15 +87,16 @@
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
           <img
-            src="{{ '../../../../../../../assets/images/itachi.jpg' }}"
-            alt="Profile Image"
-          />
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
         </div>
         <div class="name">
           <div class="type">
             <span
-              >{{ farmer?.firstName }} {{ farmer?.middleName }}
-              {{ farmer?.lastName }} {{ farmer?.suffix }}</span
+              >{{ username }}</span
             >
             <div>Farmer</div>
           </div>

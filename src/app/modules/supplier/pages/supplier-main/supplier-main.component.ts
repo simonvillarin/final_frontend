@@ -46,7 +46,7 @@ export class SupplierMainComponent implements OnInit {
       .subscribe((data) => {
         this.user = data;
         this.username =
-          data.firstName + ' ' + data.middleName + ' ' + data.lastName;
+          data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
         this.userPic = data.image;
       });
   };
@@ -81,8 +81,10 @@ export class SupplierMainComponent implements OnInit {
       return 'Crop Payment';
     } else if (loc == 'received') {
       return 'Crop Received';
-    } else {
+    } else if (loc == 'profile') {
       return 'Profile';
+    } else {
+      return this.router.navigate(['/supplier/dashboard']);
     }
   };
 
