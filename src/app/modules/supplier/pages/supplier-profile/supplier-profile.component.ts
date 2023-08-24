@@ -356,6 +356,8 @@ export class SupplierProfileComponent implements OnInit {
 
   onProvinceChange = (province: any) => {
     if (province != '') {
+      this.barangays = [];
+      this.cities = [];
       this.cities = this.tempCities.filter(
         (city: any) => city.province_code == province.id
       );
@@ -364,6 +366,7 @@ export class SupplierProfileComponent implements OnInit {
 
   onCityChange = (city: any) => {
     if (city != '') {
+      this.barangays = [];
       this.barangays = this.tempBarangays.filter(
         (barangay: any) => barangay.city_code == city.id
       );
