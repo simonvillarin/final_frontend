@@ -87,7 +87,6 @@ export class FarmerProfileComponent implements OnInit {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', [Validators.required, zipcodeValidator()]],
     });
     this.passwordForm = fb.group({
       password: [
@@ -155,10 +154,6 @@ export class FarmerProfileComponent implements OnInit {
 
   get region() {
     return this.addressForm.get('region') as FormControl;
-  }
-
-  get zipCode() {
-    return this.addressForm.get('zipCode') as FormControl;
   }
 
   get contact() {

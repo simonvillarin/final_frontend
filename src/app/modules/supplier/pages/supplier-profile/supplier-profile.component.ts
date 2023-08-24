@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
@@ -87,7 +86,6 @@ export class SupplierProfileComponent implements OnInit {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', [Validators.required, zipcodeValidator()]],
     });
     this.passwordForm = fb.group({
       password: [
@@ -155,10 +153,6 @@ export class SupplierProfileComponent implements OnInit {
 
   get region() {
     return this.addressForm.get('region') as FormControl;
-  }
-
-  get zipCode() {
-    return this.addressForm.get('zipCode') as FormControl;
   }
 
   get contact() {
