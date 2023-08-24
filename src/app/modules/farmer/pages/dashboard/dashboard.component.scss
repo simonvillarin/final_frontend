@@ -1,5 +1,5 @@
 .card {
-  gap: 1.5rem;
+  gap: 10px;
   padding: 1rem;
   border-radius: 0.25rem;
   //box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
@@ -22,22 +22,91 @@ p-card {
   margin-top: 0px;
   cursor: pointer;
   width: 96%;
-  height: 700px;
-}
-
-.farming-tips-container {
-  padding: 50px;
-  background-position: top;
-  background-repeat: top;
-  background-size: cover;
+  height: 330px;
 }
 
 .featured-tips-container {
   display: flex;
-  padding: 10px;
+  background-position: top;
+  background-repeat: top;
+  background-size: cover;
+  flex-direction: row;
+}
+
+.featured-tips-video {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.featured-tips-video iframe {
+  width: 90%;
+  height: 215px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.featured-tips-content {
+  flex: 2;
+  width: 100%;
+}
+
+.featured-tips-title {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  color: var(--light-black);
+}
+
+.gray {
+  color: gray;
+}
+
+.featured-tips-desc {
+  color: var(--light-black);
+  margin: 10px 0px;
+  line-height: 25px;
+}
+
+.featured-tips-icons-container {
+  margin: 30px 0px;
+}
+
+.primary-circle {
+  color: var(--primary);
+  font-size: 12px; 
+}
+
+.blue-check-circle {
+  color: var(--darker-primary);
+  font-size: 18px; 
+}
+
+.icons-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon-heading {
+  flex: 1;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--light-black);
+}
+
+.icon-heading i {
+  color: var(--darker-primary);
 }
 
 .tips-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 30px;
+}
+
+p-button {
   display: flex;
   justify-content: flex-end;
 }
