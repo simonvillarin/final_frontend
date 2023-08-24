@@ -40,10 +40,10 @@
             {{ farmer.status ? "Active" : "Inactive" }}
           </td>
           <td>
-            <p-toggleButton
-              [(ngModel)]="farmer.status"
-              (onChange)="onDelete(farmer)"
-            ></p-toggleButton>
+            <p-inputSwitch
+              [ngModel]="farmer.status"
+              (onChange)="openConfirmationDialog(farmer)"
+            ></p-inputSwitch>
           </td>
         </tr>
       </ng-template>
@@ -59,14 +59,16 @@
     [resizable]="false"
   >
     <p-header>
-      <div class="dialog-title">Delete</div>
+      <div class="dialog-title">Change Status</div>
     </p-header>
-    <div class="dialog-body">Are you sure you want to delete this farmer?</div>
+    <div class="dialog-body">Are you sure you want to change the status?</div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onConfirmDelete()">Yes</button>
+      <button class="dialog-btn submit" (click)="onConfirmStatusChange()">
+        Yes
+      </button>
     </div>
   </p-dialog>
 </main>
