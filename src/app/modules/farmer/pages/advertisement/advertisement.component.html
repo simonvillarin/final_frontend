@@ -1,1 +1,17 @@
-<p>advertisement works!</p>
+<main>
+  <ng-container *ngIf="gridLayout">
+    <div class="card-container">
+      <div class="card" *ngFor="let ad of ads">
+        <div class="card-img-container">
+          <img src="{{ ad.image }}" alt="Crop" />
+        </div>
+        <div class="card-content">
+          <h3>{{ ad.name }}</h3>
+          <div class="subtitle">{{ ad.category }}</div>
+          <div class="description">{{ ad.description }}</div>
+          <div class="card-numbers"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</main>
