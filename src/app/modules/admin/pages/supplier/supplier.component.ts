@@ -7,23 +7,51 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   styleUrls: ['./supplier.component.scss'],
 })
 export class SupplierComponent {
-  farmers: any[] = [];
-  confirmationDialog = false;
+  suppliers: any[] = [];
+  statusArr: any = ['Active', 'Inactive'];
   farmerIdToDelete: any;
 
+  confirmationDialog = false;
   gridLayout = false;
+
+  statusSelected: string = '';
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getFarmers();
+    this.getSuppliers();
   }
 
-  getFarmers(): void {
+  getSuppliers(): void {
     this.userService.getAllSupplier().subscribe((data: any[]) => {
-      this.farmers = data;
+      this.suppliers = data;
     });
   }
+
+  onStatusChanges = (status: string) => {
+    if (status !== '') {
+      this.userService.getAllSupplier().subscribe((data: any[]) => {
+        this.suppliers = data.sort(
+          (a: any, b: any) => b.supplierId - a.supplierId
+        );
+
+        if (status === 'Active') {
+          this.suppliers = this.suppliers.filter(
+            (supplier: any) => supplier.status === true
+          );
+        } else {
+          this.suppliers = this.suppliers.filter(
+            (supplier: any) => supplier.status === false
+          );
+        }
+      });
+    }
+  };
+
+  onClear = () => {
+    this.statusSelected = '';
+    this.getSuppliers();
+  };
 
   onDelete(farmerId: any): void {
     this.farmerIdToDelete = farmerId;
@@ -34,7 +62,7 @@ export class SupplierComponent {
     this.userService
       .updateUser(this.farmerIdToDelete, { status: false })
       .subscribe(() => {
-        this.getFarmers();
+        this.getSuppliers();
         this.confirmationDialog = false;
       });
   }

@@ -202,17 +202,21 @@ img {
   background-color: var(--darker-red);
 }
 
-.crop-wrapper {
+.tip-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.crop-container {
+.tip-container {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.tip-container > img {
+  object-fit: cover;
 }
 
 .table-actions {
