@@ -10,6 +10,7 @@ import { AdminProfileComponent } from './pages/admin-profile/admin-profile.compo
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { FarmersComponent } from './pages/farmers/farmers.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
@@ -22,6 +23,13 @@ import { MatIconModule } from '@angular/material/icon';
     SupplierComponent,
     FarmersComponent,
   ],
-  imports: [CommonModule, SharedModule, AdminRoutingModule, ToggleButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    AdminRoutingModule,
+    ToggleButtonModule,
+    InputSwitchModule,
+    MatIconModule,
+  ],
 })
 export class AdminModule {}

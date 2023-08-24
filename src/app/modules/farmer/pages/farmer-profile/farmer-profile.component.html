@@ -3,7 +3,7 @@
     <div class="img-container">
       <img
         src="{{
-          user.image || '../../../../../../../assets/images/blank-profile.jpg'
+          user.image || '../../../../../../../assets/images/profile.webp'
         }}"
         alt="Profile"
       />
@@ -329,24 +329,6 @@
                   [style]="{ color: 'var(--red)' }"
                   *ngIf="barangay.errors?.['required']"
                   >Barangay is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Zipcode<span class="required">*</span></label>
-              <input pInputText pKeyFilter="int" formControlName="zipCode" />
-              <div
-                *ngIf="zipCode.invalid && (zipCode?.dirty || zipCode.touched)"
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="zipCode.errors?.['required']"
-                  >Zipcode is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="zipCode.errors?.['maxLength']"
-                  >Zipcode must be 4 digits</small
                 >
               </div>
             </div>
