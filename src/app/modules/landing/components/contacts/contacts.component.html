@@ -1,4 +1,4 @@
-<section id="contact">
+<section>
   <iframe
     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15444.962660524012!2d121.0614005!3d14.5853578!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c81751e0f9d5%3A0xff1378b728feff76!2sSeven%20Seven%20Global%20Services%2C%20Inc.!5e0!3m2!1sen!2sph!4v1692271809834!5m2!1sen!2sph"
     width="100%"
@@ -7,11 +7,28 @@
     allowfullscreen=""
     loading="lazy"
     referrerpolicy="no-referrer-when-downgrade"
+    data-aos="fade-right"
+    data-aos-duration="1000"
+    data-aos-delay="100"
+    data-aos-easing="ease-in-out"
   ></iframe>
   <div class="form">
-    <h3>SEND US A MESSAGE</h3>
+    <h3
+      data-aos="fade-up"
+      data-aos-duration="1200"
+      data-aos-delay="300"
+      data-aos-easing="ease-in-out"
+    >
+      SEND US A MESSAGE
+    </h3>
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-      <div class="input-group">
+      <div
+        class="input-group"
+        data-aos="fade-up"
+        data-aos-duration="1200"
+        data-aos-delay="300"
+        data-aos-easing="ease-in-out"
+      >
         <label>Name<span>*</span></label>
         <input type="text" pInputText formControlName="name" />
         <div *ngIf="name.invalid && (name?.dirty || name?.touched)">
@@ -22,7 +39,13 @@
           >
         </div>
       </div>
-      <div class="input-group">
+      <div
+        class="input-group"
+        data-aos="fade-up"
+        data-aos-duration="1400"
+        data-aos-delay="300"
+        data-aos-easing="ease-in-out"
+      >
         <label>Email<span>*</span></label>
         <input type="text" pInputText formControlName="email" />
         <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
@@ -38,7 +61,13 @@
           >
         </div>
       </div>
-      <div class="input-group">
+      <div
+        class="input-group"
+        data-aos="fade-up"
+        data-aos-duration="1600"
+        data-aos-delay="300"
+        data-aos-easing="ease-in-out"
+      >
         <label>Message<span>*</span></label>
         <textarea
           rows="5"
@@ -54,7 +83,15 @@
           >
         </div>
       </div>
-      <button type="submit">SEND</button>
+      <button
+        type="submit"
+        data-aos="fade-up"
+        data-aos-duration="1800"
+        data-aos-delay="300"
+        data-aos-easing="ease-in-out"
+      >
+        SEND
+      </button>
     </form>
   </div>
 </section>

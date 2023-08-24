@@ -20,7 +20,6 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-profile',
@@ -67,8 +66,7 @@ export class AdminProfileComponent {
     private addressService: AddressService,
     private userService: UserService,
     private authService: AuthService,
-    private profileService: ProfileService,
-    private router: Router
+    private profileService: ProfileService
   ) {
     this.personalForm = fb.group({
       firstName: ['', Validators.required],
@@ -88,7 +86,6 @@ export class AdminProfileComponent {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', [Validators.required, zipcodeValidator()]],
     });
     this.passwordForm = fb.group({
       password: [
@@ -158,10 +155,6 @@ export class AdminProfileComponent {
     return this.addressForm.get('region') as FormControl;
   }
 
-  get zipCode() {
-    return this.addressForm.get('zipCode') as FormControl;
-  }
-
   get contact() {
     return this.personalForm.get('contact') as FormControl;
   }
@@ -179,17 +172,8 @@ export class AdminProfileComponent {
   }
 
   ngOnInit(): void {
-    this.getRegion();
     this.getUserById();
   }
-
-  getRegion = () => {
-    this.addressService.getRegion().subscribe((data: any) => {
-      data.map((region: any) => {
-        this.regions.push(region);
-      });
-    });
-  };
 
   getUserById = () => {
     this.userService
@@ -217,68 +201,72 @@ export class AdminProfileComponent {
           unit: data.unit,
           street: data.street,
           village: data.village,
-          zipCode: data.zipCode,
         });
 
-        const indexOfRegion = this.regions.findIndex(
-          (region: any) => region.name === data.region
-        );
-        this.regionSelected = this.regions[indexOfRegion];
-
-        this.addressService.getProvince().subscribe((data: any) => {
-          data.map((arr: any) => {
-            this.tempProvinces.push(arr);
+        this.addressService.getRegion().subscribe((data: any) => {
+          data.map((region: any) => {
+            this.regions.push(region);
           });
-
-          this.provinces = this.tempProvinces.filter(
-            (province: any) => province.region_code === this.regionSelected.id
-          );
-          let index: number = 0;
-          this.provinces.forEach((province: any, i: number) => {
-            if (province.name === this.user.province) {
-              index = i;
+          let indexOfRegion: number = 0;
+          this.regions.forEach((region: any, i: number) => {
+            if (region.name === this.user.region) {
+              indexOfRegion = i;
             }
           });
-          this.provinceSelected = this.provinces[index];
-          console.log(this.provinces);
-        });
+          this.regionSelected = this.regions[indexOfRegion];
 
-        this.addressService.getCity().subscribe((data: any) => {
-          data.map((arr: any) => {
-            this.tempCities.push(arr);
+          this.addressService.getProvince().subscribe((data: any) => {
+            data.map((arr: any) => {
+              this.tempProvinces.push(arr);
+            });
+
+            this.provinces = this.tempProvinces.filter(
+              (province: any) => province.region_code === this.regionSelected.id
+            );
+            let index: number = 0;
+            this.provinces.forEach((province: any, i: number) => {
+              if (province.name === this.user.province) {
+                index = i;
+              }
+            });
+            this.provinceSelected = this.provinces[index];
+
+            this.addressService.getCity().subscribe((data: any) => {
+              data.map((arr: any) => {
+                this.tempCities.push(arr);
+              });
+
+              this.cities = this.tempCities.filter(
+                (city: any) => city.province_code == this.provinceSelected.id
+              );
+
+              let index: number = 0;
+              this.cities.forEach((city: any, i: number) => {
+                if (city.name == this.user.city) {
+                  index = i;
+                }
+              });
+              this.citySelected = this.cities[index];
+
+              this.addressService.getBarangay().subscribe((data: any) => {
+                data.map((arr: any) => {
+                  this.tempBarangays.push(arr);
+                });
+
+                this.barangays = this.tempBarangays.filter(
+                  (barangay: any) => barangay.city_code == this.citySelected.id
+                );
+
+                let index: number = 0;
+                this.barangays.forEach((barangay: any, i: number) => {
+                  if (barangay.name === this.user.barangay) {
+                    index = i;
+                  }
+                });
+                this.barangaySelected = this.barangays[index];
+              });
+            });
           });
-
-          this.cities = this.tempCities.filter(
-            (city: any) => city.province_code == this.provinceSelected.id
-          );
-
-          let index: number = 0;
-          this.cities.forEach((city: any, i: number) => {
-            if (city.name == this.user.city) {
-              index = i;
-            }
-          });
-          this.citySelected = this.cities[index];
-          console.log(this.cities);
-        });
-
-        this.addressService.getBarangay().subscribe((data: any) => {
-          data.map((arr: any) => {
-            this.tempBarangays.push(arr);
-          });
-
-          this.barangays = this.tempBarangays.filter(
-            (barangay: any) => barangay.city_code == this.citySelected.id
-          );
-
-          let index: number = 0;
-          this.barangays.forEach((barangay: any, i: number) => {
-            if (barangay.name === this.user.barangay) {
-              index = i;
-            }
-          });
-          this.barangaySelected = this.barangays[index];
-          console.log(this.barangays);
         });
       });
   };
@@ -351,6 +339,8 @@ export class AdminProfileComponent {
 
   onProvinceChange = (province: any) => {
     if (province != '') {
+      this.barangays = [];
+      this.cities = [];
       this.cities = this.tempCities.filter(
         (city: any) => city.province_code == province.id
       );
@@ -359,6 +349,7 @@ export class AdminProfileComponent {
 
   onCityChange = (city: any) => {
     if (city != '') {
+      this.barangays = [];
       this.barangays = this.tempBarangays.filter(
         (barangay: any) => barangay.city_code == city.id
       );

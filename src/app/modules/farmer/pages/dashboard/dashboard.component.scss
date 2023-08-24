@@ -1,5 +1,5 @@
 .card {
-  gap: 1.5rem;
+  gap: 10px;
   padding: 1rem;
   border-radius: 0.25rem;
   //box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
@@ -22,22 +22,91 @@ p-card {
   margin-top: 0px;
   cursor: pointer;
   width: 96%;
-  height: 700px;
-}
-
-.farming-tips-container {
-  padding: 50px;
-  background-position: top;
-  background-repeat: top;
-  background-size: cover;
+  height: 330px;
 }
 
 .featured-tips-container {
   display: flex;
-  padding: 10px;
+  background-position: top;
+  background-repeat: top;
+  background-size: cover;
+  flex-direction: row;
+}
+
+.featured-tips-video {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.featured-tips-video iframe {
+  width: 90%;
+  height: 215px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.featured-tips-content {
+  flex: 2;
+  width: 100%;
+}
+
+.featured-tips-title {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  color: var(--light-black);
+}
+
+.gray {
+  color: gray;
+}
+
+.featured-tips-desc {
+  color: var(--light-black);
+  margin: 10px 0px;
+  line-height: 25px;
+}
+
+.featured-tips-icons-container {
+  margin: 30px 0px;
+}
+
+.primary-circle {
+  color: var(--primary);
+  font-size: 12px; 
+}
+
+.blue-check-circle {
+  color: var(--darker-primary);
+  font-size: 18px; 
+}
+
+.icons-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon-heading {
+  flex: 1;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--light-black);
+}
+
+.icon-heading i {
+  color: var(--darker-primary);
 }
 
 .tips-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 30px;
+}
+
+p-button {
   display: flex;
   justify-content: flex-end;
 }
@@ -48,7 +117,7 @@ p-card {
   align-items: center;
   justify-content: center;
   height: 100px;
-  background-color: var(--semi-light);
+  background-color: var(--light-grayish-blue);
   padding: 20px;
   padding-top: 40px;
 }
@@ -114,29 +183,27 @@ form .button,
 
 @media (max-width: 500px) {
   form {
-      height: 66px;
-      margin: 0 8px;
-      min-width: none;
+    height: 66px;
+    margin: 0 8px;
+    min-width: none;
   }
 
   .mat-icon {
-      left: 12px;
-      font-size: 25px;
+    left: 12px;
+    font-size: 25px;
   }
 
   form input {
-      padding: 0 112px 0 50px;
+    padding: 0 112px 0 50px;
   }
 
   form p-button {
-      font-size: 14px;
+    font-size: 14px;
   }
 
   ::-webkit-input-placeholder {
-      font-size: 15px;
-      width: 200px;
-      border: 1px solid var(--primary);
+    font-size: 15px;
+    width: 200px;
+    border: 1px solid var(--primary);
   }
 }
-
-

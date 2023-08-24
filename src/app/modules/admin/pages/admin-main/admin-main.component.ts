@@ -110,7 +110,7 @@ export class AdminMainComponent {
     if (this.authService.isUserLoggedIn()) {
       localStorage.removeItem('user');
     }
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
     this.isShowDropdown = false;
   };
 }

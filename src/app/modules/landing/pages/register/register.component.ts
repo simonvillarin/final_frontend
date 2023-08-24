@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,7 +13,6 @@ import {
   hasLowercaseValidator,
   hasNumberValidator,
   hasSymbolValidator,
-  zipcodeValidator,
   mobileNumberValidator,
   birthdateValidator,
   confirmPasswordValidator,
@@ -63,7 +62,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private addressService: AddressService,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -79,7 +80,6 @@ export class RegisterComponent implements OnInit {
       city: ['', Validators.required],
       province: ['', Validators.required],
       region: ['', Validators.required],
-      zipCode: ['', [Validators.required, zipcodeValidator()]],
       contact: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
@@ -149,10 +149,6 @@ export class RegisterComponent implements OnInit {
 
   get region() {
     return this.registerForm.get('region') as FormControl;
-  }
-
-  get zipCode() {
-    return this.registerForm.get('zipCode') as FormControl;
   }
 
   get contact() {
@@ -268,22 +264,35 @@ export class RegisterComponent implements OnInit {
         this.registerService
           .registerUser(this.registerForm.value)
           .subscribe((response) => {
-            console.log('Registration successful:', response);
-            this.registerForm.reset();
-            if (response.message == 'Contact number already exists') {
+            if (response.message === 'Contact number already exists') {
               this.alert = true;
               this.isError = true;
-              this.alertMessage = 'Contact no already exists';
+              this.alertMessage = 'Contact number already exists';
               setTimeout(() => (this.alert = false), 3000);
-            } else if (response.message == 'Email already exists') {
+            } else if (response.message === 'Email already exists') {
               this.alert = true;
               this.isError = true;
               this.alertMessage = 'Email address already exists';
               setTimeout(() => (this.alert = false), 3000);
+            } else if (response.message === 'Username already exists') {
+              this.alert = true;
+              this.isError = true;
+              this.alertMessage = 'Username already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            } else {
+              this.alert = true;
+              this.error = false;
+              this.alertMessage = 'User successfully registered';
+              setTimeout(() => (this.alert = false), 3000);
+              const radioButtons =
+                this.elementRef.nativeElement.querySelectorAll('.radio1');
+              radioButtons.forEach((radio: any) => {
+                this.renderer.setProperty(radio, 'checked', false);
+              });
+              this.registerForm.reset();
             }
+            scroll(0, 0);
           });
-
-        this.registerForm.reset();
       } else {
         this.error = true;
         scroll(0, 0);

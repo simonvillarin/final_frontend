@@ -1,6 +1,7 @@
 main {
   min-height: calc(100vh - 4rem);
-  padding: 1rem 1.5rem;
+  padding: 1rem;
+  background-color: var(--light-grayish-blue);
 }
 
 .inactive-row {
@@ -8,8 +9,19 @@ main {
 }
 
 .table {
-  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--light);
   overflow: auto;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 tr th {
@@ -24,48 +36,23 @@ tr td {
   text-align: center;
 }
 
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.btn-post {
+.btn-clear {
+  width: 7.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.75rem;
+  font-size: 1rem;
   border-radius: 0.25rem;
   color: var(--light);
-  background-color: var(--primary);
+  background-color: var(--red);
+  transition: background-color 200ms ease-in;
   cursor: pointer;
-  font-size: 1rem;
-}
 
-.btn-post > span {
-  font-size: 1.5rem;
-}
-
-.layout-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.layout-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--primary);
-  cursor: pointer;
-  user-select: none;
-}
-
-.layout-icon > span {
-  font-size: 1.75rem;
+  &:hover {
+    background-color: var(--darker-red);
+  }
 }
 
 .dialog-title {
@@ -74,100 +61,6 @@ tr td {
 
 .dialog-body {
   font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.125rem);
-}
-
-.form-container {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 1rem;
-}
-
-.form-group {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.input-group > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.required {
-  color: var(--red);
-}
-
-.num-group {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
-}
-
-.upload {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  place-items: center;
-  gap: 0.5rem;
-}
-
-.banner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.img-container {
-  width: 100%;
-  height: 225px;
-  border: 2px solid var(--primary);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.error-border {
-  border: 2px solid red;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.image {
-  display: none;
-}
-
-.img-active {
-  display: block;
-}
-
-.btn-upload {
-  position: relative;
-  width: 100%;
-  padding: 0.625rem;
-  border-radius: 0.25rem;
-  color: var(--light);
-  background-color: var(--primary);
-  font-size: 1rem;
-}
-
-.file {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
 }
 
 .dialog-actions {
@@ -215,10 +108,16 @@ img {
 }
 
 .crop-container {
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.crop-container > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .table-actions {
@@ -247,107 +146,25 @@ img {
   background-color: var(--red);
 }
 
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.card {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 1rem;
-  padding: 1rem;
+.status {
+  width: 5.25rem;
+  padding: 0.35rem;
+  margin: 0 auto;
   border-radius: 0.25rem;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
+  font-size: 0.875rem;
+  color: var(--light);
 }
 
-.card-img-container {
-  width: 100%;
-  height: 225px;
+.active {
+  background-color: var(--primary);
 }
 
-.card-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+.inactive {
+  background-color: var(--red);
 }
 
-.card-title {
-  font-size: clamp(1.5rem, 1.1524rem + 0.4878vw, 1.75rem);
-  font-weight: 400;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 2rem;
-}
-
-.category {
-  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
-}
-
-.description {
-  font-size: clamp(1rem, 0.9512rem + 0.2439vw, 1.125rem);
-}
-
-.card-num-container {
-  display: grid;
-  grid-template-columns: 0.5fr 0.5fr 1fr;
-  gap: 1rem;
-}
-
-.card-num {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: clamp(1.25rem, 1.1524rem + 0.4878vw, 1.5rem);
-  font-weight: 400;
-}
-
-.card-num-label {
-  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
-}
-
-.card-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  gap: 0.5rem;
-  z-index: 10;
-}
-
-@media screen and (min-width: 768px) {
-  .btn-post {
-    padding: 0.5rem 1.25rem;
-    font-size: 1rem;
-  }
-
-  .btn-post > span {
-    font-size: 1.5rem;
-  }
-
-  .num-group {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .img-container,
-  .btn-upload {
-    width: 260px;
-  }
-
-  .dialog-btn {
-    width: 7rem;
-    height: 3rem;
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  .card-container {
-    grid-template-columns: repeat(2, 1fr);
+@media screen and (min-width: 576px) {
+  .actions {
+    flex-direction: row;
   }
 }

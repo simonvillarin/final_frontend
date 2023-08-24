@@ -1,7 +1,23 @@
 <main>
-  <div class="table" *ngIf="!gridLayout">
+  <div class="table">
+    <div class="actions">
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+      <p-dropdown
+        [options]="statusArr"
+        placeholder="Filter by status"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="statusSelected"
+        (ngModelChange)="onStatusChanges($event)"
+      ></p-dropdown>
+    </div>
     <p-table
-      [value]="farmers"
+      [value]="suppliers"
       [paginator]="true"
       [rows]="6"
       [showCurrentPageReport]="true"
@@ -13,11 +29,11 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Image</th>
-          <th style="width: 15%">First Name</th>
-          <th style="width: 25%">Middle Name</th>
-          <th style="width: 10%">Last Name</th>
-          <th style="width: 10%">Status</th>
-          <th style="width: 10%">Actions</th>
+          <th style="width: 25%">First Name</th>
+          <th style="width: 15%">Middle Name</th>
+          <th style="width: 25%">Last Name</th>
+          <th style="width: 12%">Status</th>
+          <th style="width: 13%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-farmer>
@@ -25,7 +41,12 @@
           <td>
             <div class="crop-wrapper">
               <div class="crop-container">
-                <img src="{{ farmer.image }}" />
+                <img
+                  src="{{
+                    farmer.image ||
+                      '../../../../../../../assets/images/blank-profile.jpg'
+                  }}"
+                />
               </div>
             </div>
           </td>
@@ -37,18 +58,15 @@
             {{ farmer.lastName }}
           </td>
           <td>
-            {{ farmer.status ? "Active" : "Inactive" }}
+            <div class="status {{ farmer.status ? 'active' : 'inactive' }}">
+              {{ farmer.status ? "Active" : "Inactive" }}
+            </div>
           </td>
           <td>
-            <div class="table-actions">
-              <button
-                class="table-btn delete"
-                title="Delete"
-                (click)="onDelete(farmer)"
-              >
-                <span class="material-symbols-rounded"> delete </span>
-              </button>
-            </div>
+            <p-toggleButton
+              [(ngModel)]="farmer.status"
+              (onChange)="onDelete(farmer)"
+            ></p-toggleButton>
           </td>
         </tr>
       </ng-template>

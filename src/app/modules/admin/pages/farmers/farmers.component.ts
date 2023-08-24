@@ -7,11 +7,14 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   styleUrls: ['./farmers.component.scss'],
 })
 export class FarmersComponent {
-  farmers: any[] = [];
-  confirmationDialog = false;
+  farmers: any = [];
+  statusArr: any = ['Active', 'Inactive'];
   farmerToUpdateStatus: any;
 
+  confirmationDialog = false;
   gridLayout = false;
+
+  statusSelected: string = '';
 
   constructor(private userService: UserService) {}
 
@@ -21,9 +24,33 @@ export class FarmersComponent {
 
   getFarmers(): void {
     this.userService.getAllFarmers().subscribe((data: any[]) => {
-      this.farmers = data;
+      this.farmers = data.sort((a: any, b: any) => b.farmerId - a.farmerId);
     });
   }
+
+  onStatusChanges = (status: string) => {
+    if (status !== '') {
+      this.userService.getAllFarmers().subscribe((data: any[]) => {
+        this.farmers = data.sort((a: any, b: any) => b.farmerId - a.farmerId);
+
+        if (status === 'Active') {
+          this.farmers = this.farmers.filter(
+            (farmer: any) => farmer.status === true
+          );
+        } else {
+          console.log(false);
+          this.farmers = this.farmers.filter(
+            (farmer: any) => farmer.status === false
+          );
+        }
+      });
+    }
+  };
+
+  onClear = () => {
+    this.statusSelected = '';
+    this.getFarmers();
+  };
 
   onDelete(farmerId: any): void {
     this.farmerToUpdateStatus = farmerId;

@@ -89,10 +89,9 @@ img {
   gap: 0.25rem;
 }
 
-.last {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+.input-group > div {
+  display: flex;
+  flex-direction: column;
 }
 
 .password-container {
@@ -117,7 +116,7 @@ span {
 
 button {
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   padding: 0.75rem 2rem;
   border-radius: 0.25rem;
   color: var(--light);
@@ -130,6 +129,26 @@ button {
 button:hover,
 button:focus {
   background-color: var(--darker-primary);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.alert > span {
+  color: var(--light);
+}
+
+.error {
+  background-color: var(--red);
 }
 
 @media screen and (min-width: 768px) {

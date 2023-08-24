@@ -50,7 +50,7 @@ export class FarmingTipsComponent {
 
   getAllFarmingTips = () => {
     this.farmingTipsService.getAllFarmingTips().subscribe((data: any) => {
-      this.tips = data;
+      this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
     });
   };
 
