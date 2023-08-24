@@ -50,10 +50,7 @@
     <div class="right-header">
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img
-            src="{{ '../../../../../../../assets/images/itachi.jpg' }}"
-            alt="Profile Image"
-          />
+          <img src="{{ admin.image }}" alt="Profile Image" />
         </div>
         <div class="name">
           <div class="type">
@@ -61,7 +58,7 @@
               >{{ admin?.firstName }} {{ admin?.middleName }}
               {{ admin?.lastName }} {{ admin?.suffix }}</span
             >
-            <div>Admin</div>
+            <div>{{ admin?.role }}</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">
             <span
