@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AddressService } from 'src/app/shared/services/address/address.service';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import {
   PasswordLengthValidator,
@@ -47,12 +48,15 @@ export class SupplierProfileComponent implements OnInit {
   regionSelected: any;
   provinceSelected: any;
   citySelected: any;
+  barangaySelected: any;
 
   alert = false;
   isError = false;
   currentPass = false;
   pass = false;
   confirmPass = false;
+  confirmationDialog = false;
+  personal = false;
 
   alertMessage = '';
 
@@ -60,7 +64,8 @@ export class SupplierProfileComponent implements OnInit {
     private fb: FormBuilder,
     private addressService: AddressService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService
   ) {
     this.personalForm = fb.group({
       firstName: ['', Validators.required],
@@ -172,43 +177,8 @@ export class SupplierProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRegion();
-    this.getBarangay();
-    this.getCity();
-    this.getProvince();
     this.getUserById();
   }
-
-  getUserById = () => {
-    this.userService
-      .getUserById(this.authService.getUserId())
-      .subscribe((data: any) => {
-        this.user = data;
-      });
-  };
-
-  getBarangay = () => {
-    this.addressService.getBarangay().subscribe((data: any) => {
-      data.map((arr: any) => {
-        this.tempBarangays.push(arr);
-      });
-    });
-  };
-
-  getCity = () => {
-    this.addressService.getCity().subscribe((data: any) => {
-      data.map((arr: any) => {
-        this.tempCities.push(arr);
-      });
-    });
-  };
-
-  getProvince = () => {
-    this.addressService.getProvince().subscribe((data: any) => {
-      data.map((arr: any) => {
-        this.tempProvinces.push(arr);
-      });
-    });
-  };
 
   getRegion = () => {
     this.addressService.getRegion().subscribe((data: any) => {
@@ -216,6 +186,96 @@ export class SupplierProfileComponent implements OnInit {
         this.regions.push(region);
       });
     });
+  };
+
+  getUserById = () => {
+    this.userService
+      .getUserById(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.user = data;
+        this.profileService.setUserPic(data.image);
+        this.profileService.setUsername(
+          data.firstName + ' ' + data.middleName + ' ' + data.lastName
+        );
+
+        const split = data.birthdate.split('-');
+        this.personalForm.patchValue({
+          firstName: data.firstName,
+          middleName: data.middleName,
+          lastName: data.lastName,
+          suffix: data.suffix,
+          gender: data.gender,
+          birthdate: split[1] + '/' + split[2] + '/' + split[0],
+          contact: data.contact,
+          email: data.email,
+        });
+
+        this.addressForm.patchValue({
+          unit: data.unit,
+          street: data.street,
+          village: data.village,
+          zipCode: data.zipCode,
+        });
+
+        const indexOfRegion = this.regions.findIndex(
+          (region: any) => region.name === data.region
+        );
+        this.regionSelected = this.regions[indexOfRegion];
+
+        this.addressService.getProvince().subscribe((data: any) => {
+          data.map((arr: any) => {
+            this.tempProvinces.push(arr);
+          });
+
+          this.provinces = this.tempProvinces.filter(
+            (province: any) =>
+              province.region_code === this.regions[indexOfRegion].id
+          );
+          let index: number = 0;
+          this.provinces.forEach((province: any, i: number) => {
+            if (province.name === this.user.province) {
+              index = i;
+            }
+          });
+          this.provinceSelected = this.provinces[index];
+        });
+
+        this.addressService.getCity().subscribe((data: any) => {
+          data.map((arr: any) => {
+            this.tempCities.push(arr);
+          });
+
+          this.cities = this.tempCities.filter(
+            (city: any) => city.province_code == this.provinceSelected.id
+          );
+
+          let index: number = 0;
+          this.cities.forEach((city: any, i: number) => {
+            if (city.name == this.user.city) {
+              index = i;
+            }
+          });
+          this.citySelected = this.cities[index];
+        });
+
+        this.addressService.getBarangay().subscribe((data: any) => {
+          data.map((arr: any) => {
+            this.tempBarangays.push(arr);
+          });
+
+          this.barangays = this.tempBarangays.filter(
+            (barangay: any) => barangay.city_code == this.citySelected.id
+          );
+
+          let index: number = 0;
+          this.barangays.forEach((barangay: any, i: number) => {
+            if (barangay.name === this.user.barangay) {
+              index = i;
+            }
+          });
+          this.barangaySelected = this.barangays[index];
+        });
+      });
   };
 
   toggleCurrentPassword = () => {
@@ -301,54 +361,13 @@ export class SupplierProfileComponent implements OnInit {
   };
 
   onSubmitPersonal = () => {
-    if (this.personalForm.valid) {
-      this.userService
-        .updateUser(this.authService.getUserId(), this.personalForm.value)
-        .subscribe((res: any) => {
-          if (res.message == 'Contact number already exists') {
-            this.alert = true;
-            this.isError = true;
-            this.alertMessage = 'Contact no already exists';
-            setTimeout(() => (this.alert = false), 3000);
-          } else if (res.message == 'Email already exists') {
-            this.alert = true;
-            this.isError = true;
-            this.alertMessage = 'Email address already exists';
-            setTimeout(() => (this.alert = false), 3000);
-          } else {
-            this.getUserById();
-            this.personalForm.reset();
-            this.alert = true;
-            this.alertMessage = 'Personal information successfully updated';
-            setTimeout(() => (this.alert = false), 3000);
-          }
-        });
-    } else {
-      this.personalForm.markAllAsTouched();
-    }
+    this.personal = true;
+    this.confirmationDialog = true;
   };
 
   onSubmitAddress = () => {
-    if (this.addressForm.valid) {
-      this.addressForm.patchValue({
-        region: this.addressForm.get('region')?.value.name,
-        province: this.addressForm.get('province')?.value.name,
-        city: this.addressForm.get('city')?.value.name,
-        barangay: this.addressForm.get('barangay')?.value.name,
-      });
-
-      this.userService
-        .updateUser(this.authService.getUserId(), this.addressForm.value)
-        .subscribe(() => {
-          this.getUserById();
-          this.addressForm.reset();
-          this.alert = true;
-          this.alertMessage = 'Address information successfully updated';
-          setTimeout(() => (this.alert = false), 3000);
-        });
-    } else {
-      this.addressForm.markAllAsTouched();
-    }
+    this.personal = false;
+    this.confirmationDialog = true;
   };
 
   onSubmitPassword = () => {
@@ -364,6 +383,95 @@ export class SupplierProfileComponent implements OnInit {
         });
     } else {
       this.passwordForm.markAllAsTouched();
+    }
+  };
+
+  onCancelSave = () => {
+    this.confirmationDialog = false;
+  };
+
+  onSave = () => {
+    if (this.personal) {
+      if (this.personalForm.valid) {
+        let payload: any = {};
+        if (this.user.firstName !== this.personalForm.get('firstName')?.value) {
+          payload.firstName = this.personalForm.get('firstName')?.value;
+        }
+        if (
+          this.user.middleName !== this.personalForm.get('middleName')?.value
+        ) {
+          payload.middleName = this.personalForm.get('middleName')?.value;
+        }
+        if (this.user.lastName !== this.personalForm.get('lastName')?.value) {
+          payload.lastName = this.personalForm.get('lastName')?.value;
+        }
+        if (this.user.suffix !== this.personalForm.get('suffix')?.value) {
+          payload.suffix = this.personalForm.get('suffix')?.value;
+        }
+        if (this.user.gender !== this.personalForm.get('gender')?.value) {
+          payload.gender = this.personalForm.get('gender')?.value;
+        }
+        const splitDate = this.personalForm.get('birthdate')?.value.split('/');
+        if (
+          this.user.birthdate !==
+          splitDate[2] + '-' + splitDate[0] + '-' + splitDate[1]
+        ) {
+          payload.birthdate = this.personalForm.get('birthdate')?.value;
+        }
+        if (this.user.contact !== this.personalForm.get('contact')?.value) {
+          payload.contact = this.personalForm.get('contact')?.value;
+        }
+        if (this.user.email !== this.personalForm.get('email')?.value) {
+          payload.email = this.personalForm.get('email')?.value;
+        }
+
+        this.userService
+          .updateUser(this.authService.getUserId(), payload)
+          .subscribe((res: any) => {
+            if (res.message == 'Contact number already exists') {
+              this.alert = true;
+              this.isError = true;
+              this.alertMessage = 'Contact no already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            } else if (res.message == 'Email already exists') {
+              this.alert = true;
+              this.isError = true;
+              this.alertMessage = 'Email address already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            } else {
+              this.getUserById();
+              this.personalForm.reset();
+              this.alert = true;
+              this.alertMessage = 'Personal information successfully updated';
+              setTimeout(() => (this.alert = false), 3000);
+              this.confirmationDialog = false;
+            }
+          });
+      } else {
+        this.personalForm.markAllAsTouched();
+      }
+    } else {
+      if (this.addressForm.valid) {
+        this.addressForm.patchValue({
+          region: this.addressForm.get('region')?.value.name,
+          province: this.addressForm.get('province')?.value.name,
+          city: this.addressForm.get('city')?.value.name,
+          barangay: this.addressForm.get('barangay')?.value.name,
+        });
+
+        this.userService
+          .updateUser(this.authService.getUserId(), this.addressForm.value)
+          .subscribe(() => {
+            this.getUserById();
+            this.addressForm.reset();
+            this.alert = true;
+            this.alertMessage = 'Address information successfully updated';
+            setTimeout(() => (this.alert = false), 3000);
+            this.confirmationDialog = false;
+          });
+      } else {
+        this.addressForm.markAllAsTouched();
+      }
     }
   };
 }
