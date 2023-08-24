@@ -22,12 +22,25 @@ p-card {
   margin-top: 0px;
   cursor: pointer;
   width: 96%;
-  height: 140px;
+  height: 700px;
 }
 
-/**.tips-button {
-  margin-left: 54rem;
-}**/
+.farming-tips-container {
+  padding: 50px;
+  background-position: top;
+  background-repeat: top;
+  background-size: cover;
+}
+
+.featured-tips-container {
+  display: flex;
+  padding: 10px;
+}
+
+.tips-button {
+  display: flex;
+  justify-content: flex-end;
+}
 
 .container {
   width: 100%;

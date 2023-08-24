@@ -85,7 +85,7 @@ export class AdvertisementComponent implements OnInit {
 
   getAdBySupplierId = () => {
     this.advertisementService
-      .getAllAdvertisement(this.authService.getUserId())
+      .getAdBySupplierId(this.authService.getUserId())
       .subscribe((data: any) => {
         this.ads = data.sort((a: any, b: any) => b.postId - a.postId);
       });

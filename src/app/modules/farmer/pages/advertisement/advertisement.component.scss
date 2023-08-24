@@ -1,0 +1,110 @@
+main {
+  min-height: calc(100vh - 4rem);
+  padding: 1rem 1.5rem;
+  background-color: var(--semi-light);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.image {
+  display: none;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 180px 1fr;
+  border-radius: 0.25rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  background-color: var(--light);
+}
+
+.card-content {
+  padding: 1rem 1rem;
+}
+
+.card-content h3 {
+  font-size: clamp(1.25rem, 1.1524rem + 0.4878vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+}
+
+.card-img-container {
+  width: 100%;
+  height: 100%;
+}
+
+.card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-img-container > img {
+  object-fit: contain;
+}
+
+.card-edit,
+.card-delete {
+  width: 6rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  cursor: pointer;
+}
+
+.card-edit {
+  background-color: var(--blue);
+}
+
+.card-delete {
+  margin-left: 0.5rem;
+  background-color: var(--red);
+}
+
+@media screen and (min-width: 768px) {
+  .btn-post {
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .btn-post > span {
+    font-size: 1.5rem;
+  }
+
+  .num-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .img-container,
+  .btn-upload {
+    width: 260px;
+  }
+
+  .dialog-btn {
+    width: 7rem;
+    height: 3rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

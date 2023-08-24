@@ -1,7 +1,11 @@
 <div class="sidebar" [class.hide]="!isShowMobileNav">
   <div class="logo">
     <div class="logo-img">
-      <img src="../../../../../assets/images/logo.png" alt="Logo" />
+      <img
+        src="../../../../../assets/images/logo.png"
+        alt="Logo"
+        routerLink="/farmer/dashboard"
+      />
     </div>
     <span>HACIENDA</span>
   </div>
@@ -17,6 +21,15 @@
     >
       <span class="material-symbols-rounded"> dashboard </span>
       <span>Dashboard</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/farmer/farming-tips"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> potted_plant </span>
+      <span>Farming Tips</span>
     </div>
     <div
       class="link"
@@ -72,6 +85,15 @@
       <span class="material-symbols-rounded"> history </span>
       <span>History</span>
     </div>
+    <div
+      class="link"
+      routerLink="/farmer/profile"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> account_circle </span>
+      <span>Profile</span>
+    </div>
   </nav>
 </div>
 
@@ -87,16 +109,15 @@
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
           <img
-            src="{{ '../../../../../../../assets/images/itachi.jpg' }}"
+            src="{{
+              userPic || '../../../../../../../assets/images/blank-profile.jpg'
+            }}"
             alt="Profile Image"
           />
         </div>
         <div class="name">
-          <div class="type">
-            <span
-              >{{ farmer?.firstName }} {{ farmer?.middleName }}
-              {{ farmer?.lastName }} {{ farmer?.suffix }}</span
-            >
+          <div class="type" (click)="toggleShowDropdown()">
+            <span>{{ username }}</span>
             <div>Farmer</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

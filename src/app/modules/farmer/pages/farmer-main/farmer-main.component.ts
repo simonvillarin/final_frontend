@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Location } from '@angular/common';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
+import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
 
 @Component({
   selector: 'app-farmer-main',
@@ -15,25 +18,40 @@ export class FarmerMainComponent {
   isShowMobileNav = false;
 
   farmer: any;
+  user: any = {};
+  username: string = '';
+  userPic: string = '';
+  subscription: Subscription | undefined;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private location: Location,
-    private userService: AdminService
-  ) {}
-
-  ngOnInit(): void {
-    this.getFarmerById();
+    private userService: UserService,
+    private profileService: ProfileService
+  ) {
+    this.subscription = this.profileService.usernameSubject.subscribe(
+      (user) => (this.username = user)
+    );
+    this.subscription = this.profileService.userPicSubject.subscribe(
+      (user) => (this.userPic = user)
+    );
   }
 
-  getFarmerById = () => {
+  ngOnInit(): void {
+    this.getUserById();
+  }
+
+  getUserById = () => {
     this.userService
-      .getUser(this.authService.getUserId())
-      .subscribe((data: any) => {
-        this.farmer = data;
-        console.log(data);
+      .getUserById(this.authService.getUserId())
+      .subscribe((data) => {
+        this.user = data;
+        this.username =
+          data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
+        this.userPic = data.image;
       });
+  
   };
 
   toggleMobile = () => {
@@ -60,6 +78,8 @@ export class FarmerMainComponent {
     const loc = splitLocation[splitLocation.length - 1];
     if (loc == 'dashboard') {
       return 'Dashboard';
+    } else if (loc == 'farming-tips') {
+      return 'Farming Tips';
     } else if (loc == 'courses') {
       return 'Courses';
     } else if (loc == 'advertisement') {

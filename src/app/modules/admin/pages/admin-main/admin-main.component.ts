@@ -46,7 +46,7 @@ export class AdminMainComponent {
       .subscribe((data: any) => {
         this.user = data;
         this.username =
-          data.firstName + ' ' + data.middleName + ' ' + data.lastName;
+        data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
         this.userPic = data.image;
       });
   };
@@ -79,8 +79,14 @@ export class AdminMainComponent {
       return 'Complaints';
     } else if (loc == 'farming-tips') {
       return 'Farming Tips';
-    } else {
+    } else if (loc == 'farmers') {
+      return 'Farmers';
+    } else if (loc == 'suppliers') {
+      return 'Suppliers';
+    } else if (loc == 'profile') {
       return 'Profile';
+    } else {
+      return this.router.navigate(['/admin/dashboard']);
     }
   };
 

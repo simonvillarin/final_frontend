@@ -11,6 +11,7 @@ import { HistoryComponent } from './pages/history/history.component';
 import { FarmerProfileComponent } from './pages/farmer-profile/farmer-profile.component';
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { FarmerMainComponent } from './pages/farmer-main/farmer-main.component';
+import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+      },
+      {
+        path: 'farming-tips',
+        component: FarmingTipsComponent,
       },
       {
         path: 'courses',
