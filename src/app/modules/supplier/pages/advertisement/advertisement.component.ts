@@ -30,7 +30,7 @@ export class AdvertisementComponent implements OnInit {
   img: any = {};
   postId: any;
 
-  gridLayout = false;
+  gridLayout = true;
   addDialog = false;
   confirmationDialog = false;
   showImage = false;

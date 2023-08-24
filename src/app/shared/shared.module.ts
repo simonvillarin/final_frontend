@@ -14,6 +14,7 @@ import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -28,6 +29,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     ReactiveFormsModule,
     InputNumberModule,
     TabViewModule,
+    CardModule,
   ],
   exports: [
     NavbarComponent,
@@ -45,6 +47,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     InputNumberModule,
     TabViewModule,
     KeyFilterModule,
+    CardModule,
   ],
 })
 export class SharedModule {}

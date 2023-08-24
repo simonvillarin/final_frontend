@@ -19,41 +19,32 @@
           <img src="{{ ad.image }}" alt="Crop" />
         </div>
         <div class="card-content">
-          <div>
-            <div class="card-title">{{ ad.name }}</div>
-            <div class="category">{{ ad.category }}</div>
-          </div>
-          <div class="description">
-            {{ ad.description }}
-          </div>
-          <div class="card-num-container">
-            <div class="card-num">
-              <span class="card-num-label">Mass: </span>
-              <div>25<sub>kg</sub></div>
-            </div>
-            <div class="card-num">
-              <span class="card-num-label">Quantity: </span>
-              <div>{{ ad.quantity }}</div>
-            </div>
-            <div class="card-num">
-              <span class="card-num-label">Price: </span>
-              <div>PHP {{ ad.price }}</div>
-            </div>
-          </div>
-          <div class="card-actions">
-            <button class="table-btn edit" title="Edit" (click)="onEdit(ad)">
-              <span class="material-symbols-rounded"> edit </span>
-            </button>
-            <button
-              class="table-btn delete"
-              title="Delete"
-              (click)="onRemove(ad)"
-            >
-              <span class="material-symbols-rounded"> delete </span>
-            </button>
-          </div>
+          <h3>{{ ad.name }}</h3>
+          <div class="subtitle">{{ ad.category }}</div>
+          <div class="description">{{ ad.description }}</div>
+          <div class="card-numbers"></div>
         </div>
       </div>
+
+      <!-- <p-card
+        *ngFor="let ad of ads"
+        header="{{ ad.name }}"
+        subheader="{{ ad.category }}"
+      >
+        <ng-template pTemplate="header">
+          <img alt="Card" src="{{ ad.image }}" />
+        </ng-template>
+        <div>
+          <p>
+            {{ ad.description }}
+          </p>
+          <div class="card-numbers">.</div>
+        </div>
+        <ng-template pTemplate="footer">
+          <button class="card-edit">Edit</button>
+          <button class="card-delete">Delete</button>
+        </ng-template>
+      </p-card> -->
     </div>
   </ng-container>
   <div class="table" *ngIf="!gridLayout">
