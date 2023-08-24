@@ -18,4 +18,12 @@ export class UserService {
   updateUser = (id: number, user: any): Observable<any> => {
     return this.http.put<any>(`${this.baseUrl}/user/${id}`, user);
   };
+
+  getAllFarmers = (): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/farmers`);
+  };
+
+  getAllSupplier = (): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/suppliers`);
+  };
 }
