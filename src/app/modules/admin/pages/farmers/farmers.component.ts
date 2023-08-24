@@ -43,4 +43,13 @@ export class FarmersComponent {
     this.confirmationDialog = false;
     this.farmerIdToDelete = null;
   }
+
+  onStatusChange(farmer: any, event: any): void {
+    const newStatus = event.checked;
+    this.userService
+      .updateUser(farmer.id, { status: newStatus })
+      .subscribe(() => {
+        farmer.status = newStatus;
+      });
+  }
 }

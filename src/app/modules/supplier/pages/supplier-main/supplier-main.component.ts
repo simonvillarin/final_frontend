@@ -46,7 +46,13 @@ export class SupplierMainComponent implements OnInit {
       .subscribe((data) => {
         this.user = data;
         this.username =
-          data.firstName + ' ' + data.middleName + ' ' + data.lastName + ' ' + data.suffix;
+          data.firstName +
+          ' ' +
+          data.middleName +
+          ' ' +
+          data.lastName +
+          ' ' +
+          data.suffix;
         this.userPic = data.image;
       });
   };
