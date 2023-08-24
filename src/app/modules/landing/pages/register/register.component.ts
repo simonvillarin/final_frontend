@@ -285,7 +285,7 @@ export class RegisterComponent implements OnInit {
               this.alertMessage = 'User successfully registered';
               setTimeout(() => (this.alert = false), 3000);
               const radioButtons =
-                this.elementRef.nativeElement.querySelectorAll('.radio');
+                this.elementRef.nativeElement.querySelectorAll('.radio1');
               radioButtons.forEach((radio: any) => {
                 this.renderer.setProperty(radio, 'checked', false);
               });

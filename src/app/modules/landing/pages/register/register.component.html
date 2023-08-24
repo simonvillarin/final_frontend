@@ -8,7 +8,14 @@
   <div class="role-container">
     <h3>Choose a User Type<span class="required">*</span></h3>
     <div class="type-container" [class.mb]="!error">
-      <div class="types" [class.border]="error">
+      <div
+        class="types"
+        [class.border]="error"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+        data-aos-delay="100"
+        data-aos-easing="ease-in-out"
+      >
         <div class="img-container">
           <img src="../../../../../assets/images/farmer.png" alt="" />
         </div>
@@ -24,7 +31,14 @@
           <div>FARMER</div>
         </div>
       </div>
-      <div class="types" [class.border]="error">
+      <div
+        class="types"
+        [class.border]="error"
+        data-aos="fade-left"
+        data-aos-duration="1000"
+        data-aos-delay="100"
+        data-aos-easing="ease-in-out"
+      >
         <div class="img-container">
           <img src="../../../../../assets/images/supplier.png" alt="" />
         </div>
