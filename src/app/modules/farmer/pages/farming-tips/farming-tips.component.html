@@ -1,1 +1,76 @@
-<p>farming-tips works!</p>
+<main>
+  <div class="container">
+    <form>
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="Search anything here" />
+      <p-button label="Search" (click)="search()"></p-button>
+    </form>
+  </div>
+
+  <div class="card">
+    <p-accordion [activeIndex]="0" >
+      <p-accordionTab
+        *ngFor="let tip of tips"
+        header="Farming Tip # {{ tip.tipId }}"
+        class="accordionTab"
+      >
+        <div class="featured-tips-container">
+          <div class="featured-tips-video">
+            <img src="{{ tip.image }}" alt="Tip" />
+          </div>
+
+          <div class="featured-tips-content">
+            <div class="small-heading gray">
+              <span><i class="material-icons primary-circle">lens</i></span>
+              Welcome to the Future of Agriculture
+            </div>
+            <div class="featured-tips-title">
+              <h3>{{ tip.tip }}</h3>
+            </div>
+
+            <div class="featured-tips-desc">MEET MORENO</div>
+            <div class="featured-tips-icons-container">
+              <div class="icons-row">
+                <div class="icon-heading">
+                  <span
+                    ><i class="material-icons blue-check-circle"
+                      >check_circle</i
+                    >
+                  </span>
+                  Fundamentals.
+                </div>
+                <div class="icon-heading">
+                  <span
+                    ><i class="material-icons blue-check-circle"
+                      >check_circle</i
+                    ></span
+                  >
+                  Farming Concept.
+                </div>
+              </div>
+              <div class="icons-row">
+                <div class="icon-heading">
+                  <span
+                    ><i class="material-icons blue-check-circle"
+                      >check_circle</i
+                    ></span
+                  >
+                  Functional Tools.
+                </div>
+
+                <div class="icon-heading">
+                  <span
+                    ><i class="material-icons blue-check-circle"
+                      >check_circle</i
+                    ></span
+                  >
+                  Agriculture Projects.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</main>

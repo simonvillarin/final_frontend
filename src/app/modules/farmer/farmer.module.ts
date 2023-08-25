@@ -15,6 +15,7 @@ import { FarmerRoutingModule } from './farmer-routing.module';
 import { CardModule } from 'primeng/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.componen
     SharedModule,
     FarmerRoutingModule,
     CardModule,
-    MatIconModule
+    MatIconModule,
+    AccordionModule
   ],
 })
 export class FarmerModule {}

@@ -1,0 +1,268 @@
+main {
+  background-color: var(--light-grayish-blue);
+  height: 100vh;
+}
+
+.card {
+  gap: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  background-color: var(--light-grayish-blue);
+  //padding-bottom: 3rem;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
+
+.accordionTab {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+p-card {
+  margin: 20px;
+  cursor: pointer;
+  width: 300px;
+  //height: 300px;
+  height: auto;
+}
+
+.farming-tips {
+  margin: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.featured-tips-container {
+  display: flex;
+  background-position: top;
+  background-repeat: top;
+  background-size: cover;
+  flex-direction: row;
+  //height: 300px;
+  height: auto;
+}
+
+.featured-tips-video {
+  flex: 2;
+  display: flex;
+  padding-top: 15px;
+}
+
+.featured-tips-video img {
+  width: 90%;
+  height: 215px;
+  margin-left: 10px;
+  object-fit: cover;
+}
+
+.featured-tips-content {
+  flex: 2;
+  width: 100%;
+  height: auto;
+}
+
+.featured-tips-title {
+  font-size: clamp(0.75rem, 0.5156rem + 0.75vw, 0.9375rem);
+  color: var(--light-black);
+}
+
+.small-heading {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.gray {
+  color: gray;
+}
+
+.featured-tips-desc {
+  color: var(--light-black);
+  margin: 10px 0px;
+  line-height: 25px;
+}
+
+.featured-tips-icons-container {
+  margin: 15px 0px;
+}
+
+.primary-circle {
+  color: var(--primary);
+  font-size: 12px;
+}
+
+.blue-check-circle {
+  color: var(--darker-primary);
+  font-size: 12px;
+}
+
+.icons-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon-heading {
+  flex: 1;
+  text-transform: uppercase;
+  font-size: clamp(0.5625rem, 0.0938rem + 1.5vw, 0.9375rem);
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--light-black);
+}
+
+.icon-heading i {
+  color: var(--darker-primary);
+  text-align: center;
+}
+
+.tips-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 25px;
+}
+
+p-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: var(--light-grayish-blue);
+  padding: 20px;
+  padding-top: 40px;
+  margin-bottom: 20px;
+}
+
+form {
+  width: 118%;
+  height: 60px;
+  display: flex;
+  position: relative;
+  margin: 0 20px;
+  border-radius: 8px;
+  background-color: var(--primary);
+}
+
+form input {
+  border: none;
+  height: 100%;
+  width: 118%;
+  padding: 0 155px 0 65px;
+  font-size: clamp(0.75rem, 0.2813rem + 1.5vw, 1.125rem);
+  font-weight: 300;
+  background-color: #fff6;
+  outline: none;
+}
+
+::-webkit-input-placeholder {
+  font-size: clamp(0.75rem, 0.2813rem + 1.5vw, 1.125rem);
+  background-color: rgba(234, 234, 234, 0.4);
+  padding: 8px;
+  border-radius: 20px;
+  width: 118%;
+  border: 1px solid var(--primary);
+}
+
+form p-button {
+  padding: 4px;
+  border: none;
+  outline: none;
+  color: #ffff;
+  letter-spacing: 1px;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+}
+
+form p-button:hover {
+  background-color: var(--primary);
+}
+
+form .button,
+.mat-icon {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.mat-icon {
+  left: 20px;
+  font-size: 30px;
+  color: var(--light-black);
+}
+
+@media (max-width: 767px) {
+  form {
+    height: 66px;
+    margin: 0 8px;
+    min-width: none;
+  }
+
+  .mat-icon {
+    left: 12px;
+    font-size: 25px;
+  }
+
+  form input {
+    padding: 0 112px 0 50px;
+  }
+
+  form p-button {
+    font-size: clamp(0.5625rem, 0.1719rem + 1.25vw, 0.875rem);
+  }
+
+  ::-webkit-input-placeholder {
+    font-size: 15px;
+    width: 200px;
+  }
+
+  .card {
+    padding: 0.5rem;
+  }
+
+  .featured-tips-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .featured-tips-video {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .icon-heading {
+    font-size: 14px;
+  }
+
+  .tips-button {
+    justify-content: center;
+    margin-right: 0;
+    margin-top: 10px;
+  }
+
+  .icons-row {
+    flex-direction: column;
+  }
+
+  .small-heading {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 280px) {
+  ::-webkit-input-placeholder {
+    width: 80px;
+  }
+}
