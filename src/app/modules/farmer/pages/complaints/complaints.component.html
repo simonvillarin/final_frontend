@@ -1,1 +1,244 @@
-<p>complaints works!</p>
+<main>
+  <div class="actions">
+    <button class="btn-post" (click)="openAddDialog()">
+      <span class="material-symbols-rounded"> add </span>POST TIP
+    </button>
+    <div class="layout-container">
+      <div class="layout-icon" title="Grid">
+        <span class="material-symbols-rounded"> grid_view </span>
+      </div>
+      <div class="layout-icon" title="Table">
+        <span class="material-symbols-rounded"> table </span>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="gridLayout">
+    <div class="card-container">
+      <div class="card" *ngFor="let complaint of complaints">
+        <div class="card-img-container">
+          <img src="{{ complaint.image }}" alt="Complaint Image" />
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">
+              Complaint ID: {{ complaint.complaintId }}
+            </div>
+            <div class="category">{{ complaint.complaintType }}</div>
+          </div>
+          <div class="description">
+            {{ complaint.complaintDetails }}
+          </div>
+          <div class="card-num-container">
+            <div class="card-num">
+              <span class="card-num-label">Date: </span>
+              <div>{{ complaint.date | date : "medium" }}</div>
+            </div>
+            <div class="card-num">
+              <span class="card-num-label">Status: </span>
+              <div>{{ complaint.status ? "Active" : "Inactive" }}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button
+              class="table-btn delete"
+              title="Delete"
+              (click)="onRemove(complaint)"
+            >
+              <span class="material-symbols-rounded"> delete </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="table" *ngIf="!gridLayout">
+    <p-table
+      [value]="complaints"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      paginatorDropdownAppendTo="body"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 10%">Image</th>
+          <th style="width: 15%">Complaint Type</th>
+          <th style="width: 25%">Complaint Details</th>
+          <th style="width: 10%">Date</th>
+          <th style="width: 10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-complaint>
+        <tr>
+          <td>
+            <div class="crop-wrapper">
+              <div class="crop-container">
+                <img src="{{ complaint.image }}" />
+              </div>
+            </div>
+          </td>
+          <td>{{ complaint.complaintType }}</td>
+          <td>
+            {{ complaint.complaintDetails }}
+          </td>
+          <td>
+            {{ complaint.date | date : "medium" }}
+          </td>
+          <td>
+            <div class="table-actions">
+              <button
+                class="table-btn delete"
+                title="Delete"
+                (click)="onRemove(complaint)"
+              >
+                <span class="material-symbols-rounded"> delete </span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-dialog
+    [(visible)]="addDialog"
+    [modal]="true"
+    [breakpoints]="{ '992px': '90vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Post Complaint</div>
+    </p-header>
+    <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+      <div class="form-container">
+        <div class="input-group">
+          <label>Farmer ID<span class="required">*</span></label>
+          <input
+            pInputText
+            formControlName="farmerId"
+            [value]="FarmerId"
+            [disabled]="true"
+            [placeholder]="FarmerId"
+          />
+          <div
+            *ngIf="
+              complaintForm.get('farmerId')?.invalid &&
+              (complaintForm.get('farmerId')?.dirty ||
+                complaintForm.get('farmerId')?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="complaintForm.get('farmerId')?.errors?.['required']"
+              >Farmer ID is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Complaint Type<span class="required">*</span></label>
+          <p-dropdown
+            [options]="complaintType"
+            placeholder="Select a complaint type"
+            [style]="{
+              width: '100%'
+            }"
+            appendTo="body"
+            formControlName="complaintType"
+          ></p-dropdown>
+          <div
+            *ngIf="
+              complaintForm.get('complaintType')?.invalid &&
+              (complaintForm.get('complaintType')?.dirty ||
+                complaintForm.get('complaintType')?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="complaintForm.get('complaintType')?.errors?.['required']"
+              >Complaint type is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Complaint Details<span class="required">*</span></label>
+          <textarea
+            rows="2"
+            cols="30"
+            pInputTextarea
+            formControlName="complaintDetails"
+          ></textarea>
+          <div
+            *ngIf="
+              complaintForm.get('complaintDetails')?.invalid &&
+              (complaintForm.get('complaintDetails')?.dirty ||
+                complaintForm.get('complaintDetails')?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="complaintForm.get('complaintDetails')?.errors?.['required']"
+              >Complaint details are required</small
+            >
+          </div>
+        </div>
+        <div class="upload">
+          <div class="banner">
+            <div class="img-container" [class.error-border]="emptyImage">
+              <img
+                [src]="imagePreview"
+                alt="Tip"
+                class="image"
+                [class.img-active]="showImage"
+              />
+            </div>
+          </div>
+          <button class="btn-upload">
+            Upload<input
+              type="file"
+              class="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+          </button>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button
+          type="button"
+          class="dialog-btn cancel"
+          (click)="closeAddDialog()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="dialog-btn submit">Save</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-dialog
+    [(visible)]="confirmationDialog"
+    [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Delete</div>
+    </p-header>
+    <div class="dialog-body">
+      Are you sure you want to delete this complaint?
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
+        Cancel
+      </button>
+      <button class="dialog-btn submit" (click)="onDelete()">Yes</button>
+    </div>
+  </p-dialog>
+</main>
