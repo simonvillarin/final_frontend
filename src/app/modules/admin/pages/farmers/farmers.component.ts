@@ -11,7 +11,6 @@ export class FarmersComponent {
   statusArr: any = ['Active', 'Inactive'];
   farmerToUpdateStatus: any;
   farmerId: any;
-  statusSwitch: any;
 
   confirmationDialog = false;
   gridLayout = false;
@@ -26,14 +25,14 @@ export class FarmersComponent {
 
   getFarmers(): void {
     this.userService.getAllFarmers().subscribe((data: any[]) => {
-      this.farmers = data.sort((a: any, b: any) => b.farmerId - a.farmerId);
+      this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
     });
   }
 
   onStatusChanges = (status: string) => {
     if (status !== '') {
       this.userService.getAllFarmers().subscribe((data: any[]) => {
-        this.farmers = data.sort((a: any, b: any) => b.farmerId - a.farmerId);
+        this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
 
         if (status === 'Active') {
           this.farmers = this.farmers.filter(
@@ -70,7 +69,7 @@ export class FarmersComponent {
 
   onCancelDelete(): void {
     this.confirmationDialog = false;
-    this.statusSwitch = this.farmerToUpdateStatus.status;
+    this.getFarmers();
   }
 
   openConfirmationDialog(user: any): void {
@@ -81,12 +80,11 @@ export class FarmersComponent {
   onUpdateStatus(): void {
     this.userService
       .updateUser(this.farmerToUpdateStatus.userId, {
-        status: !this.farmerToUpdateStatus.status,
+        status: this.farmerToUpdateStatus.status,
       })
       .subscribe(() => {
         this.getFarmers();
         this.confirmationDialog = false;
-        this.statusSwitch = !this.farmerToUpdateStatus.status;
       });
   }
 

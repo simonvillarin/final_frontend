@@ -10,7 +10,6 @@ export class SupplierComponent {
   suppliers: any[] = [];
   statusArr: any = ['Active', 'Inactive'];
   farmerIdToDelete: any;
-  statusSwitch: any;
   farmerToUpdateStatus: any;
 
   confirmationDialog = false;
@@ -26,16 +25,14 @@ export class SupplierComponent {
 
   getSuppliers(): void {
     this.userService.getAllSupplier().subscribe((data: any[]) => {
-      this.suppliers = data;
+      this.suppliers = data.sort((a: any, b: any) => b.userId - a.userId);
     });
   }
 
   onStatusChanges = (status: string) => {
     if (status !== '') {
       this.userService.getAllSupplier().subscribe((data: any[]) => {
-        this.suppliers = data.sort(
-          (a: any, b: any) => b.supplierId - a.supplierId
-        );
+        this.suppliers = data.sort((a: any, b: any) => b.userId - a.userId);
 
         if (status === 'Active') {
           this.suppliers = this.suppliers.filter(
@@ -71,18 +68,17 @@ export class SupplierComponent {
 
   onCancelDelete(): void {
     this.confirmationDialog = false;
-    this.farmerIdToDelete = null;
+    this.getSuppliers();
   }
 
   onUpdateStatus(): void {
     this.userService
       .updateUser(this.farmerToUpdateStatus.userId, {
-        status: !this.farmerToUpdateStatus.status,
+        status: this.farmerToUpdateStatus.status,
       })
       .subscribe(() => {
         this.getSuppliers();
         this.confirmationDialog = false;
-        this.statusSwitch = !this.farmerToUpdateStatus.status;
       });
   }
 
