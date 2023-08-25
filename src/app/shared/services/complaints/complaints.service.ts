@@ -21,4 +21,8 @@ export class ComplaintsService {
   updateComplaint = (id: number, ad: any) => {
     return this.http.put<any>(`${this.baseUrl}/complaint/${id}`, ad);
   };
+
+  getAllComplaintsByFarmerId = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/complaint/farmer/${id}`);
+  };
 }
