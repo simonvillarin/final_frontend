@@ -43,33 +43,6 @@ export class ComplaintsComponent {
     this.getComplaints();
   }
 
-  openAddDialog = () => {
-    this.addDialog = true;
-  };
-
-  closeAddDialog = () => {
-    this.addDialog = false;
-  };
-
-  onSubmit = () => {
-    if (this.complaintForm.valid) {
-      this.complaintService
-        .addComplaint(this.complaintForm.value)
-        .subscribe(() => {
-          this.complaintService.getAllComplaintsByFarmerId(
-            this.authService.getUserId()
-          );
-          this.getComplaints();
-          this.complaintForm.reset();
-          this.addDialog = false;
-        });
-    } else {
-      this.complaintForm.markAllAsTouched();
-    }
-  };
-
-  FarmerId = this.authService.getUserId();
-
   getComplaints = () => {
     this.complaintService
       .getAllComplaintsByFarmerId(this.authService.getUserId())
@@ -79,6 +52,34 @@ export class ComplaintsComponent {
         );
         console.log(data);
       });
+  };
+
+  openAddDialog = () => {
+    this.showImage = false;
+    this.imagePreview = null;
+    this.addDialog = true;
+  };
+
+  closeAddDialog = () => {
+    this.addDialog = false;
+  };
+
+  onSubmit = () => {
+    this.complaintForm.patchValue({
+      farmerId: this.authService.getUserId(),
+    });
+
+    if (this.complaintForm.valid) {
+      this.complaintService
+        .addComplaint(this.complaintForm.value)
+        .subscribe(() => {
+          this.getComplaints();
+          this.complaintForm.reset();
+          this.addDialog = false;
+        });
+    } else {
+      this.complaintForm.markAllAsTouched();
+    }
   };
 
   onFileSelected(event: any) {

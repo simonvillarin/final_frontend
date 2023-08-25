@@ -117,29 +117,6 @@
     <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
       <div class="form-container">
         <div class="input-group">
-          <label>Farmer ID<span class="required">*</span></label>
-          <input
-            pInputText
-            formControlName="farmerId"
-            [value]="FarmerId"
-            [disabled]="true"
-            [placeholder]="FarmerId"
-          />
-          <div
-            *ngIf="
-              complaintForm.get('farmerId')?.invalid &&
-              (complaintForm.get('farmerId')?.dirty ||
-                complaintForm.get('farmerId')?.touched)
-            "
-          >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="complaintForm.get('farmerId')?.errors?.['required']"
-              >Farmer ID is required</small
-            >
-          </div>
-        </div>
-        <div class="input-group">
           <label>Complaint Type<span class="required">*</span></label>
           <p-dropdown
             [options]="complaintType"

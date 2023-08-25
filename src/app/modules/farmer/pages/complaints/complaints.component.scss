@@ -217,6 +217,10 @@ img {
   overflow: hidden;
 }
 
+.crop-container > img {
+  object-fit: cover;
+}
+
 .table-actions {
   display: flex;
   justify-content: center;
