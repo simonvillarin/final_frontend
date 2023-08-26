@@ -16,6 +16,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { CardModule } from 'primeng/card';
 import { LandingRoutingModule } from '../modules/landing/landing-routing.module';
+import { PaginatorModule } from 'primeng/paginator';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -50,6 +52,8 @@ import { LandingRoutingModule } from '../modules/landing/landing-routing.module'
     TabViewModule,
     KeyFilterModule,
     CardModule,
+    PaginatorModule,
+    ToastModule,
   ],
 })
 export class SharedModule {}

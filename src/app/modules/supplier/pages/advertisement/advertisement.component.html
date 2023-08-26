@@ -1,14 +1,14 @@
 <main>
-  <div class="table">
-    <div class="actions">
-      <div class="btn-actions">
-        <button class="btn-post" (click)="openAddDialog()">
-          <span class="material-symbols-rounded"> add </span>POST
-        </button>
-        <button class="btn-clear" (click)="onClear()">
-          <span class="material-symbols-rounded"> restart_alt </span>CLEAR
-        </button>
-      </div>
+  <div class="actions">
+    <div class="btn-actions">
+      <button class="btn-post" (click)="openAddDialog()">
+        <span class="material-symbols-rounded"> add </span>POST
+      </button>
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+    </div>
+    <div class="filter-container">
       <p-dropdown
         [options]="categories"
         placeholder="Filter by category"
@@ -21,8 +21,60 @@
         (ngModelChange)="onCategoryChange($event)"
       ></p-dropdown>
     </div>
+  </div>
+
+  <ng-container *ngIf="gridLayout">
+    <div class="card-container" [class.card-container1]="gridTwo">
+      <ng-container *ngFor="let ad of ads">
+        <div class="card" *ngIf="ad.status">
+          <div class="card-image">
+            <img src="{{ ad.image }}" alt="Crop" />
+          </div>
+          <div class="card-content">
+            <div class="card-header">
+              <p class="card-title">{{ ad.name }}</p>
+              <div class="card-actions">
+                <button class="edit" title="Edit" (click)="onEdit(ad)">
+                  <span class="material-symbols-rounded"> edit </span>
+                </button>
+                <button class="delete" title="Delete" (click)="onRemove(ad)">
+                  <span class="material-symbols-rounded"> delete </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-category">{{ ad.category }}</div>
+            <p class="card-description">{{ ad.description }}</p>
+            <div class="card-nums">
+              <div class="card-num">
+                <span class="key">Quantity</span>
+                <span class="value">{{ ad.quantity }} pcs</span>
+              </div>
+              <div class="card-num">
+                <span class="key">Mass</span>
+                <span class="value">{{ ad.mass }} kg</span>
+              </div>
+              <div class="card-num">
+                <span class="key">Price</span>
+                <span class="value">₱ {{ ad.price }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="pagination">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [rows]="6"
+        [totalRecords]="totalAds"
+      ></p-paginator>
+    </div>
+  </ng-container>
+
+  <!-- <div class="table" *ngIf="!gridLayout">
     <p-table
-      [value]="ads"
+      [value]="tableAds"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
@@ -89,7 +141,7 @@
         </ng-container>
       </ng-template>
     </p-table>
-  </div>
+  </div>-->
 </main>
 
 <p-dialog
@@ -104,17 +156,19 @@
     <div class="dialog-title">Post Advertisement</div>
   </p-header>
   <form [formGroup]="adForm" (ngSubmit)="onSubmit()">
+    <div class="alert" *ngIf="alert">
+      <span class="material-symbols-rounded"> error </span>
+      {{ alertMessage }}
+    </div>
     <div class="form-container">
       <div class="upload">
-        <div class="banner">
-          <div class="img-container" [class.error-border]="emptyImage">
-            <img
-              [src]="imagePreview"
-              alt="Crop"
-              class="image"
-              [class.img-active]="showImage"
-            />
-          </div>
+        <div class="img-container" [class.error-border]="emptyImage">
+          <img
+            [src]="imagePreview"
+            alt="Crop"
+            class="image"
+            [class.img-active]="showImage"
+          />
         </div>
         <button class="btn-upload">
           Upload<input
@@ -260,7 +314,7 @@
   [(visible)]="confirmationDialog"
   [modal]="true"
   [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '40vw' }"
+  [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
 >
@@ -277,3 +331,5 @@
     <button class="dialog-btn submit" (click)="onDelete()">Yes</button>
   </div>
 </p-dialog>
+
+<p-toast></p-toast>

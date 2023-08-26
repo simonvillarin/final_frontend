@@ -1,43 +1,19 @@
 main {
+  position: relative;
   min-height: calc(100vh - 4rem);
   padding: 1rem;
   background-color: var(--light-grayish-blue);
 }
 
-.table {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border-radius: 0.25rem;
-  background-color: var(--light);
-  padding: 1rem;
-  overflow: auto;
-}
-
-tr th {
-  font-weight: 400;
-  text-align: center;
-  color: var(--light);
-  background-color: var(--primary);
-}
-
-tr td {
-  font-weight: 400;
-  text-align: center;
-}
-
 .actions {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .btn-actions {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 0.5rem;
 }
 
@@ -63,24 +39,22 @@ tr td {
   background-color: var(--red);
 }
 
-.layout-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
+.filter-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
 }
 
-.layout-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--primary);
-  cursor: pointer;
-  user-select: none;
+.search-container {
+  position: relative;
 }
 
-.layout-icon > span {
-  font-size: 1.75rem;
+.search-container > span {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: #333;
 }
 
 .dialog-title {
@@ -132,17 +106,9 @@ tr td {
   gap: 0.5rem;
 }
 
-.banner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .img-container {
   width: 100%;
-  height: 225px;
+  height: 240px;
   border: 2px solid var(--primary);
   border-radius: 0.5rem;
   overflow: hidden;
@@ -155,7 +121,7 @@ tr td {
 img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .image {
@@ -236,13 +202,6 @@ img {
   overflow: hidden;
 }
 
-.table-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .edit,
 .delete {
   display: flex;
@@ -262,10 +221,105 @@ img {
   background-color: var(--red);
 }
 
-@media screen and (min-width: 576px) {
-  .actions {
-    flex-direction: row;
-  }
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-container1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-radius: 0.25rem;
+  background-color: var(--light);
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 18rem;
+}
+
+.card-image > img {
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1rem 1rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-title {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.card-category {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  transform: translateY(-0.125rem);
+  margin-bottom: 0.4rem;
+}
+
+.card-description {
+  font-size: clamp(1rem, 0.9512rem + 0.2439vw, 1.125rem);
+  margin-bottom: 0.5rem;
+}
+
+.card-nums {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 2rem;
+}
+
+.card-num {
+  display: flex;
+  flex-direction: column;
+}
+
+.value {
+  font-size: clamp(1.125rem, 1.0762rem + 0.2439vw, 1.25rem);
+  font-weight: 400;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination {
+  width: 100%;
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--red);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.alert > span {
+  color: var(--light);
 }
 
 @media screen and (min-width: 768px) {
@@ -275,7 +329,11 @@ img {
 
   .img-container,
   .btn-upload {
-    width: 260px;
+    width: 50%;
+  }
+
+  .img-container {
+    height: 300px;
   }
 
   .dialog-btn {
@@ -283,5 +341,14 @@ img {
     height: 3rem;
     font-size: 1rem;
     padding: 0.5rem;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .card-container1 {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

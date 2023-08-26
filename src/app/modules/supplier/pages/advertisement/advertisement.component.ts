@@ -7,11 +7,13 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
   styleUrls: ['./advertisement.component.scss'],
+  providers: [MessageService],
 })
 export class AdvertisementComponent implements OnInit {
   adForm: FormGroup;
@@ -27,8 +29,14 @@ export class AdvertisementComponent implements OnInit {
     'Industrial Crops',
   ];
   ads: any = [];
+  tempAds: any = [];
   img: any = {};
   postId: any;
+
+  page: number = 0;
+  totalAds: number = 0;
+
+  alertMessage = '';
   categorySelected: string = '';
 
   addDialog = false;
@@ -36,11 +44,15 @@ export class AdvertisementComponent implements OnInit {
   showImage = false;
   isEditing = false;
   emptyImage = false;
+  gridLayout = true;
+  gridTwo = false;
+  alert = false;
 
   constructor(
     private advertisementService: AdvertisementService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) {
     this.adForm = fb.group({
       supplierId: ['', Validators.required],
@@ -87,9 +99,23 @@ export class AdvertisementComponent implements OnInit {
   getAdBySupplierId = () => {
     this.advertisementService
       .getAdBySupplierId(this.authService.getUserId())
-      .subscribe((data: any) => {
-        this.ads = data.sort((a: any, b: any) => b.postId - a.postId);
-      });
+      .subscribe(
+        (data: any) => {
+          this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
+          this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
+          this.totalAds = this.tempAds.length;
+          this.ads = this.tempAds.splice(this.page * 6, 6);
+          if (this.ads.length < 3) {
+            this.gridTwo = true;
+          } else {
+            this.gridTwo = false;
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.authService.logout();
+        }
+      );
   };
 
   onFileSelected(event: any) {
@@ -139,8 +165,17 @@ export class AdvertisementComponent implements OnInit {
       this.advertisementService
         .getAdBySupplierId(this.authService.getUserId())
         .subscribe((data: any) => {
-          this.ads = data.sort((a: any, b: any) => b.postId - a.postId);
+          this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
+          this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
+          this.totalAds = this.tempAds.length;
+          this.ads = this.tempAds.splice(this.page * 6, 6);
+
           this.ads = this.ads.filter((ad: any) => ad.category == category);
+          if (this.ads.length < 3) {
+            this.gridTwo = true;
+          } else {
+            this.gridTwo = false;
+          }
         });
     }
   };
@@ -209,19 +244,25 @@ export class AdvertisementComponent implements OnInit {
       this.advertisementService
         .updateAdvertisement(this.postId, payload)
         .subscribe(() => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Updated',
+            detail: 'Successfully updated',
+          });
           this.getAdBySupplierId();
           this.adForm.reset();
           this.addDialog = false;
         });
     } else {
-      if (this.adForm.get('fileName')?.value === '') {
-        alert('Please upload a crop image');
-      }
-
       if (this.adForm.valid) {
         this.advertisementService
           .addAdvertisement(this.adForm.value)
           .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Added',
+              detail: 'Successfully added',
+            });
             this.getAdBySupplierId();
             this.adForm.reset();
             this.addDialog = false;
@@ -229,6 +270,9 @@ export class AdvertisementComponent implements OnInit {
       } else {
         this.adForm.markAllAsTouched();
         this.emptyImage = true;
+        this.alert = true;
+        this.alertMessage = 'Please upload a crop image';
+        setTimeout(() => (this.alert = false), 3000);
       }
     }
   };
@@ -251,5 +295,19 @@ export class AdvertisementComponent implements OnInit {
         this.getAdBySupplierId();
         this.confirmationDialog = false;
       });
+  };
+
+  onGrid = () => {
+    this.gridLayout = true;
+  };
+
+  onTable = () => {
+    this.gridLayout = false;
+  };
+
+  onPageChange = (page: any) => {
+    this.page = page.page;
+    this.categorySelected = '';
+    this.getAdBySupplierId();
   };
 }
