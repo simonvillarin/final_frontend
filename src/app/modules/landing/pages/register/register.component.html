@@ -56,6 +56,17 @@
       </div>
     </div>
   </div>
+
+  <div class="error-types" [class.error-types-active]="error">
+    <div *ngIf="role.invalid && (role?.dirty || role?.touched)">
+      <small
+        [style]="{ color: 'var(--red)' }"
+        *ngIf="role?.errors?.['required']"
+        >User type is required</small
+      >
+    </div>
+  </div>
+
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <div class="input-group">
@@ -382,6 +393,64 @@
             >Passwords does not match</small
           >
         </div>
+      </div>
+      <div class="input-group">
+        <label>Front Id<span class="required">*</span></label>
+        <div
+          class="id-img-container {{ idFrontEmpty ? 'border' : 'show-border' }}"
+        >
+          <img
+            src="{{ idFront }}"
+            alt="Front Id"
+            [class.show-img]="!idFrontPreview"
+          />
+        </div>
+        <div
+          *ngIf="filename2.invalid && (filename2?.dirty || filename2?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="filename2?.errors?.['required']"
+            >Front id is required</small
+          >
+        </div>
+        <button class="btn-upload">
+          Upload<input
+            type="file"
+            class="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </button>
+      </div>
+      <div class="input-group">
+        <label>Back Id<span class="required">*</span></label>
+        <div
+          class="id-img-container {{ idBackEmpty ? 'border' : 'show-border' }}"
+        >
+          <img
+            src="{{ idBack }}"
+            alt="Back Id"
+            [class.show-img]="!idBackPreview"
+          />
+        </div>
+        <div
+          *ngIf="filename1.invalid && (filename1?.dirty || filename1?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="filename1?.errors?.['required']"
+            >Back id is required</small
+          >
+        </div>
+        <button class="btn-upload">
+          Upload<input
+            type="file"
+            class="file"
+            accept="image/*"
+            (change)="onFileSelected1($event)"
+          />
+        </button>
       </div>
     </div>
 

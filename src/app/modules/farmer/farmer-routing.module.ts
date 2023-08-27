@@ -31,7 +31,7 @@ const routes: Routes = [
         component: CoursesComponent,
       },
       {
-        path: 'advertisement',
+        path: 'advertisements',
         component: AdvertisementComponent,
       },
       {

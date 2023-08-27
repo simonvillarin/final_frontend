@@ -87,8 +87,8 @@ export class FarmerMainComponent {
       return 'Farming Tips';
     } else if (loc == 'courses') {
       return 'Courses';
-    } else if (loc == 'advertisement') {
-      return 'Posts';
+    } else if (loc == 'advertisements') {
+      return 'Advertisements';
     } else if (loc == 'complaints') {
       return 'Complaints';
     } else if (loc == 'sell-product') {

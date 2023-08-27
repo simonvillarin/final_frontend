@@ -37,7 +37,9 @@ export class RegisterComponent implements OnInit {
   tempProvinces: any = [];
   tempRegions: any = [];
 
-  type: string = '';
+  file: any;
+  idFront: string | ArrayBuffer | null = null;
+  idBack: string | ArrayBuffer | null = null;
   regionSelected: any;
   provinceSelected: any;
   citySelected: any;
@@ -50,7 +52,13 @@ export class RegisterComponent implements OnInit {
   isError = false;
   currentPass = false;
 
-  alertMessage = '';
+  idFrontPreview = false;
+  idBackPreview = false;
+  idFrontEmpty = false;
+  idBackEmpty = false;
+
+  type: string = '';
+  alertMessage: string = '';
 
   ngOnInit(): void {
     this.getBarangay();
@@ -82,6 +90,12 @@ export class RegisterComponent implements OnInit {
       region: ['', Validators.required],
       contact: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
+      filename1: ['', Validators.required],
+      mimeType1: ['', Validators.required],
+      data1: ['', Validators.required],
+      filename2: ['', Validators.required],
+      mimeType2: ['', Validators.required],
+      data2: ['', Validators.required],
       username: ['', Validators.required],
       password: [
         '',
@@ -95,7 +109,7 @@ export class RegisterComponent implements OnInit {
         ],
       ],
       confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
-      role: [''],
+      role: ['', Validators.required],
     });
   }
 
@@ -157,6 +171,14 @@ export class RegisterComponent implements OnInit {
 
   get email() {
     return this.registerForm.get('email') as FormControl;
+  }
+
+  get filename1() {
+    return this.registerForm.get('filename1') as FormControl;
+  }
+
+  get filename2() {
+    return this.registerForm.get('filename2') as FormControl;
   }
 
   get username() {
@@ -251,52 +273,149 @@ export class RegisterComponent implements OnInit {
     }
   };
 
-  onSubmit = () => {
-    if (this.registerForm.valid) {
-      if (this.type != '') {
-        this.registerForm.patchValue({
-          region: this.registerForm.get('region')?.value.name,
-          province: this.registerForm.get('province')?.value.name,
-          city: this.registerForm.get('city')?.value.name,
-          barangay: this.registerForm.get('barangay')?.value.name,
-        });
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
+    const reader = new FileReader();
 
-        this.registerService
-          .registerUser(this.registerForm.value)
-          .subscribe((response) => {
-            if (response.message === 'Contact number already exists') {
-              this.alert = true;
-              this.isError = true;
-              this.alertMessage = 'Contact number already exists';
-              setTimeout(() => (this.alert = false), 3000);
-            } else if (response.message === 'Email already exists') {
-              this.alert = true;
-              this.isError = true;
-              this.alertMessage = 'Email address already exists';
-              setTimeout(() => (this.alert = false), 3000);
-            } else if (response.message === 'Username already exists') {
-              this.alert = true;
-              this.isError = true;
-              this.alertMessage = 'Username already exists';
-              setTimeout(() => (this.alert = false), 3000);
-            } else {
-              this.alert = true;
-              this.error = false;
-              this.alertMessage = 'User successfully registered';
-              setTimeout(() => (this.alert = false), 3000);
-              const radioButtons =
-                this.elementRef.nativeElement.querySelectorAll('.radio1');
-              radioButtons.forEach((radio: any) => {
-                this.renderer.setProperty(radio, 'checked', false);
-              });
-              this.registerForm.reset();
-            }
-            scroll(0, 0);
-          });
-      } else {
-        this.error = true;
-        scroll(0, 0);
+    reader.onload = (e: any) => {
+      this.idFrontPreview = true;
+      this.idFrontEmpty = false;
+      this.idFront = e.target.result;
+    };
+
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (file) {
+      this.readFileAsBytes(file);
+    }
+
+    reader.readAsDataURL(this.file);
+  }
+
+  readFileAsBytes(file: File) {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const result = event.target?.result;
+      if (result instanceof ArrayBuffer) {
+        const bytes = new Uint8Array(result);
+        const mimeType = file.type;
+        const fileName = file.name;
+
+        this.registerForm.patchValue({
+          filename1: fileName,
+          mimeType1: mimeType,
+          data1: Array.from(bytes),
+        });
       }
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
+  onFileSelected1(event: any) {
+    this.file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.idBackPreview = true;
+      this.idBackEmpty = false;
+      this.idBack = e.target.result;
+    };
+
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (file) {
+      this.readFileAsBytes1(file);
+    }
+
+    reader.readAsDataURL(this.file);
+  }
+
+  readFileAsBytes1(file: File) {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const result = event.target?.result;
+      if (result instanceof ArrayBuffer) {
+        const bytes = new Uint8Array(result);
+        const mimeType = file.type;
+        const fileName = file.name;
+
+        this.registerForm.patchValue({
+          filename2: fileName,
+          mimeType2: mimeType,
+          data2: Array.from(bytes),
+        });
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
+  onSubmit = () => {
+    if (this.type === '') {
+      this.error = true;
+      scroll(0, 0);
+    }
+    if (this.idFront === null) {
+      this.idFrontEmpty = true;
+      console.log(true);
+    }
+    if (this.idBack === null) {
+      this.idBackEmpty = true;
+    }
+
+    console.log(this.registerForm.value);
+
+    if (this.registerForm.valid) {
+      this.registerForm.patchValue({
+        region: this.registerForm.get('region')?.value.name,
+        province: this.registerForm.get('province')?.value.name,
+        city: this.registerForm.get('city')?.value.name,
+        barangay: this.registerForm.get('barangay')?.value.name,
+      });
+
+      this.registerService
+        .registerUser(this.registerForm.value)
+        .subscribe((response) => {
+          if (response.message === 'Contact number already exists') {
+            this.alert = true;
+            this.isError = true;
+            this.alertMessage = 'Contact number already exists';
+            setTimeout(() => (this.alert = false), 3000);
+          } else if (response.message === 'Email already exists') {
+            this.alert = true;
+            this.isError = true;
+            this.alertMessage = 'Email address already exists';
+            setTimeout(() => (this.alert = false), 3000);
+          } else if (response.message === 'Username already exists') {
+            this.alert = true;
+            this.isError = true;
+            this.alertMessage = 'Username already exists';
+            setTimeout(() => (this.alert = false), 3000);
+          } else {
+            this.idFront = '';
+            this.idBack = '';
+            this.idFrontPreview = false;
+            this.idBackPreview = false;
+            this.alert = true;
+            this.isError = false;
+            this.alertMessage = 'User successfully registered';
+            setTimeout(() => (this.alert = false), 3000);
+            scroll(0, 0);
+
+            const radioButtons =
+              this.elementRef.nativeElement.querySelectorAll('.radio1');
+            radioButtons.forEach((radio: any) => {
+              this.renderer.setProperty(radio, 'checked', false);
+            });
+            this.type = '';
+            this.registerForm.reset();
+          }
+        });
     } else {
       this.registerForm.markAllAsTouched();
     }

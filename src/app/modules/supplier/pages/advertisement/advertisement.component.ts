@@ -44,7 +44,6 @@ export class AdvertisementComponent implements OnInit {
   showImage = false;
   isEditing = false;
   emptyImage = false;
-  gridLayout = true;
   gridTwo = false;
   alert = false;
 
@@ -295,14 +294,6 @@ export class AdvertisementComponent implements OnInit {
         this.getAdBySupplierId();
         this.confirmationDialog = false;
       });
-  };
-
-  onGrid = () => {
-    this.gridLayout = true;
-  };
-
-  onTable = () => {
-    this.gridLayout = false;
   };
 
   onPageChange = (page: any) => {

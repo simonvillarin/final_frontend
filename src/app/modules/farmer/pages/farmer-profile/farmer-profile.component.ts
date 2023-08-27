@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
@@ -16,7 +15,6 @@ import {
   hasLowercaseValidator,
   hasNumberValidator,
   hasSymbolValidator,
-  zipcodeValidator,
   mobileNumberValidator,
   birthdateValidator,
   confirmPasswordValidator,
