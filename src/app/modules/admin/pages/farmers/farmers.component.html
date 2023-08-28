@@ -63,10 +63,19 @@
             </div>
           </td>
           <td>
-            <p-inputSwitch
-              [(ngModel)]="farmer.status"
-              (ngModelChange)="onStatusChanged(farmer)"
-            ></p-inputSwitch>
+            <div class="table-actions">
+              <p-inputSwitch
+                [(ngModel)]="farmer.status"
+                (ngModelChange)="onStatusChanged(farmer)"
+              ></p-inputSwitch>
+              <p-button
+                styleClass="p-button-rounded p-button-info p-button-text"
+                (onClick)="openDetailsDialog(farmer)"
+                ><span class="material-symbols-rounded">
+                  person
+                </span></p-button
+              >
+            </div>
           </td>
         </tr>
       </ng-template>
@@ -89,7 +98,83 @@
       <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onUpdateStatus()">Yes</button>
+      <p-button class="dialog-btn submit" (click)="onUpdateStatus()"
+        >Yes</p-button
+      >
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    header="User Details"
+    [(visible)]="selectedUser"
+    [modal]="true"
+    [style]="{ width: '50%' }"
+    [resizable]="false"
+    [baseZIndex]="10000"
+    (onHide)="closeDetailsDialog()"
+  >
+    <div class="profile">
+      <div class="profile-container">
+        <div class="img-container">
+          <img
+            src="{{
+              selectedUser?.idFront ||
+                '../../../../../../../assets/images/profile.webp'
+            }}"
+            alt="Profile"
+          />
+          <img
+            src="{{
+              selectedUser?.idBack ||
+                '../../../../../../../assets/images/profile.webp'
+            }}"
+            alt="Profile"
+          />
+        </div>
+      </div>
+      <div class="personal">
+        <div>
+          <div class="title">Full Name</div>
+          <div class="data">
+            {{ selectedUser?.firstName }} {{ selectedUser?.middleName }}
+            {{ selectedUser?.lastName }}
+            {{ selectedUser?.suffix }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Gender</div>
+          <div class="data">{{ selectedUser?.gender }}</div>
+        </div>
+        <div>
+          <div class="title">Birthday</div>
+          <div class="data">{{ selectedUser?.birthdate }}</div>
+        </div>
+        <div>
+          <div class="title">Email</div>
+          <div class="data">{{ selectedUser?.email }}</div>
+        </div>
+        <div>
+          <div class="title">Contact No</div>
+          <div class="data">{{ selectedUser?.contact }}</div>
+        </div>
+        <div>
+          <div class="title t1">Address</div>
+          <p class="data d1">
+            {{ selectedUser?.unit }}, {{ selectedUser?.street }},
+            {{ selectedUser?.village }}, {{ selectedUser?.barangay }},
+            {{ selectedUser?.city }}, {{ selectedUser?.province }},
+            {{ selectedUser?.region }}, {{ selectedUser?.zipCode }}
+          </p>
+        </div>
+      </div>
+      <div class="table-action">
+        <button
+          pButton
+          type="button"
+          label="Close"
+          (click)="closeDetailsDialog()"
+        ></button>
+      </div>
     </div>
   </p-dialog>
 </main>

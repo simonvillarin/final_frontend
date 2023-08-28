@@ -168,3 +168,55 @@ tr td {
     flex-direction: row;
   }
 }
+
+.profile {
+  min-height: calc(100vh - 4rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "image"
+    "personal"
+    "additional";
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--light-grayish-blue);
+}
+
+.personal {
+  grid-area: personal;
+  padding: 1.5rem;
+  background-color: var(--light);
+}
+
+.personal > div {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  text-align: center;
+}
+
+.title,
+.data {
+  padding: 0.77rem 1rem;
+}
+
+.title {
+  font-weight: 400;
+  border-top: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.t1 {
+  border-bottom: none;
+}
+
+.d1 {
+  border-bottom: 2px solid var(--primary);
+}
+
+.data {
+  border-left: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}

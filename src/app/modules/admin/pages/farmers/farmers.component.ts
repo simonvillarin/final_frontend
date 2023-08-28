@@ -16,6 +16,7 @@ export class FarmersComponent {
   gridLayout = false;
 
   statusSelected: string = '';
+  selectedUser: any;
 
   constructor(private userService: UserService) {}
 
@@ -92,4 +93,12 @@ export class FarmersComponent {
     this.farmerToUpdateStatus = farmer;
     this.confirmationDialog = true;
   };
+
+  openDetailsDialog(user: any): void {
+    this.selectedUser = user;
+  }
+
+  closeDetailsDialog(): void {
+    this.selectedUser = null;
+  }
 }
