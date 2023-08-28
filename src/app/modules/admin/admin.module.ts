@@ -12,6 +12,7 @@ import { FarmersComponent } from './pages/farmers/farmers.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MatIconModule } from '@angular/material/icon';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     ToggleButtonModule,
     InputSwitchModule,
     MatIconModule,
+    ButtonModule,
   ],
 })
 export class AdminModule {}
