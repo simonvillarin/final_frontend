@@ -110,6 +110,7 @@ export class RegisterComponent implements OnInit {
       ],
       confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
       role: ['', Validators.required],
+      status: [false],
     });
   }
 
