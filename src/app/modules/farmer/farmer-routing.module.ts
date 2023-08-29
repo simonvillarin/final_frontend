@@ -12,6 +12,8 @@ import { FarmerProfileComponent } from './pages/farmer-profile/farmer-profile.co
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { FarmerMainComponent } from './pages/farmer-main/farmer-main.component';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
+import { OfferComponent } from './pages/offer/offer.component';
+import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
 
 const routes: Routes = [
   {
@@ -39,8 +41,12 @@ const routes: Routes = [
         component: ComplaintsComponent,
       },
       {
-        path: 'sell-product',
-        component: SellProductComponent,
+        path: 'my-offers',
+        component: OfferComponent,
+      },
+      {
+        path: 'accepted-offers',
+        component: AcceptedOfferComponent,
       },
       {
         path: 'payments',

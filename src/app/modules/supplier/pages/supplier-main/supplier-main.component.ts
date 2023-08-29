@@ -79,14 +79,20 @@ export class SupplierMainComponent implements OnInit {
     const currentLocation = this.location.path();
     const splitLocation = currentLocation.split('/');
     const loc = splitLocation[splitLocation.length - 1];
+    const loc1 = splitLocation[splitLocation.length - 2];
+
     if (loc == 'dashboard') {
       return 'Dashboard';
     } else if (loc == 'advertisement') {
       return 'Advertisement';
-    } else if (loc == 'payments') {
-      return 'Crop Payment';
+    } else if (loc == 'offers') {
+      return 'Offers';
+    } else if (loc == 'accepted-offers') {
+      return 'Accepted Offers';
     } else if (loc == 'received') {
       return 'Crop Received';
+    } else if (loc == 'transaction' || loc1 == 'transaction') {
+      return 'Transaction';
     } else if (loc == 'profile') {
       return 'Profile';
     } else {

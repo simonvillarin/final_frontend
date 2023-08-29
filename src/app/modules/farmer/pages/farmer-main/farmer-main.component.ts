@@ -91,8 +91,10 @@ export class FarmerMainComponent {
       return 'Advertisements';
     } else if (loc == 'complaints') {
       return 'Complaints';
-    } else if (loc == 'sell-product') {
-      return 'Sell Product';
+    } else if (loc == 'my-offers') {
+      return 'My Offers';
+    } else if (loc == 'accepted-offers') {
+      return 'Accepted Offers';
     } else if (loc == 'payments') {
       return 'Payments';
     } else if (loc == 'history') {

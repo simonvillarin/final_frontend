@@ -18,6 +18,7 @@ import { CardModule } from 'primeng/card';
 import { LandingRoutingModule } from '../modules/landing/landing-routing.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -54,6 +55,7 @@ import { ToastModule } from 'primeng/toast';
     CardModule,
     PaginatorModule,
     ToastModule,
+    CheckboxModule,
   ],
 })
 export class SharedModule {}

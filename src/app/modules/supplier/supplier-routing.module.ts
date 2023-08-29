@@ -4,9 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SupplierMainComponent } from './pages/supplier-main/supplier-main.component';
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
-import { PaymentsComponent } from './pages/payments/payments.component';
 import { ReceivedComponent } from './pages/received/received.component';
 import { SupplierProfileComponent } from './pages/supplier-profile/supplier-profile.component';
+import { OfferComponent } from './pages/offer/offer.component';
+import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
+import { TransactionComponent } from './pages/transaction/transaction.component';
 
 const routes: Routes = [
   {
@@ -22,8 +24,16 @@ const routes: Routes = [
         component: AdvertisementComponent,
       },
       {
-        path: 'payments',
-        component: PaymentsComponent,
+        path: 'offers',
+        component: OfferComponent,
+      },
+      {
+        path: 'accepted-offers',
+        component: AcceptedOfferComponent,
+      },
+      {
+        path: 'transaction/:id',
+        component: TransactionComponent,
       },
       {
         path: 'received',

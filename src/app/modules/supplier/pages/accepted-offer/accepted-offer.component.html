@@ -1,0 +1,100 @@
+<main>
+  <div class="actions">
+    <div class="btn-actions">
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+    </div>
+    <div class="filter-container">
+      <p-dropdown
+        [options]="categories"
+        placeholder="Filter by category"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
+    </div>
+  </div>
+
+  <div class="card-container">
+    <div class="card" *ngFor="let acceptedOffer of acceptedOffers">
+      <div class="card-img-container">
+        <div class="img-container">
+          <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
+        </div>
+        <button (click)="onViewTransaction(acceptedOffer.transactionId)">
+          <span class="material-symbols-rounded"> payments </span>View
+          Transaction
+        </button>
+      </div>
+      <div class="card-content">
+        <div>
+          <div class="title">Accepted Offer No</div>
+          <div class="data">
+            {{ acceptedOffer.transactionId }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Crop Name</div>
+          <div class="data">{{ acceptedOffer.offer.advertisement.name }}</div>
+        </div>
+        <div>
+          <div class="title">Category</div>
+          <div class="data">
+            {{ acceptedOffer.offer.advertisement.category }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Description</div>
+          <p class="data">
+            {{ acceptedOffer.offer.advertisement.description }}
+          </p>
+        </div>
+        <div>
+          <div class="title">Quantity</div>
+          <div class="data">{{ acceptedOffer.offer.quantity }} pcs.</div>
+        </div>
+        <div>
+          <div class="title">Mass</div>
+          <div class="data">{{ acceptedOffer.offer.mass }} kg.</div>
+        </div>
+        <div>
+          <div class="title t1">Price</div>
+          <p class="data d1">₱ {{ acceptedOffer.offer.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [rows]="5"
+      [totalRecords]="totalOffers"
+    ></p-paginator>
+  </div>
+</main>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Accept Offer</div>
+  </p-header>
+  <div class="dialog-body">Are you sure you want to accept this offer?</div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel" (click)="onCancelConfirmationDialog()">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (click)="onConfirm()">Confirm</button>
+  </div>
+</p-dialog>

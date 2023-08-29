@@ -28,6 +28,7 @@ main {
   font-size: 1rem;
   border-radius: 0.25rem;
   color: var(--light);
+  transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
@@ -35,8 +36,18 @@ main {
   background-color: var(--primary);
 }
 
+.btn-post:hover,
+.btn-post:focus {
+  background-color: var(--darker-primary);
+}
+
 .btn-clear {
   background-color: var(--red);
+}
+
+.btn-clear:hover,
+.btn-clear:focus {
+  background-color: var(--darker-red);
 }
 
 .filter-container {
@@ -202,101 +213,108 @@ img {
   overflow: hidden;
 }
 
-.edit,
-.delete {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.25rem;
-  color: var(--light);
-  cursor: pointer;
-}
-
-.edit {
-  background-color: var(--blue);
-}
-
-.delete {
-  background-color: var(--red);
-}
-
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.card-container1 {
-  grid-template-columns: repeat(1, 1fr);
-}
-
 .card {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  padding: 1rem;
   border-radius: 0.25rem;
   background-color: var(--light);
-  overflow: hidden;
 }
 
-.card-image {
-  width: 100%;
-  height: 18rem;
-}
-
-.card-image > img {
-  object-fit: cover;
-}
-
-.card-content {
-  padding: 1rem 1rem;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card-img-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
   gap: 0.5rem;
 }
 
-.card-title {
-  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
-  font-weight: 400;
-  line-height: 1.2;
+.c-img-container {
+  width: 100%;
+  height: 280px;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
-.card-category {
-  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
-  transform: translateY(-0.125rem);
-  margin-bottom: 0.4rem;
-}
-
-.card-description {
-  font-size: clamp(1rem, 0.9512rem + 0.2439vw, 1.125rem);
-  margin-bottom: 0.5rem;
-}
-
-.card-nums {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  gap: 2rem;
-}
-
-.card-num {
-  display: flex;
-  flex-direction: column;
-}
-
-.value {
-  font-size: clamp(1.125rem, 1.0762rem + 0.2439vw, 1.25rem);
-  font-weight: 400;
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-actions {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 0.5rem;
+}
+
+.card-edit,
+.card-delete {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--blue);
+  font-size: 1rem;
+  transition: background-color 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.card-edit:hover,
+.card-edit:focus {
+  background-color: var(--darker-blue);
+}
+
+.card-delete {
+  background-color: var(--red);
+}
+
+.card-delete:hover,
+.card-delete:focus {
+  background-color: var(--darker-red);
+}
+
+.card-content > div {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  text-align: center;
+}
+
+.title,
+.data {
+  padding: 0.77rem 1rem;
+}
+
+.title {
+  font-weight: 400;
+  border-top: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.t1 {
+  border-bottom: none;
+}
+
+.d1 {
+  border-bottom: 2px solid var(--primary);
+}
+
+.data {
+  border-left: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
 }
 
 .pagination {
@@ -348,7 +366,25 @@ img {
     justify-content: space-between;
   }
 
-  .card-container1 {
-    grid-template-columns: repeat(2, 1fr);
+  .card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .card-content > div {
+    grid-template-columns: clamp(12rem, 15rem, 18rem) 1fr;
+    text-align: left;
+  }
+
+  .c-img-container {
+    width: 370px;
+    height: 100%;
+  }
+
+  .data {
+    border-left: none;
+  }
+
+  .t1 {
+    border-bottom: 2px solid var(--primary);
   }
 }

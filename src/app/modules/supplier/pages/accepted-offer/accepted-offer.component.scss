@@ -45,64 +45,6 @@ main {
   gap: 0.5rem;
 }
 
-.search-container {
-  position: relative;
-}
-
-.search-container > span {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  color: #333;
-}
-
-.dialog-title {
-  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
-  font-weight: 400;
-}
-
-.dialog-body {
-  font-size: clamp(1.125rem, 1.233rem + 0.3659vw, 1.25rem);
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.dialog-btn {
-  width: 5.5rem;
-  height: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0.5rem;
-  padding: 0.25rem;
-  color: var(--light);
-  background-color: var(--primary);
-  border-radius: 0.25rem;
-  transition: background-color 300ms ease-in;
-  cursor: pointer;
-}
-
-.submit:hover,
-.submit:focus {
-  background-color: var(--darker-primary);
-}
-
-.cancel {
-  color: var(--light);
-  background-color: var(--red);
-}
-
-.cancel:hover,
-.cancel:focus {
-  background-color: var(--darker-red);
-}
-
 .card-container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -190,36 +132,50 @@ button:focus {
   border-right: 2px solid var(--primary);
 }
 
-.pagination {
-  width: 100%;
+.dialog-title {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  font-weight: 400;
 }
 
-.form-group {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+.dialog-body {
+  font-size: clamp(1.125rem, 1.233rem + 0.3659vw, 1.25rem);
 }
 
-.input-group {
+.dialog-actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.input-group > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.required {
-  color: var(--red);
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
+  justify-content: flex-end;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.dialog-btn {
+  width: 5.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus {
+  background-color: var(--darker-primary);
+}
+
+.cancel {
+  color: var(--light);
+  background-color: var(--red);
+}
+
+.cancel:hover,
+.cancel:focus {
+  background-color: var(--darker-red);
 }
 
 @media screen and (min-width: 768px) {

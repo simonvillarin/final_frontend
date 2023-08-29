@@ -16,6 +16,8 @@ import { CardModule } from 'primeng/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
 import { AccordionModule } from 'primeng/accordion';
+import { OfferComponent } from './pages/offer/offer.component';
+import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { AccordionModule } from 'primeng/accordion';
     FarmerProfileComponent,
     FarmerMainComponent,
     FarmingTipsComponent,
+    OfferComponent,
+    AcceptedOfferComponent,
   ],
   imports: [
     CommonModule,

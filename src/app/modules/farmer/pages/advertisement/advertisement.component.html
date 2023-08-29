@@ -21,48 +21,181 @@
   </div>
 
   <ng-container>
-    <div class="card-container" [class.card-container1]="gridTwo">
-      <ng-container *ngFor="let ad of ads">
-        <div class="card" *ngIf="ad.status">
-          <div class="card-image">
-            <img src="{{ ad.image }}" alt="Crop" />
+    <div class="card-container">
+      <div class="card" *ngFor="let ad of ads">
+        <div class="card-img-container">
+          <div class="img-container">
+            <img [src]="ad.image" alt="Crop" />
           </div>
-          <div class="card-content">
-            <div class="card-header">
-              <p class="card-title">{{ ad.name }}</p>
-              <div class="card-actions">
-                <button class="accept" title="Accept">
-                  <span class="material-symbols-rounded"> thumb_up </span>
-                </button>
-              </div>
+          <button (click)="onOffer(ad)">
+            <span class="material-symbols-rounded"> contract </span>Make an
+            Offer
+          </button>
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="title">Supplier</div>
+            <div class="data">
+              {{ ad.supplier.firstName }} {{ ad.supplier.middleName }}
+              {{ ad.supplier.lastName }} {{ ad.supplier.suffix }}
             </div>
-            <div class="card-category">{{ ad.category }}</div>
-            <p class="card-description">{{ ad.description }}</p>
-            <div class="card-nums">
-              <div class="card-num">
-                <span class="key">Quantity</span>
-                <span class="value">{{ ad.quantity }} pcs</span>
-              </div>
-              <div class="card-num">
-                <span class="key">Mass</span>
-                <span class="value">{{ ad.mass }} kg</span>
-              </div>
-              <div class="card-num">
-                <span class="key">Price</span>
-                <span class="value">₱ {{ ad.price }}</span>
-              </div>
-            </div>
+          </div>
+          <div>
+            <div class="title">Crop Name</div>
+            <div class="data">{{ ad.name }}</div>
+          </div>
+          <div>
+            <div class="title">Category</div>
+            <div class="data">{{ ad.category }}</div>
+          </div>
+          <div>
+            <div class="title">Description</div>
+            <p class="data">
+              {{ ad.description }}
+            </p>
+          </div>
+          <div>
+            <div class="title">Quantity</div>
+            <div class="data">{{ ad.quantity }} pcs.</div>
+          </div>
+          <div>
+            <div class="title">Mass</div>
+            <div class="data">{{ ad.mass }} kg.</div>
+          </div>
+          <div>
+            <div class="title t1">Price</div>
+            <p class="data d1">₱ {{ ad.price }}</p>
           </div>
         </div>
-      </ng-container>
+      </div>
     </div>
 
     <div class="pagination">
       <p-paginator
         (onPageChange)="onPageChange($event)"
-        [rows]="6"
+        [rows]="5"
         [totalRecords]="totalAds"
       ></p-paginator>
     </div>
   </ng-container>
 </main>
+
+<p-dialog
+  [(visible)]="offerDialog"
+  [modal]="true"
+  [breakpoints]="{ '992px': '90vw', }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Offer Advertisement</div>
+  </p-header>
+  <div class="checkbox">
+    <p-checkbox
+      [(ngModel)]="checked"
+      (ngModelChange)="onCheckboxChange($event)"
+      [binary]="true"
+      inputId="binary"
+    ></p-checkbox>
+    <label>Offer same quantity, mass, and price as the advertisement</label>
+  </div>
+  <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <div class="form-group">
+        <div class="input-group">
+          <label>Quantity<span class="required">*</span></label>
+          <p-inputNumber
+            inputId="minmax"
+            inputId="minmax"
+            mode="decimal"
+            [min]="1"
+            [max]="100000"
+            [style]="{
+              width: '100%'
+            }"
+            formControlName="quantity"
+          >
+          </p-inputNumber>
+          <div
+            *ngIf="quantity.invalid && (quantity?.dirty || quantity?.touched)"
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="quantity?.errors?.['required']"
+              >Quantity is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Mass<span class="required">*</span></label>
+          <p-inputNumber
+            inputId="locale-user"
+            [minFractionDigits]="2"
+            [style]="{
+              width: '100%'
+            }"
+            formControlName="mass"
+          ></p-inputNumber>
+          <div *ngIf="mass.invalid && (mass?.dirty || mass?.touched)">
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="mass?.errors?.['required']"
+              >Mass is required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Price<span class="required">*</span></label>
+          <p-inputNumber
+            inputId="locale-user"
+            [minFractionDigits]="2"
+            [style]="{
+              width: '100%'
+            }"
+            formControlName="price"
+          ></p-inputNumber>
+          <div *ngIf="price.invalid && (price?.dirty || price?.touched)">
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="price?.errors?.['required']"
+              >Price is required</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button
+        type="button"
+        class="dialog-btn cancel"
+        (click)="onCancelOfferDialog()"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="dialog-btn submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Offer</div>
+  </p-header>
+  <div class="dialog-body">
+    Are you sure you want to make an offer on this advertisement?
+  </div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel" (click)="onCancelConfirmationDialog()">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (click)="onConfirm()">Confirm</button>
+  </div>
+</p-dialog>
