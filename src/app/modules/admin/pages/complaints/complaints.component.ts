@@ -19,6 +19,7 @@ export class ComplaintsComponent implements OnInit {
 
   gridLayout = false;
   confirmationDialog = false;
+  complaintToUpdateStatus: any;
 
   constructor(private complaintService: ComplaintsService) {}
 
@@ -33,6 +34,41 @@ export class ComplaintsComponent implements OnInit {
       );
     });
   };
+
+  onStatusChanges = (status: string) => {
+    if (status !== '') {
+      this.complaintService.getAllComplaints().subscribe((data: any[]) => {
+        this.complaints = data.sort((a: any, b: any) => b.userId - a.userId);
+
+        if (status === 'Active') {
+          this.complaints = this.complaints.filter(
+            (farmer: any) => farmer.status === true
+          );
+        } else {
+          console.log(false);
+          this.complaints = this.complaints.filter(
+            (farmer: any) => farmer.status === false
+          );
+        }
+      });
+    }
+  };
+
+  onStatusChanged = (complaint: any) => {
+    this.complaintToUpdateStatus = complaint;
+    this.confirmationDialog = true;
+  };
+
+  onUpdateStatus(): void {
+    this.complaintService
+      .updateComplaint(this.complaintToUpdateStatus.complaintId, {
+        status: this.complaintToUpdateStatus.status,
+      })
+      .subscribe(() => {
+        this.getComplaints();
+        this.confirmationDialog = false;
+      });
+  }
 
   onRemove = (complaint: any) => {
     this.complaintId = complaint.complaintId;
@@ -52,5 +88,6 @@ export class ComplaintsComponent implements OnInit {
 
   onCloseConfirmationDialog = () => {
     this.confirmationDialog = false;
+    this.getComplaints();
   };
 }

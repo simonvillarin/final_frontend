@@ -35,7 +35,7 @@
             </div>
             <div class="card-num">
               <span class="card-num-label">Status: </span>
-              <div>{{ complaint.status ? "Active" : "Inactive" }}</div>
+              <div>{{ complaint.status ? "Active" : "Solved" }}</div>
             </div>
           </div>
           <div class="card-actions">
@@ -68,6 +68,7 @@
           <th style="width: 15%">Complaint Type</th>
           <th style="width: 25%">Complaint Details</th>
           <th style="width: 10%">Date</th>
+          <th style="width: 10%">Status</th>
           <th style="width: 10%">Actions</th>
         </tr>
       </ng-template>
@@ -86,6 +87,9 @@
           </td>
           <td>
             {{ complaint.date | date : "medium" }}
+          </td>
+          <td>
+            {{ complaint.status ? "Active" : "Solved" }}
           </td>
           <td>
             <div class="table-actions">
