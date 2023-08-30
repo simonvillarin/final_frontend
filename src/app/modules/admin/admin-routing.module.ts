@@ -8,6 +8,7 @@ import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.componen
 import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { FarmersComponent } from './pages/farmers/farmers.component';
+import { CoursesComponent } from './pages/courses/courses.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'farmers',
         component: FarmersComponent,
+      },
+      {
+        path: 'course',
+        component: CoursesComponent,
       },
     ],
   },

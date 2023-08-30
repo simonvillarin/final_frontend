@@ -96,6 +96,8 @@ export class AdminMainComponent {
       return 'Suppliers';
     } else if (loc == 'farmers') {
       return 'Farmers';
+    } else if (loc == 'course') {
+      return 'Courses';
     } else {
       return this.router.navigate(['/admin/dashboard']);
     }
