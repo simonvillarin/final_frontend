@@ -13,6 +13,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonModule } from 'primeng/button';
+import { CoursesComponent } from './pages/courses/courses.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ButtonModule } from 'primeng/button';
     AdminProfileComponent,
     SupplierComponent,
     FarmersComponent,
+    CoursesComponent,
   ],
   imports: [
     CommonModule,
