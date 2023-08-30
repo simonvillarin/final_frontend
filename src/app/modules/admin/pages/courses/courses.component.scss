@@ -1,6 +1,7 @@
 main {
   min-height: calc(100vh - 4rem);
-  padding: 1rem 1.5rem;
+  padding: 1rem;
+  background-color: var(--light-grayish-blue);
 }
 
 .table {
@@ -22,53 +23,34 @@ tr td {
 
 .actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .btn-post {
+  width: 7.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
   border-radius: 0.25rem;
   color: var(--light);
   background-color: var(--primary);
+  transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
-.btn-post > span {
-  font-size: 1.25rem;
-}
-
-.layout-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.layout-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--primary);
-  cursor: pointer;
-  user-select: none;
-}
-
-.layout-icon > span {
-  font-size: 1.75rem;
-}
-
-.dialog-title {
-  font-size: clamp(1.25rem, 0.91rem + 1.2195vw, 1.5rem);
-}
-
-.dialog-body {
-  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.125rem);
+.btn-post:hover,
+.btn-post:focus {
+  background-color: var(--darker-primary);
 }
 
 .form-container {
@@ -98,71 +80,12 @@ tr td {
   color: var(--red);
 }
 
-.num-group {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
+.dialog-title {
+  font-size: clamp(1.25rem, 0.91rem + 1.2195vw, 1.5rem);
 }
 
-.upload {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  place-items: center;
-  gap: 0.5rem;
-}
-
-.banner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.img-container {
-  width: 100%;
-  height: 225px;
-  border: 2px solid var(--primary);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.error-border {
-  border: 2px solid red;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.image {
-  display: none;
-}
-
-.img-active {
-  display: block;
-}
-
-.btn-upload {
-  position: relative;
-  width: 100%;
-  padding: 0.625rem;
-  border-radius: 0.25rem;
-  color: var(--light);
-  background-color: var(--primary);
-  font-size: 1rem;
-}
-
-.file {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+.dialog-body {
+  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.125rem);
 }
 
 .dialog-actions {
@@ -202,23 +125,6 @@ img {
   background-color: var(--darker-red);
 }
 
-.tip-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tip-container {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.tip-container > img {
-  object-fit: cover;
-}
-
 .table-actions {
   display: flex;
   justify-content: center;
@@ -234,6 +140,7 @@ img {
   padding: 0.5rem 0.75rem;
   border-radius: 0.25rem;
   color: var(--light);
+  transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
@@ -241,8 +148,18 @@ img {
   background-color: var(--blue);
 }
 
+.edit:hover,
+.edit:focus {
+  background-color: var(--darker-blue);
+}
+
 .delete {
   background-color: var(--red);
+}
+
+.delete:hover,
+.delete:focus {
+  background-color: var(--darker-red);
 }
 
 .card-container {
@@ -320,24 +237,6 @@ img {
 }
 
 @media screen and (min-width: 768px) {
-  .btn-post {
-    padding: 0.5rem 1.25rem;
-    font-size: 1rem;
-  }
-
-  .btn-post > span {
-    font-size: 1.5rem;
-  }
-
-  .num-group {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .img-container,
-  .btn-upload {
-    width: 260px;
-  }
-
   .dialog-btn {
     width: 7rem;
     height: 3rem;

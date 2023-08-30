@@ -8,6 +8,8 @@ import {
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { OfferService } from 'src/app/shared/services/offer/offer.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -51,7 +53,9 @@ export class AdvertisementComponent implements OnInit {
     private advertisementService: AdvertisementService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private offerService: OfferService,
+    private messageService: MessageService,
+    private router: Router
   ) {
     this.adForm = fb.group({
       supplierId: ['', Validators.required],
@@ -103,12 +107,7 @@ export class AdvertisementComponent implements OnInit {
           this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
           this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
           this.totalAds = this.tempAds.length;
-          this.ads = this.tempAds.splice(this.page * 6, 6);
-          if (this.ads.length < 3) {
-            this.gridTwo = true;
-          } else {
-            this.gridTwo = false;
-          }
+          this.ads = this.tempAds.splice(this.page * 5, 5);
         },
         (error) => {
           console.log(error);
@@ -300,5 +299,9 @@ export class AdvertisementComponent implements OnInit {
     this.page = page.page;
     this.categorySelected = '';
     this.getAdBySupplierId();
+  };
+
+  onViewOffers = (id: any) => {
+    this.router.navigate([`/supplier/offers/${id}`]);
   };
 }

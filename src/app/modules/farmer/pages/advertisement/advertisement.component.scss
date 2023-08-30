@@ -146,15 +146,23 @@ button {
   gap: 0.5rem;
   padding: 0.625rem;
   border-radius: 0.25rem;
-  color: var(--light);
-  background-color: var(--primary);
   font-size: 1rem;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
-button:hover,
-button:focus {
+.offered {
+  color: #333;
+  background-color: #c1c1c1;
+}
+
+.noOffer {
+  color: var(--light);
+  background-color: var(--primary);
+}
+
+.noOffer:hover,
+.noOffer:focus {
   background-color: var(--darker-primary);
 }
 

@@ -24,7 +24,7 @@ const routes: Routes = [
         component: AdvertisementComponent,
       },
       {
-        path: 'offers',
+        path: 'offers/:id',
         component: OfferComponent,
       },
       {

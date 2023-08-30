@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
@@ -31,7 +32,8 @@ export class OfferComponent implements OnInit {
   constructor(
     private offerService: OfferService,
     private transactionService: TransactionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -39,23 +41,21 @@ export class OfferComponent implements OnInit {
   }
 
   getOffersBySupplierId = () => {
-    this.offerService
-      .getOfferBySupplierId(this.authService.getUserId())
-      .subscribe(
-        (data: any) => {
-          this.tempOffers = data.sort(
-            (a: any, b: any) => b.offerId - a.offerId
-          );
-          this.tempOffers = this.tempOffers.filter(
-            (offer: any) => offer.isAccepted === false
-          );
-          this.totalOffers = this.tempOffers.length;
-          this.offers = this.tempOffers.splice(this.page * 5, 5);
-        },
-        () => {
-          this.authService.logout();
-        }
-      );
+    const param = this.route.snapshot.params['id'];
+
+    this.offerService.getOfferByPostId(param).subscribe(
+      (data: any) => {
+        this.tempOffers = data.sort((a: any, b: any) => b.offerId - a.offerId);
+        this.tempOffers = this.tempOffers.filter(
+          (offer: any) => offer.status === true
+        );
+        this.totalOffers = this.tempOffers.length;
+        this.offers = this.tempOffers.splice(this.page * 5, 5);
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   onClear = () => {
@@ -73,8 +73,10 @@ export class OfferComponent implements OnInit {
   };
 
   onAcceptOffer = (offer: any) => {
-    this.offer = offer;
-    this.confirmationDialog = true;
+    if (!offer.isAccepted) {
+      this.offer = offer;
+      this.confirmationDialog = true;
+    }
   };
 
   onCancelConfirmationDialog = () => {
@@ -103,5 +105,9 @@ export class OfferComponent implements OnInit {
         this.authService.logout();
       }
     );
+  };
+
+  onBack = () => {
+    history.back();
   };
 }

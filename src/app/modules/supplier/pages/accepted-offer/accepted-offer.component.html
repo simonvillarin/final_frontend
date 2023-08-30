@@ -26,10 +26,21 @@
         <div class="img-container">
           <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
         </div>
-        <button (click)="onViewTransaction(acceptedOffer.transactionId)">
-          <span class="material-symbols-rounded"> payments </span>View
-          Transaction
-        </button>
+        <div class="card-actions">
+          <button
+            class="btn-transaction"
+            (click)="onPayment(acceptedOffer.transactionId)"
+          >
+            <span class="material-symbols-rounded"> payments </span>Payment
+          </button>
+          <button
+            class="btn-cancel"
+            title="Cancel"
+            (click)="onCancel(acceptedOffer)"
+          >
+            <span class="material-symbols-rounded"> cancel </span>
+          </button>
+        </div>
       </div>
       <div class="card-content">
         <div>
@@ -88,9 +99,9 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="dialog-title">Accept Offer</div>
+    <div class="dialog-title">Cancel Offer</div>
   </p-header>
-  <div class="dialog-body">Are you sure you want to accept this offer?</div>
+  <div class="dialog-body">Are you sure you want to cancel this offer?</div>
   <div class="dialog-actions">
     <button class="dialog-btn cancel" (click)="onCancelConfirmationDialog()">
       Cancel

@@ -1,6 +1,9 @@
 <main>
   <div class="actions">
     <div class="btn-actions">
+      <button class="btn-back" (click)="onBack()">
+        <span class="material-symbols-rounded"> arrow_back </span>BACK
+      </button>
       <button class="btn-clear" (click)="onClear()">
         <span class="material-symbols-rounded"> restart_alt </span>CLEAR
       </button>
@@ -26,8 +29,12 @@
         <div class="img-container">
           <img [src]="offer.advertisement.image" alt="Crop" />
         </div>
-        <button (click)="onAcceptOffer(offer)">
-          <span class="material-symbols-rounded"> handshake </span>Accept Offer
+        <button
+          class="btn-accept {{ offer.isAccepted ? 'accepted' : 'noOffer' }}"
+          (click)="onAcceptOffer(offer)"
+        >
+          <span class="material-symbols-rounded"> handshake </span
+          >{{ offer.isAccepted ? "Accepted" : "Accept Offer" }}
         </button>
       </div>
       <div class="card-content">

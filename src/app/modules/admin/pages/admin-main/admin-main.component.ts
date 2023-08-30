@@ -42,9 +42,8 @@ export class AdminMainComponent {
   }
 
   getAdminById = () => {
-    this.userService
-      .getUserById(this.authService.getUserId())
-      .subscribe((data) => {
+    this.userService.getUserById(this.authService.getUserId()).subscribe(
+      (data) => {
         this.user = data;
         this.username =
           data.firstName +
@@ -55,7 +54,11 @@ export class AdminMainComponent {
           ' ' +
           data.suffix;
         this.userPic = data.image;
-      });
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   toggleMobile = () => {

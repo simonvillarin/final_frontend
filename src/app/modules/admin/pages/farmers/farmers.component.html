@@ -31,9 +31,9 @@
           <th style="width: 10%">Image</th>
           <th style="width: 25%">First Name</th>
           <th style="width: 15%">Middle Name</th>
-          <th style="width: 25%">Last Name</th>
-          <th style="width: 12%">Status</th>
-          <th style="width: 13%">Actions</th>
+          <th style="width: 20%">Last Name</th>
+          <th style="width: 15%">Status</th>
+          <th style="width: 15%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-farmer>
@@ -64,17 +64,24 @@
           </td>
           <td>
             <div class="table-actions">
-              <p-inputSwitch
-                [(ngModel)]="farmer.status"
-                (ngModelChange)="onStatusChanged(farmer)"
-              ></p-inputSwitch>
-              <p-button
-                styleClass="p-button-rounded p-button-info p-button-text"
-                (onClick)="openDetailsDialog(farmer)"
-                ><span class="material-symbols-rounded">
-                  person
-                </span></p-button
+              <button
+                class="btn-details"
+                title="View Details"
+                (click)="openDetailsDialog(farmer)"
               >
+                <span class="material-symbols-rounded"> person </span>
+              </button>
+              <button
+                class="btn-deactivate {{
+                  !farmer.status ? 'active' : 'inactive'
+                }}"
+                [title]="!farmer.status ? 'Activate' : 'Deactivate'"
+                (click)="onDelete(farmer)"
+              >
+                <span class="material-symbols-rounded">
+                  {{ farmer.status ? "close" : "check" }}</span
+                >
+              </button>
             </div>
           </td>
         </tr>
@@ -85,96 +92,91 @@
   <p-dialog
     [(visible)]="confirmationDialog"
     [modal]="true"
-    [breakpoints]="{ '960px': '75vw' }"
+    [breakpoints]="{ '600px': '90vw' }"
     [style]="{ width: '50vw' }"
     [draggable]="false"
     [resizable]="false"
   >
     <p-header>
-      <div class="dialog-title">Change Status</div>
+      <div class="dialog-title">
+        {{ farmer.status ? "Deactivate" : "Activate" }}
+      </div>
     </p-header>
-    <div class="dialog-body">Are you sure you want to change the status?</div>
+    <div class="dialog-body">
+      Are you sure you want to
+      {{ farmer.status ? "deactivate" : "activate" }} this farmer?
+    </div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCancelDelete()">
         Cancel
       </button>
-      <p-button class="dialog-btn submit" (click)="onUpdateStatus()"
-        >Yes</p-button
-      >
+      <button class="dialog-btn submit" (click)="onConfirmDelete()">
+        Confirm
+      </button>
     </div>
   </p-dialog>
 
   <p-dialog
-    header="User Details"
-    [(visible)]="selectedUser"
+    [(visible)]="detailsDialog"
     [modal]="true"
-    [style]="{ width: '50%' }"
+    [breakpoints]="{ '600px': '90vw' }"
+    [style]="{ width: '80vw' }"
+    [draggable]="false"
     [resizable]="false"
-    [baseZIndex]="10000"
-    (onHide)="closeDetailsDialog()"
+    [maximizable]="true"
   >
-    <div class="profile">
-      <div class="profile-container">
-        <div class="img-container">
-          <img
-            src="{{
-              selectedUser?.idFront ||
-                '../../../../../../../assets/images/profile.webp'
-            }}"
-            alt="Profile"
-          />
-          <img
-            src="{{
-              selectedUser?.idBack ||
-                '../../../../../../../assets/images/profile.webp'
-            }}"
-            alt="Profile"
-          />
+    <p-header>
+      <div class="dialog-title">Farmer Information</div>
+    </p-header>
+    <div class="card">
+      <div class="card-img-container">
+        <div class="c-img-container">
+          <img [src]="farmer.idFront" alt="Crop" />
+        </div>
+        <div class="c-img-container">
+          <img [src]="farmer.idBack" alt="Crop" />
         </div>
       </div>
-      <div class="personal">
+      <div class="card-content">
         <div>
-          <div class="title">Full Name</div>
+          <div class="title">Name</div>
           <div class="data">
-            {{ selectedUser?.firstName }} {{ selectedUser?.middleName }}
-            {{ selectedUser?.lastName }}
-            {{ selectedUser?.suffix }}
+            {{ farmer.firstName }} {{ farmer.middleName }} {{ farmer.lastName }}
+            {{ farmer.suffix }}
           </div>
         </div>
         <div>
           <div class="title">Gender</div>
-          <div class="data">{{ selectedUser?.gender }}</div>
+          <div class="data">{{ farmer.gender }}</div>
         </div>
         <div>
           <div class="title">Birthday</div>
-          <div class="data">{{ selectedUser?.birthdate }}</div>
+          <p class="data">
+            {{ farmer.birthdate }}
+          </p>
         </div>
         <div>
           <div class="title">Email</div>
-          <div class="data">{{ selectedUser?.email }}</div>
+          <div class="data">{{ farmer.email }} pcs.</div>
         </div>
         <div>
           <div class="title">Contact No</div>
-          <div class="data">{{ selectedUser?.contact }}</div>
+          <div class="data">{{ farmer.contact }} kg.</div>
         </div>
         <div>
           <div class="title t1">Address</div>
-          <p class="data d1">
-            {{ selectedUser?.unit }}, {{ selectedUser?.street }},
-            {{ selectedUser?.village }}, {{ selectedUser?.barangay }},
-            {{ selectedUser?.city }}, {{ selectedUser?.province }},
-            {{ selectedUser?.region }}, {{ selectedUser?.zipCode }}
-          </p>
+          <div class="data d1">
+            {{ farmer.unit }}, {{ farmer.street }}, {{ farmer.village }},
+            {{ farmer.barangay }}, {{ farmer.city }}, {{ farmer.province }},
+            {{ farmer.region }}
+          </div>
         </div>
       </div>
-      <div class="table-action">
-        <button
-          pButton
-          type="button"
-          label="Close"
-          (click)="closeDetailsDialog()"
-        ></button>
-      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn submit" (click)="closeDetailsDialog()">
+        OK
+      </button>
     </div>
   </p-dialog>
 </main>

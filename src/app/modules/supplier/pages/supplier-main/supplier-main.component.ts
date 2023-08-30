@@ -85,7 +85,7 @@ export class SupplierMainComponent implements OnInit {
       return 'Dashboard';
     } else if (loc == 'advertisement') {
       return 'Advertisement';
-    } else if (loc == 'offers') {
+    } else if (loc == 'offers' || loc1 == 'offers') {
       return 'Offers';
     } else if (loc == 'accepted-offers') {
       return 'Accepted Offers';

@@ -423,26 +423,31 @@ export class SupplierProfileComponent implements OnInit {
 
         this.userService
           .updateUser(this.authService.getUserId(), payload)
-          .subscribe((res: any) => {
-            if (res.message == 'Contact number already exists') {
-              this.alert = true;
-              this.isError = true;
-              this.alertMessage = 'Contact no already exists';
-              setTimeout(() => (this.alert = false), 3000);
-            } else if (res.message == 'Email already exists') {
-              this.alert = true;
-              this.isError = true;
-              this.alertMessage = 'Email address already exists';
-              setTimeout(() => (this.alert = false), 3000);
-            } else {
-              this.getUserById();
-              this.personalForm.reset();
-              this.alert = true;
-              this.alertMessage = 'Personal information successfully updated';
-              setTimeout(() => (this.alert = false), 3000);
-              this.confirmationDialog = false;
+          .subscribe(
+            (res: any) => {
+              if (res.message == 'Contact number already exists') {
+                this.alert = true;
+                this.isError = true;
+                this.alertMessage = 'Contact no already exists';
+                setTimeout(() => (this.alert = false), 3000);
+              } else if (res.message == 'Email already exists') {
+                this.alert = true;
+                this.isError = true;
+                this.alertMessage = 'Email address already exists';
+                setTimeout(() => (this.alert = false), 3000);
+              } else {
+                this.getUserById();
+                this.personalForm.reset();
+                this.alert = true;
+                this.alertMessage = 'Personal information successfully updated';
+                setTimeout(() => (this.alert = false), 3000);
+                this.confirmationDialog = false;
+              }
+            },
+            () => {
+              this.authService.logout();
             }
-          });
+          );
       } else {
         this.personalForm.markAllAsTouched();
       }
@@ -457,14 +462,19 @@ export class SupplierProfileComponent implements OnInit {
 
         this.userService
           .updateUser(this.authService.getUserId(), this.addressForm.value)
-          .subscribe(() => {
-            this.getUserById();
-            this.addressForm.reset();
-            this.alert = true;
-            this.alertMessage = 'Address information successfully updated';
-            setTimeout(() => (this.alert = false), 3000);
-            this.confirmationDialog = false;
-          });
+          .subscribe(
+            () => {
+              this.getUserById();
+              this.addressForm.reset();
+              this.alert = true;
+              this.alertMessage = 'Address information successfully updated';
+              setTimeout(() => (this.alert = false), 3000);
+              this.confirmationDialog = false;
+            },
+            () => {
+              this.authService.logout();
+            }
+          );
       } else {
         this.addressForm.markAllAsTouched();
       }

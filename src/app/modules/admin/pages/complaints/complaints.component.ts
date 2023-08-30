@@ -15,54 +15,86 @@ import { ComplaintsService } from 'src/app/shared/services/complaints/complaints
 })
 export class ComplaintsComponent implements OnInit {
   complaints: any = [];
-  complaintId: any;
+  complaintTypes = ['Dispute', 'Service', 'Website Issue'];
+  complaint: any = {};
 
-  gridLayout = false;
   confirmationDialog = false;
-  complaintToUpdateStatus: any;
 
-  constructor(private complaintService: ComplaintsService) {}
+  categorySelected = '';
+
+  constructor(
+    private complaintService: ComplaintsService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.getComplaints();
   }
 
   getComplaints = () => {
-    this.complaintService.getAllComplaints().subscribe((data: any) => {
-      this.complaints = data.sort(
-        (a: any, b: any) => b.complaintId - a.complaintId
+    this.complaintService.getAllComplaints().subscribe(
+      (data: any) => {
+        this.complaints = data.sort(
+          (a: any, b: any) => b.complaintId - a.complaintId
+        );
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
+  };
+
+  onCategoryChange = (category: string) => {
+    if (this.categorySelected !== '') {
+      this.complaintService.getAllComplaints().subscribe(
+        (data: any) => {
+          this.complaints = data.sort(
+            (a: any, b: any) => b.complaintId - a.complaintId
+          );
+          this.complaints = this.complaints.filter(
+            (complaint: any) => complaint.complaintType === category
+          );
+        },
+        () => {
+          this.authService.logout();
+        }
       );
-    });
+    }
+  };
+
+  onClear = () => {
+    this.categorySelected = '';
+    this.getComplaints();
   };
 
   onStatusChanges = (status: string) => {
     if (status !== '') {
-      this.complaintService.getAllComplaints().subscribe((data: any[]) => {
-        this.complaints = data.sort((a: any, b: any) => b.userId - a.userId);
+      this.complaintService.getAllComplaints().subscribe(
+        (data: any[]) => {
+          this.complaints = data.sort((a: any, b: any) => b.userId - a.userId);
 
-        if (status === 'Active') {
-          this.complaints = this.complaints.filter(
-            (farmer: any) => farmer.status === true
-          );
-        } else {
-          console.log(false);
-          this.complaints = this.complaints.filter(
-            (farmer: any) => farmer.status === false
-          );
+          if (status === 'Active') {
+            this.complaints = this.complaints.filter(
+              (farmer: any) => farmer.status === true
+            );
+          } else {
+            console.log(false);
+            this.complaints = this.complaints.filter(
+              (farmer: any) => farmer.status === false
+            );
+          }
+        },
+        () => {
+          this.authService.logout();
         }
-      });
+      );
     }
-  };
-
-  onStatusChanged = (complaint: any) => {
-    this.complaintToUpdateStatus = complaint;
-    this.confirmationDialog = true;
   };
 
   onUpdateStatus(): void {
     this.complaintService
-      .updateComplaint(this.complaintToUpdateStatus.complaintId, {
-        status: this.complaintToUpdateStatus.status,
+      .updateComplaint(this.complaint.complaintId, {
+        status: !this.complaint.status,
       })
       .subscribe(() => {
         this.getComplaints();
@@ -71,23 +103,11 @@ export class ComplaintsComponent implements OnInit {
   }
 
   onRemove = (complaint: any) => {
-    this.complaintId = complaint.complaintId;
+    this.complaint = complaint;
     this.confirmationDialog = true;
-  };
-
-  onDelete = () => {
-    this.complaintService
-      .updateComplaint(this.complaintId, {
-        status: false,
-      })
-      .subscribe(() => {
-        this.getComplaints();
-        this.confirmationDialog = false;
-      });
   };
 
   onCloseConfirmationDialog = () => {
     this.confirmationDialog = false;
-    this.getComplaints();
   };
 }

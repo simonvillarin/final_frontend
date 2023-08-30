@@ -77,9 +77,7 @@ export class AdvertisementComponent implements OnInit {
     this.advertisementService.getAllAdvertisement().subscribe(
       (data: any) => {
         this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
-        this.tempAds = this.tempAds.filter(
-          (ad: any) => ad.status === true && ad.isOffered === false
-        );
+        this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
         this.totalAds = this.tempAds.length;
         this.ads = this.tempAds.splice(this.page * 5, 5);
       },
@@ -94,9 +92,7 @@ export class AdvertisementComponent implements OnInit {
       this.advertisementService.getAllAdvertisement().subscribe(
         (data: any) => {
           this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
-          this.tempAds = this.tempAds.filter(
-            (ad: any) => ad.status === true && ad.transaction === false
-          );
+          this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
           this.totalAds = this.tempAds.length;
           this.ads = this.tempAds.splice(this.page * 5, 5);
 
@@ -137,15 +133,17 @@ export class AdvertisementComponent implements OnInit {
   };
 
   onOffer = (ad: any) => {
-    this.ad = ad;
-    this.offerForm.reset();
+    if (!ad.isOffered) {
+      this.ad = ad;
+      this.offerForm.reset();
 
-    this.offerForm.patchValue({
-      farmerId: this.authService.getUserId(),
-      supplierId: ad.supplier.userId,
-      postId: ad.postId,
-    });
-    this.offerDialog = true;
+      this.offerForm.patchValue({
+        farmerId: this.authService.getUserId(),
+        supplierId: ad.supplier.userId,
+        postId: ad.postId,
+      });
+      this.offerDialog = true;
+    }
   };
 
   onCancelOfferDialog = () => {

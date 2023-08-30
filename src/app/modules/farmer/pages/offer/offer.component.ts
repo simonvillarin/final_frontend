@@ -46,6 +46,9 @@ export class OfferComponent implements OnInit {
           this.tempOffers = data.sort(
             (a: any, b: any) => b.offerId - a.offerId
           );
+          this.tempOffers = this.tempOffers.filter(
+            (offer: any) => offer.status === true
+          );
           this.totalOffers = this.tempOffers.length;
           this.offers = this.tempOffers.splice(this.page * 5, 5);
           console.log(this.offers);
@@ -80,13 +83,16 @@ export class OfferComponent implements OnInit {
   };
 
   onConfirm = () => {
-    this.offerService.deleteOffer(this.offer.offerId).subscribe(
+    const payload = {
+      status: 'false',
+    };
+    this.offerService.updateOffer(this.offer.offerId, payload).subscribe(
       () => {
-        const payload = {
+        const payload1 = {
           isOffered: false,
         };
         this.adService
-          .updateAdvertisement(this.offer.advertisement.postId, payload)
+          .updateAdvertisement(this.offer.advertisement.postId, payload1)
           .subscribe(() => {
             this.getOffersByFarmerId();
             this.confirmationDialog = false;

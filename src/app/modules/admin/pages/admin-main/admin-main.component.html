@@ -33,6 +33,15 @@
     </div>
     <div
       class="link"
+      routerLink="/admin/course"
+      routerLinkActive="link-active"
+      (click)="closeMobileNav()"
+    >
+      <span class="material-symbols-rounded"> menu_book </span>
+      <span>Courses</span>
+    </div>
+    <div
+      class="link"
       routerLink="/admin/farming-tips"
       routerLinkActive="link-active"
       (click)="closeMobileNav()"
@@ -66,15 +75,6 @@
     >
       <span class="material-symbols-rounded"> account_circle </span>
       <span>Profile</span>
-    </div>
-    <div
-      class="link"
-      routerLink="/admin/course"
-      routerLinkActive="link-active"
-      (click)="closeMobileNav()"
-    >
-      <span class="material-symbols-rounded"> account_circle </span>
-      <span>Courses</span>
     </div>
   </nav>
 </div>

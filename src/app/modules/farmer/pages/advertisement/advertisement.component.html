@@ -27,9 +27,12 @@
           <div class="img-container">
             <img [src]="ad.image" alt="Crop" />
           </div>
-          <button (click)="onOffer(ad)">
-            <span class="material-symbols-rounded"> contract </span>Make an
-            Offer
+          <button
+            class="{{ ad.isOffered ? 'offered' : 'noOffer' }}"
+            (click)="onOffer(ad)"
+          >
+            <span class="material-symbols-rounded"> contract </span
+            >{{ ad.isOffered ? "Offered" : "Make an Offer" }}
           </button>
         </div>
         <div class="card-content">

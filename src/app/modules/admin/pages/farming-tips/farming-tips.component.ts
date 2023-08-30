@@ -18,7 +18,6 @@ export class FarmingTipsComponent {
 
   tips: any = [];
   tipId: any;
-  gridLayout = false;
   addDialog = false;
   confirmationDialog = false;
   showImage = false;
@@ -34,9 +33,9 @@ export class FarmingTipsComponent {
   ) {
     this.tipForm = fb.group({
       tip: ['', Validators.required],
-      filename: ['', Validators.required],
-      mimeType: ['', Validators.required],
-      data: ['', Validators.required],
+      filename: [''],
+      mimeType: [''],
+      data: [''],
     });
   }
 
@@ -49,9 +48,14 @@ export class FarmingTipsComponent {
   }
 
   getAllFarmingTips = () => {
-    this.farmingTipsService.getAllFarmingTips().subscribe((data: any) => {
-      this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
-    });
+    this.farmingTipsService.getAllFarmingTips().subscribe(
+      (data: any) => {
+        this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   onFileSelected(event: any) {
@@ -105,42 +109,48 @@ export class FarmingTipsComponent {
 
   onEditTip = (tip: any) => {
     this.isEditing = true;
-    this.emptyImage = false;
-    this.imagePreview = tip.image;
-    this.showImage = true;
     this.tipForm.patchValue({
       tip: tip.tip,
       filename: tip.filename,
       mimeType: tip.mimeType,
       data: tip.data,
     });
+    this.imagePreview = tip.image;
+    if (tip.image) {
+      this.showImage = true;
+    } else {
+      this.showImage = false;
+    }
     this.tipId = tip.tipId;
     this.addDialog = true;
   };
 
   onSubmit = () => {
-    const tipPayload = {
-      tip: this.tipForm.get('tip')?.value,
-      filename: this.tipForm.get('filename')?.value,
-      mimeType: this.tipForm.get('mimeType')?.value,
-      data: this.tipForm.get('data')?.value,
-    };
-
     if (this.isEditing) {
       this.farmingTipsService
-        .updateTip(this.tipId, tipPayload)
-        .subscribe(() => {
-          this.getAllFarmingTips();
-          this.tipForm.reset();
-          this.addDialog = false;
-        });
+        .updateTip(this.tipId, this.tipForm.value)
+        .subscribe(
+          () => {
+            this.getAllFarmingTips();
+            this.tipForm.reset();
+            this.addDialog = false;
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
     } else {
       if (this.tipForm.valid) {
-        this.farmingTipsService.addTip(tipPayload).subscribe(() => {
-          this.getAllFarmingTips();
-          this.tipForm.reset();
-          this.addDialog = false;
-        });
+        this.farmingTipsService.addTip(this.tipForm.value).subscribe(
+          () => {
+            this.getAllFarmingTips();
+            this.tipForm.reset();
+            this.addDialog = false;
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
       } else {
         this.tipForm.markAllAsTouched();
         this.emptyImage = true;
@@ -166,9 +176,14 @@ export class FarmingTipsComponent {
       .updateTip(this.tipId, {
         status: false,
       })
-      .subscribe(() => {
-        this.getAllFarmingTips();
-        this.confirmationDialog = false;
-      });
+      .subscribe(
+        () => {
+          this.getAllFarmingTips();
+          this.confirmationDialog = false;
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
   };
 }

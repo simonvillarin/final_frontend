@@ -5,12 +5,6 @@ main {
 }
 
 .table {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border-radius: 0.25rem;
-  background-color: var(--light);
-  padding: 1rem;
   overflow: auto;
 }
 
@@ -32,6 +26,7 @@ tr td {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .btn-actions {

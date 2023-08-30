@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { FarmingTipsService } from 'src/app/shared/services/farming-tips/farming-tips.service';
 
 @Component({
@@ -10,11 +11,12 @@ import { FarmingTipsService } from 'src/app/shared/services/farming-tips/farming
 export class FarmingTipsComponent implements OnInit {
   tips: any = [];
   searchTerm: String = '';
-  
+
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
-    private farmingTipsService: FarmingTipsService
+    private farmingTipsService: FarmingTipsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -26,10 +28,14 @@ export class FarmingTipsComponent implements OnInit {
   }
 
   getAllFarmingTips = () => {
-    this.farmingTipsService.getAllFarmingTips().subscribe((data: any) => {
-      this.tips = data;
-      console.log(data);
-    });
+    this.farmingTipsService.getAllFarmingTips().subscribe(
+      (data: any) => {
+        this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   search(): void {

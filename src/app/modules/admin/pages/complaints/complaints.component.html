@@ -1,44 +1,25 @@
 <main>
-  <ng-container *ngIf="gridLayout">
-    <div class="card-container">
-      <div class="card" *ngFor="let complaint of complaints">
-        <div class="card-img-container">
-          <img src="{{ complaint.image }}" alt="Complaint Image" />
-        </div>
-        <div class="card-content">
-          <div>
-            <div class="card-title">
-              Complaint ID: {{ complaint.complaintId }}
-            </div>
-            <div class="category">{{ complaint.complaintType }}</div>
-          </div>
-          <div class="description">
-            {{ complaint.complaintDetails }}
-          </div>
-          <div class="card-num-container">
-            <div class="card-num">
-              <span class="card-num-label">Date: </span>
-              <div>{{ complaint.date | date : "medium" }}</div>
-            </div>
-            <div class="card-num">
-              <span class="card-num-label">Status: </span>
-              <div>{{ complaint.status ? "Active" : "Inactive" }}</div>
-            </div>
-          </div>
-          <div class="card-actions">
-            <button
-              class="table-btn delete"
-              title="Delete"
-              (click)="onRemove(complaint)"
-            >
-              <span class="material-symbols-rounded"> delete </span>
-            </button>
-          </div>
-        </div>
-      </div>
+  <div class="actions">
+    <div class="btn-actions">
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
     </div>
-  </ng-container>
-  <div class="table" *ngIf="!gridLayout">
+    <div class="filter-container">
+      <p-dropdown
+        [options]="complaintTypes"
+        placeholder="Filter by complaint type"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
+    </div>
+  </div>
+  <div class="table">
     <p-table
       [value]="complaints"
       [paginator]="true"
@@ -52,12 +33,12 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Image</th>
-          <th style="width: 10%">Farmer ID</th>
+          <th style="width: 20%">Farmer Name</th>
           <th style="width: 15%">Complaint Type</th>
-          <th style="width: 25%">Complaint Details</th>
-          <th style="width: 10%">Date</th>
+          <th style="width: 20%">Complaint Details</th>
+          <th style="width: 15%">Date</th>
           <th style="width: 10%">Status</th>
-          <th style="width: 10%">Actions</th>
+          <th style="width: 10%">Action</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-complaint>
@@ -65,27 +46,41 @@
           <td>
             <div class="crop-wrapper">
               <div class="crop-container">
-                <img src="{{ complaint.image }}" />
+                <img
+                  src="{{
+                    complaint.image ||
+                      '../../../../../assets/images/no-image.jpg'
+                  }}"
+                />
               </div>
             </div>
           </td>
-          <td>{{ complaint.farmerId }}</td>
+          <td>
+            {{ complaint.farmer.firstName }} {{ complaint.farmer.middleName }}
+            {{ complaint.farmer.lastName }} {{ complaint.farmer.suffix }}
+          </td>
           <td>{{ complaint.complaintType }}</td>
           <td>
             {{ complaint.complaintDetails }}
           </td>
           <td>
-            {{ complaint.date }}
+            {{ complaint.date | date : "MMMM d, y" }}
           </td>
           <td>
-            {{ complaint.status ? "Active" : "Solved" }}
+            <div class="status {{ complaint.status ? 'solve' : 'unsolve' }}">
+              {{ complaint.status ? "Solved" : "Unsolved" }}
+            </div>
           </td>
           <td>
             <div class="table-actions">
-              <p-inputSwitch
-                [(ngModel)]="complaint.status"
-                (ngModelChange)="onStatusChanged(complaint)"
-              ></p-inputSwitch>
+              <button
+                class="btn-solve {{ complaint.status ? 'unsolve' : 'solve' }}"
+                (click)="onRemove(complaint)"
+              >
+                <span class="material-symbols-rounded">
+                  {{ complaint.status ? "thumb_down" : "thumb_up" }}
+                </span>
+              </button>
             </div>
           </td>
         </tr>
@@ -102,9 +97,14 @@
     [resizable]="false"
   >
     <p-header>
-      <div class="dialog-title">Confirmation of Complaint Status</div>
+      <div class="dialog-title">
+        {{ complaint.status ? "Unsolve Complaint" : "Solve Complaint" }}
+      </div>
     </p-header>
-    <div class="dialog-body">Is complaint solvedW?</div>
+    <div class="dialog-body">
+      Are you sure you want to {{ complaint.status ? "unsolve" : "solve" }} this
+      complaint?
+    </div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
         Cancel

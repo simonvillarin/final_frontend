@@ -11,10 +11,9 @@ import { ComplaintsService } from 'src/app/shared/services/complaints/complaints
 export class ComplaintsComponent {
   complaintForm: FormGroup;
   complaints: any = [];
-  complaintId: any;
-  complaintType: any = ['Dispute', 'Service', 'Website Issue'];
+  complaint: any = {};
+  complaintTypes: any = ['Dispute', 'Service', 'Website Issue'];
 
-  gridLayout = false;
   addDialog = false;
   confirmationDialog = false;
   showImage = false;
@@ -22,6 +21,8 @@ export class ComplaintsComponent {
   emptyImage = false;
   imagePreview: string | ArrayBuffer | null = null;
   file: any;
+
+  categorySelected = '';
 
   constructor(
     private complaintService: ComplaintsService,
@@ -32,9 +33,9 @@ export class ComplaintsComponent {
       farmerId: ['', Validators.required],
       complaintType: ['', Validators.required],
       complaintDetails: ['', Validators.required],
-      filename: ['', Validators.required],
-      mimeType: ['', Validators.required],
-      data: ['', Validators.required],
+      filename: [''],
+      mimeType: [''],
+      data: [''],
       status: [true],
     });
   }
@@ -54,31 +55,18 @@ export class ComplaintsComponent {
       });
   };
 
-  openAddDialog = () => {
-    this.showImage = false;
-    this.imagePreview = null;
-    this.addDialog = true;
-  };
-
-  closeAddDialog = () => {
-    this.addDialog = false;
-  };
-
-  onSubmit = () => {
-    this.complaintForm.patchValue({
-      farmerId: this.authService.getUserId(),
-    });
-
-    if (this.complaintForm.valid) {
+  onCategoryChange = (category: string) => {
+    if (this.categorySelected !== '') {
       this.complaintService
-        .addComplaint(this.complaintForm.value)
-        .subscribe(() => {
-          this.getComplaints();
-          this.complaintForm.reset();
-          this.addDialog = false;
+        .getAllComplaintsByFarmerId(this.authService.getUserId())
+        .subscribe((data: any) => {
+          this.complaints = data.sort(
+            (a: any, b: any) => b.complaintId - a.complaintId
+          );
+          this.complaints = this.complaints.filter(
+            (complaint: any) => complaint.complaintType === category
+          );
         });
-    } else {
-      this.complaintForm.markAllAsTouched();
     }
   };
 
@@ -123,20 +111,94 @@ export class ComplaintsComponent {
     reader.readAsArrayBuffer(file);
   }
 
+  onClear = () => {
+    this.categorySelected = '';
+    this.getComplaints();
+  };
+
+  openAddDialog = () => {
+    this.isEditing = false;
+    this.showImage = false;
+    this.imagePreview = null;
+    this.complaintForm.reset();
+    this.addDialog = true;
+  };
+
+  closeAddDialog = () => {
+    this.addDialog = false;
+  };
+
   onRemove = (complaint: any) => {
-    this.complaintId = complaint.complaintId;
+    this.complaint = complaint;
     this.confirmationDialog = true;
   };
 
+  onEdit = (complaint: any) => {
+    this.isEditing = true;
+    this.complaint = complaint;
+    this.complaintForm.patchValue({
+      complaintType: complaint.complaintType,
+      complaintDetails: complaint.complaintDetails,
+    });
+    this.imagePreview = complaint.image;
+    if (complaint.image) {
+      this.showImage = true;
+    } else {
+      this.showImage = false;
+    }
+
+    this.addDialog = true;
+  };
+
+  onSubmit = () => {
+    this.complaintForm.patchValue({
+      farmerId: this.authService.getUserId(),
+    });
+
+    if (this.isEditing) {
+      if (this.complaintForm.valid) {
+        this.complaintService
+          .updateComplaint(this.complaint.complaintId, this.complaintForm.value)
+          .subscribe(
+            () => {
+              this.getComplaints();
+              this.addDialog = false;
+            },
+            () => {
+              this.authService.logout();
+            }
+          );
+      } else {
+        this.complaintForm.markAllAsTouched();
+      }
+    } else {
+      if (this.complaintForm.valid) {
+        this.complaintService.addComplaint(this.complaintForm.value).subscribe(
+          () => {
+            this.getComplaints();
+            this.complaintForm.reset();
+            this.addDialog = false;
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
+      } else {
+        this.complaintForm.markAllAsTouched();
+      }
+    }
+  };
+
   onDelete = () => {
-    this.complaintService
-      .updateComplaint(this.complaintId, {
-        status: false,
-      })
-      .subscribe(() => {
+    this.complaintService.deleteComplaint(this.complaint.complaintId).subscribe(
+      () => {
         this.getComplaints();
         this.confirmationDialog = false;
-      });
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   onCloseConfirmationDialog = () => {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
@@ -8,44 +9,55 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 })
 export class FarmersComponent {
   farmers: any = [];
+  farmer: any = {};
   statusArr: any = ['Active', 'Inactive'];
-  farmerToUpdateStatus: any;
-  farmerId: any;
 
+  detailsDialog = false;
   confirmationDialog = false;
-  gridLayout = false;
 
   statusSelected: string = '';
-  selectedUser: any;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.getFarmers();
   }
 
   getFarmers(): void {
-    this.userService.getAllFarmers().subscribe((data: any[]) => {
-      this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
-    });
+    this.userService.getAllFarmers().subscribe(
+      (data: any[]) => {
+        this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   }
 
   onStatusChanges = (status: string) => {
     if (status !== '') {
-      this.userService.getAllFarmers().subscribe((data: any[]) => {
-        this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
+      this.userService.getAllFarmers().subscribe(
+        (data: any[]) => {
+          this.farmers = data.sort((a: any, b: any) => b.userId - a.userId);
 
-        if (status === 'Active') {
-          this.farmers = this.farmers.filter(
-            (farmer: any) => farmer.status === true
-          );
-        } else {
-          console.log(false);
-          this.farmers = this.farmers.filter(
-            (farmer: any) => farmer.status === false
-          );
+          if (status === 'Active') {
+            this.farmers = this.farmers.filter(
+              (farmer: any) => farmer.status === true
+            );
+          } else {
+            console.log(false);
+            this.farmers = this.farmers.filter(
+              (farmer: any) => farmer.status === false
+            );
+          }
+        },
+        () => {
+          this.authService.logout();
         }
-      });
+      );
     }
   };
 
@@ -54,51 +66,32 @@ export class FarmersComponent {
     this.getFarmers();
   };
 
-  onDelete(farmerId: any): void {
-    this.farmerToUpdateStatus = farmerId;
-    this.confirmationDialog = true;
-  }
-
-  onConfirmDelete(): void {
-    this.userService
-      .updateUser(this.farmerToUpdateStatus, { status: false })
-      .subscribe(() => {
-        this.getFarmers();
-        this.confirmationDialog = false;
-      });
-  }
-
   onCancelDelete(): void {
     this.confirmationDialog = false;
-    this.getFarmers();
   }
 
-  openConfirmationDialog(user: any): void {
-    this.farmerToUpdateStatus = user;
-    this.confirmationDialog = true;
-  }
-
-  onUpdateStatus(): void {
-    this.userService
-      .updateUser(this.farmerToUpdateStatus.userId, {
-        status: this.farmerToUpdateStatus.status,
-      })
-      .subscribe(() => {
-        this.getFarmers();
-        this.confirmationDialog = false;
-      });
-  }
-
-  onStatusChanged = (farmer: any) => {
-    this.farmerToUpdateStatus = farmer;
+  onDelete = (farmer: any) => {
+    this.farmer = farmer;
     this.confirmationDialog = true;
   };
 
-  openDetailsDialog(user: any): void {
-    this.selectedUser = user;
+  onConfirmDelete(): void {
+    const payload = {
+      status: !this.farmer.status,
+    };
+
+    this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {
+      this.getFarmers();
+      this.confirmationDialog = false;
+    });
   }
 
+  openDetailsDialog = (farmer: any) => {
+    this.farmer = farmer;
+    this.detailsDialog = true;
+  };
+
   closeDetailsDialog(): void {
-    this.selectedUser = null;
+    this.detailsDialog = false;
   }
 }

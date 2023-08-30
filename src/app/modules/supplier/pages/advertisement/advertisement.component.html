@@ -31,19 +31,19 @@
             <img [src]="ad.image" alt="Crop" />
           </div>
           <div class="card-actions">
+            <button class="card-view" (click)="onViewOffers(ad.postId)">
+              <span class="material-symbols-rounded"> contract </span>View
+              Offers
+            </button>
             <button class="card-edit" (click)="onEdit(ad)">
-              <span class="material-symbols-rounded"> edit </span>Edit
+              <span class="material-symbols-rounded"> edit </span>
             </button>
             <button class="card-delete" (click)="onRemove(ad)">
-              <span class="material-symbols-rounded"> delete </span>Delete
+              <span class="material-symbols-rounded"> delete </span>
             </button>
           </div>
         </div>
         <div class="card-content">
-          <div>
-            <div class="title">Advertisement No</div>
-            <div class="data">{{ ad.postId }}</div>
-          </div>
           <div>
             <div class="title">Crop Name</div>
             <div class="data">{{ ad.name }}</div>
@@ -67,8 +67,14 @@
             <div class="data">{{ ad.mass }} kg.</div>
           </div>
           <div>
-            <div class="title t1">Price</div>
-            <p class="data d1">₱ {{ ad.price }}</p>
+            <div class="title">Price</div>
+            <div class="data">₱ {{ ad.price }} kg.</div>
+          </div>
+          <div>
+            <div class="title t1">No of Offers</div>
+            <div class="data d1">
+              {{ ad.numOfOffers == 0 ? "None" : ad.numOfOffers }}
+            </div>
           </div>
         </div>
       </div>

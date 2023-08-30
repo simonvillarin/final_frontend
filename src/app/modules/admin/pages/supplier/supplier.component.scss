@@ -4,14 +4,7 @@ main {
   background-color: var(--light-grayish-blue);
 }
 
-.inactive-row {
-  background-color: #7c5252;
-}
-
 .table {
-  padding: 1rem;
-  border-radius: 0.25rem;
-  background-color: var(--light);
   overflow: auto;
 }
 
@@ -127,26 +120,29 @@ tr td {
   gap: 0.5rem;
 }
 
-.edit,
-.delete {
+.btn-details,
+.btn-deactivate {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 0.75rem;
   border-radius: 0.25rem;
   color: var(--light);
+  transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
-.edit {
-  background-color: var(--blue);
+.btn-details {
+  background-color: var(--primary);
 }
 
-.delete {
-  background-color: var(--red);
+.btn-details:hover,
+.btn-details:focus {
+  background-color: var(--darker-primary);
 }
 
-.status {
+.status,
+.role {
   width: 5.25rem;
   padding: 0.35rem;
   margin: 0 auto;
@@ -159,37 +155,60 @@ tr td {
   background-color: var(--primary);
 }
 
+.active:hover,
+.active:focus {
+  background-color: var(--darker-primary);
+}
+
 .inactive {
   background-color: var(--red);
 }
 
-@media screen and (min-width: 576px) {
-  .actions {
-    flex-direction: row;
-  }
+.inactive:hover,
+.inactive:focus {
+  background-color: var(--darker-red);
 }
 
-.profile {
-  min-height: calc(100vh - 4rem);
+span {
+  color: var(--light);
+}
+
+.farmer {
+  background-color: var(--orange);
+}
+
+.supplier {
+  background-color: var(--yellow);
+}
+
+.card {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto;
-  grid-template-areas:
-    "image"
-    "personal"
-    "additional";
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
-  padding: 1rem;
-  background-color: var(--light-grayish-blue);
-}
-
-.personal {
-  grid-area: personal;
-  padding: 1.5rem;
+  border-radius: 0.25rem;
   background-color: var(--light);
 }
 
-.personal > div {
+.card-img-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.c-img-container {
+  height: 220px;
+  border: 2px solid var(--primary);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content > div {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   text-align: center;
@@ -219,4 +238,31 @@ tr td {
   border-left: 2px solid var(--primary);
   border-top: 2px solid var(--primary);
   border-right: 2px solid var(--primary);
+}
+
+@media screen and (min-width: 992px) {
+  .actions {
+    flex-direction: row;
+  }
+
+  .card-img-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .c-img-container {
+    height: 300px;
+  }
+
+  .card-content > div {
+    grid-template-columns: clamp(12rem, 15rem, 18rem) 1fr;
+    text-align: left;
+  }
+
+  .data {
+    border-left: none;
+  }
+
+  .t1 {
+    border-bottom: 2px solid var(--primary);
+  }
 }

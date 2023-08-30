@@ -1,8 +1,10 @@
 <main>
   <div class="actions">
-    <button class="btn-post" (click)="openAddCourseDialog()">
-      <span class="material-symbols-rounded"> add </span>ADD COURSE
-    </button>
+    <div class="btn-actions">
+      <button class="btn-post" (click)="openAddCourseDialog()">
+        <span class="material-symbols-rounded"> add </span> ADD
+      </button>
+    </div>
   </div>
   <div class="table">
     <p-table
@@ -17,15 +19,13 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 50%">Course Name</th>
-          <th style="width: 30%">Status</th>
+          <th style="width: 70%">Course Name</th>
           <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-course>
         <tr>
           <td>{{ course.courseName }}</td>
-          <td>{{ course.status ? "Active" : "Inactive" }}</td>
           <td>
             <div class="table-actions">
               <button
@@ -34,6 +34,9 @@
                 (click)="onEditCourse(course)"
               >
                 <span class="material-symbols-rounded"> edit </span>
+              </button>
+              <button class="table-btn delete" title="Delete">
+                <span class="material-symbols-rounded"> delete </span>
               </button>
             </div>
           </td>
@@ -49,7 +52,9 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <!-- Form for adding/editing courses -->
+    <p-header>
+      <div class="dialog-title">Add Course</div>
+    </p-header>
     <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label>Course Name<span class="required">*</span></label>
@@ -68,16 +73,6 @@
             Course Name is required
           </small>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Status<span class="required">*</span></label>
-        <p-dropdown
-          [options]="[
-            { label: 'Active', value: true },
-            { label: 'Inactive', value: false }
-          ]"
-          formControlName="status"
-        ></p-dropdown>
       </div>
       <div class="dialog-actions">
         <button

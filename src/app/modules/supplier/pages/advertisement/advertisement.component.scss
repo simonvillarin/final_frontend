@@ -249,26 +249,34 @@ img {
 }
 
 .card-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   gap: 0.5rem;
 }
 
+.card-view,
 .card-edit,
 .card-delete {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem;
+  padding: 0.625rem 0.75rem;
   border-radius: 0.25rem;
   color: var(--light);
-  background-color: var(--blue);
+  background-color: var(--primary);
   font-size: 1rem;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
+}
+
+.card-view:hover,
+.card-view:focus {
+  background-color: var(--darker-primary);
+}
+
+.card-edit {
+  background-color: var(--blue);
 }
 
 .card-edit:hover,

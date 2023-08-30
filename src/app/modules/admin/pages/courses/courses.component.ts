@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 
 @Component({
@@ -14,7 +15,11 @@ export class CoursesComponent implements OnInit {
   addDialog = false;
   isEditing = false;
 
-  constructor(private courseService: CourseService, private fb: FormBuilder) {
+  constructor(
+    private courseService: CourseService,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.courseForm = fb.group({
       courseName: ['', Validators.required],
       status: [true, Validators.required],
@@ -30,9 +35,14 @@ export class CoursesComponent implements OnInit {
   }
 
   getAllCourses = () => {
-    this.courseService.getAllCourses().subscribe((data: any) => {
-      this.courses = data;
-    });
+    this.courseService.getAllCourses().subscribe(
+      (data: any) => {
+        this.courses = data.sort((a: any, b: any) => b.courseId - a.courseId);
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   openAddCourseDialog = () => {
@@ -62,20 +72,28 @@ export class CoursesComponent implements OnInit {
       };
 
       if (this.isEditing) {
-        this.courseService
-          .updateCourse(this.courseId, coursePayload)
-          .subscribe(() => {
+        this.courseService.updateCourse(this.courseId, coursePayload).subscribe(
+          () => {
             this.getAllCourses();
             this.courseForm.reset();
             this.addDialog = false;
-          });
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
       } else {
         if (this.courseForm.valid) {
-          this.courseService.addCourse(coursePayload).subscribe(() => {
-            this.getAllCourses();
-            this.courseForm.reset();
-            this.addDialog = false;
-          });
+          this.courseService.addCourse(coursePayload).subscribe(
+            () => {
+              this.getAllCourses();
+              this.courseForm.reset();
+              this.addDialog = false;
+            },
+            () => {
+              this.authService.logout();
+            }
+          );
         } else {
           this.courseForm.markAllAsTouched();
         }

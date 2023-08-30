@@ -1,57 +1,28 @@
 <main>
   <div class="actions">
-    <button class="btn-post" (click)="openAddDialog()">
-      <span class="material-symbols-rounded"> add </span>POST COMPLAINT
-    </button>
-    <div class="layout-container">
-      <div class="layout-icon" title="Grid">
-        <span class="material-symbols-rounded"> grid_view </span>
-      </div>
-      <div class="layout-icon" title="Table">
-        <span class="material-symbols-rounded"> table </span>
-      </div>
+    <div class="btn-actions">
+      <button class="btn-post" (click)="openAddDialog()">
+        <span class="material-symbols-rounded"> add </span>ADD
+      </button>
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+    </div>
+    <div class="filter-container">
+      <p-dropdown
+        [options]="complaintTypes"
+        placeholder="Filter by complaint type"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
     </div>
   </div>
-  <ng-container *ngIf="gridLayout">
-    <div class="card-container">
-      <div class="card" *ngFor="let complaint of complaints">
-        <div class="card-img-container">
-          <img src="{{ complaint.image }}" alt="Complaint Image" />
-        </div>
-        <div class="card-content">
-          <div>
-            <div class="card-title">
-              Complaint ID: {{ complaint.complaintId }}
-            </div>
-            <div class="category">{{ complaint.complaintType }}</div>
-          </div>
-          <div class="description">
-            {{ complaint.complaintDetails }}
-          </div>
-          <div class="card-num-container">
-            <div class="card-num">
-              <span class="card-num-label">Date: </span>
-              <div>{{ complaint.date | date : "medium" }}</div>
-            </div>
-            <div class="card-num">
-              <span class="card-num-label">Status: </span>
-              <div>{{ complaint.status ? "Active" : "Solved" }}</div>
-            </div>
-          </div>
-          <div class="card-actions">
-            <button
-              class="table-btn delete"
-              title="Delete"
-              (click)="onRemove(complaint)"
-            >
-              <span class="material-symbols-rounded"> delete </span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-  <div class="table" *ngIf="!gridLayout">
+  <div class="table">
     <p-table
       [value]="complaints"
       [paginator]="true"
@@ -77,7 +48,12 @@
           <td>
             <div class="crop-wrapper">
               <div class="crop-container">
-                <img src="{{ complaint.image }}" />
+                <img
+                  src="{{
+                    complaint.image ||
+                      '../../../../../assets/images/no-image.jpg'
+                  }}"
+                />
               </div>
             </div>
           </td>
@@ -86,13 +62,22 @@
             {{ complaint.complaintDetails }}
           </td>
           <td>
-            {{ complaint.date }}
+            {{ complaint.date | date : "MMMM d, y" }}
           </td>
           <td>
-            {{ complaint.status ? "Active" : "Solved" }}
+            <div class="status {{ complaint.status ? 'solve' : 'unsolve' }}">
+              {{ complaint.status ? "Solved" : "Unsolved" }}
+            </div>
           </td>
           <td>
             <div class="table-actions">
+              <button
+                class="table-btn edit"
+                title="Edit"
+                (click)="onEdit(complaint)"
+              >
+                <span class="material-symbols-rounded"> edit </span>
+              </button>
               <button
                 class="table-btn delete"
                 title="Delete"
@@ -119,11 +104,29 @@
       <div class="dialog-title">Post Complaint</div>
     </p-header>
     <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+      <div class="upload">
+        <div class="img-container" [class.error-border]="emptyImage">
+          <img
+            [src]="imagePreview"
+            alt="Crop"
+            class="image"
+            [class.img-active]="showImage"
+          />
+        </div>
+        <button class="btn-upload">
+          Upload<input
+            type="file"
+            class="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </button>
+      </div>
       <div class="form-container">
         <div class="input-group">
           <label>Complaint Type<span class="required">*</span></label>
           <p-dropdown
-            [options]="complaintType"
+            [options]="complaintTypes"
             placeholder="Select a complaint type"
             [style]="{
               width: '100%'
@@ -167,26 +170,6 @@
             >
           </div>
         </div>
-        <div class="upload">
-          <div class="banner">
-            <div class="img-container" [class.error-border]="emptyImage">
-              <img
-                [src]="imagePreview"
-                alt="Tip"
-                class="image"
-                [class.img-active]="showImage"
-              />
-            </div>
-          </div>
-          <button class="btn-upload">
-            Upload<input
-              type="file"
-              class="file"
-              accept="image/*"
-              (change)="onFileSelected($event)"
-            />
-          </button>
-        </div>
       </div>
       <div class="dialog-actions">
         <button
@@ -219,7 +202,7 @@
       <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
         Cancel
       </button>
-      <button class="dialog-btn submit" (click)="onDelete()">Yes</button>
+      <button class="dialog-btn submit" (click)="onDelete()">Confirm</button>
     </div>
   </p-dialog>
 </main>

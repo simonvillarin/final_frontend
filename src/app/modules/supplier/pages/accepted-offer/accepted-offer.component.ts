@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 
 @Component({
@@ -30,6 +31,7 @@ export class AcceptedOfferComponent {
 
   constructor(
     private transactionService: TransactionService,
+    private offerService: OfferService,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -42,10 +44,14 @@ export class AcceptedOfferComponent {
     this.transactionService
       .getTransactionBySupplierId(this.authService.getUserId())
       .subscribe((data: any) => {
-        this.acceptedOffers = data.sort(
+        this.tempAcceptedOffers = data.sort(
           (a: any, b: any) => b.transactionId - a.transactionId
         );
-        console.log(data);
+        this.tempAcceptedOffers = this.tempAcceptedOffers.filter(
+          (offer: any) => offer.status === true
+        );
+        this.totalOffers = this.tempAcceptedOffers.length;
+        this.acceptedOffers = this.tempAcceptedOffers.splice(this.page * 5, 5);
       });
   };
 
@@ -63,13 +69,35 @@ export class AcceptedOfferComponent {
     this.categorySelected = '';
   };
 
+  onCancel = (acceptedOffer: any) => {
+    this.acceptedOffer = acceptedOffer;
+    this.confirmationDialog = true;
+  };
+
   onCancelConfirmationDialog = () => {
     this.confirmationDialog = false;
   };
 
-  onConfirm = () => {};
+  onConfirm = () => {
+    const payload = {
+      status: false,
+    };
+    this.transactionService
+      .updateTransaction(this.acceptedOffer.transactionId, payload)
+      .subscribe(() => {
+        const payload1 = {
+          isAccepted: false,
+        };
+        this.offerService
+          .updateOffer(this.acceptedOffer.offer.offerId, payload1)
+          .subscribe(() => {
+            this.confirmationDialog = false;
+            this.getTransactionsBySupplierId();
+          });
+      });
+  };
 
-  onViewTransaction = (id: any) => {
+  onPayment = (id: any) => {
     this.router.navigate([`/supplier/transaction/${id}`]);
   };
 }

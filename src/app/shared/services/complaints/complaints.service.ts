@@ -14,6 +14,10 @@ export class ComplaintsService {
     return this.http.get<any[]>(`${this.baseUrl}/complaints`);
   };
 
+  getAllComplaintsByFarmerId = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/complaint/farmer/${id}`);
+  };
+
   addComplaint = (ad: any): Observable<any> => {
     return this.http.post<any>(`${this.baseUrl}/complaint`, ad);
   };
@@ -22,7 +26,7 @@ export class ComplaintsService {
     return this.http.put<any>(`${this.baseUrl}/complaint/${id}`, ad);
   };
 
-  getAllComplaintsByFarmerId = (id: number): Observable<any[]> => {
-    return this.http.get<any[]>(`${this.baseUrl}/complaint/farmer/${id}`);
+  deleteComplaint = (id: number): Observable<any> => {
+    return this.http.delete<any>(`${this.baseUrl}/complaint/${id}`);
   };
 }
