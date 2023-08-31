@@ -452,7 +452,7 @@
           />
         </button>
       </div>
-      <button (click)="captureImage()">Capture Image</button>
+      <button class="btn-upload" (click)="openWebcam()">Open Webcam</button>
       <div *ngIf="webcamOpen">
         <webcam
           [height]="300"
@@ -460,9 +460,12 @@
           (imageCapture)="handleImage($event)"
           (initError)="handleInitError($event)"
         ></webcam>
-      </div>
-      <div *ngIf="capturedImage">
-        <img [src]="capturedImage.imageAsDataUrl" alt="Captured Image" />
+        <!-- Capture button to take the photo -->
+        <button (click)="captureImage()">Capture</button>
+        <div *ngIf="showImagePreview">
+          <h4>Captured Image Preview:</h4>
+          <img [src]="capturedImage?.imageAsDataUrl" alt="Captured Image" />
+        </div>
       </div>
     </div>
 
