@@ -10,7 +10,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 export class SupplierComponent {
   suppliers: any = [];
   supplier: any = {};
-  statusArr: any = ['Active', 'Inactive'];
+  statusArr: any = ['Active', 'Inactive', 'Pending'];
 
   detailsDialog = false;
   confirmationDialog = false;
@@ -68,9 +68,13 @@ export class SupplierComponent {
   };
 
   onConfirmDelete(): void {
-    const payload = {
-      status: !this.supplier.status,
-    };
+    let payload: any = {};
+
+    if (this.supplier.status === 'Inactive') {
+      payload.status === 'Active';
+    } else {
+      payload.statuc === 'Inactive';
+    }
 
     this.userService.updateUser(this.supplier.userId, payload).subscribe(
       () => {

@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { RegisterService } from 'src/app/shared/services/register/register.service';
 import {
@@ -60,6 +61,9 @@ export class RegisterComponent implements OnInit {
   type: string = '';
   alertMessage: string = '';
 
+  capturedImage: WebcamImage | null = null;
+  webcamOpen = false;
+
   ngOnInit(): void {
     this.getBarangay();
     this.getCity();
@@ -96,6 +100,9 @@ export class RegisterComponent implements OnInit {
       filename2: ['', Validators.required],
       mimeType2: ['', Validators.required],
       data2: ['', Validators.required],
+      filename3: ['', Validators.required],
+      mimeType3: ['', Validators.required],
+      data3: ['', Validators.required],
       username: ['', Validators.required],
       password: [
         '',
@@ -110,7 +117,7 @@ export class RegisterComponent implements OnInit {
       ],
       confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
       role: ['', Validators.required],
-      status: [false],
+      status: ['Pending'],
     });
   }
 
@@ -180,6 +187,10 @@ export class RegisterComponent implements OnInit {
 
   get filename2() {
     return this.registerForm.get('filename2') as FormControl;
+  }
+
+  get filename3() {
+    return this.registerForm.get('filename3') as FormControl;
   }
 
   get username() {
@@ -356,6 +367,47 @@ export class RegisterComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
 
+  onFileSelected2(event: any) {
+    this.file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.idBackPreview = true;
+      this.idBackEmpty = false;
+      this.idBack = e.target.result;
+    };
+
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (file) {
+      this.readFileAsBytes2(file);
+    }
+
+    reader.readAsDataURL(this.file);
+  }
+
+  readFileAsBytes2(file: File) {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const result = event.target?.result;
+      if (result instanceof ArrayBuffer) {
+        const bytes = new Uint8Array(result);
+        const mimeType = file.type;
+        const fileName = file.name;
+
+        this.registerForm.patchValue({
+          filename3: fileName,
+          mimeType3: mimeType,
+          data3: Array.from(bytes),
+        });
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
   onSubmit = () => {
     if (this.type === '') {
       this.error = true;
@@ -421,4 +473,23 @@ export class RegisterComponent implements OnInit {
       this.registerForm.markAllAsTouched();
     }
   };
+
+  captureImage() {
+    this.webcamOpen = true;
+  }
+
+  handleImage(webcamImage: WebcamImage) {
+    this.capturedImage = webcamImage;
+    this.webcamOpen = false;
+
+    this.registerForm.patchValue({
+      filename3: 'captured-image.jpg',
+      mimeType3: 'image/jpeg',
+      data3: webcamImage.imageAsBase64,
+    });
+  }
+
+  handleInitError(error: WebcamInitError) {
+    console.error(error);
+  }
 }
