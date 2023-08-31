@@ -98,14 +98,12 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       idType: ['', Validators.required],
       filename1: ['', Validators.required],
+      selfie: ['', Validators.required],
       mimeType1: ['', Validators.required],
       data1: ['', Validators.required],
       filename2: ['', Validators.required],
       mimeType2: ['', Validators.required],
       data2: ['', Validators.required],
-      filename3: ['', Validators.required],
-      mimeType3: ['', Validators.required],
-      data3: ['', Validators.required],
       username: ['', Validators.required],
       password: [
         '',
@@ -196,8 +194,8 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('filename2') as FormControl;
   }
 
-  get filename3() {
-    return this.registerForm.get('filename3') as FormControl;
+  get selfieImg() {
+    return this.registerForm.get('selfie') as FormControl;
   }
 
   get username() {
@@ -443,9 +441,7 @@ export class RegisterComponent implements OnInit {
     this.webcamImage = image;
 
     this.registerForm.patchValue({
-      filename3: this.generateUniqueFilename(),
-      mimeType3: this.extractMimeType(image.imageAsDataUrl),
-      data3: Array.from(new TextEncoder().encode(String(image.imageAsDataUrl))),
+      selfie: image.imageAsDataUrl,
     });
   }
 
