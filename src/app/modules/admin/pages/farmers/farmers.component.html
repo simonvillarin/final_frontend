@@ -58,8 +58,16 @@
             {{ farmer.lastName }}
           </td>
           <td>
-            <div class="status {{ farmer.status ? 'active' : 'inactive' }}">
-              {{ farmer.status ? "Active" : "Inactive" }}
+            <div
+              class="status {{
+                farmer.status === 'Active'
+                  ? 'active'
+                  : farmer.status === 'Inactive'
+                  ? 'inactive'
+                  : 'pending'
+              }}"
+            >
+              {{ farmer.status }}
             </div>
           </td>
           <td>
@@ -73,13 +81,13 @@
               </button>
               <button
                 class="btn-deactivate {{
-                  !farmer.status ? 'active' : 'inactive'
+                  farmer.status === 'Active' ? 'inactive' : 'active'
                 }}"
-                [title]="!farmer.status ? 'Activate' : 'Deactivate'"
+                [title]="farmer.status === 'Active' ? 'Deactivate' : 'Activate'"
                 (click)="onDelete(farmer)"
               >
                 <span class="material-symbols-rounded">
-                  {{ farmer.status ? "close" : "check" }}</span
+                  {{ farmer.status === "Active" ? "close" : "check" }}</span
                 >
               </button>
             </div>
@@ -99,12 +107,12 @@
   >
     <p-header>
       <div class="dialog-title">
-        {{ farmer.status ? "Deactivate" : "Activate" }}
+        {{ farmer.status === "Active" ? "Deactivate" : "Activate" }}
       </div>
     </p-header>
     <div class="dialog-body">
       Are you sure you want to
-      {{ farmer.status ? "deactivate" : "activate" }} this farmer?
+      {{ farmer.status === "Active" ? "deactivate" : "activate" }} this farmer?
     </div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCancelDelete()">

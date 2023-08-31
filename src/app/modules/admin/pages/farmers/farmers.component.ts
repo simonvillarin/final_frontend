@@ -79,9 +79,9 @@ export class FarmersComponent {
     let payload: any = {};
 
     if (this.farmer.status === 'Inactive') {
-      payload.status === 'Active';
+      payload.status = 'Active';
     } else {
-      payload.statuc === 'Inactive';
+      payload.status = 'Inactive';
     }
 
     this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {

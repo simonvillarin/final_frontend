@@ -136,11 +136,6 @@ tr td {
   background-color: var(--primary);
 }
 
-.btn-details:hover,
-.btn-details:focus {
-  background-color: var(--darker-primary);
-}
-
 .status,
 .role {
   width: 5.25rem;
@@ -155,20 +150,13 @@ tr td {
   background-color: var(--primary);
 }
 
-.active:hover,
-.active:focus {
-  background-color: var(--darker-primary);
-}
-
 .inactive {
   background-color: var(--red);
 }
 
-.inactive:hover,
-.inactive:focus {
-  background-color: var(--darker-red);
+.pending {
+  background-color: var(--yellow);
 }
-
 span {
   color: var(--light);
 }

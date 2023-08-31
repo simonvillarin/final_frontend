@@ -58,8 +58,16 @@
             {{ supplier.lastName }}
           </td>
           <td>
-            <div class="status {{ supplier.status ? 'active' : 'inactive' }}">
-              {{ supplier.status ? "Active" : "Inactive" }}
+            <div
+              class="status {{
+                supplier.status === 'Active'
+                  ? 'active'
+                  : supplier.status === 'Inactive'
+                  ? 'inactive'
+                  : 'pending'
+              }}"
+            >
+              {{ supplier.status }}
             </div>
           </td>
           <td>
@@ -73,13 +81,15 @@
               </button>
               <button
                 class="btn-deactivate {{
-                  !supplier.status ? 'active' : 'inactive'
+                  supplier.status === 'Active' ? 'inactive' : 'active'
                 }}"
-                [title]="!supplier.status ? 'Activate' : 'Deactivate'"
+                [title]="
+                  supplier.status === 'Active' ? 'Deactivate' : 'Activate'
+                "
                 (click)="onDelete(supplier)"
               >
                 <span class="material-symbols-rounded">
-                  {{ supplier.status ? "close" : "check" }}</span
+                  {{ supplier.status === "Active" ? "close" : "check" }}</span
                 >
               </button>
             </div>
@@ -104,7 +114,8 @@
     </p-header>
     <div class="dialog-body">
       Are you sure you want to
-      {{ supplier.status ? "deactivate" : "activate" }} this supplier?
+      {{ supplier.status === "Active" ? "deactivate" : "activate" }} this
+      supplier?
     </div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCancelDelete()">

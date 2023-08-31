@@ -70,11 +70,15 @@ export class SupplierComponent {
   onConfirmDelete(): void {
     let payload: any = {};
 
+    console.log(this.supplier);
+
     if (this.supplier.status === 'Inactive') {
-      payload.status === 'Active';
+      payload.status = 'Active';
     } else {
-      payload.statuc === 'Inactive';
+      payload.status = 'Inactive';
     }
+
+    console.log(payload);
 
     this.userService.updateUser(this.supplier.userId, payload).subscribe(
       () => {
