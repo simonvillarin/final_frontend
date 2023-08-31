@@ -61,7 +61,9 @@ export class RegisterComponent implements OnInit {
   type: string = '';
   alertMessage: string = '';
 
+  webcamImage: WebcamImage | null = null;
   capturedImage: WebcamImage | null = null;
+  showImagePreview: any;
   webcamOpen = false;
 
   ngOnInit(): void {
@@ -474,8 +476,30 @@ export class RegisterComponent implements OnInit {
     }
   };
 
-  captureImage() {
+  openWebcam() {
     this.webcamOpen = true;
+  }
+
+  captureImage() {
+    if (this.webcamOpen && this.webcamImage) {
+      // Capture the image if the webcam is open
+      const image = this.webcamImage.imageAsBase64;
+      if (image) {
+        // Update the capturedImage property
+        this.capturedImage = this.webcamImage;
+        // Close the webcam after capturing
+        this.webcamOpen = false;
+        // Show the image preview
+        this.showImagePreview = true;
+
+        // Update the input value with the captured image data
+        this.registerForm.patchValue({
+          filename3: 'captured-image.jpg',
+          mimeType3: 'image/jpeg',
+          data3: image,
+        });
+      }
+    }
   }
 
   handleImage(webcamImage: WebcamImage) {
