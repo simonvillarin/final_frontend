@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { AddressService } from 'src/app/shared/services/address/address.service';
 import { RegisterService } from 'src/app/shared/services/register/register.service';
 import {
@@ -18,6 +17,8 @@ import {
   birthdateValidator,
   confirmPasswordValidator,
 } from 'src/app/shared/validators/custom.validator';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -61,8 +62,8 @@ export class RegisterComponent implements OnInit {
   type: string = '';
   alertMessage: string = '';
 
-  capturedImage: WebcamImage | null = null;
-  webcamOpen = false;
+  triggerObservable = new Subject<void>();
+  webcamImage: any;
 
   ngOnInit(): void {
     this.getBarangay();
@@ -420,9 +421,6 @@ export class RegisterComponent implements OnInit {
     if (this.idBack === null) {
       this.idBackEmpty = true;
     }
-
-    console.log(this.registerForm.value);
-
     if (this.registerForm.valid) {
       this.registerForm.patchValue({
         region: this.registerForm.get('region')?.value.name,
@@ -461,7 +459,7 @@ export class RegisterComponent implements OnInit {
             scroll(0, 0);
 
             const radioButtons =
-              this.elementRef.nativeElement.querySelectorAll('.radio1');
+              this.elementRef.nativeElement.querySelectorAll('.radio');
             radioButtons.forEach((radio: any) => {
               this.renderer.setProperty(radio, 'checked', false);
             });
@@ -474,22 +472,17 @@ export class RegisterComponent implements OnInit {
     }
   };
 
-  captureImage() {
-    this.webcamOpen = true;
-  }
+  handleImageCapture(image: WebcamImage) {
+    this.webcamImage = image;
 
-  handleImage(webcamImage: WebcamImage) {
-    this.capturedImage = webcamImage;
-    this.webcamOpen = false;
-
-    this.registerForm.patchValue({
-      filename3: 'captured-image.jpg',
-      mimeType3: 'image/jpeg',
-      data3: webcamImage.imageAsBase64,
-    });
+    console.log('Captured Image:', this.webcamImage);
   }
 
   handleInitError(error: WebcamInitError) {
-    console.error(error);
+    console.error('Webcam initialization error:', error);
+  }
+
+  captureSelfie() {
+    this.triggerObservable.next();
   }
 }

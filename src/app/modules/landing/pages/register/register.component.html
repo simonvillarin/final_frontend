@@ -452,17 +452,21 @@
           />
         </button>
       </div>
-      <button (click)="captureImage()">Capture Image</button>
-      <div *ngIf="webcamOpen">
-        <webcam
-          [height]="300"
-          [width]="400"
-          (imageCapture)="handleImage($event)"
-          (initError)="handleInitError($event)"
-        ></webcam>
-      </div>
-      <div *ngIf="capturedImage">
-        <img [src]="capturedImage.imageAsDataUrl" alt="Captured Image" />
+      <div class="input-group">
+        <div *ngIf="!webcamImage">
+          <webcam
+            [height]="320"
+            [width]="900"
+            [trigger]="triggerObservable"
+            [imageQuality]="0.85"
+            (imageCapture)="handleImageCapture($event)"
+            (initError)="handleInitError($event)"
+          ></webcam>
+        </div>
+        <div *ngIf="webcamImage">
+          <img [src]="webcamImage.imageAsDataUrl" alt="Captured Image" />
+        </div>
+        <button (click)="captureSelfie()" type="button">Capture Image</button>
       </div>
     </div>
 
