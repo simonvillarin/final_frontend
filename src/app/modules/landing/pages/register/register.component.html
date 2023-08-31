@@ -452,6 +452,18 @@
           />
         </button>
       </div>
+      <button (click)="captureImage()">Capture Image</button>
+      <div *ngIf="webcamOpen">
+        <webcam
+          [height]="300"
+          [width]="400"
+          (imageCapture)="handleImage($event)"
+          (initError)="handleInitError($event)"
+        ></webcam>
+      </div>
+      <div *ngIf="capturedImage">
+        <img [src]="capturedImage.imageAsDataUrl" alt="Captured Image" />
+      </div>
     </div>
 
     <button type="submit">Submit</button>

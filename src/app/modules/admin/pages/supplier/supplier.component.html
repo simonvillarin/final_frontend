@@ -99,7 +99,7 @@
   >
     <p-header>
       <div class="dialog-title">
-        {{ supplier.status ? "Deactivate" : "Activate" }}
+        {{ supplier.status === "Active" ? "Deactivate" : "Activate" }}
       </div>
     </p-header>
     <div class="dialog-body">

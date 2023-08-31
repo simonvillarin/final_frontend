@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CardModule } from 'primeng/card';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { CardModule } from 'primeng/card';
     MatInputModule,
     MatButtonModule,
     CardModule,
+    WebcamModule,
   ],
   exports: [LandingRoutingModule],
 })
