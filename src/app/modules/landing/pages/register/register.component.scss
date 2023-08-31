@@ -94,6 +94,13 @@ img {
   margin-bottom: 1rem;
 }
 
+.f-group {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -201,6 +208,31 @@ button:focus {
 
 .error {
   background-color: var(--red);
+}
+
+.fg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.webcam-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.btn-capture {
+  transform: translateY(-0.5rem);
+}
+
+.selfie-container {
+  width: 425px;
+  height: 320px;
+}
+
+.none {
+  display: none;
 }
 
 @media screen and (min-width: 768px) {

@@ -394,6 +394,31 @@
           >
         </div>
       </div>
+    </div>
+
+    <div class="f-group">
+      <div class="input-group">
+        <label>Id Type<span class="required">*</span></label>
+        <p-dropdown
+          [options]="genders"
+          placeholder="Select a gender"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="gender"
+        ></p-dropdown>
+        <div *ngIf="gender.invalid && (gender?.dirty || gender.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="gender.errors?.['required']"
+            >Gender is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="input-group">
         <label>Front Id<span class="required">*</span></label>
         <div
@@ -452,21 +477,35 @@
           />
         </button>
       </div>
-      <div class="input-group">
-        <div *ngIf="!webcamImage">
+    </div>
+    <div class="fg">
+      <div class="webcam-group">
+        <div class="webcam" *ngIf="!selfie">
           <webcam
+            [width]="480"
             [height]="320"
-            [width]="900"
             [trigger]="triggerObservable"
-            [imageQuality]="0.85"
             (imageCapture)="handleImageCapture($event)"
             (initError)="handleInitError($event)"
           ></webcam>
         </div>
-        <div *ngIf="webcamImage">
+        <div class="selfie-container" *ngIf="selfie">
           <img [src]="webcamImage.imageAsDataUrl" alt="Captured Image" />
         </div>
-        <button (click)="captureSelfie()" type="button">Capture Image</button>
+        <button
+          class="btn-capture {{ selfie ? 'none' : '' }}"
+          (click)="captureSelfie()"
+          type="button"
+        >
+          Capture Image
+        </button>
+        <button
+          class="{{ selfie ? '' : 'none' }}"
+          (click)="another()"
+          type="button"
+        >
+          Take Another
+        </button>
       </div>
     </div>
 

@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit {
   idBackPreview = false;
   idFrontEmpty = false;
   idBackEmpty = false;
+  selfie = false;
 
   type: string = '';
   alertMessage: string = '';
@@ -368,59 +369,19 @@ export class RegisterComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
 
-  onFileSelected2(event: any) {
-    this.file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      this.idBackPreview = true;
-      this.idBackEmpty = false;
-      this.idBack = e.target.result;
-    };
-
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
-
-    if (file) {
-      this.readFileAsBytes2(file);
-    }
-
-    reader.readAsDataURL(this.file);
-  }
-
-  readFileAsBytes2(file: File) {
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const result = event.target?.result;
-      if (result instanceof ArrayBuffer) {
-        const bytes = new Uint8Array(result);
-        const mimeType = file.type;
-        const fileName = file.name;
-
-        this.registerForm.patchValue({
-          filename3: fileName,
-          mimeType3: mimeType,
-          data3: Array.from(bytes),
-        });
-      }
-    };
-
-    reader.readAsArrayBuffer(file);
-  }
-
   onSubmit = () => {
+    console.log(this.registerForm.value);
     if (this.type === '') {
       this.error = true;
       scroll(0, 0);
     }
     if (this.idFront === null) {
       this.idFrontEmpty = true;
-      console.log(true);
     }
     if (this.idBack === null) {
       this.idBackEmpty = true;
     }
+
     if (this.registerForm.valid) {
       this.registerForm.patchValue({
         region: this.registerForm.get('region')?.value.name,
@@ -473,9 +434,14 @@ export class RegisterComponent implements OnInit {
   };
 
   handleImageCapture(image: WebcamImage) {
+    this.selfie = true;
     this.webcamImage = image;
 
-    console.log('Captured Image:', this.webcamImage);
+    this.registerForm.patchValue({
+      filename3: this.generateUniqueFilename(),
+      mimeType3: this.extractMimeType(image.imageAsDataUrl),
+      data3: Array.from(new TextEncoder().encode(String(image.imageAsDataUrl))),
+    });
   }
 
   handleInitError(error: WebcamInitError) {
@@ -484,5 +450,19 @@ export class RegisterComponent implements OnInit {
 
   captureSelfie() {
     this.triggerObservable.next();
+  }
+
+  another = () => {
+    this.selfie = false;
+  };
+
+  extractMimeType(dataUrl: string): string {
+    return dataUrl.split(':')[1].split(';')[0];
+  }
+
+  generateUniqueFilename() {
+    const timestamp = new Date().getTime();
+    const randomString = Math.random().toString(36).substring(2, 15);
+    return `${timestamp}_${randomString}.png`;
   }
 }
