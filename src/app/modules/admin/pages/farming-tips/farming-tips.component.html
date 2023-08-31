@@ -8,6 +8,7 @@
   </div>
   <div class="table">
     <p-table
+      *ngIf="tips.length > 0; else emptyTableMessage"
       [value]="tips"
       [paginator]="true"
       [rows]="5"
@@ -61,6 +62,13 @@
         </ng-container>
       </ng-template>
     </p-table>
+    <ng-template #emptyTableMessage>
+      <img
+        src="{{ '../../../../../assets/images/no-content.png' }}"
+        class="error-image"
+      />
+      <p class="empty-table-message">No Farming Tips to display.</p>
+    </ng-template>
   </div>
   <p-dialog
     [(visible)]="addDialog"
