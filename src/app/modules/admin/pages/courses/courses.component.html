@@ -8,6 +8,7 @@
   </div>
   <div class="table">
     <p-table
+      *ngIf="courses.length > 0; else emptyTableMessage"
       [value]="courses"
       [paginator]="true"
       [rows]="5"
@@ -43,6 +44,13 @@
         </tr>
       </ng-template>
     </p-table>
+    <ng-template #emptyTableMessage>
+      <img
+        src="{{ '../../../../../assets/images/no-content.png' }}"
+        class="error-image"
+      />
+      <p class="empty-table-message">No courses to display.</p>
+    </ng-template>
   </div>
   <p-dialog
     [(visible)]="addDialog"
