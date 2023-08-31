@@ -400,12 +400,13 @@
       <div class="input-group">
         <label>Id Type<span class="required">*</span></label>
         <p-dropdown
-          [options]="idTypes"
+          [options]="genders"
           placeholder="Select a Id Type"
           [style]="{
             width: '100%'
           }"
           appendTo="body"
+          w
           formControlName="idType"
         ></p-dropdown>
         <div *ngIf="idType.invalid && (idType?.dirty || idType.touched)">

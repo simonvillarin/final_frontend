@@ -22,9 +22,48 @@
 
   <div class="card-container">
     <div class="card" *ngFor="let acceptedOffer of acceptedOffers">
-      <div class="card-img-container">
-        <div class="img-container">
-          <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
+      <div class="img-container">
+        <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
+      </div>
+      <div class="card-content">
+        <div>
+          <div>
+            <div class="title">Crop Name</div>
+            <div class="data">{{ acceptedOffer.offer.advertisement.name }}</div>
+          </div>
+          <div>
+            <div class="title">Category</div>
+            <div class="data">
+              {{ acceptedOffer.offer.advertisement.category }}
+            </div>
+          </div>
+          <div>
+            <div class="title">Description</div>
+            <p class="data">
+              {{ acceptedOffer.offer.advertisement.description }}
+            </p>
+          </div>
+          <div>
+            <div class="title">
+              {{
+                acceptedOffer.offer.advertisement.measurement === "Weight"
+                  ? "Weight"
+                  : "Quantity"
+              }}
+            </div>
+            <div class="data">
+              {{ acceptedOffer.offer.value }}
+              {{
+                acceptedOffer.offer.advertisement.measurement === "Weight"
+                  ? "kg"
+                  : ""
+              }}
+            </div>
+          </div>
+          <div>
+            <div class="title t1">Price</div>
+            <p class="data d1">₱ {{ acceptedOffer.offer.price }}</p>
+          </div>
         </div>
         <div class="card-actions">
           <button
@@ -38,44 +77,8 @@
             title="Cancel"
             (click)="onCancel(acceptedOffer)"
           >
-            <span class="material-symbols-rounded"> cancel </span>
+            <span class="material-symbols-rounded"> cancel </span>Cancel
           </button>
-        </div>
-      </div>
-      <div class="card-content">
-        <div>
-          <div class="title">Accepted Offer No</div>
-          <div class="data">
-            {{ acceptedOffer.transactionId }}
-          </div>
-        </div>
-        <div>
-          <div class="title">Crop Name</div>
-          <div class="data">{{ acceptedOffer.offer.advertisement.name }}</div>
-        </div>
-        <div>
-          <div class="title">Category</div>
-          <div class="data">
-            {{ acceptedOffer.offer.advertisement.category }}
-          </div>
-        </div>
-        <div>
-          <div class="title">Description</div>
-          <p class="data">
-            {{ acceptedOffer.offer.advertisement.description }}
-          </p>
-        </div>
-        <div>
-          <div class="title">Quantity</div>
-          <div class="data">{{ acceptedOffer.offer.quantity }} pcs.</div>
-        </div>
-        <div>
-          <div class="title">Mass</div>
-          <div class="data">{{ acceptedOffer.offer.mass }} kg.</div>
-        </div>
-        <div>
-          <div class="title t1">Price</div>
-          <p class="data d1">₱ {{ acceptedOffer.offer.price }}</p>
         </div>
       </div>
     </div>

@@ -51,18 +51,13 @@ export class AdvertisementComponent implements OnInit {
       farmerId: [''],
       supplierId: [''],
       postId: [''],
-      quantity: ['', Validators.required],
-      mass: ['', Validators.required],
+      value: ['', Validators.required],
       price: ['', Validators.required],
     });
   }
 
-  get quantity() {
-    return this.offerForm.get('quantity') as FormControl;
-  }
-
-  get mass() {
-    return this.offerForm.get('mass') as FormControl;
+  get value() {
+    return this.offerForm.get('value') as FormControl;
   }
 
   get price() {
@@ -114,14 +109,12 @@ export class AdvertisementComponent implements OnInit {
   onCheckboxChange = (checked: boolean) => {
     if (checked) {
       this.offerForm.patchValue({
-        quantity: this.ad.quantity,
-        mass: this.ad.mass,
+        value: this.ad.value,
         price: this.ad.price,
       });
     } else {
       this.offerForm.patchValue({
-        quantity: '',
-        mass: '',
+        value: '',
         price: '',
       });
     }

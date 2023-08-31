@@ -37,10 +37,16 @@
         </div>
         <div class="card-content">
           <div>
-            <div class="title">Supplier</div>
+            <div class="title">Supplier Name</div>
             <div class="data">
               {{ ad.supplier.firstName }} {{ ad.supplier.middleName }}
               {{ ad.supplier.lastName }} {{ ad.supplier.suffix }}
+            </div>
+          </div>
+          <div>
+            <div class="title">Supplier Contact No</div>
+            <div class="data">
+              {{ ad.supplier.contact }}
             </div>
           </div>
           <div>
@@ -58,12 +64,12 @@
             </p>
           </div>
           <div>
-            <div class="title">Quantity</div>
-            <div class="data">{{ ad.quantity }} pcs.</div>
-          </div>
-          <div>
-            <div class="title">Mass</div>
-            <div class="data">{{ ad.mass }} kg.</div>
+            <div class="title">
+              {{ ad.measurement === "Weight" ? "Weight" : "Quantity" }}
+            </div>
+            <div class="data">
+              {{ ad.value }} {{ ad.measurement === "Weight" ? "kg" : "" }}
+            </div>
           </div>
           <div>
             <div class="title t1">Price</div>
@@ -101,50 +107,34 @@
       [binary]="true"
       inputId="binary"
     ></p-checkbox>
-    <label>Offer same quantity, mass, and price as the advertisement</label>
+    <label
+      >Offer same
+      {{ this.ad.measurement === "Weight" ? "weight" : "quantity" }} and price
+      as the advertisement</label
+    >
   </div>
   <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
     <div class="form-container">
       <div class="form-group">
         <div class="input-group">
-          <label>Quantity<span class="required">*</span></label>
-          <p-inputNumber
-            inputId="minmax"
-            inputId="minmax"
-            mode="decimal"
-            [min]="1"
-            [max]="100000"
-            [style]="{
-              width: '100%'
-            }"
-            formControlName="quantity"
+          <label
+            >{{ this.ad.measurement === "Weight" ? "Weight" : "Quantity"
+            }}<span class="required">*</span></label
           >
-          </p-inputNumber>
-          <div
-            *ngIf="quantity.invalid && (quantity?.dirty || quantity?.touched)"
-          >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="quantity?.errors?.['required']"
-              >Quantity is required</small
-            >
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Mass<span class="required">*</span></label>
           <p-inputNumber
             inputId="locale-user"
-            [minFractionDigits]="2"
+            [minFractionDigits]="this.ad.measurement === 'Weight' ? 2 : 0"
             [style]="{
               width: '100%'
             }"
-            formControlName="mass"
+            formControlName="value"
           ></p-inputNumber>
-          <div *ngIf="mass.invalid && (mass?.dirty || mass?.touched)">
+          <div *ngIf="value.invalid && (value?.dirty || value?.touched)">
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="mass?.errors?.['required']"
-              >Mass is required</small
+              *ngIf="value?.errors?.['required']"
+              >{{ this.ad.measurement === "Weight" ? "Weight" : "Quantity" }} is
+              required</small
             >
           </div>
         </div>

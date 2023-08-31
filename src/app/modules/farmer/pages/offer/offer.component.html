@@ -32,10 +32,16 @@
       </div>
       <div class="card-content">
         <div>
-          <div class="title">Supplier</div>
+          <div class="title">Supplier Name</div>
           <div class="data">
             {{ offer.supplier.firstName }} {{ offer.supplier.middleName }}
             {{ offer.supplier.lastName }} {{ offer.supplier.suffix }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Supplier Contact No</div>
+          <div class="data">
+            {{ offer.supplier.contact }}
           </div>
         </div>
         <div>
@@ -53,12 +59,17 @@
           </p>
         </div>
         <div>
-          <div class="title">Quantity</div>
-          <div class="data">{{ offer.quantity }} pcs.</div>
-        </div>
-        <div>
-          <div class="title">Mass</div>
-          <div class="data">{{ offer.mass }} kg.</div>
+          <div class="title">
+            {{
+              offer.advertisement.measurement === "Weight"
+                ? "Weight"
+                : "Quantity"
+            }}
+          </div>
+          <div class="data">
+            {{ offer.advertisement.value }}
+            {{ offer.advertisement.measurement === "Weight" ? "kg" : "" }}
+          </div>
         </div>
         <div>
           <div class="title t1">Price</div>

@@ -30,6 +30,7 @@ export class AdvertisementComponent implements OnInit {
     'Ornamental Crops',
     'Industrial Crops',
   ];
+  measurementTypes = ['Quantity', 'Weight'];
   ads: any = [];
   tempAds: any = [];
   img: any = {};
@@ -40,6 +41,7 @@ export class AdvertisementComponent implements OnInit {
 
   alertMessage = '';
   categorySelected: string = '';
+  measurementSelected: string = '';
 
   addDialog = false;
   confirmationDialog = false;
@@ -62,8 +64,8 @@ export class AdvertisementComponent implements OnInit {
       name: ['', Validators.required],
       category: ['', Validators.required],
       description: ['', Validators.required],
-      quantity: ['', Validators.required],
-      mass: ['', Validators.required],
+      measurement: ['', Validators.required],
+      value: ['', Validators.required],
       price: ['', Validators.required],
       filename: ['', Validators.required],
       mimeType: ['', Validators.required],
@@ -83,12 +85,12 @@ export class AdvertisementComponent implements OnInit {
     return this.adForm.get('description') as FormControl;
   }
 
-  get quantity() {
-    return this.adForm.get('quantity') as FormControl;
+  get measurement() {
+    return this.adForm.get('measurement') as FormControl;
   }
 
-  get mass() {
-    return this.adForm.get('mass') as FormControl;
+  get value() {
+    return this.adForm.get('value') as FormControl;
   }
 
   get price() {
@@ -114,6 +116,12 @@ export class AdvertisementComponent implements OnInit {
           this.authService.logout();
         }
       );
+  };
+
+  onMeasurementChange = (measurement: string) => {
+    if (measurement !== '') {
+      this.measurementSelected = measurement;
+    }
   };
 
   onFileSelected(event: any) {
@@ -252,6 +260,8 @@ export class AdvertisementComponent implements OnInit {
           this.addDialog = false;
         });
     } else {
+      console.log(this.adForm.value);
+
       if (this.adForm.valid) {
         this.advertisementService
           .addAdvertisement(this.adForm.value)

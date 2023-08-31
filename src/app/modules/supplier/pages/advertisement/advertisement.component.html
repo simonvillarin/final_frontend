@@ -26,55 +26,49 @@
   <ng-container>
     <div class="card-container">
       <div class="card" *ngFor="let ad of ads">
-        <div class="card-img-container">
-          <div class="c-img-container">
-            <img [src]="ad.image" alt="Crop" />
-          </div>
-          <div class="card-actions">
-            <button class="card-view" (click)="onViewOffers(ad.postId)">
-              <span class="material-symbols-rounded"> contract </span>View
-              Offers
-            </button>
-            <button class="card-edit" (click)="onEdit(ad)">
-              <span class="material-symbols-rounded"> edit </span>
-            </button>
-            <button class="card-delete" (click)="onRemove(ad)">
-              <span class="material-symbols-rounded"> delete </span>
-            </button>
-          </div>
+        <div class="c-img-container">
+          <img [src]="ad.image" alt="Crop" />
         </div>
         <div class="card-content">
           <div>
-            <div class="title">Crop Name</div>
-            <div class="data">{{ ad.name }}</div>
-          </div>
-          <div>
-            <div class="title">Category</div>
-            <div class="data">{{ ad.category }}</div>
-          </div>
-          <div>
-            <div class="title">Description</div>
-            <p class="data">
-              {{ ad.description }}
-            </p>
-          </div>
-          <div>
-            <div class="title">Quantity</div>
-            <div class="data">{{ ad.quantity }} pcs.</div>
-          </div>
-          <div>
-            <div class="title">Mass</div>
-            <div class="data">{{ ad.mass }} kg.</div>
-          </div>
-          <div>
-            <div class="title">Price</div>
-            <div class="data">₱ {{ ad.price }} kg.</div>
-          </div>
-          <div>
-            <div class="title t1">No of Offers</div>
-            <div class="data d1">
-              {{ ad.numOfOffers == 0 ? "None" : ad.numOfOffers }}
+            <div>
+              <div class="title">Crop Name</div>
+              <div class="data">{{ ad.name }}</div>
             </div>
+            <div>
+              <div class="title">Category</div>
+              <div class="data">{{ ad.category }}</div>
+            </div>
+            <div>
+              <div class="title">Description</div>
+              <p class="data">
+                {{ ad.description }}
+              </p>
+            </div>
+            <div>
+              <div class="title">
+                {{ ad.measurement === "Weight" ? "Weight" : "Quantity" }}
+              </div>
+              <div class="data">
+                {{ ad.value }} {{ ad.measurement === "Weight" ? "kg" : "" }}
+              </div>
+            </div>
+            <div>
+              <div class="title t1">Price</div>
+              <div class="data d1">₱ {{ ad.price }} kg.</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="card-view" (click)="onViewOffers(ad.postId)">
+              <span class="material-symbols-rounded"> contract </span>
+              Offers
+            </button>
+            <button class="card-edit" (click)="onEdit(ad)">
+              <span class="material-symbols-rounded"> edit </span>Edit
+            </button>
+            <button class="card-delete" (click)="onRemove(ad)">
+              <span class="material-symbols-rounded"> delete </span>Delete
+            </button>
           </div>
         </div>
       </div>
@@ -179,46 +173,54 @@
             >
           </div>
         </div>
+        <div class="input-group">
+          <label>Measurement Type<span class="required">*</span></label>
+          <p-dropdown
+            [options]="measurementTypes"
+            placeholder="Select a measurement type"
+            [style]="{
+              width: '100%',
+            }"
+            appendTo="body"
+            formControlName="measurement"
+            [(ngModel)]="measurementSelected"
+            (ngModelChange)="onMeasurementChange($event)"
+          ></p-dropdown>
+          <div
+            *ngIf="
+              measurement.invalid &&
+              (measurement?.dirty || measurement?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="measurement?.errors?.['required']"
+              >Measurement type is required</small
+            >
+          </div>
+        </div>
         <div class="num-group">
           <div class="input-group">
-            <label>Quantity<span class="required">*</span></label>
-            <p-inputNumber
-              inputId="minmax"
-              inputId="minmax"
-              mode="decimal"
-              [min]="1"
-              [max]="100000"
-              [style]="{
-                width: '100%'
-              }"
-              formControlName="quantity"
+            <label
+              >{{ measurementSelected === "Weight" ? "Weight" : "Quantity"
+              }}<span class="required">*</span></label
             >
-            </p-inputNumber>
-            <div
-              *ngIf="quantity.invalid && (quantity?.dirty || quantity?.touched)"
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="quantity?.errors?.['required']"
-                >Quantity is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label>Mass<span class="required">*</span></label>
             <p-inputNumber
               inputId="locale-user"
-              [minFractionDigits]="2"
+              [minFractionDigits]="measurementSelected === 'Weight' ? 2 : 0"
               [style]="{
                 width: '100%'
               }"
-              formControlName="mass"
+              formControlName="value"
             ></p-inputNumber>
-            <div *ngIf="mass.invalid && (mass?.dirty || mass?.touched)">
+            <div *ngIf="value.invalid && (value?.dirty || value?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="mass?.errors?.['required']"
-                >Mass is required</small
+                *ngIf="value?.errors?.['required']"
+                >{{
+                  measurementSelected === "Weight" ? "Weight" : "Quantity"
+                }}
+                is required</small
               >
             </div>
           </div>

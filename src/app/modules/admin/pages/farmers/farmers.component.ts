@@ -78,10 +78,10 @@ export class FarmersComponent {
   onConfirmDelete(): void {
     let payload: any = {};
 
-    if (this.farmer.status === 'Inactive') {
-      payload.status = 'Active';
-    } else {
+    if (this.farmer.status === 'Active') {
       payload.status = 'Inactive';
+    } else {
+      payload.status = 'Active';
     }
 
     this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {
