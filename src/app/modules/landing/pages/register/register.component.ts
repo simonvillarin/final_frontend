@@ -29,6 +29,18 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   genders = ['Male', 'Female', 'Others'];
+  idTypes = [
+    'e-Card / UMID',
+    'Driver’s License',
+    'Professional Regulation Commission (PRC) ID',
+    'Senior Citizen ID',
+    'SSS ID',
+    'COMELEC / Voter’s ID / COMELEC Registration Form',
+    'Philippine Identification (PhilID / ePhilID)',
+    'NBI Clearance',
+    'Philippine Postal ID',
+    'Others',
+  ];
   barangays: any = [];
   cities: any = [];
   provinces: any = [];
