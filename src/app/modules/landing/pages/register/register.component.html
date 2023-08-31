@@ -401,18 +401,18 @@
         <label>Id Type<span class="required">*</span></label>
         <p-dropdown
           [options]="genders"
-          placeholder="Select a gender"
+          placeholder="Select a Id Type"
           [style]="{
             width: '100%'
           }"
           appendTo="body"
-          formControlName="gender"
+          formControlName="idType"
         ></p-dropdown>
-        <div *ngIf="gender.invalid && (gender?.dirty || gender.touched)">
+        <div *ngIf="idType.invalid && (idType?.dirty || idType.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
-            *ngIf="gender.errors?.['required']"
-            >Gender is required</small
+            *ngIf="idType.errors?.['required']"
+            >Id type is required</small
           >
         </div>
       </div>

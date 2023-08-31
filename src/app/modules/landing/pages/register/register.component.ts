@@ -96,6 +96,7 @@ export class RegisterComponent implements OnInit {
       region: ['', Validators.required],
       contact: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
+      idType: ['', Validators.required],
       filename1: ['', Validators.required],
       mimeType1: ['', Validators.required],
       data1: ['', Validators.required],
@@ -181,6 +182,10 @@ export class RegisterComponent implements OnInit {
 
   get email() {
     return this.registerForm.get('email') as FormControl;
+  }
+
+  get idType() {
+    return this.registerForm.get('idType') as FormControl;
   }
 
   get filename1() {
