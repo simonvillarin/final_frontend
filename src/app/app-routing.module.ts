@@ -39,6 +39,12 @@ const routes: Routes = [
     canActivate: [farmerGuard],
   },
   {
+    path: '',
+    loadChildren: () =>
+      import('./modules/forgot/forgot.module').then((m) => m.ForgotModule),
+    canActivate: [landingGuard],
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
