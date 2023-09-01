@@ -26,8 +26,17 @@
         <div class="img-container">
           <img [src]="offer.advertisement.image" alt="Crop" />
         </div>
-        <button (click)="onCancelOffer(offer)">
-          <span class="material-symbols-rounded"> cancel </span>Cancel Offer
+        <button
+          class="{{ offer.isAccepted ? 'accepted' : 'not-accepted' }}"
+          (click)="onCancelOffer(offer)"
+        >
+          <span class="material-symbols-rounded" *ngIf="offer.isAccepted">
+            handshake
+          </span>
+          <span class="material-symbols-rounded" *ngIf="!offer.isAccepted">
+            cancel
+          </span>
+          {{ offer.isAccepted ? "Accepted" : "Cancel Offer" }}
         </button>
       </div>
       <div class="card-content">

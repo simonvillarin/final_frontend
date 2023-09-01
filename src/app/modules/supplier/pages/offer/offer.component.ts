@@ -60,10 +60,30 @@ export class OfferComponent implements OnInit {
 
   onClear = () => {
     this.categorySelected = '';
+    this.getOffersBySupplierId();
   };
 
   onCategoryChange = (category: string) => {
     if (this.categorySelected !== '') {
+      const param = this.route.snapshot.params['id'];
+      this.offerService.getOfferByPostId(param).subscribe(
+        (data: any) => {
+          this.tempOffers = data.sort(
+            (a: any, b: any) => b.offerId - a.offerId
+          );
+          this.tempOffers = this.tempOffers.filter(
+            (offer: any) => offer.status === true
+          );
+          this.totalOffers = this.tempOffers.length;
+          this.offers = this.tempOffers.splice(this.page * 5, 5);
+          this.offers = this.offers.filter(
+            (offer: any) => offer.advertisement.category === category
+          );
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
     }
   };
 

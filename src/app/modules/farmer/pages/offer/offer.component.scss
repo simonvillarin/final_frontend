@@ -17,7 +17,6 @@ main {
   gap: 0.5rem;
 }
 
-.btn-post,
 .btn-clear {
   width: 7.5rem;
   display: flex;
@@ -29,10 +28,6 @@ main {
   border-radius: 0.25rem;
   color: var(--light);
   cursor: pointer;
-}
-
-.btn-post {
-  background-color: var(--primary);
 }
 
 .btn-clear {
@@ -88,15 +83,23 @@ button {
   gap: 0.5rem;
   padding: 0.625rem;
   border-radius: 0.25rem;
-  color: var(--light);
-  background-color: var(--red);
   font-size: 1rem;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
 }
 
-button:hover,
-button:focus {
+.accepted {
+  color: #333;
+  background-color: #c1c1c1;
+}
+
+.not-accepted {
+  color: var(--light);
+  background-color: var(--red);
+}
+
+.not-accepted:hover,
+.not-accepted:focus {
   background-color: var(--darker-red);
 }
 

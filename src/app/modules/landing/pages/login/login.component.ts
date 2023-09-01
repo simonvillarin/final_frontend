@@ -1,3 +1,4 @@
+import { AuthService } from './../../../../core/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private authService: AuthService
   ) {
     this.loginForm = formBuilder.group({
       username: ['', Validators.required],
@@ -65,9 +67,13 @@ export class LoginComponent implements OnInit {
 
           this.loginForm.reset();
         },
-        () => {
-          this.isError = true;
-          setTimeout(() => (this.isError = false), 3000);
+        (error) => {
+          if (error.status === 500) {
+            this.isError = true;
+            setTimeout(() => (this.isError = false), 3000);
+          } else {
+            this.authService.logout();
+          }
         }
       );
     } else {

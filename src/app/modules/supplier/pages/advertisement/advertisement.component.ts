@@ -177,11 +177,6 @@ export class AdvertisementComponent implements OnInit {
           this.ads = this.tempAds.splice(this.page * 6, 6);
 
           this.ads = this.ads.filter((ad: any) => ad.category == category);
-          if (this.ads.length < 3) {
-            this.gridTwo = true;
-          } else {
-            this.gridTwo = false;
-          }
         });
     }
   };

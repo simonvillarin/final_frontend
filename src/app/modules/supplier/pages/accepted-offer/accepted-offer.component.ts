@@ -57,10 +57,30 @@ export class AcceptedOfferComponent {
 
   onClear = () => {
     this.categorySelected = '';
+    this.getTransactionsBySupplierId();
   };
 
   onCategoryChange = (category: string) => {
     if (this.categorySelected !== '') {
+      this.transactionService
+        .getTransactionBySupplierId(this.authService.getUserId())
+        .subscribe((data: any) => {
+          this.tempAcceptedOffers = data.sort(
+            (a: any, b: any) => b.transactionId - a.transactionId
+          );
+          this.tempAcceptedOffers = this.tempAcceptedOffers.filter(
+            (offer: any) => offer.status === true
+          );
+          this.totalOffers = this.tempAcceptedOffers.length;
+          this.acceptedOffers = this.tempAcceptedOffers.splice(
+            this.page * 5,
+            5
+          );
+          this.acceptedOffers = this.acceptedOffers.filter(
+            (acceptedOffer: any) =>
+              acceptedOffer.offer.advertisement.category === category
+          );
+        });
     }
   };
 
