@@ -25,158 +25,158 @@ import { Subject } from 'rxjs';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+  export class RegisterComponent implements OnInit {
+    registerForm: FormGroup;
 
-  genders = ['Male', 'Female', 'Others'];
-  idTypes = [
-    'e-Card / UMID',
-    'Driver’s License',
-    'Professional Regulation Commission (PRC) ID',
-    'Senior Citizen ID',
-    'SSS ID',
-    'COMELEC / Voter’s ID / COMELEC Registration Form',
-    'Philippine Identification (PhilID / ePhilID)',
-    'NBI Clearance',
-    'Philippine Postal ID',
-    'Others',
-  ];
-  barangays: any = [];
-  cities: any = [];
-  provinces: any = [];
-  regions: any = [];
+    genders = ['Male', 'Female', 'Others'];
+    idTypes = [
+      'e-Card / UMID',
+      'Driver’s License',
+      'Professional Regulation Commission (PRC) ID',
+      'Senior Citizen ID',
+      'SSS ID',
+      'COMELEC / Voter’s ID / COMELEC Registration Form',
+      'Philippine Identification (PhilID / ePhilID)',
+      'NBI Clearance',
+      'Philippine Postal ID',
+      'Others',
+    ];
+    barangays: any = [];
+    cities: any = [];
+    provinces: any = [];
+    regions: any = [];
 
-  tempBarangays: any = [];
-  tempCities: any = [];
-  tempProvinces: any = [];
-  tempRegions: any = [];
+    tempBarangays: any = [];
+    tempCities: any = [];
+    tempProvinces: any = [];
+    tempRegions: any = [];
 
-  file: any;
-  idFront: string | ArrayBuffer | null = null;
-  idBack: string | ArrayBuffer | null = null;
-  regionSelected: any;
-  provinceSelected: any;
-  citySelected: any;
+    file: any;
+    idFront: string | ArrayBuffer | null = null;
+    idBack: string | ArrayBuffer | null = null;
+    regionSelected: any;
+    provinceSelected: any;
+    citySelected: any;
 
-  error = false;
-  pass = false;
-  confirmPass = false;
+    error = false;
+    pass = false;
+    confirmPass = false;
 
-  alert = false;
-  isError = false;
-  currentPass = false;
+    alert = false;
+    isError = false;
+    currentPass = false;
 
-  idFrontPreview = false;
-  idBackPreview = false;
-  idFrontEmpty = false;
-  idBackEmpty = false;
-  selfie = false;
+    idFrontPreview = false;
+    idBackPreview = false;
+    idFrontEmpty = false;
+    idBackEmpty = false;
+    selfie = false;
 
-  type: string = '';
-  alertMessage: string = '';
+    type: string = '';
+    alertMessage: string = '';
 
-  triggerObservable = new Subject<void>();
-  webcamImage: any;
+    triggerObservable = new Subject<void>();
+    webcamImage: any;
 
-  ngOnInit(): void {
-    this.getBarangay();
-    this.getCity();
-    this.getProvince();
-    this.getRegion();
-  }
+    ngOnInit(): void {
+      this.getBarangay();
+      this.getCity();
+      this.getProvince();
+      this.getRegion();
+    }
 
-  constructor(
-    private fb: FormBuilder,
-    private addressService: AddressService,
-    private registerService: RegisterService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) {
-    this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      suffix: [''],
-      gender: ['', Validators.required],
-      birthdate: ['', [Validators.required, birthdateValidator()]],
-      unit: ['', Validators.required],
-      street: ['', Validators.required],
-      village: ['', Validators.required],
-      barangay: ['', Validators.required],
-      city: ['', Validators.required],
-      province: ['', Validators.required],
-      region: ['', Validators.required],
-      contact: ['', [Validators.required, mobileNumberValidator()]],
-      email: ['', [Validators.required, Validators.email]],
-      idType: ['', Validators.required],
-      filename1: ['', Validators.required],
-      selfie: ['', Validators.required],
-      mimeType1: ['', Validators.required],
-      data1: ['', Validators.required],
-      filename2: ['', Validators.required],
-      mimeType2: ['', Validators.required],
-      data2: ['', Validators.required],
-      username: ['', Validators.required],
-      password: [
-        '',
-        [
-          Validators.required,
-          PasswordLengthValidator(),
-          hasUppercaseValidator(),
-          hasLowercaseValidator(),
-          hasNumberValidator(),
-          hasSymbolValidator(),
+    constructor(
+      private fb: FormBuilder,
+      private addressService: AddressService,
+      private registerService: RegisterService,
+      private elementRef: ElementRef,
+      private renderer: Renderer2
+    ) {
+      this.registerForm = this.fb.group({
+        firstName: ['', Validators.required],
+        middleName: [''],
+        lastName: ['', Validators.required],
+        suffix: [''],
+        gender: ['', Validators.required],
+        birthdate: ['', [Validators.required, birthdateValidator()]],
+        unit: ['', Validators.required],
+        street: ['', Validators.required],
+        village: ['', Validators.required],
+        barangay: ['', Validators.required],
+        city: ['', Validators.required],
+        province: ['', Validators.required],
+        region: ['', Validators.required],
+        contact: ['', [Validators.required, mobileNumberValidator()]],
+        email: ['', [Validators.required, Validators.email]],
+        idType: ['', Validators.required],
+        filename1: ['', Validators.required],
+        selfie: ['', Validators.required],
+        mimeType1: ['', Validators.required],
+        data1: ['', Validators.required],
+        filename2: ['', Validators.required],
+        mimeType2: ['', Validators.required],
+        data2: ['', Validators.required],
+        username: ['', Validators.required],
+        password: [
+          '',
+          [
+            Validators.required,
+            PasswordLengthValidator(),
+            hasUppercaseValidator(),
+            hasLowercaseValidator(),
+            hasNumberValidator(),
+            hasSymbolValidator(),
+          ],
         ],
-      ],
-      confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
-      role: ['', Validators.required],
-      status: ['Pending'],
-    });
-  }
+        confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
+        role: ['', Validators.required],
+        status: ['Pending'],
+      });
+    }
 
-  get firstName() {
-    return this.registerForm.get('firstName') as FormControl;
-  }
+    get firstName() {
+      return this.registerForm.get('firstName') as FormControl;
+    }
 
-  get middleName() {
-    return this.registerForm.get('middleName') as FormControl;
-  }
+    get middleName() {
+      return this.registerForm.get('middleName') as FormControl;
+    }
 
-  get lastName() {
-    return this.registerForm.get('lastName') as FormControl;
-  }
+    get lastName() {
+      return this.registerForm.get('lastName') as FormControl;
+    }
 
-  get suffix() {
-    return this.registerForm.get('suffix') as FormControl;
-  }
+    get suffix() {
+      return this.registerForm.get('suffix') as FormControl;
+    }
 
-  get gender() {
-    return this.registerForm.get('gender') as FormControl;
-  }
+    get gender() {
+      return this.registerForm.get('gender') as FormControl;
+    }
 
-  get birthdate() {
-    return this.registerForm.get('birthdate') as FormControl;
-  }
+    get birthdate() {
+      return this.registerForm.get('birthdate') as FormControl;
+    }
 
-  get unit() {
-    return this.registerForm.get('unit') as FormControl;
-  }
+    get unit() {
+      return this.registerForm.get('unit') as FormControl;
+    }
 
-  get street() {
-    return this.registerForm.get('street') as FormControl;
-  }
+    get street() {
+      return this.registerForm.get('street') as FormControl;
+    }
 
-  get village() {
-    return this.registerForm.get('village') as FormControl;
-  }
+    get village() {
+      return this.registerForm.get('village') as FormControl;
+    }
 
-  get barangay() {
-    return this.registerForm.get('barangay') as FormControl;
-  }
+    get barangay() {
+      return this.registerForm.get('barangay') as FormControl;
+    }
 
-  get city() {
-    return this.registerForm.get('city') as FormControl;
-  }
+    get city() {
+      return this.registerForm.get('city') as FormControl;
+    }
 
   get province() {
     return this.registerForm.get('province') as FormControl;

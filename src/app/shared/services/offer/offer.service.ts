@@ -10,6 +10,10 @@ export class OfferService {
 
   constructor(private http: HttpClient) {}
 
+  getOfferById = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/offers/${id}`);
+  };
+
   getOfferByFarmerId = (id: number): Observable<any[]> => {
     return this.http.get<any[]>(`${this.baseUrl}/offers/farmer/${id}`);
   };
