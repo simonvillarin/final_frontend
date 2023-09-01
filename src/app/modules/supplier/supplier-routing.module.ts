@@ -9,6 +9,7 @@ import { SupplierProfileComponent } from './pages/supplier-profile/supplier-prof
 import { OfferComponent } from './pages/offer/offer.component';
 import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'transaction/:id',
         component: TransactionComponent,
+      },
+      {
+        path: 'transaction/payment/:id',
+        component: PaymentComponent,
       },
       {
         path: 'received',

@@ -27,6 +27,8 @@
             name="payment"
             value="Credit/Debit Card"
             class="radio"
+            [(ngModel)]="type"
+            (ngModelChange)="onMethodChange($event)"
           />
           <div>
             <div class="img-container">

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
 import { OfferComponent } from './pages/offer/offer.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TransactionComponent } from './pages/transaction/transaction.component'
     AcceptedOfferComponent,
     OfferComponent,
     TransactionComponent,
+    PaymentComponent,
   ],
   imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule],
 })
