@@ -51,7 +51,6 @@ export class OfferComponent implements OnInit {
           );
           this.totalOffers = this.tempOffers.length;
           this.offers = this.tempOffers.splice(this.page * 5, 5);
-          console.log(this.offers);
         },
         () => {
           this.authService.logout();
@@ -61,10 +60,31 @@ export class OfferComponent implements OnInit {
 
   onClear = () => {
     this.categorySelected = '';
+    this.getOffersByFarmerId();
   };
 
   onCategoryChange = (category: string) => {
     if (this.categorySelected !== '') {
+      this.offerService
+        .getOfferByFarmerId(this.authService.getUserId())
+        .subscribe(
+          (data: any) => {
+            this.tempOffers = data.sort(
+              (a: any, b: any) => b.offerId - a.offerId
+            );
+            this.tempOffers = this.tempOffers.filter(
+              (offer: any) => offer.status === true
+            );
+            this.totalOffers = this.tempOffers.length;
+            this.offers = this.tempOffers.splice(this.page * 5, 5);
+            this.offers = this.offers.filter(
+              (offer: any) => offer.advertisement.category === category
+            );
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
     }
   };
 
@@ -74,8 +94,10 @@ export class OfferComponent implements OnInit {
   };
 
   onCancelOffer = (offer: any) => {
-    this.offer = offer;
-    this.confirmationDialog = true;
+    if (!offer.isAccepted) {
+      this.offer = offer;
+      this.confirmationDialog = true;
+    }
   };
 
   onCancelConfirmationDialog = () => {

@@ -1,1 +1,96 @@
-<p>accepted-offer works!</p>
+<main>
+  <div class="actions">
+    <div class="btn-actions">
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+    </div>
+    <div class="filter-container">
+      <p-dropdown
+        [options]="categories"
+        placeholder="Filter by category"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="categorySelected"
+        (ngModelChange)="onCategoryChange($event)"
+      ></p-dropdown>
+    </div>
+  </div>
+
+  <div class="card-container">
+    <div class="card" *ngFor="let acceptedOffer of acceptedOffers">
+      <div class="card-img-container">
+        <div class="img-container">
+          <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
+        </div>
+        <button class="btn-transaction">
+          <span class="material-symbols-rounded"> payments </span>View
+          Transaction
+        </button>
+      </div>
+      <div class="card-content">
+        <div>
+          <div class="title">Supplier Name</div>
+          <div class="data">
+            {{ acceptedOffer.supplier.firstName }}
+            {{ acceptedOffer.supplier.middleName }}
+            {{ acceptedOffer.supplier.lastName }}
+            {{ acceptedOffer.supplier.suffix }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Supplier Contact No</div>
+          <div class="data">{{ acceptedOffer.supplier.contact }}</div>
+        </div>
+        <div>
+          <div class="title">Crop Name</div>
+          <div class="data">{{ acceptedOffer.offer.advertisement.name }}</div>
+        </div>
+        <div>
+          <div class="title">Category</div>
+          <div class="data">
+            {{ acceptedOffer.offer.advertisement.category }}
+          </div>
+        </div>
+        <div>
+          <div class="title">Description</div>
+          <p class="data">
+            {{ acceptedOffer.offer.advertisement.description }}
+          </p>
+        </div>
+        <div>
+          <div class="title">
+            {{
+              acceptedOffer.offer.advertisement.measurement === "Weight"
+                ? "Weight"
+                : "Quantity"
+            }}
+          </div>
+          <div class="data">
+            {{ acceptedOffer.offer.value }}
+            {{
+              acceptedOffer.offer.advertisement.measurement === "Weight"
+                ? "kg"
+                : ""
+            }}
+          </div>
+        </div>
+        <div>
+          <div class="title t1">Price</div>
+          <p class="data d1">₱ {{ acceptedOffer.offer.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [rows]="5"
+      [totalRecords]="totalOffers"
+    ></p-paginator>
+  </div>
+</main>

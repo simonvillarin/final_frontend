@@ -11,6 +11,7 @@ import { FarmingTipsService } from 'src/app/shared/services/farming-tips/farming
 export class FarmingTipsComponent implements OnInit {
   tips: any = [];
   searchTerm: String = '';
+  isEmpty = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,12 @@ export class FarmingTipsComponent implements OnInit {
     this.farmingTipsService.getAllFarmingTips().subscribe(
       (data: any) => {
         this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
+        this.tips = this.tips.filter((tip: any) => tip.status === true);
+        if (this.tips.length > 0) {
+          this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
+        }
       },
       () => {
         this.authService.logout();

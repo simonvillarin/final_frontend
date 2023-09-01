@@ -44,6 +44,7 @@ p {
   font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
   text-align: right;
   cursor: pointer;
+  user-select: none;
 }
 
 .forgot:hover {

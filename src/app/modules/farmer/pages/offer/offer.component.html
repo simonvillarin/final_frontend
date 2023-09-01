@@ -26,8 +26,17 @@
         <div class="img-container">
           <img [src]="offer.advertisement.image" alt="Crop" />
         </div>
-        <button (click)="onCancelOffer(offer)">
-          <span class="material-symbols-rounded"> cancel </span>Cancel Offer
+        <button
+          class="{{ offer.isAccepted ? 'accepted' : 'not-accepted' }}"
+          (click)="onCancelOffer(offer)"
+        >
+          <span class="material-symbols-rounded" *ngIf="offer.isAccepted">
+            handshake
+          </span>
+          <span class="material-symbols-rounded" *ngIf="!offer.isAccepted">
+            cancel
+          </span>
+          {{ offer.isAccepted ? "Accepted" : "Cancel Offer" }}
         </button>
       </div>
       <div class="card-content">
@@ -79,12 +88,20 @@
     </div>
   </div>
 
-  <div class="pagination">
+  <div class="pagination" *ngIf="offers.length > 0">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [rows]="5"
       [totalRecords]="totalOffers"
     ></p-paginator>
+  </div>
+
+  <div *ngIf="offers.length === 0">
+    <img
+      src="../../../../../assets/images/no-content.png"
+      class="error-image"
+    />
+    <p class="no-offers-message">No offers are available to display.</p>
   </div>
 </main>
 

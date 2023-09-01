@@ -20,72 +20,77 @@
     </div>
   </div>
 
-  <ng-container>
-    <div class="card-container">
-      <div class="card" *ngFor="let ad of ads">
-        <div class="card-img-container">
-          <div class="img-container">
-            <img [src]="ad.image" alt="Crop" />
-          </div>
-          <button
-            class="{{ ad.isOffered ? 'offered' : 'noOffer' }}"
-            (click)="onOffer(ad)"
-          >
-            <span class="material-symbols-rounded"> contract </span
-            >{{ ad.isOffered ? "Offered" : "Make an Offer" }}
-          </button>
+  <div class="card-container">
+    <div class="card" *ngFor="let ad of ads">
+      <div class="card-img-container">
+        <div class="img-container">
+          <img [src]="ad.image" alt="Crop" />
         </div>
-        <div class="card-content">
-          <div>
-            <div class="title">Supplier Name</div>
-            <div class="data">
-              {{ ad.supplier.firstName }} {{ ad.supplier.middleName }}
-              {{ ad.supplier.lastName }} {{ ad.supplier.suffix }}
-            </div>
+        <button
+          class="{{ ad.isOffered ? 'offered' : 'noOffer' }}"
+          (click)="onOffer(ad)"
+        >
+          <span class="material-symbols-rounded"> contract </span
+          >{{ ad.isOffered ? "Offered" : "Make an Offer" }}
+        </button>
+      </div>
+      <div class="card-content">
+        <div>
+          <div class="title">Supplier Name</div>
+          <div class="data">
+            {{ ad.supplier.firstName }} {{ ad.supplier.middleName }}
+            {{ ad.supplier.lastName }} {{ ad.supplier.suffix }}
           </div>
-          <div>
-            <div class="title">Supplier Contact No</div>
-            <div class="data">
-              {{ ad.supplier.contact }}
-            </div>
+        </div>
+        <div>
+          <div class="title">Supplier Contact No</div>
+          <div class="data">
+            {{ ad.supplier.contact }}
           </div>
-          <div>
-            <div class="title">Crop Name</div>
-            <div class="data">{{ ad.name }}</div>
+        </div>
+        <div>
+          <div class="title">Crop Name</div>
+          <div class="data">{{ ad.name }}</div>
+        </div>
+        <div>
+          <div class="title">Category</div>
+          <div class="data">{{ ad.category }}</div>
+        </div>
+        <div>
+          <div class="title">Description</div>
+          <p class="data">
+            {{ ad.description }}
+          </p>
+        </div>
+        <div>
+          <div class="title">
+            {{ ad.measurement === "Weight" ? "Weight" : "Quantity" }}
           </div>
-          <div>
-            <div class="title">Category</div>
-            <div class="data">{{ ad.category }}</div>
+          <div class="data">
+            {{ ad.value }} {{ ad.measurement === "Weight" ? "kg" : "" }}
           </div>
-          <div>
-            <div class="title">Description</div>
-            <p class="data">
-              {{ ad.description }}
-            </p>
-          </div>
-          <div>
-            <div class="title">
-              {{ ad.measurement === "Weight" ? "Weight" : "Quantity" }}
-            </div>
-            <div class="data">
-              {{ ad.value }} {{ ad.measurement === "Weight" ? "kg" : "" }}
-            </div>
-          </div>
-          <div>
-            <div class="title t1">Price</div>
-            <p class="data d1">₱ {{ ad.price }}</p>
-          </div>
+        </div>
+        <div>
+          <div class="title t1">Price</div>
+          <p class="data d1">₱ {{ ad.price }}</p>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="pagination">
-      <p-paginator
-        (onPageChange)="onPageChange($event)"
-        [rows]="5"
-        [totalRecords]="totalAds"
-      ></p-paginator>
-    </div>
+  <div class="pagination" *ngIf="ads.length > 0">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [rows]="5"
+      [totalRecords]="totalAds"
+    ></p-paginator>
+  </div>
+  <ng-container *ngIf="ads.length === 0">
+    <img
+      src="{{ '../../../../../assets/images/no-content.png' }}"
+      class="error-image"
+    />
+    <p class="no-ads-message">No advertisements are available to display.</p>
   </ng-container>
 </main>
 
