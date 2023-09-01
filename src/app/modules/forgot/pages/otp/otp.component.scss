@@ -1,0 +1,105 @@
+section {
+  width: 100%;
+  background-image: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5)),
+    url("../../../../../assets/images/login-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 450px;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--light);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.2;
+}
+
+p {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label {
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+}
+
+.required {
+  color: var(--red);
+}
+
+.resend-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resend {
+  color: var(--red);
+  text-decoration: underline;
+  transition: color 200ms ease-in-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.resend:hover {
+  color: var(--darker-red);
+}
+
+button {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.875rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  font-size: 1rem;
+  font-weight: 400;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--darker-primary);
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--red);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.mb {
+  margin-bottom: 0.5rem;
+}
