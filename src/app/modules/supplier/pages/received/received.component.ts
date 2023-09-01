@@ -15,6 +15,7 @@ export class ReceivedComponent {
     'Industrial Crops',
   ];
   categorySelected: string = '';
+  ads: any = [];
 
   onCategoryChange = (category: string) => {
     if (this.categorySelected !== '') {
