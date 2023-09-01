@@ -1,1 +1,45 @@
-<p>otp works!</p>
+<app-navbar></app-navbar>
+<section>
+  <div class="container">
+    <div class="form">
+      <h2>Forgot Password</h2>
+      <p>Enter your the code from your email</p>
+      <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+        <div class="alert" *ngIf="alert">{{ alertMessage }}</div>
+        <div class="form-group">
+          <div class="input-group">
+            <label
+              >OTP (One-Time Password) code<span class="required"
+                >*</span
+              ></label
+            >
+            <input pInputText pKeyFilter="int" formControlName="otp" />
+            <div *ngIf="otp.invalid && (otp?.dirty || otp.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="otp.errors?.['required']"
+                >OTP is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="otp.errors?.['minlength']"
+                >Please enter a 6-digit OTP code</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="otp.errors?.['maxlength']"
+                >Please enter a 6-digit OTP code</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="resend-container">
+          <div>Didn't receive code?</div>
+          <div type="button" class="resend">Resend Code</div>
+        </div>
+        <button type="submit">VALIDATE</button>
+      </form>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

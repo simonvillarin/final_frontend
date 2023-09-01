@@ -34,6 +34,12 @@ export class HeaderInterceptor implements HttpInterceptor {
     const excludedUrls: string[] = [
       'http://localhost:8080/api/auth/register',
       'http://localhost:8080/api/auth/login',
+      'http://localhost:8080/api/farming/email/send',
+      'http://localhost:8080/api/farming/email/check',
+      'http://localhost:8080/api/farming/email/expired',
+      'http://localhost:8080/api/farming/email/otp',
+      'http://localhost:8080/api/farming/email/userId',
+      'http://localhost:8080/api/farming/email/user/',
     ];
     return excludedUrls.some((excludedUrl) => url.includes(excludedUrl));
   }

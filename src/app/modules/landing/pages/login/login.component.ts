@@ -46,6 +46,10 @@ export class LoginComponent implements OnInit {
     this.pass = !this.pass;
   };
 
+  forgot = () => {
+    this.router.navigate(['/forgot/email']);
+  };
+
   onSubmit = () => {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value).subscribe(
