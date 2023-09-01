@@ -7,77 +7,79 @@
     </form>
   </div>
 
-  <div class="card">
-    <ng-container *ngIf="tips.length > 0; else noTipsMessage">
-      <p-accordion [activeIndex]="0">
-        <ng-container *ngFor="let tip of tips">
-          <p-accordionTab
-            *ngIf="tip.status"
-            header="Farming Tip # {{ tip.tipId }}"
-            class="accordionTab"
-          >
-            <div class="featured-tips-container">
-              <div class="featured-tips-video">
-                <img src="{{ tip.image }}" alt="Tip" />
+  <div class="card" *ngIf="!isEmpty">
+    <p-accordion [activeIndex]="0">
+      <ng-container *ngFor="let tip of tips">
+        <p-accordionTab
+          *ngIf="tip.status"
+          header="Farming Tip # {{ tip.tipId }}"
+          class="accordionTab"
+        >
+          <div class="featured-tips-container">
+            <div class="featured-tips-video">
+              <img src="{{ tip.image }}" alt="Tip" />
+            </div>
+
+            <div class="featured-tips-content">
+              <div class="small-heading gray">
+                <span><i class="material-icons primary-circle">lens</i></span>
+                Welcome to the Future of Agriculture
+              </div>
+              <div class="featured-tips-title">
+                <h3>{{ tip.tip }}</h3>
               </div>
 
-              <div class="featured-tips-content">
-                <div class="small-heading gray">
-                  <span><i class="material-icons primary-circle">lens</i></span>
-                  Welcome to the Future of Agriculture
-                </div>
-                <div class="featured-tips-title">
-                  <h3>{{ tip.tip }}</h3>
-                </div>
-
-                <div class="featured-tips-desc">MEET MORENO</div>
-                <div class="featured-tips-icons-container">
-                  <div class="icons-row">
-                    <div class="icon-heading">
-                      <span
-                        ><i class="material-icons blue-check-circle"
-                          >check_circle</i
-                        >
-                      </span>
-                      Fundamentals.
-                    </div>
-                    <div class="icon-heading">
-                      <span
-                        ><i class="material-icons blue-check-circle"
-                          >check_circle</i
-                        ></span
+              <div class="featured-tips-desc">MEET MORENO</div>
+              <div class="featured-tips-icons-container">
+                <div class="icons-row">
+                  <div class="icon-heading">
+                    <span
+                      ><i class="material-icons blue-check-circle"
+                        >check_circle</i
                       >
-                      Farming Concept.
-                    </div>
+                    </span>
+                    Fundamentals.
                   </div>
-                  <div class="icons-row">
-                    <div class="icon-heading">
-                      <span
-                        ><i class="material-icons blue-check-circle"
-                          >check_circle</i
-                        ></span
-                      >
-                      Functional Tools.
-                    </div>
+                  <div class="icon-heading">
+                    <span
+                      ><i class="material-icons blue-check-circle"
+                        >check_circle</i
+                      ></span
+                    >
+                    Farming Concept.
+                  </div>
+                </div>
+                <div class="icons-row">
+                  <div class="icon-heading">
+                    <span
+                      ><i class="material-icons blue-check-circle"
+                        >check_circle</i
+                      ></span
+                    >
+                    Functional Tools.
+                  </div>
 
-                    <div class="icon-heading">
-                      <span
-                        ><i class="material-icons blue-check-circle"
-                          >check_circle</i
-                        ></span
-                      >
-                      Agriculture Projects.
-                    </div>
+                  <div class="icon-heading">
+                    <span
+                      ><i class="material-icons blue-check-circle"
+                        >check_circle</i
+                      ></span
+                    >
+                    Agriculture Projects.
                   </div>
                 </div>
               </div>
             </div>
-          </p-accordionTab>
-        </ng-container>
-      </p-accordion>
-    </ng-container>
-    <ng-template #noTipsMessage>
-      <p class="no-tips-message">No farming tips available.</p>
-    </ng-template>
+          </div>
+        </p-accordionTab>
+      </ng-container>
+    </p-accordion>
+  </div>
+  <div *ngIf="isEmpty">
+    <img
+      src="{{ '../../../../../assets/images/no-content.png' }}"
+      class="error-image"
+    />
+    <p class="no-tips-message">No farming tips available.</p>
   </div>
 </main>

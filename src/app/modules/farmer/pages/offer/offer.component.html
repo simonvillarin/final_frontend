@@ -68,12 +68,20 @@
     </div>
   </div>
 
-  <div class="pagination">
+  <div class="pagination" *ngIf="offers.length > 0">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [rows]="5"
       [totalRecords]="totalOffers"
     ></p-paginator>
+  </div>
+
+  <div *ngIf="offers.length === 0">
+    <img
+      src="../../../../../assets/images/no-content.png"
+      class="error-image"
+    />
+    <p class="no-offers-message">No offers are available to display.</p>
   </div>
 </main>
 

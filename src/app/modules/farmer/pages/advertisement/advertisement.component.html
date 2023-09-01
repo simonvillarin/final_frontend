@@ -73,13 +73,20 @@
       </div>
     </div>
 
-    <div class="pagination">
+    <div class="pagination" *ngIf="ads.length > 0">
       <p-paginator
         (onPageChange)="onPageChange($event)"
         [rows]="5"
         [totalRecords]="totalAds"
       ></p-paginator>
     </div>
+  </ng-container>
+  <ng-container *ngIf="ads.length === 0">
+    <img
+      src="{{ '../../../../../assets/images/no-content.png' }}"
+      class="error-image"
+    />
+    <p class="no-ads-message">No advertisements are available to display.</p>
   </ng-container>
 </main>
 
