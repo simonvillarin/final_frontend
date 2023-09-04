@@ -400,7 +400,7 @@
       <div class="input-group">
         <label>Id Type<span class="required">*</span></label>
         <p-dropdown
-          [options]="genders"
+          [options]="idTypes"
           placeholder="Select a Id Type"
           [style]="{
             width: '100%'
@@ -540,7 +540,7 @@
                 Capture Image
               </button>
               <button
-                class="{{ selfie ? '' : 'none' }}"
+                class="{{ selfie ? 'mb' : 'none' }}"
                 (click)="another()"
                 type="button"
               >

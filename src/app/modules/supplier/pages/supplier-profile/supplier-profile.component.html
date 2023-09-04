@@ -3,12 +3,13 @@
     <div class="img-container">
       <img
         src="{{
-          user.image || '../../../../../../../assets/images/profile.webp'
+          user.image || '../../../../../../../assets/images/blank-profile.jpg'
         }}"
         alt="Profile"
       />
     </div>
     <button class="btn-upload">
+      <span class="material-symbols-rounded icon"> upload </span>
       Upload<input
         type="file"
         class="file"
@@ -31,7 +32,7 @@
     </div>
     <div>
       <div class="title">Birthday</div>
-      <div class="data">{{ user.birthdate }}</div>
+      <div class="data">{{ user.birthdate | date : "MMMM d, y" }}</div>
     </div>
     <div>
       <div class="title">Email</div>

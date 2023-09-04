@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { ComplaintsService } from 'src/app/shared/services/complaints/complaints.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-complaints',
   templateUrl: './complaints.component.html',
   styleUrls: ['./complaints.component.scss'],
+  providers: [MessageService],
 })
 export class ComplaintsComponent implements OnInit {
   complaints: any = [];
@@ -24,7 +20,8 @@ export class ComplaintsComponent implements OnInit {
 
   constructor(
     private complaintService: ComplaintsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +75,6 @@ export class ComplaintsComponent implements OnInit {
               (farmer: any) => farmer.status === true
             );
           } else {
-            console.log(false);
             this.complaints = this.complaints.filter(
               (farmer: any) => farmer.status === false
             );
@@ -99,6 +95,15 @@ export class ComplaintsComponent implements OnInit {
       .subscribe(() => {
         this.getComplaints();
         this.confirmationDialog = false;
+        const summary = !this.complaint.status ? 'Solved' : 'Unsolved';
+        const details = !this.complaint.status
+          ? 'Solved Successfully'
+          : 'Unsolved Sucessfully';
+        this.messageService.add({
+          severity: 'success',
+          summary: summary,
+          detail: details,
+        });
       });
   }
 

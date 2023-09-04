@@ -17,7 +17,10 @@
         >
           <div class="featured-tips-container">
             <div class="featured-tips-video">
-              <img src="{{ tip.image }}" alt="Tip" />
+              <img
+                src="{{ tip.image || '../../../../../../../assets/images/no-image.jpg }}"
+                alt="Tip"
+              />
             </div>
 
             <div class="featured-tips-content">
@@ -75,11 +78,16 @@
       </ng-container>
     </p-accordion>
   </div>
-  <div *ngIf="isEmpty">
-    <img
-      src="{{ '../../../../../assets/images/no-content.png' }}"
-      class="error-image"
-    />
-    <p class="no-tips-message">No farming tips available.</p>
-  </div>
+
+  <ng-container *ngIf="tips.length === 0">
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No farming tips to display</p>
+    </div>
+  </ng-container>
 </main>

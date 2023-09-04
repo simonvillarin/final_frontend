@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-farmers',
   templateUrl: './farmers.component.html',
   styleUrls: ['./farmers.component.scss'],
+  providers: [MessageService],
 })
 export class FarmersComponent {
   farmers: any = [];
@@ -19,7 +21,8 @@ export class FarmersComponent {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +90,17 @@ export class FarmersComponent {
     this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {
       this.getFarmers();
       this.confirmationDialog = false;
+      const summary =
+        this.farmer.status === 'Inactive' ? 'Activated' : 'Deactivated';
+      const details =
+        this.farmer.status === 'Inactive'
+          ? 'Activated Successfully'
+          : 'Deactivated Sucessfully';
+      this.messageService.add({
+        severity: 'success',
+        summary: summary,
+        detail: details,
+      });
     });
   }
 

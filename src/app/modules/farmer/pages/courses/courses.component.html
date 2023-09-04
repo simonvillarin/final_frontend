@@ -1,11 +1,68 @@
 <main>
-  <div class="course-container">
-    <div class="course" *ngFor="let course of courses; let i = index">
-      <div class="header">
-        <div>Course # {{ i }}</div>
-        <p class="title">{{ course.courseName }}</p>
+  <div class="actions">
+    <div class="filter-container">
+      <div class="search-container">
+        <span class="material-symbols-rounded"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
       </div>
-      <iframe [src]="course.ytLink" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
+
+  <div class="empty" *ngIf="empty">
+    <div class="img-container">
+      <img
+        src="{{ '../../../../../assets/images/no-content.png' }}"
+        class="error-image"
+      />
+    </div>
+    <p class="empty-message">No courses to display</p>
+  </div>
+
+  <ng-container *ngIf="!empty">
+    <div class="course-container">
+      <ng-container *ngFor="let course of courses; let i = index">
+        <div class="course" *ngIf="course.status">
+          <div class="video-container">
+            <youtube-player
+              [height]="340"
+              videoId="{{ getYoutubeVideoId(course.ytLink) }}"
+              suggestedQuality="hd1080"
+              (stateChange)="onStateChange($event)"
+            >
+              ></youtube-player
+            >
+          </div>
+          <div class="content">
+            <div class="header">
+              <div class="subtitle">Course No. {{ i + 1 }}</div>
+              <h3 class="title">{{ course.courseName }}</h3>
+            </div>
+            <p class="description">
+              {{ course.description }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="pagination">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [rows]="6"
+        [totalRecords]="totalAds"
+      ></p-paginator>
+    </div>
+  </ng-container>
 </main>

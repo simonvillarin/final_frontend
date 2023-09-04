@@ -14,6 +14,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonModule } from 'primeng/button';
 import { CoursesComponent } from './pages/courses/courses.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { CoursesComponent } from './pages/courses/courses.component';
     InputSwitchModule,
     MatIconModule,
     ButtonModule,
+    YouTubePlayerModule,
+    ToastModule,
   ],
 })
 export class AdminModule {}

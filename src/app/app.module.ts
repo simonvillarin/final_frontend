@@ -7,6 +7,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderInterceptor } from './core/interceptor/header.interceptor';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { HeaderInterceptor } from './core/interceptor/header.interceptor';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    YouTubePlayerModule,
   ],
   providers: [
     {

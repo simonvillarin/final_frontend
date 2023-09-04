@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { OfferService } from 'src/app/shared/services/offer/offer.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -55,7 +54,6 @@ export class AdvertisementComponent implements OnInit {
     private advertisementService: AdvertisementService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private offerService: OfferService,
     private messageService: MessageService,
     private router: Router
   ) {
@@ -67,9 +65,9 @@ export class AdvertisementComponent implements OnInit {
       measurement: ['', Validators.required],
       value: ['', Validators.required],
       price: ['', Validators.required],
-      filename: ['', Validators.required],
-      mimeType: ['', Validators.required],
-      data: ['', Validators.required],
+      filename: [''],
+      mimeType: [''],
+      data: [''],
     });
   }
 
@@ -111,8 +109,7 @@ export class AdvertisementComponent implements OnInit {
           this.totalAds = this.tempAds.length;
           this.ads = this.tempAds.splice(this.page * 5, 5);
         },
-        (error) => {
-          console.log(error);
+        () => {
           this.authService.logout();
         }
       );
@@ -202,13 +199,19 @@ export class AdvertisementComponent implements OnInit {
     this.isEditing = true;
     this.emptyImage = false;
     this.imagePreview = ad.image;
-    this.showImage = true;
+
+    if (this.imagePreview !== null) {
+      this.showImage = true;
+    } else {
+      this.showImage = false;
+    }
+
     this.adForm.patchValue({
       name: ad.name,
       category: ad.category,
       description: ad.description,
-      quantity: ad.quantity,
-      mass: ad.mass,
+      measurement: ad.measurement,
+      value: ad.value,
       price: ad.price,
     });
     this.postId = ad.postId;
@@ -216,55 +219,19 @@ export class AdvertisementComponent implements OnInit {
   };
 
   onSubmit = () => {
+    this.adForm.patchValue({
+      supplierId: this.authService.getUserId(),
+    });
+
     if (this.isEditing) {
-      let payload: any = {};
-      if (this.adForm.get('name')?.value != '') {
-        payload.name = this.adForm.get('name')?.value;
-      }
-      if (this.adForm.get('category')?.value != '') {
-        payload.category = this.adForm.get('category')?.value;
-      }
-      if (this.adForm.get('description')?.value != '') {
-        payload.description = this.adForm.get('description')?.value;
-      }
-      if (this.adForm.get('quantity')?.value != '') {
-        payload.quantity = this.adForm.get('quantity')?.value;
-      }
-      if (this.adForm.get('mass')?.value != '') {
-        payload.mass = this.adForm.get('mass')?.value;
-      }
-      if (this.adForm.get('price')?.value != '') {
-        payload.price = this.adForm.get('price')?.value;
-      }
-      if (this.adForm.get('filename')?.value != '') {
-        payload.filename = this.adForm.get('filename')?.value;
-        payload.mimeType = this.adForm.get('mimeType')?.value;
-        payload.data = this.adForm.get('data')?.value;
-      }
-
-      this.advertisementService
-        .updateAdvertisement(this.postId, payload)
-        .subscribe(() => {
-          this.messageService.add({
-            severity: 'info',
-            summary: 'Updated',
-            detail: 'Successfully updated',
-          });
-          this.getAdBySupplierId();
-          this.adForm.reset();
-          this.addDialog = false;
-        });
-    } else {
-      console.log(this.adForm.value);
-
       if (this.adForm.valid) {
         this.advertisementService
-          .addAdvertisement(this.adForm.value)
+          .updateAdvertisement(this.postId, this.adForm.value)
           .subscribe(() => {
             this.messageService.add({
-              severity: 'success',
-              summary: 'Added',
-              detail: 'Successfully added',
+              severity: 'sucess',
+              summary: 'Updated',
+              detail: 'Updated Successfully',
             });
             this.getAdBySupplierId();
             this.adForm.reset();
@@ -272,10 +239,23 @@ export class AdvertisementComponent implements OnInit {
           });
       } else {
         this.adForm.markAllAsTouched();
-        this.emptyImage = true;
-        this.alert = true;
-        this.alertMessage = 'Please upload a crop image';
-        setTimeout(() => (this.alert = false), 3000);
+      }
+    } else {
+      if (this.adForm.valid) {
+        this.advertisementService
+          .addAdvertisement(this.adForm.value)
+          .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Added',
+              detail: 'Added Successfully',
+            });
+            this.getAdBySupplierId();
+            this.adForm.reset();
+            this.addDialog = false;
+          });
+      } else {
+        this.adForm.markAllAsTouched();
       }
     }
   };

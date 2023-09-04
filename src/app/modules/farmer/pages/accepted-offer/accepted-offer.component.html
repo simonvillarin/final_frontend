@@ -24,7 +24,13 @@
     <div class="card" *ngFor="let acceptedOffer of acceptedOffers">
       <div class="card-img-container">
         <div class="img-container">
-          <img [src]="acceptedOffer.offer.advertisement.image" alt="Crop" />
+          <img
+            src="{{
+              acceptedOffer.offer.advertisement.image ||
+                '../../../../../../../assets/images/no-image.jpg'
+            }}"
+            alt="Crop"
+          />
         </div>
         <button class="btn-transaction">
           <span class="material-symbols-rounded"> payments </span>View
@@ -86,11 +92,23 @@
     </div>
   </div>
 
-  <div class="pagination">
+  <div class="pagination" *ngIf="acceptedOffers.length > 0">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [rows]="5"
       [totalRecords]="totalOffers"
     ></p-paginator>
   </div>
+
+  <ng-container *ngIf="acceptedOffers.length === 0">
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No accepted offers to display</p>
+    </div>
+  </ng-container>
 </main>

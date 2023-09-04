@@ -18,6 +18,7 @@ import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.componen
 import { AccordionModule } from 'primeng/accordion';
 import { OfferComponent } from './pages/offer/offer.component';
 import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.co
     FarmerRoutingModule,
     CardModule,
     MatIconModule,
-    AccordionModule
+    AccordionModule,
+    YouTubePlayerModule,
   ],
 })
 export class FarmerModule {}

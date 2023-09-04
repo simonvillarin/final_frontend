@@ -18,7 +18,7 @@ export class CourseService {
     return this.http.post<any>(`${this.baseUrl}/courses`, course);
   };
 
-  updateCourse = (id: number, course: any) => {
+  updateCourse = (id: number, course: any): Observable<any> => {
     return this.http.put<any>(`${this.baseUrl}/course/${id}`, course);
   };
 }
