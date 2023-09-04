@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-farmers',
   templateUrl: './farmers.component.html',
   styleUrls: ['./farmers.component.scss'],
+  providers: [MessageService],
 })
 export class FarmersComponent {
   farmers: any = [];
@@ -19,7 +21,8 @@ export class FarmersComponent {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {

@@ -7,11 +7,13 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { FarmingTipsService } from 'src/app/shared/services/farming-tips/farming-tips.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-farming-tips',
   templateUrl: './farming-tips.component.html',
   styleUrls: ['./farming-tips.component.scss'],
+  providers: [MessageService],
 })
 export class FarmingTipsComponent {
   tipForm: FormGroup;
@@ -31,7 +33,8 @@ export class FarmingTipsComponent {
   constructor(
     private farmingTipsService: FarmingTipsService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {
     this.tipForm = fb.group({
       tip: ['', Validators.required],
@@ -142,6 +145,11 @@ export class FarmingTipsComponent {
             this.getAllFarmingTips();
             this.tipForm.reset();
             this.addDialog = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Updated',
+              detail: 'Updated Successfully',
+            });
           },
           () => {
             this.authService.logout();
@@ -154,6 +162,11 @@ export class FarmingTipsComponent {
             this.getAllFarmingTips();
             this.tipForm.reset();
             this.addDialog = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Added',
+              detail: 'Added Successfully',
+            });
           },
           () => {
             this.authService.logout();
@@ -188,6 +201,11 @@ export class FarmingTipsComponent {
         () => {
           this.getAllFarmingTips();
           this.confirmationDialog = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Deleted',
+            detail: 'Deleted Successfully',
+          });
         },
         () => {
           this.authService.logout();

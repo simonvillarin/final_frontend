@@ -166,10 +166,7 @@ export class CoursesComponent implements OnInit {
       if (this.courseForm.valid) {
         this.courseService.addCourse(this.courseForm.value).subscribe(
           () => {
-            const course = this.courses.find(
-              (course: any) => course.courseId === this.course.courseId
-            );
-            const index = this.courses.indexOf(course);
+            this.courses.push(this.courseForm.value);
             this.addDialog = false;
             this.messageService.add({
               severity: 'success',
