@@ -71,11 +71,22 @@ export class CoursesComponent implements OnInit {
 
   onSubmit = () => {
     if (this.isEditing) {
+      console.log(this.courseForm.value);
+      if (this.courseForm.valid) {
+        console.log(this.courseId);
+        this.courseService
+          .updateCourse(this.courseId, this.courseForm.value)
+          .subscribe(() => {
+            this.getAllCourses();
+            this.addDialog = false;
+          });
+      } else {
+        this.courseForm.markAllAsTouched();
+      }
     } else {
       if (this.courseForm.valid) {
         this.courseService.addCourse(this.courseForm.value).subscribe(() => {
           this.getAllCourses();
-          this.courseForm.reset();
           this.addDialog = false;
         });
       } else {
