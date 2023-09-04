@@ -441,6 +441,7 @@
           >
         </div>
         <button class="btn-upload">
+          <span class="material-symbols-rounded icon"> upload </span>
           Upload<input
             type="file"
             class="file"
@@ -470,6 +471,7 @@
           >
         </div>
         <button class="btn-upload">
+          <span class="material-symbols-rounded icon"> upload </span>
           Upload<input
             type="file"
             class="file"
@@ -481,32 +483,83 @@
     </div>
     <div class="fg">
       <div class="webcam-group">
-        <div class="webcam" *ngIf="!selfie">
-          <webcam
-            [width]="480"
-            [height]="320"
-            [trigger]="triggerObservable"
-            (imageCapture)="handleImageCapture($event)"
-            (initError)="handleInitError($event)"
-          ></webcam>
+        <label>Selfie<span class="required">*</span></label>
+        <div class="btn-container" *ngIf="!hasChoosen">
+          <button type="button" (click)="onSelfie()">
+            <span class="material-symbols-rounded icon"> photo_camera </span
+            >Take a Selfie
+          </button>
+          <div class="or">
+            <span class="line"></span>
+            <div>or</div>
+            <span class="line"></span>
+          </div>
+          <button class="btn-file" type="button">
+            <span class="material-symbols-rounded icon"> upload </span>Upload
+            from Device
+            <input
+              type="file"
+              class="file"
+              accept="image/*"
+              (change)="onFileSelected2($event)"
+            />
+          </button>
         </div>
-        <div class="selfie-container" *ngIf="selfie">
-          <img [src]="webcamImage.imageAsDataUrl" alt="Captured Image" />
-        </div>
-        <button
-          class="btn-capture {{ selfie ? 'none' : '' }}"
-          (click)="captureSelfie()"
-          type="button"
-        >
-          Capture Image
-        </button>
-        <button
-          class="{{ selfie ? '' : 'none' }}"
-          (click)="another()"
-          type="button"
-        >
-          Take Another
-        </button>
+        <ng-container *ngIf="hasChoosen">
+          <ng-container *ngIf="upload">
+            <div class="selfie-container">
+              <img [src]="uploadImage" alt="Captured Image" />
+            </div>
+            <button type="button" (click)="onSelfie()">
+              <span class="material-symbols-rounded icon"> photo_camera </span
+              >Take a Selfie
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!upload"
+            ><div class="webcam" *ngIf="!selfie">
+              <webcam
+                [width]="480"
+                [height]="320"
+                [trigger]="triggerObservable"
+                (imageCapture)="handleImageCapture($event)"
+                (initError)="handleInitError($event)"
+              ></webcam>
+            </div>
+            <div class="selfie-container" *ngIf="selfie">
+              <img [src]="webcamImage.imageAsDataUrl" alt="Captured Image" />
+            </div>
+            <div class="btn-container1">
+              <button
+                class="btn-capture {{ selfie ? 'none' : '' }}"
+                (click)="captureSelfie()"
+                type="button"
+              >
+                <span class="material-symbols-rounded icon">
+                  photo_camera
+                </span>
+                Capture Image
+              </button>
+              <button
+                class="{{ selfie ? '' : 'none' }}"
+                (click)="another()"
+                type="button"
+              >
+                <span class="material-symbols-rounded icon"> photo_camera </span
+                >Take Another
+              </button>
+              <button class="btn-file" type="button">
+                <span class="material-symbols-rounded icon"> upload </span
+                >Upload from Device
+                <input
+                  type="file"
+                  class="file"
+                  accept="image/*"
+                  (change)="onFileSelected2($event)"
+                />
+              </button>
+            </div>
+          </ng-container>
+        </ng-container>
       </div>
     </div>
 

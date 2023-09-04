@@ -63,10 +63,18 @@
               <span class="material-symbols-rounded"> contract </span>
               Offers
             </button>
-            <button class="card-edit" (click)="onEdit(ad)">
+            <button
+              class="card-edit"
+              (click)="onEdit(ad)"
+              *ngIf="!ad.isOffered"
+            >
               <span class="material-symbols-rounded"> edit </span>Edit
             </button>
-            <button class="card-delete" (click)="onRemove(ad)">
+            <button
+              class="card-delete"
+              (click)="onRemove(ad)"
+              *ngIf="!ad.isOffered"
+            >
               <span class="material-symbols-rounded"> delete </span>Delete
             </button>
           </div>
