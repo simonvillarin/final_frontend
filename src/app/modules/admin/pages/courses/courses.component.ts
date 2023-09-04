@@ -26,6 +26,7 @@ export class CoursesComponent implements OnInit {
   totalAds: number = 0;
 
   statusSelected = '';
+  search = '';
 
   constructor(
     private courseService: CourseService,
@@ -148,6 +149,7 @@ export class CoursesComponent implements OnInit {
                 this.courseForm.get('courseName')?.value;
               this.courses[index].description =
                 this.courseForm.get('description')?.value;
+              this.courses[index].ytLink = this.courseForm.get('ytLink')?.value;
               this.addDialog = false;
               this.messageService.add({
                 severity: 'success',
@@ -229,5 +231,43 @@ export class CoursesComponent implements OnInit {
 
   onStateChange = (e: any) => {
     console.log(e);
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.courses = this.courses.filter((course: any) =>
+        course.courseName.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.courses.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getCourses();
+    }
+  };
+
+  getCourses = () => {
+    this.courseService.getAllCourses().subscribe((data: any) => {
+      this.courseService.getAllCourses().subscribe(
+        (data: any) => {
+          let tempCourses = data.sort(
+            (a: any, b: any) => b.courseId - a.courseId
+          );
+          this.totalAds = tempCourses.length;
+          this.courses = tempCourses.splice(this.page * 5, 5);
+
+          if (this.courses.length > 0) {
+            this.empty = false;
+          } else {
+            this.empty = true;
+          }
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    });
   };
 }
