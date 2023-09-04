@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
   styleUrls: ['./supplier.component.scss'],
+  providers: [MessageService],
 })
 export class SupplierComponent {
   suppliers: any = [];
@@ -19,7 +21,8 @@ export class SupplierComponent {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +83,17 @@ export class SupplierComponent {
       () => {
         this.getSuppliers();
         this.confirmationDialog = false;
+        const summary =
+          this.supplier.status === 'Inactive' ? 'Activated' : 'Deactivated';
+        const details =
+          this.supplier.status === 'Inactive'
+            ? 'Activated Successfully'
+            : 'Deactivated Sucessfully';
+        this.messageService.add({
+          severity: 'success',
+          summary: summary,
+          detail: details,
+        });
       },
       () => {
         this.authService.logout();

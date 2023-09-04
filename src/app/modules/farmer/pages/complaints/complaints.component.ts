@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { ComplaintsService } from 'src/app/shared/services/complaints/complaints.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-complaints',
   templateUrl: './complaints.component.html',
   styleUrls: ['./complaints.component.scss'],
+  providers: [MessageService],
 })
 export class ComplaintsComponent {
   complaintForm: FormGroup;
@@ -27,6 +29,7 @@ export class ComplaintsComponent {
   constructor(
     private complaintService: ComplaintsService,
     private authService: AuthService,
+    private messageService: MessageService,
     private fb: FormBuilder
   ) {
     this.complaintForm = fb.group({
@@ -51,7 +54,6 @@ export class ComplaintsComponent {
         this.complaints = data.sort(
           (a: any, b: any) => b.complaintId - a.complaintId
         );
-        console.log(data);
       });
   };
 
@@ -163,6 +165,11 @@ export class ComplaintsComponent {
             () => {
               this.getComplaints();
               this.addDialog = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Updated',
+                detail: 'Updated Successfully',
+              });
             },
             () => {
               this.authService.logout();
@@ -178,6 +185,11 @@ export class ComplaintsComponent {
             this.getComplaints();
             this.complaintForm.reset();
             this.addDialog = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Added',
+              detail: 'Added Successfully',
+            });
           },
           () => {
             this.authService.logout();
@@ -194,6 +206,11 @@ export class ComplaintsComponent {
       () => {
         this.getComplaints();
         this.confirmationDialog = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Deleted',
+          detail: 'Deleted Successfully',
+        });
       },
       () => {
         this.authService.logout();

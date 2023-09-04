@@ -356,6 +356,34 @@ img {
   color: var(--light);
 }
 
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.empty-img-container {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty-message {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  color: gray;
+}
+
 @media screen and (min-width: 768px) {
   .num-group {
     grid-template-columns: repeat(2, 1fr);
