@@ -31,7 +31,7 @@
     </div>
     <div>
       <div class="title">Birthday</div>
-      <div class="data">{{ user.birthdate }}</div>
+      <div class="data">{{ user.birthdate | date : "MMMM d, y" }}</div>
     </div>
     <div>
       <div class="title">Email</div>

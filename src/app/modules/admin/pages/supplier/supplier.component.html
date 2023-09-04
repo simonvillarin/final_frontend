@@ -174,7 +174,7 @@
         <div>
           <div class="title">Birthday</div>
           <p class="data">
-            {{ supplier.birthdate }}
+            {{ supplier.birthdate | date : "MMMM d, y" }}
           </p>
         </div>
         <div>
