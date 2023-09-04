@@ -166,7 +166,7 @@ export class CoursesComponent implements OnInit {
       if (this.courseForm.valid) {
         this.courseService.addCourse(this.courseForm.value).subscribe(
           () => {
-            this.courses.push(this.courseForm.value);
+            this.getAllCourses();
             this.addDialog = false;
             this.messageService.add({
               severity: 'success',
