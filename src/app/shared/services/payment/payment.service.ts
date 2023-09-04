@@ -10,6 +10,14 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
+  getAllPayments = (): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/payments`);
+  };
+
+  getPaymentById = (id: number): Observable<any> => {
+    return this.http.get<any>(`${this.baseUrl}/payment/${id}`);
+  };
+
   getPaymentByTransactionId = (id: number): Observable<any> => {
     return this.http.get<any>(`${this.baseUrl}/payment/transaction/${id}`);
   };
@@ -18,7 +26,7 @@ export class PaymentService {
     return this.http.post<any>(`${this.baseUrl}/payment`, payment);
   };
 
-  updatePayment = (id: number, payment: any): Observable<any> => {
+  updatePayment = (id: any, payment: any): Observable<any> => {
     return this.http.put<any>(`${this.baseUrl}/payment/${id}`, payment);
   };
 }

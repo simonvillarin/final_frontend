@@ -11,6 +11,8 @@ import { PaymentService } from 'src/app/shared/services/payment/payment.service'
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
+import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 
 @Component({
   selector: 'app-transaction',
@@ -21,46 +23,45 @@ export class TransactionComponent implements OnInit {
   paymentForm: FormGroup;
 
   error = false;
-  pass = false;
-  confirmPass = false;
 
   alert = false;
   isError = false;
-  sidebarVisible: boolean = false;
 
   user: any = {};
+  farmer: any = {};
   offers: any = {};
-  posts: any = {};
   transactions: any = {};
-  payment: string = '';
+  payment: any;
+  payments: any;
   alertMessage: string = '';
+  post: any = {};
 
   ngOnInit(): void {
     this.getUserById();
-    this.getOfferById();
-    this.getOfferByPostId();
-    this.getOfferByTransactionId();
+    this.getTransactionById();
   }
 
   constructor(
     private fb: FormBuilder,
-    private addressService: AddressService,
     private paymentService: PaymentService,
     private authService: AuthService,
     private userService: UserService,
     private offerService: OfferService,
+    private transactionService: TransactionService,
+    private advertisementService: AdvertisementService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private router: Router,
     private route: ActivatedRoute
   ) {
     this.paymentForm = this.fb.group({
-      paymentMethod: ['', Validators.required],
+      transactionId: [''],
+      paymentMode: ['', Validators.required],
     });
   }
 
-  get paymentMethod() {
-    return this.paymentForm.get('paymentMethod') as FormControl;
+  get paymentMode() {
+    return this.paymentForm.get('paymentMode') as FormControl;
   }
 
   getUserById = () => {
@@ -72,38 +73,62 @@ export class TransactionComponent implements OnInit {
       });
   };
 
-  getOfferById = () => {
+  getTransactionById = () => {
     const param = this.route.snapshot.params['id'];
 
-    this.offerService.getOfferById(param).subscribe((data: any) => {
-      this.offers = data;
-      console.log(data);
-    });
-  };
-
-  getOfferByPostId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.offerService.getOfferByPostId(param).subscribe((data: any) => {
-      this.posts = data;
-      console.log(data);
-    });
-  };
-
-  getOfferByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.offerService.getOfferByTransactionId(param).subscribe((data: any) => {
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
       this.transactions = data;
       console.log(data);
-    });
-  }
 
-  onMethodChange = (paymentMethod: string) => {
-    if (paymentMethod != '') {
+      this.paymentForm.patchValue({
+        transactionId: this.transactions.transactionId,
+      });
+
+      const offerId = data.offerId;
+      this.offerService.getOfferById(offerId).subscribe((data: any) => {
+        this.offers = data;
+        console.log(data);
+
+        const postId = data.postId;
+        this.advertisementService.getAdById(postId).subscribe((data: any) => {
+          this.post = data;
+          console.log(data);
+        });
+      });
+
+      const farmerId = data.farmerId;
+      this.userService.getUserById(farmerId).subscribe((data: any) => {
+        this.farmer = data;
+        console.log(data);
+      });
+    });
+  };
+
+  getPaymentByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+
+      const transactionId = data.transactionId;
+      this.paymentService
+        .getPaymentByTransactionId(transactionId)
+        .subscribe((data) => {
+          this.payment = data;
+          console.log(data);
+
+          const id = data.paymentId;
+          this.router.navigate([`/supplier/payment/${id}`]);
+        });
+    });
+  };
+
+  onMethodChange = (paymentMode: string) => {
+    if (paymentMode != '') {
       this.error = false;
       this.paymentForm.patchValue({
-        paymentMethod: paymentMethod,
+        paymentMode: paymentMode,
       });
     }
   };
@@ -116,13 +141,6 @@ export class TransactionComponent implements OnInit {
     }
 
     if (this.paymentForm.valid) {
-      this.paymentForm.patchValue({
-        region: this.paymentForm.get('region')?.value.name,
-        province: this.paymentForm.get('province')?.value.name,
-        city: this.paymentForm.get('city')?.value.name,
-        barangay: this.paymentForm.get('barangay')?.value.name,
-      });
-
       this.paymentService
         .addPayment(this.paymentForm.value)
         .subscribe((data) => {
@@ -133,13 +151,19 @@ export class TransactionComponent implements OnInit {
           radioButtons.forEach((radio: any) => {
             this.renderer.setProperty(radio, 'checked', false);
           });
+
           this.payment = '';
           this.paymentForm.reset();
           console.log(data);
-          this.router.navigate([`/supplier/transaction/payment`]);
         });
     } else {
       this.paymentForm.markAllAsTouched();
     }
+
+    this.getPaymentByTransactionId();
+  };
+
+  onPlaceOffer = (id: any) => {
+    this.router.navigate([`/supplier/transaction/payment/${id}`]);
   };
 }

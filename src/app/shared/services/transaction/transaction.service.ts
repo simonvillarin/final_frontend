@@ -10,6 +10,10 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
+  getTransactionById = (id: number): Observable<any> => {
+    return this.http.get(`${this.baseUrl}/transaction/${id}`);
+  };
+
   getTransactionBySupplierId = (id: number): Observable<any> => {
     return this.http.get(`${this.baseUrl}/transaction/supplier/${id}`);
   };

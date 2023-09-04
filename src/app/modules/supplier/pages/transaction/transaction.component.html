@@ -64,11 +64,11 @@
         <h3 style="padding-top: 20px; font-weight: 600">
           Please review the offer below before full payment.
         </h3>
-        <div class="card-offer" *ngFor="let post of posts">
+        <div class="card-offer">
           <div class="img-container-offer">
             <img
               class="img-offer"
-              [src]="post.advertisement.image"
+              [src]="post.image"
               alt="Crop"
             />
           </div>
@@ -76,31 +76,31 @@
             <div>
               <div>
                 <div class="title-offer">Crop Name</div>
-                <div class="data-offer">{{ post.advertisement.name }}</div>
+                <div class="data-offer">{{ post.name }}</div>
               </div>
               <div>
                 <div class="title-offer">Category</div>
                 <div class="data-offer">
-                  {{ post.advertisement.category }}
+                  {{ post.category }}
                 </div>
               </div>
               <div>
                 <div class="title-offer">Description</div>
                 <p class="data-offer">
-                  {{ post.advertisement.description }}
+                  {{ post.description }}
                 </p>
               </div>
               <div>
                 <div class="title-offer">
                   {{
-                    post.advertisement.measurement === "Weight"
+                    post.measurement === "Weight"
                       ? "Weight"
                       : "Quantity"
                   }}
                 </div>
                 <div class="data-offer">
                   {{ post.value }}
-                  {{ post.advertisement.measurement === "Weight" ? "kg" : "" }}
+                  {{ post.measurement === "Weight" ? "kg" : "" }}
                 </div>
               </div>
               <div>
@@ -119,13 +119,13 @@
               <div>
                 <div class="title-offer">Delivery Origin</div>
                 <div class="data-offer">
-                  {{ post.farmer.city }}, {{ post.farmer.region }}
+                  {{ farmer.city }}, {{ farmer.region }}
                 </div>
               </div>
               <div>
-                <div class="title-offer">Estimated Delivery</div>
-                <div class="data-offer">
-                  {{ post.farmer.city }}, {{ post.farmer.region }}
+                <div class="title-offer t1 ">Estimated Delivery</div>
+                <div class="data-offer d1">
+                  <!-- {{ farmer.city }}, {{ farmer.region }} -->
                 </div>
               </div>
             </div>
@@ -247,13 +247,13 @@
         <div class="error-types" [class.error-types-active]="error">
           <div
             *ngIf="
-              paymentMethod.invalid &&
-              (paymentMethod?.dirty || paymentMethod?.touched)
+            paymentMode.invalid &&
+              (paymentMode?.dirty || paymentMode?.touched)
             "
           >
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="paymentMethod?.errors?.['required']"
+              *ngIf="paymentMode?.errors?.['required']"
               >Payment Method is required</small
             >
           </div>
