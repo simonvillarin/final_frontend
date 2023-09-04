@@ -463,6 +463,8 @@ export class RegisterComponent implements OnInit {
             });
             this.type = '';
             this.registerForm.reset();
+            this.hasChoosen = false;
+            this.uploadImage = null;
           }
         });
     } else {
