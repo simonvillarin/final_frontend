@@ -93,6 +93,8 @@ export class SupplierMainComponent implements OnInit {
       return 'Crop Received';
     } else if (loc == 'transaction' || loc1 == 'transaction') {
       return 'Transaction';
+    } else if (loc == 'payment' || loc1 == 'payment') {
+      return 'Payment';
     } else if (loc == 'profile') {
       return 'Profile';
     } else {

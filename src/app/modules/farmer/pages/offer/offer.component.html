@@ -24,7 +24,13 @@
     <div class="card" *ngFor="let offer of offers">
       <div class="card-img-container">
         <div class="img-container">
-          <img [src]="offer.advertisement.image" alt="Crop" />
+          <img
+            src="{{
+              offer.advertisement.image ||
+                '../../../../../../../assets/images/no-image.jpg'
+            }}"
+            alt="Crop"
+          />
         </div>
         <button
           class="{{ offer.isAccepted ? 'accepted' : 'not-accepted' }}"

@@ -12,6 +12,7 @@ import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.co
 import { OfferComponent } from './pages/offer/offer.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,6 @@ import { PaymentComponent } from './pages/payment/payment.component';
     TransactionComponent,
     PaymentComponent,
   ],
-  imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule],
+  imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule, ConfirmDialogModule],
 })
 export class SupplierModule {}

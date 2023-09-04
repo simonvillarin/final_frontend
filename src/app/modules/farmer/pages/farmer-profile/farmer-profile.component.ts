@@ -389,19 +389,14 @@ export class FarmerProfileComponent implements OnInit {
     if (this.personal) {
       if (this.personalForm.valid) {
         let payload: any = {};
+        payload.middleName = this.personalForm.get('middleName')?.value;
+        payload.suffix = this.personalForm.get('suffix')?.value;
+
         if (this.user.firstName !== this.personalForm.get('firstName')?.value) {
           payload.firstName = this.personalForm.get('firstName')?.value;
         }
-        if (
-          this.user.middleName !== this.personalForm.get('middleName')?.value
-        ) {
-          payload.middleName = this.personalForm.get('middleName')?.value;
-        }
         if (this.user.lastName !== this.personalForm.get('lastName')?.value) {
           payload.lastName = this.personalForm.get('lastName')?.value;
-        }
-        if (this.user.suffix !== this.personalForm.get('suffix')?.value) {
-          payload.suffix = this.personalForm.get('suffix')?.value;
         }
         if (this.user.gender !== this.personalForm.get('gender')?.value) {
           payload.gender = this.personalForm.get('gender')?.value;

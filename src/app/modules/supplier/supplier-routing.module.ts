@@ -11,6 +11,7 @@ import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.co
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -37,7 +38,7 @@ const routes: Routes = [
         component: TransactionComponent,
       },
       {
-        path: 'transaction/payment/:id',
+        path: 'payment/:id',
         component: PaymentComponent,
       },
       {

@@ -90,6 +90,17 @@ export class FarmersComponent {
     this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {
       this.getFarmers();
       this.confirmationDialog = false;
+      const summary =
+        this.farmer.status === 'Inactive' ? 'Activated' : 'Deactivated';
+      const details =
+        this.farmer.status === 'Inactive'
+          ? 'Activated Successfully'
+          : 'Deactivated Sucessfully';
+      this.messageService.add({
+        severity: 'success',
+        summary: summary,
+        detail: details,
+      });
     });
   }
 

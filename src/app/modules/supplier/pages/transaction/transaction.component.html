@@ -64,11 +64,11 @@
         <h3 style="padding-top: 20px; font-weight: 600">
           Please review the offer below before full payment.
         </h3>
-        <div class="card-offer" *ngFor="let post of posts">
+        <div class="card-offer">
           <div class="img-container-offer">
             <img
               class="img-offer"
-              [src]="post.advertisement.image"
+              [src]="post.image"
               alt="Crop"
             />
           </div>
@@ -76,31 +76,31 @@
             <div>
               <div>
                 <div class="title-offer">Crop Name</div>
-                <div class="data-offer">{{ post.advertisement.name }}</div>
+                <div class="data-offer">{{ post.name }}</div>
               </div>
               <div>
                 <div class="title-offer">Category</div>
                 <div class="data-offer">
-                  {{ post.advertisement.category }}
+                  {{ post.category }}
                 </div>
               </div>
               <div>
                 <div class="title-offer">Description</div>
                 <p class="data-offer">
-                  {{ post.advertisement.description }}
+                  {{ post.description }}
                 </p>
               </div>
               <div>
                 <div class="title-offer">
                   {{
-                    post.advertisement.measurement === "Weight"
+                    post.measurement === "Weight"
                       ? "Weight"
                       : "Quantity"
                   }}
                 </div>
                 <div class="data-offer">
                   {{ post.value }}
-                  {{ post.advertisement.measurement === "Weight" ? "kg" : "" }}
+                  {{ post.measurement === "Weight" ? "kg" : "" }}
                 </div>
               </div>
               <div>
@@ -119,13 +119,13 @@
               <div>
                 <div class="title-offer">Delivery Origin</div>
                 <div class="data-offer">
-                  {{ post.farmer.city }}, {{ post.farmer.region }}
+                  {{ farmer.city }}, {{ farmer.region }}
                 </div>
               </div>
               <div>
-                <div class="title-offer">Estimated Delivery</div>
-                <div class="data-offer">
-                  {{ post.farmer.city }}, {{ post.farmer.region }}
+                <div class="title-offer t1 ">Estimated Delivery</div>
+                <div class="data-offer d1">
+                  <!-- {{ farmer.city }}, {{ farmer.region }} -->
                 </div>
               </div>
             </div>
@@ -159,34 +159,9 @@
               value="Credit/Debit Card"
               [(ngModel)]="payment"
               (ngModelChange)="onMethodChange($event)"
+              (click)="onCardDialog()"
             />
             <div>Credit/Debit Card</div>
-          </div>
-        </div>
-        <div
-          class="types"
-          [class.border]="error"
-          data-aos="fade-left"
-          data-aos-duration="1000"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
-          <div class="img-container">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/6185/6185233.png"
-              alt="Logo"
-            />
-          </div>
-          <div class="type">
-            <input
-              type="radio"
-              name="type"
-              class="radio"
-              [(ngModel)]="payment"
-              value="Cash"
-              (ngModelChange)="onMethodChange($event)"
-            />
-            <div>Cash</div>
           </div>
         </div>
         <div
@@ -211,6 +186,7 @@
               [(ngModel)]="payment"
               value="GCash"
               (ngModelChange)="onMethodChange($event)"
+              (click)="onGCashDialog()"
             />
             <div>GCash</div>
           </div>
@@ -237,6 +213,7 @@
               [(ngModel)]="payment"
               value="Maya"
               (ngModelChange)="onMethodChange($event)"
+              (click)="onPayMayaDialog()"
             />
             <div>Maya</div>
           </div>
@@ -247,13 +224,13 @@
         <div class="error-types" [class.error-types-active]="error">
           <div
             *ngIf="
-              paymentMethod.invalid &&
-              (paymentMethod?.dirty || paymentMethod?.touched)
+            paymentMode.invalid &&
+              (paymentMode?.dirty || paymentMode?.touched)
             "
           >
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="paymentMethod?.errors?.['required']"
+              *ngIf="paymentMode?.errors?.['required']"
               >Payment Method is required</small
             >
           </div>
@@ -263,3 +240,64 @@
     </div>
   </div>
 </main>
+
+<p-dialog
+  [(visible)]="cardDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Billing Address</div>
+  </p-header>
+  <div class="dialog-body">Are you sure you want to cancel this offer?</div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="gCashDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Billing Address</div>
+  </p-header>
+  <div class="dialog-body">Are you sure you want to cancel this offer?</div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="payMayaDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Billing Address</div>
+  </p-header>
+  <div class="dialog-body">Are you sure you want to cancel this offer?</div>
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel">
+      Cancel
+    </button>
+    <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
+  </div>
+</p-dialog>
+

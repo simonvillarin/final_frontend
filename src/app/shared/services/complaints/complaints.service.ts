@@ -26,7 +26,7 @@ export class ComplaintsService {
     return this.http.put<any>(`${this.baseUrl}/complaint/${id}`, ad);
   };
 
-  deleteComplaint = (id: number): Observable<any> => {
-    return this.http.delete<any>(`${this.baseUrl}/complaint/${id}`);
+  deleteComplaint = (id: number) => {
+    return this.http.delete(`${this.baseUrl}/complaint/${id}`);
   };
 }

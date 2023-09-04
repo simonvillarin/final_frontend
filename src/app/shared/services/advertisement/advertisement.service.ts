@@ -10,6 +10,10 @@ export class AdvertisementService {
 
   constructor(private http: HttpClient) {}
 
+  getAdById = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/ad/${id}`);
+  };
+
   getAllAdvertisement = (): Observable<any[]> => {
     return this.http.get<any[]>(`${this.baseUrl}/advertisements`);
   };

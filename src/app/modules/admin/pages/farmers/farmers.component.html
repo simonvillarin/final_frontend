@@ -171,7 +171,7 @@
         <div>
           <div class="title">Birthday</div>
           <p class="data">
-            {{ farmer.birthdate }}
+            {{ farmer.birthdate | date : "MMMM d, y" }}
           </p>
         </div>
         <div>
