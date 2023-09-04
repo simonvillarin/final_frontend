@@ -1,1 +1,11 @@
-<p>courses works!</p>
+<main>
+  <div class="course-container">
+    <div class="course" *ngFor="let course of courses; let i = index">
+      <div class="header">
+        <div>Course # {{ i }}</div>
+        <p class="title">{{ course.courseName }}</p>
+      </div>
+      <iframe [src]="course.ytLink" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+</main>
