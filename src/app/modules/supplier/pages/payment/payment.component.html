@@ -62,7 +62,8 @@
               <div>
                 <div class="m-1">Order Date</div>
                 <div class="m-2">
-                  {{ payment?.paymentDate }} {{ payment?.paymentTime }}
+                  {{ payment?.paymentDate | date : "MMMM d, y" }}
+                  {{ payment?.paymentTime }}
                 </div>
               </div>
               <div>
@@ -166,9 +167,7 @@
                 </div>
                 <div>
                   <div class="m-1">Shipping</div>
-                  <div class="m-1">
-                    (wala pa data)
-                  </div>
+                  <div class="m-1">(wala pa data)</div>
                 </div>
                 <div>
                   <div class="m-1">Total</div>

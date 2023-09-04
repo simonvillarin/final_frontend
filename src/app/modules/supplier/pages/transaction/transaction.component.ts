@@ -166,4 +166,6 @@ export class TransactionComponent implements OnInit {
   onPlaceOffer = (id: any) => {
     this.router.navigate([`/supplier/transaction/payment/${id}`]);
   };
+
+  
 }
