@@ -31,13 +31,15 @@ export class TransactionComponent implements OnInit {
   user: any = {};
   offers: any = {};
   posts: any = {};
+  transactions: any = {};
   payment: string = '';
   alertMessage: string = '';
 
   ngOnInit(): void {
     this.getUserById();
-    //this.getOfferById();
+    this.getOfferById();
     this.getOfferByPostId();
+    this.getOfferByTransactionId();
   }
 
   constructor(
@@ -87,6 +89,15 @@ export class TransactionComponent implements OnInit {
       console.log(data);
     });
   };
+
+  getOfferByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.offerService.getOfferByTransactionId(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+    });
+  }
 
   onMethodChange = (paymentMethod: string) => {
     if (paymentMethod != '') {
