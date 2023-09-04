@@ -167,5 +167,19 @@ export class TransactionComponent implements OnInit {
     this.router.navigate([`/supplier/transaction/payment/${id}`]);
   };
 
-  
+  cardDialog = false;
+  gCashDialog = false;
+  payMayaDialog = false;
+
+  onCardDialog = () => {
+    this.cardDialog = true;
+  }
+
+  onGCashDialog = () => {
+    this.gCashDialog = true;
+  }
+
+  onPayMayaDialog = () => {
+    this.payMayaDialog = true;
+  }
 }
