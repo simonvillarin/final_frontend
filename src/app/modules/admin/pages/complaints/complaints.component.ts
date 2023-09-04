@@ -17,6 +17,11 @@ export class ComplaintsComponent implements OnInit {
   confirmationDialog = false;
 
   categorySelected = '';
+  search = '';
+  empty = true;
+
+  totalAds: number = 0;
+  page: number = 0;
 
   constructor(
     private complaintService: ComplaintsService,
@@ -114,5 +119,52 @@ export class ComplaintsComponent implements OnInit {
 
   onCloseConfirmationDialog = () => {
     this.confirmationDialog = false;
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.complaints = this.complaints.filter(
+        (complaint: any) =>
+          complaint.farmer.firstName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          complaint.farmer.lastName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          complaint.farmer.middleName
+            .toLowerCase()
+            .includes(search.toLowerCase())
+      );
+      if (this.complaints.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getCourses();
+    }
+  };
+
+  getCourses = () => {
+    this.complaintService.getAllComplaints().subscribe((data: any) => {
+      this.complaintService.getAllComplaints().subscribe(
+        (data: any) => {
+          let tempCourses = data.sort(
+            (a: any, b: any) => b.courseId - a.courseId
+          );
+          this.totalAds = tempCourses.length;
+          this.complaints = tempCourses.splice(this.page * 5, 5);
+
+          if (this.complaints.length > 0) {
+            this.empty = false;
+          } else {
+            this.empty = true;
+          }
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    });
   };
 }

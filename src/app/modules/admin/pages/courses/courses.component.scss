@@ -12,6 +12,23 @@ main {
   margin-bottom: 1rem;
 }
 
+.filter {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.search-container {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
 .btn-actions {
   display: flex;
   gap: 0.5rem;
@@ -265,6 +282,10 @@ img {
   .actions {
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .filter-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
