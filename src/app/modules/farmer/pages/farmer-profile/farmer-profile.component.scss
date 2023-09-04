@@ -39,6 +39,10 @@ img {
 .btn-upload {
   position: relative;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.625rem;
   border-radius: 0.25rem;
   color: var(--light);
@@ -234,6 +238,10 @@ span {
 .cancel:hover,
 .cancel:focus {
   background-color: var(--darker-red);
+}
+
+.icon {
+  color: var(--light);
 }
 
 @media screen and (min-width: 992px) {

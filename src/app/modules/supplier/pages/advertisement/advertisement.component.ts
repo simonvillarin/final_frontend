@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { OfferService } from 'src/app/shared/services/offer/offer.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -55,7 +54,6 @@ export class AdvertisementComponent implements OnInit {
     private advertisementService: AdvertisementService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private offerService: OfferService,
     private messageService: MessageService,
     private router: Router
   ) {
@@ -111,8 +109,7 @@ export class AdvertisementComponent implements OnInit {
           this.totalAds = this.tempAds.length;
           this.ads = this.tempAds.splice(this.page * 5, 5);
         },
-        (error) => {
-          console.log(error);
+        () => {
           this.authService.logout();
         }
       );
@@ -246,17 +243,15 @@ export class AdvertisementComponent implements OnInit {
         .updateAdvertisement(this.postId, payload)
         .subscribe(() => {
           this.messageService.add({
-            severity: 'info',
+            severity: 'sucess',
             summary: 'Updated',
-            detail: 'Successfully updated',
+            detail: 'Updated Successfully',
           });
           this.getAdBySupplierId();
           this.adForm.reset();
           this.addDialog = false;
         });
     } else {
-      console.log(this.adForm.value);
-
       if (this.adForm.valid) {
         this.advertisementService
           .addAdvertisement(this.adForm.value)
@@ -264,7 +259,7 @@ export class AdvertisementComponent implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Added',
-              detail: 'Successfully added',
+              detail: 'Added Successfully',
             });
             this.getAdBySupplierId();
             this.adForm.reset();

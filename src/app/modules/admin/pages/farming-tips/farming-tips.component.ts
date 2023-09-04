@@ -18,13 +18,15 @@ export class FarmingTipsComponent {
 
   tips: any = [];
   tipId: any;
+  imagePreview: string | ArrayBuffer | null = null;
+  file: any;
+
   addDialog = false;
   confirmationDialog = false;
   showImage = false;
   isEditing = false;
   emptyImage = false;
-  imagePreview: string | ArrayBuffer | null = null;
-  file: any;
+  empty = true;
 
   constructor(
     private farmingTipsService: FarmingTipsService,
@@ -51,6 +53,12 @@ export class FarmingTipsComponent {
     this.farmingTipsService.getAllFarmingTips().subscribe(
       (data: any) => {
         this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
+
+        if (this.tips.length > 0) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       },
       () => {
         this.authService.logout();

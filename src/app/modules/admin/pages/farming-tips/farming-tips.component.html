@@ -2,13 +2,23 @@
   <div class="actions">
     <div class="btn-actions">
       <button class="btn-post" (click)="openAddTipDialog()">
-        <span class="material-symbols-rounded"> add </span>POST
+        <span class="material-symbols-rounded"> add </span>ADD
       </button>
     </div>
   </div>
   <div class="table">
+    <div class="empty" *ngIf="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No farming tips to display</p>
+    </div>
+
     <p-table
-      *ngIf="tips.length > 0; else emptyTableMessage"
+      *ngIf="!empty"
       [value]="tips"
       [paginator]="true"
       [rows]="5"
@@ -62,14 +72,8 @@
         </ng-container>
       </ng-template>
     </p-table>
-    <ng-template #emptyTableMessage>
-      <img
-        src="{{ '../../../../../assets/images/no-content.png' }}"
-        class="error-image"
-      />
-      <p class="empty-table-message">No Farming Tips to display.</p>
-    </ng-template>
   </div>
+
   <p-dialog
     [(visible)]="addDialog"
     [modal]="true"
@@ -93,6 +97,7 @@
             />
           </div>
           <button class="btn-upload">
+            <span class="material-symbols-rounded icon"> upload </span>
             Upload<input
               type="file"
               class="file"

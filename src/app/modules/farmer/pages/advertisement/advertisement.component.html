@@ -85,12 +85,17 @@
       [totalRecords]="totalAds"
     ></p-paginator>
   </div>
+
   <ng-container *ngIf="ads.length === 0">
-    <img
-      src="{{ '../../../../../assets/images/no-content.png' }}"
-      class="error-image"
-    />
-    <p class="no-ads-message">No advertisements are available to display.</p>
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No advertisement to display</p>
+    </div>
   </ng-container>
 </main>
 

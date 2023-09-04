@@ -96,13 +96,17 @@
     ></p-paginator>
   </div>
 
-  <div *ngIf="offers.length === 0">
-    <img
-      src="../../../../../assets/images/no-content.png"
-      class="error-image"
-    />
-    <p class="no-offers-message">No offers are available to display.</p>
-  </div>
+  <ng-container *ngIf="offers.length === 0">
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No offers to display</p>
+    </div>
+  </ng-container>
 </main>
 
 <p-dialog

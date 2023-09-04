@@ -86,11 +86,23 @@
     </div>
   </div>
 
-  <div class="pagination">
+  <div class="pagination" *ngIf="acceptedOffers.length > 0">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [rows]="5"
       [totalRecords]="totalOffers"
     ></p-paginator>
   </div>
+
+  <ng-container *ngIf="acceptedOffers.length === 0">
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No accepted offers to display</p>
+    </div>
+  </ng-container>
 </main>

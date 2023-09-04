@@ -2,58 +2,89 @@
   <div class="actions">
     <div class="btn-actions">
       <button class="btn-post" (click)="openAddCourseDialog()">
-        <span class="material-symbols-rounded"> add </span> ADD
+        <span class="material-symbols-rounded"> add </span>ADD
       </button>
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> restart_alt </span>CLEAR
+      </button>
+    </div>
+
+    <div class="filter-container">
+      <p-dropdown
+        [options]="stats"
+        placeholder="Filter by category"
+        [style]="{
+          width: '100%',
+          minWidth: '16rem',
+            }"
+        appendTo="body"
+        [(ngModel)]="statusSelected"
+        (ngModelChange)="onStatusChange($event)"
+      ></p-dropdown>
     </div>
   </div>
   <div class="table">
-    <p-table
-      *ngIf="courses.length > 0; else emptyTableMessage"
-      [value]="courses"
-      [paginator]="true"
-      [rows]="5"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '80rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 20, 30]"
-      paginatorDropdownAppendTo="body"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 40%">Course Name</th>
-          <th style="width: 40%">Youtube Link</th>
-          <th style="width: 20%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-course>
-        <tr>
-          <td>{{ course.courseName }}</td>
-          <td>{{ course.ytLink }}</td>
-          <td>
-            <div class="table-actions">
-              <button
-                class="table-btn edit"
-                title="Edit"
-                (click)="onEditCourse(course)"
-              >
-                <span class="material-symbols-rounded"> edit </span>
+    <div class="empty" *ngIf="empty">
+      <div class="img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No courses to display</p>
+    </div>
+
+    <ng-container *ngIf="!empty">
+      <div class="course-container">
+        <div class="course" *ngFor="let course of courses; let i = index">
+          <div class="video-container">
+            <youtube-player
+              [height]="340"
+              videoId="{{ getYoutubeVideoId(course.ytLink) }}"
+              suggestedQuality="hd1080"
+              (stateChange)="onStateChange($event)"
+            >
+              ></youtube-player
+            >
+          </div>
+          <div class="content">
+            <div class="status {{ course.status ? 'active' : 'inactive' }}">
+              {{ course.status ? "Active" : "Deactive" }}
+            </div>
+            <div class="header">
+              <div class="subtitle">Course No. {{ i + 1 }}</div>
+              <h3 class="title">{{ course.courseName }}</h3>
+            </div>
+            <p class="description">
+              {{ course.description }}
+            </p>
+            <div class="card-actions">
+              <button class="edit" (click)="onEditCourse(course)">
+                <span class="material-symbols-rounded"> edit </span>Edit
               </button>
-              <button class="table-btn delete" title="Delete">
-                <span class="material-symbols-rounded"> delete </span>
+              <button
+                class="delete {{ course.status ? 'inactive' : 'active' }}"
+                (click)="onRemove(course)"
+              >
+                <span class="material-symbols-rounded">
+                  {{ course.status ? "thumb_down" : "thumb_up" }} </span
+                >{{ course.status ? "Deactivate" : "Activate" }}
               </button>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <ng-template #emptyTableMessage>
-      <img
-        src="{{ '../../../../../assets/images/no-content.png' }}"
-        class="error-image"
-      />
-      <p class="empty-table-message">No courses to display.</p>
-    </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <p-paginator
+          (onPageChange)="onPageChange($event)"
+          [rows]="6"
+          [totalRecords]="totalAds"
+        ></p-paginator>
+      </div>
+    </ng-container>
   </div>
+
   <p-dialog
     [(visible)]="addDialog"
     [modal]="true"
@@ -83,7 +114,29 @@
               style="color: var(--red)"
               *ngIf="courseName?.errors?.['required']"
             >
-              Course Name is required
+              Course name is required
+            </small>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Description<span class="required">*</span></label>
+          <textarea
+            rows="4"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+          ></textarea>
+          <div
+            *ngIf="
+              description?.invalid &&
+              (description?.dirty || description?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="description?.errors?.['required']"
+            >
+              Description is required
             </small>
           </div>
         </div>
@@ -110,10 +163,35 @@
         >
           Cancel
         </button>
-        <button type="submit" class="dialog-btn submit">
-          {{ isEditing ? "Update" : "Save" }}
-        </button>
+        <button type="submit" class="dialog-btn submit">Save</button>
       </div>
     </form>
   </p-dialog>
+
+  <p-dialog
+    [(visible)]="confirmationDialog"
+    [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">
+        {{ course.status ? "Deactivate" : "Activate" }}
+      </div>
+    </p-header>
+    <div class="dialog-body">
+      Are you sure you want to
+      {{ course.status ? "deactivate" : "activate" }} this course?
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel" (click)="onCloseConfirmationDialog()">
+        Cancel
+      </button>
+      <button class="dialog-btn submit" (click)="onDelete()">Confirm</button>
+    </div>
+  </p-dialog>
+
+  <p-toast></p-toast>
 </main>
