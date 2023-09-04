@@ -22,12 +22,20 @@ export class CoursesComponent implements OnInit {
   ) {
     this.courseForm = fb.group({
       courseName: ['', Validators.required],
-      status: [true, Validators.required],
+      ytLink: ['', Validators.required],
     });
   }
 
   get courseName() {
     return this.courseForm.get('courseName');
+  }
+
+  get description() {
+    return this.courseForm.get('description');
+  }
+
+  get ytLink() {
+    return this.courseForm.get('ytLink');
   }
 
   ngOnInit(): void {
@@ -55,48 +63,23 @@ export class CoursesComponent implements OnInit {
     this.isEditing = true;
     this.courseForm.patchValue({
       courseName: course.courseName,
-      status: course.status,
+      ytLink: course.ytLink,
     });
     this.courseId = course.courseId;
     this.addDialog = true;
   };
 
   onSubmit = () => {
-    const courseNameControl = this.courseForm.get('courseName');
-    const statusControl = this.courseForm.get('status');
-
-    if (courseNameControl && statusControl) {
-      const coursePayload = {
-        courseName: courseNameControl.value,
-        status: statusControl.value,
-      };
-
-      if (this.isEditing) {
-        this.courseService.updateCourse(this.courseId, coursePayload).subscribe(
-          () => {
-            this.getAllCourses();
-            this.courseForm.reset();
-            this.addDialog = false;
-          },
-          () => {
-            this.authService.logout();
-          }
-        );
+    if (this.isEditing) {
+    } else {
+      if (this.courseForm.valid) {
+        this.courseService.addCourse(this.courseForm.value).subscribe(() => {
+          this.getAllCourses();
+          this.courseForm.reset();
+          this.addDialog = false;
+        });
       } else {
-        if (this.courseForm.valid) {
-          this.courseService.addCourse(coursePayload).subscribe(
-            () => {
-              this.getAllCourses();
-              this.courseForm.reset();
-              this.addDialog = false;
-            },
-            () => {
-              this.authService.logout();
-            }
-          );
-        } else {
-          this.courseForm.markAllAsTouched();
-        }
+        this.courseForm.markAllAsTouched();
       }
     }
   };
