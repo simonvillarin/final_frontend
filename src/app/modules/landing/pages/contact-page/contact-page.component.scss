@@ -18,9 +18,22 @@ section {
   align-items: center;
 }
 
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 h3 {
-  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 2rem);
   font-weight: 400;
+  line-height: 1.2;
+}
+
+p {
+  font-size: clamp(0.9375rem, 0.9512rem + 0.2439vw, 1rem);
 }
 
 form {

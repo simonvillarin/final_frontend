@@ -1,97 +1,70 @@
 <section>
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15444.962660524012!2d121.0614005!3d14.5853578!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c81751e0f9d5%3A0xff1378b728feff76!2sSeven%20Seven%20Global%20Services%2C%20Inc.!5e0!3m2!1sen!2sph!4v1692271809834!5m2!1sen!2sph"
-    width="100%"
-    height="600"
-    style="border: 0"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    data-aos="fade-right"
-    data-aos-duration="1000"
-    data-aos-delay="100"
-    data-aos-easing="ease-in-out"
-  ></iframe>
-  <div class="form">
-    <h3
-      data-aos="fade-up"
-      data-aos-duration="1200"
-      data-aos-delay="300"
-      data-aos-easing="ease-in-out"
-    >
-      SEND US A MESSAGE
-    </h3>
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-      <div
-        class="input-group"
+  <div class="container">
+    <div class="header">
+      <h2
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        data-aos-delay="100"
+        data-aos-easing="ease-in-out"
+      >
+        Meet Our Team
+      </h2>
+      <p
+        class="sub"
         data-aos="fade-up"
         data-aos-duration="1200"
-        data-aos-delay="300"
+        data-aos-delay="100"
         data-aos-easing="ease-in-out"
       >
-        <label>Name<span>*</span></label>
-        <input type="text" pInputText formControlName="name" />
-        <div *ngIf="name.invalid && (name?.dirty || name?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="name?.errors?.['required']"
-            >Name is required</small
-          >
+        "Get to know the faces behind our success"
+      </p>
+    </div>
+    <div class="team-container">
+      <div
+        class="team"
+        data-aos="fade-right"
+        data-aos-duration="1400"
+        data-aos-delay="100"
+        data-aos-easing="ease-in-out"
+      >
+        <div class="img-container">
+          <img src="../../../../../assets/images/team1.jpg" alt="Team 1" />
+        </div>
+        <div class="name">
+          <h4>Ryan Wilson</h4>
+          <div class="subtitle">Farmyard Coordinator</div>
         </div>
       </div>
       <div
-        class="input-group"
+        class="team"
         data-aos="fade-up"
         data-aos-duration="1400"
-        data-aos-delay="300"
+        data-aos-delay="100"
         data-aos-easing="ease-in-out"
       >
-        <label>Email<span>*</span></label>
-        <input type="text" pInputText formControlName="email" />
-        <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="email?.errors?.['required']"
-            >Email is required</small
-          >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="email?.errors?.['email']"
-            >Email is Invalid</small
-          >
+        <div class="img-container">
+          <img src="../../../../../assets/images/team2.jpg" alt="Team 2" />
+        </div>
+        <div class="name">
+          <h4>Jil Peterson</h4>
+          <div class="subtitle">Farmyard Coordinator</div>
         </div>
       </div>
       <div
-        class="input-group"
-        data-aos="fade-up"
-        data-aos-duration="1600"
-        data-aos-delay="300"
+        class="team"
+        data-aos="fade-left"
+        data-aos-duration="1400"
+        data-aos-delay="100"
         data-aos-easing="ease-in-out"
       >
-        <label>Message<span>*</span></label>
-        <textarea
-          rows="5"
-          cols="30"
-          pInputTextarea
-          formControlName="message"
-        ></textarea>
-        <div *ngIf="message.invalid && (message?.dirty || message?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="message.errors?.['required']"
-            >Message is required</small
-          >
+        <div class="img-container">
+          <img src="../../../../../assets/images/team3.jpg" alt="Team 3" />
+        </div>
+        <div class="name">
+          <h4>Sam Robinson</h4>
+          <div class="subtitle">Farmyard Coordinator</div>
         </div>
       </div>
-      <button
-        type="submit"
-        data-aos="fade-up"
-        data-aos-duration="1800"
-        data-aos-delay="300"
-        data-aos-easing="ease-in-out"
-      >
-        SEND
-      </button>
-    </form>
+    </div>
   </div>
 </section>
