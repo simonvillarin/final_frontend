@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CardModule } from 'primeng/card';
 import { WebcamModule } from 'ngx-webcam';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { WebcamModule } from 'ngx-webcam';
     ServicesComponent,
     ContactsComponent,
     LoginComponent,
+    AboutPageComponent,
+    ContactPageComponent,
   ],
   imports: [
     CommonModule,

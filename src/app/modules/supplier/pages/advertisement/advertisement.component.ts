@@ -244,15 +244,21 @@ export class AdvertisementComponent implements OnInit {
       if (this.adForm.valid) {
         this.advertisementService
           .addAdvertisement(this.adForm.value)
-          .subscribe(() => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Added',
-              detail: 'Added Successfully',
-            });
-            this.getAdBySupplierId();
-            this.adForm.reset();
-            this.addDialog = false;
+          .subscribe((res: any) => {
+            if (res.message === 'Crop name already exists') {
+              this.alert = true;
+              this.alertMessage = 'Crop name already exists';
+              setTimeout(() => (this.alert = false), 3000);
+            } else {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Added',
+                detail: 'Added Successfully',
+              });
+              this.getAdBySupplierId();
+              this.adForm.reset();
+              this.addDialog = false;
+            }
           });
       } else {
         this.adForm.markAllAsTouched();
