@@ -18,6 +18,11 @@ export class FarmersComponent {
   confirmationDialog = false;
 
   statusSelected: string = '';
+  search = '';
+  empty = true;
+
+  totalAds: number = 0;
+  page: number = 0;
 
   constructor(
     private userService: UserService,
@@ -112,4 +117,45 @@ export class FarmersComponent {
   closeDetailsDialog(): void {
     this.detailsDialog = false;
   }
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.farmers = this.farmers.filter(
+        (farmer: any) =>
+          farmer.firstName.toLowerCase().includes(search.toLowerCase()) ||
+          farmer.lastName.toLowerCase().includes(search.toLowerCase()) ||
+          farmer.middleName.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.farmers.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getCourses();
+    }
+  };
+
+  getCourses = () => {
+    this.userService.getAllFarmers().subscribe((data: any) => {
+      this.userService.getAllFarmers().subscribe(
+        (data: any) => {
+          let tempCourses = data.sort(
+            (a: any, b: any) => b.courseId - a.courseId
+          );
+          this.totalAds = tempCourses.length;
+          this.farmers = tempCourses.splice(this.page * 5, 5);
+
+          if (this.farmers.length > 0) {
+            this.empty = false;
+          } else {
+            this.empty = true;
+          }
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    });
+  };
 }
