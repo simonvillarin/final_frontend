@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { SmsService } from 'src/app/shared/services/sms/sms.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 
 @Component({
@@ -33,7 +34,8 @@ export class AcceptedOfferComponent {
     private transactionService: TransactionService,
     private offerService: OfferService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private smsService: SmsService
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class AcceptedOfferComponent {
           this.acceptedOffers = this.acceptedOffers.filter(
             (acceptedOffer: any) =>
               acceptedOffer.offer.advertisement.category === category
-          )
+          );
         });
     }
   };
@@ -114,6 +116,12 @@ export class AcceptedOfferComponent {
           .subscribe(() => {
             this.confirmationDialog = false;
             this.getTransactionsBySupplierId();
+
+            const payload = {
+              message: `Supplier: ${this.acceptedOffer.supplier.firstName} ${this.acceptedOffer.supplier.lastName} has accepted your offer on the ${this.acceptedOffer.offer.advertisement.name} advertisement`,
+            };
+            // ONLY USE WHEN DEMO
+            // this.smsService.sendFarmerSMS(payload).subscribe(() => {});
           });
       });
   };

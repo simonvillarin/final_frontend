@@ -8,6 +8,7 @@ import {
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { SmsService } from 'src/app/shared/services/sms/sms.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -45,7 +46,8 @@ export class AdvertisementComponent implements OnInit {
     private authService: AuthService,
     private offerService: OfferService,
     private adService: AdvertisementService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private smsService: SmsService
   ) {
     this.offerForm = this.fb.group({
       farmerId: [''],
@@ -158,6 +160,20 @@ export class AdvertisementComponent implements OnInit {
           this.getAllAdvertisement();
           this.confirmationDialog = false;
           this.offerDialog = false;
+
+          const value = this.offerForm.get('value')?.value;
+          const price = this.offerForm.get('price')?.value;
+
+          const payload = {
+            message: `A farmer has an offer on the advertisement that you've posted that you are in need of ${
+              this.ad.name
+            }. The amount that the farmer offered is P${price} for the ${this.ad.measurement.toLowerCase()} of ${value} ${
+              this.ad.measurement === 'Weight' ? 'kg.' : ''
+            }`,
+          };
+
+          // ONLY USE WHEN DEMO
+          // this.smsService.sendSupplierSMS(payload).subscribe(() => {});
         },
         () => {
           this.authService.logout();

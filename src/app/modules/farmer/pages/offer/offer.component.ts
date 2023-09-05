@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { SmsService } from 'src/app/shared/services/sms/sms.service';
 
 @Component({
   selector: 'app-offer',
@@ -31,7 +32,8 @@ export class OfferComponent implements OnInit {
   constructor(
     private offerService: OfferService,
     private adService: AdvertisementService,
-    private authService: AuthService
+    private authService: AuthService,
+    private smsService: SmsService
   ) {}
 
   ngOnInit(): void {

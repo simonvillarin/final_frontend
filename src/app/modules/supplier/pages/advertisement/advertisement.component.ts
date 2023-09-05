@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { SmsService } from 'src/app/shared/services/sms/sms.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -33,6 +35,7 @@ export class AdvertisementComponent implements OnInit {
   ads: any = [];
   tempAds: any = [];
   img: any = {};
+  supplier: any = {};
   postId: any;
 
   page: number = 0;
@@ -55,7 +58,9 @@ export class AdvertisementComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private smsService: SmsService,
+    private userService: UserService
   ) {
     this.adForm = fb.group({
       supplierId: ['', Validators.required],
@@ -97,7 +102,17 @@ export class AdvertisementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAdBySupplierId();
+    this.getSupplierById();
   }
+
+  getSupplierById = () => {
+    this.userService
+      .getUserById(this.authService.getUserId())
+      .subscribe((data) => {
+        this.supplier = data;
+        console.log(data);
+      });
+  };
 
   getAdBySupplierId = () => {
     this.advertisementService
@@ -250,6 +265,10 @@ export class AdvertisementComponent implements OnInit {
               this.alertMessage = 'Crop name already exists';
               setTimeout(() => (this.alert = false), 3000);
             } else {
+              const name = this.adForm.get('name')?.value;
+              const measurement = this.adForm.get('measurement')?.value;
+              const value = this.adForm.get('value')?.value;
+
               this.messageService.add({
                 severity: 'success',
                 summary: 'Added',
@@ -258,6 +277,18 @@ export class AdvertisementComponent implements OnInit {
               this.getAdBySupplierId();
               this.adForm.reset();
               this.addDialog = false;
+
+              const payload = {
+                message: `Supplier: ${this.supplier.firstName} ${
+                  this.supplier.lastName
+                } has posted an advertisement that ${
+                  this.supplier.gender === 'Male' ? 'he' : 'she'
+                } is in need of a ${name} with a ${measurement.toLowercase()} of ${value} ${
+                  measurement === 'Weight' ? 'kg.' : ''
+                }`,
+              };
+              // ONLY USE WHEN DEMO
+              // this.smsService.sendFarmerSMS(payload).subscribe(() => {});
             }
           });
       } else {
