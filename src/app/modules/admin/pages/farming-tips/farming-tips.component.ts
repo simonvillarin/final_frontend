@@ -28,7 +28,11 @@ export class FarmingTipsComponent {
   showImage = false;
   isEditing = false;
   emptyImage = false;
+  search = '';
   empty = true;
+
+  totalAds: number = 0;
+  page: number = 0;
 
   constructor(
     private farmingTipsService: FarmingTipsService,
@@ -38,6 +42,7 @@ export class FarmingTipsComponent {
   ) {
     this.tipForm = fb.group({
       tip: ['', Validators.required],
+      subject: ['', Validators.required],
       filename: [''],
       mimeType: [''],
       data: [''],
@@ -46,6 +51,10 @@ export class FarmingTipsComponent {
 
   get tip() {
     return this.tipForm.get('tip') as FormControl;
+  }
+
+  get subject() {
+    return this.tipForm.get('subject') as FormControl;
   }
 
   ngOnInit(): void {
@@ -122,6 +131,7 @@ export class FarmingTipsComponent {
     this.isEditing = true;
     this.tipForm.patchValue({
       tip: tip.tip,
+      subject: tip.subject,
       filename: tip.filename,
       mimeType: tip.mimeType,
       data: tip.data,
@@ -211,5 +221,22 @@ export class FarmingTipsComponent {
           this.authService.logout();
         }
       );
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.tips = this.tips.filter(
+        (tip: any) =>
+          tip.tip.toLowerCase().includes(search.toLowerCase()) ||
+          tip.subject.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.tips.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getAllFarmingTips();
+    }
   };
 }

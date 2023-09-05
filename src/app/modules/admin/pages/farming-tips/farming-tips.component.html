@@ -5,6 +5,24 @@
         <span class="material-symbols-rounded"> add </span>ADD
       </button>
     </div>
+    <div class="filter-container">
+      <div class="search-container">
+        <span class="material-symbols-rounded icon"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
+    </div>
   </div>
   <div class="table">
     <div class="empty" *ngIf="empty">
@@ -31,7 +49,8 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 20%">Image</th>
-          <th style="width: 60%">Farming Tip</th>
+          <th style="width: 30%">Subject</th>
+          <th style="width: 30%">Farming Tip</th>
           <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
@@ -49,6 +68,7 @@
                 </div>
               </div>
             </td>
+            <td>{{ tip.subject }}</td>
             <td>{{ tip.tip }}</td>
             <td>
               <div class="table-actions">
@@ -107,6 +127,25 @@
           </button>
         </div>
         <div class="form-group">
+          <div class="input-group">
+            <label>Subject<span class="required">*</span></label>
+            <textarea
+              rows="2"
+              cols="30"
+              pInputTextarea
+              formControlName="subject"
+            ></textarea>
+            <div
+              *ngIf="subject.invalid && (subject?.dirty || subject?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="subject?.errors?.['required']"
+              >
+                Subject is required
+              </small>
+            </div>
+          </div>
           <div class="input-group">
             <label>Farming Tip<span class="required">*</span></label>
             <textarea
