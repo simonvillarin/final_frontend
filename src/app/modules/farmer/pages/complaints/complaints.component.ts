@@ -202,20 +202,27 @@ export class ComplaintsComponent {
   };
 
   onDelete = () => {
-    this.complaintService.deleteComplaint(this.complaint.complaintId).subscribe(
-      () => {
-        this.getComplaints();
-        this.confirmationDialog = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Deleted',
-          detail: 'Deleted Successfully',
-        });
-      },
-      () => {
-        this.authService.logout();
-      }
-    );
+    const payload = {
+      isDeleted: !this.complaint.isDeleted,
+    };
+    console.log(this.complaint);
+
+    this.complaintService
+      .updateComplaint(this.complaint.complaintId, payload)
+      .subscribe(
+        () => {
+          this.getComplaints();
+          this.confirmationDialog = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Deleted',
+            detail: 'Deleted Successfully',
+          });
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
   };
 
   onCloseConfirmationDialog = () => {

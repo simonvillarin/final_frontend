@@ -45,7 +45,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-complaint>
-        <tr>
+        <tr *ngIf="!complaint.isDeleted">
           <td>
             <div class="crop-wrapper">
               <div class="crop-container">
