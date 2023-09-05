@@ -10,8 +10,9 @@ import { FarmingTipsService } from 'src/app/shared/services/farming-tips/farming
 })
 export class FarmingTipsComponent implements OnInit {
   tips: any = [];
-  searchTerm: String = '';
-  isEmpty = true;
+  empty = true;
+
+  search: String = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -22,10 +23,6 @@ export class FarmingTipsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllFarmingTips();
-
-    this.route.params.subscribe((params) => {
-      if (params['searchTerm']) this.searchTerm = params['searchTerm'];
-    });
   }
 
   getAllFarmingTips = () => {
@@ -34,9 +31,9 @@ export class FarmingTipsComponent implements OnInit {
         this.tips = data.sort((a: any, b: any) => b.tipId - a.tipId);
         this.tips = this.tips.filter((tip: any) => tip.status === true);
         if (this.tips.length > 0) {
-          this.isEmpty = false;
+          this.empty = false;
         } else {
-          this.isEmpty = true;
+          this.empty = true;
         }
       },
       () => {
@@ -45,8 +42,25 @@ export class FarmingTipsComponent implements OnInit {
     );
   };
 
-  search(): void {
-    if (this.searchTerm)
-      this._router.navigateByUrl('/menu/categories/search' + this.searchTerm);
-  }
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.tips = this.tips.filter(
+        (tip: any) =>
+          tip.tip.toLowerCase().includes(search.toLowerCase()) ||
+          tip.subject.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.tips.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getAllFarmingTips();
+    }
+  };
+
+  onClear = () => {
+    this.search = '';
+    this.getAllFarmingTips();
+  };
 }

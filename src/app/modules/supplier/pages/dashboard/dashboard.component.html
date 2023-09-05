@@ -1,127 +1,120 @@
-<div class="container">
-  <form>
-    <mat-icon>search</mat-icon>
-    <input type="text" placeholder="Search anything here" />
-    <p-button label="Search" (click)="search()"></p-button>
-  </form>
-</div>
-
-<div class="card">
-  <p-card
-    header="Advertisement"
-    subheader="Enhance your marketing skills"
-    class="farming-tips"
-  >
-    <div class="featured-tips-container">
-      <div class="featured-tips-video">
-        <iframe
-          src="https://www.youtube.com/embed/RmwI_QqcPQc?si=QWYmOW6eBzAnNX0G"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      </div>
-
-      <div class="featured-tips-content">
-        <div class="small-heading gray">
-          <span><i class="material-icons primary-circle">lens</i></span>
-          Welcome to the future of Agriculture
+<main>
+  <div class="card">
+    <p-card
+      header="Advertisement"
+      subheader="Enhance your marketing skills"
+      class="farming-tips"
+    >
+      <div class="featured-tips-container">
+        <div class="featured-tips-video">
+          <iframe
+            src="https://www.youtube.com/embed/RmwI_QqcPQc?si=QWYmOW6eBzAnNX0G"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          >
+          </iframe>
         </div>
-        <div class="featured-tips-title">
-          <h3>getting started with business</h3>
-        </div>
-        <div class="featured-tips-desc">MEET MARLEY</div>
-        <div class="featured-tips-icons-container">
-          <div class="icons-row">
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Effectiveness.
+
+        <div class="featured-tips-content">
+          <div class="small-heading gray">
+            <span><i class="material-icons primary-circle">lens</i></span>
+            Welcome to the future of Agriculture
+          </div>
+          <div class="featured-tips-title">
+            <h3>Getting started with business</h3>
+          </div>
+          <div class="featured-tips-desc">MEET MARLEY</div>
+          <div class="featured-tips-icons-container">
+            <div class="icons-row">
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle">check_circle</i>
+                </span>
+                Effectiveness.
+              </div>
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                Marketing Concept.
+              </div>
             </div>
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Marketing Concept.
+            <div class="icons-row">
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                Compassion.
+              </div>
+
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                One Goal.
+              </div>
             </div>
           </div>
-          <div class="icons-row">
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Compassion.
-            </div>
 
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              One Goal.
-            </div>
-          </div>
+          <p-button
+            label="View More"
+            routerLink="/farmer/farming-tips"
+            class="tips-button"
+          ></p-button>
         </div>
-
-        <p-button
-          label="View More"
-          routerLink="/supplier/advertisement"
-          class="tips-button"
-        ></p-button>
       </div>
-    </div>
-  </p-card>
-</div>
+    </p-card>
+  </div>
 
-<div class="card flex justify-content-center">
-  <p-card
-    header="Advertisement"
-    subheader="Learn something"
-    routerLink="/supplier/advertisement"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/supplier/advertisement"></p-button>
-  </p-card>
+  <div class="card-container">
+    <p-card
+      header="Advertisement"
+      subheader="Learn something"
+      routerLink="/supplier/advertisement"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/supplier/advertisement"></p-button>
+    </p-card>
 
-  <p-card
-    header="Crop Payments"
-    subheader="Learn something"
-    routerLink="/suplier/payments"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/supplier/payments"></p-button>
-  </p-card>
+    <p-card
+      header="Accepted Offers"
+      subheader="Learn something"
+      routerLink="/supplier/accepted-offers"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/supplier/accepted-offers"></p-button>
+    </p-card>
 
-  <p-card
-  header="Crop Received"
-  subheader="Learn something"
-  routerLink="/supplier/received"
->
-  <ng-template pTemplate="header">
-    <img
-      alt="Card"
-      src="https://primefaces.org/cdn/primeng/images/usercard.png"
-    />
-  </ng-template>
-  <p-button label="View" routerLink="/supplier/received"></p-button>
-</p-card>
-</div>
+    <p-card
+      header="Crops Received"
+      subheader="Learn something"
+      routerLink="/supplier/received"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/supplier/received"></p-button>
+    </p-card>
+  </div>
+</main>

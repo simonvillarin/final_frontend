@@ -1,29 +1,25 @@
+main {
+  background-color: var(--light-grayish-blue);
+  min-height: calc(100vh - 4.5rem);
+}
+
 .card {
-  //gap: 10px;
-  //padding: 1rem;
-  border-radius: 0.25rem;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  background-color: var(--light-grayish-blue);
-  //padding-bottom: 3rem;
   align-items: center;
   justify-content: center;
-  height: auto;
 }
 
 p-card {
-  margin: 20px;
   cursor: pointer;
   width: 300px;
-  //height: 300px;
   height: auto;
 }
 
-.complaints-tips {
+.farming-tips {
   margin: 20px;
-  margin-top: 20px;
   cursor: pointer;
   width: 100%;
 }
@@ -34,7 +30,6 @@ p-card {
   background-repeat: top;
   background-size: cover;
   flex-direction: row;
-  //height: 300px;
   height: auto;
 }
 
@@ -118,74 +113,13 @@ p-button {
   justify-content: flex-end;
 }
 
-.container {
-  width: 100%;
+.card-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100px;
-  background-color: var(--light-grayish-blue);
-  padding: 20px;
-  padding-top: 40px;
-}
-
-form {
-  width: 118%;
-  height: 60px;
-  display: flex;
-  position: relative;
-  margin: 0 20px;
-  border-radius: 8px;
-  background-color: var(--primary);
-}
-
-form input {
-  border: none;
-  height: 100%;
-  width: 118%;
-  padding: 0 155px 0 65px;
-  font-size: clamp(0.75rem, 0.2813rem + 1.5vw, 1.125rem);
-  font-weight: 300;
-  background-color: #fff6;
-  outline: none;
-}
-
-::-webkit-input-placeholder {
-  font-size: clamp(0.75rem, 0.2813rem + 1.5vw, 1.125rem);
-  background-color: rgba(234, 234, 234, 0.4);
-  padding: 8px;
-  border-radius: 20px;
-  width: 118%;
-  border: 1px solid var(--primary);
-}
-
-form p-button {
-  padding: 4px;
-  border: none;
-  outline: none;
-  color: #ffff;
-  letter-spacing: 1px;
-  cursor: pointer;
-  align-items: center;
-  text-align: center;
-  border-radius: 10px;
-}
-
-form p-button:hover {
-  background-color: var(--primary);
-}
-
-form .button,
-.mat-icon {
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
-.mat-icon {
-  left: 20px;
-  font-size: 30px;
-  color: var(--light-black);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
 }
 
 @media (max-width: 767px) {
@@ -251,4 +185,3 @@ form .button,
     width: 80px;
   }
 }
-

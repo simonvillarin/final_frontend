@@ -1,86 +1,31 @@
 <main>
-  <div class="container">
-    <form>
-      <mat-icon>search</mat-icon>
-      <input type="text" placeholder="Search anything here" />
-      <p-button label="Search" (click)="search()"></p-button>
-    </form>
+  <div class="actions">
+    <div class="btn-actions">
+      <button class="btn-clear" (click)="onClear()">
+        <span class="material-symbols-rounded"> clear </span>CLEAR
+      </button>
+    </div>
+    <div class="filter-container">
+      <div class="search-container">
+        <span class="material-symbols-rounded icon"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
+    </div>
   </div>
-
-  <div class="card" *ngIf="!isEmpty">
-    <p-accordion [activeIndex]="0">
-      <ng-container *ngFor="let tip of tips">
-        <p-accordionTab
-          *ngIf="tip.status"
-          header="Farming Tip # {{ tip.tipId }}"
-          class="accordionTab"
-        >
-          <div class="featured-tips-container">
-            <div class="featured-tips-video">
-              <img
-                src="{{ tip.image || '../../../../../../../assets/images/no-image.jpg }}"
-                alt="Tip"
-              />
-            </div>
-
-            <div class="featured-tips-content">
-              <div class="small-heading gray">
-                <span><i class="material-icons primary-circle">lens</i></span>
-                Welcome to the Future of Agriculture
-              </div>
-              <div class="featured-tips-title">
-                <h3>{{ tip.tip }}</h3>
-              </div>
-
-              <div class="featured-tips-desc">MEET MORENO</div>
-              <div class="featured-tips-icons-container">
-                <div class="icons-row">
-                  <div class="icon-heading">
-                    <span
-                      ><i class="material-icons blue-check-circle"
-                        >check_circle</i
-                      >
-                    </span>
-                    Fundamentals.
-                  </div>
-                  <div class="icon-heading">
-                    <span
-                      ><i class="material-icons blue-check-circle"
-                        >check_circle</i
-                      ></span
-                    >
-                    Farming Concept.
-                  </div>
-                </div>
-                <div class="icons-row">
-                  <div class="icon-heading">
-                    <span
-                      ><i class="material-icons blue-check-circle"
-                        >check_circle</i
-                      ></span
-                    >
-                    Functional Tools.
-                  </div>
-
-                  <div class="icon-heading">
-                    <span
-                      ><i class="material-icons blue-check-circle"
-                        >check_circle</i
-                      ></span
-                    >
-                    Agriculture Projects.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-      </ng-container>
-    </p-accordion>
-  </div>
-
-  <ng-container *ngIf="tips.length === 0">
-    <div class="empty">
+  <div class="table">
+    <div class="empty" *ngIf="empty">
       <div class="empty-img-container">
         <img
           src="{{ '../../../../../assets/images/no-content.png' }}"
@@ -89,5 +34,44 @@
       </div>
       <p class="empty-message">No farming tips to display</p>
     </div>
-  </ng-container>
+
+    <p-table
+      *ngIf="!empty"
+      [value]="tips"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      paginatorDropdownAppendTo="body"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%">Image</th>
+          <th style="width: 30%">Subject</th>
+          <th style="width: 50%">Farming Tip</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-tip>
+        <ng-container *ngIf="tip.status">
+          <tr>
+            <td>
+              <div class="tip-wrapper">
+                <div class="tip-container">
+                  <img
+                    src="{{
+                      tip.image || '../../../../../assets/images/no-image.jpg'
+                    }}"
+                  />
+                </div>
+              </div>
+            </td>
+            <td>{{ tip.subject }}</td>
+            <td>{{ tip.tip }}</td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
 </main>

@@ -1,168 +1,162 @@
-<div class="container">
-  <form>
-    <mat-icon>search</mat-icon>
-    <input type="text" placeholder="Search anything here" />
-    <p-button label="Search" (click)="search()"></p-button>
-  </form>
-</div>
-
-<div class="card">
-  <p-card
-    header="Farming Tips"
-    subheader="Enhance your farming skills"
-    class="farming-tips"
-  >
-    <div class="featured-tips-container">
-      <div class="featured-tips-video">
-        <iframe
-          src="https://www.youtube.com/embed/mJ-MeA-W1Ts?si=zjZY2-M52GoJi4UA"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        >
-        </iframe>
-      </div>
-
-      <div class="featured-tips-content">
-        <div class="small-heading gray">
-          <span><i class="material-icons primary-circle">lens</i></span>
-          Welcome to the Future of Agriculture
+<main>
+  <div class="card">
+    <p-card
+      header="Farming Tips"
+      subheader="Enhance your farming skills"
+      class="farming-tips"
+    >
+      <div class="featured-tips-container">
+        <div class="featured-tips-video">
+          <iframe
+            src="https://www.youtube.com/embed/mJ-MeA-W1Ts?si=zjZY2-M52GoJi4UA"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          >
+          </iframe>
         </div>
-        <div class="featured-tips-title">
-          <h3>getting started with farming</h3>
-        </div>
-        <div class="featured-tips-desc">MEET MORENO</div>
-        <div class="featured-tips-icons-container">
-          <div class="icons-row">
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle">check_circle</i>
-              </span>
-              Fundamentals.
+
+        <div class="featured-tips-content">
+          <div class="small-heading gray">
+            <span><i class="material-icons primary-circle">lens</i></span>
+            Welcome to the Future of Agriculture
+          </div>
+          <div class="featured-tips-title">
+            <h3>getting started with farming</h3>
+          </div>
+          <div class="featured-tips-desc">MEET MORENO</div>
+          <div class="featured-tips-icons-container">
+            <div class="icons-row">
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle">check_circle</i>
+                </span>
+                Fundamentals.
+              </div>
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                Farming Concept.
+              </div>
             </div>
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Farming Concept.
+            <div class="icons-row">
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                Functional Tools.
+              </div>
+
+              <div class="icon-heading">
+                <span
+                  ><i class="material-icons blue-check-circle"
+                    >check_circle</i
+                  ></span
+                >
+                Agriculture Projects.
+              </div>
             </div>
           </div>
-          <div class="icons-row">
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Functional Tools.
-            </div>
 
-            <div class="icon-heading">
-              <span
-                ><i class="material-icons blue-check-circle"
-                  >check_circle</i
-                ></span
-              >
-              Agriculture Projects.
-            </div>
-          </div>
+          <p-button
+            label="View More"
+            routerLink="/farmer/farming-tips"
+            class="tips-button"
+          ></p-button>
         </div>
-
-        <p-button
-          label="View More"
-          routerLink="/farmer/farming-tips"
-          class="tips-button"
-        ></p-button>
       </div>
-    </div>
-  </p-card>
-</div>
+    </p-card>
+  </div>
 
-<div class="card flex justify-content-center">
-  <p-card
-    header="Courses"
-    subheader="Learn something"
-    routerLink="/farmer/courses"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/courses"></p-button>
-  </p-card>
+  <div class="card-container">
+    <p-card
+      header="Courses"
+      subheader="Learn something"
+      routerLink="/farmer/courses"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/courses"></p-button>
+    </p-card>
 
-  <p-card
-    header="Posts"
-    subheader="Learn something"
-    routerLink="/farmer/advertisements"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/advertisements"></p-button>
-  </p-card>
+    <p-card
+      header="Posts"
+      subheader="Learn something"
+      routerLink="/farmer/advertisements"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/advertisements"></p-button>
+    </p-card>
 
-  <p-card
-    header="Sell Product"
-    subheader="Learn something"
-    routerLink="/farmer/sell-product"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/sell-product"></p-button>
-  </p-card>
+    <p-card
+      header="Sell Product"
+      subheader="Learn something"
+      routerLink="/farmer/sell-product"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/sell-product"></p-button>
+    </p-card>
 
-  <p-card
-    header="Complaints"
-    subheader="Learn something"
-    routerLink="/farmer/complaints"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/complaints"></p-button>
-  </p-card>
+    <p-card
+      header="Complaints"
+      subheader="Learn something"
+      routerLink="/farmer/complaints"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/complaints"></p-button>
+    </p-card>
 
-  <p-card
-    header="Payments"
-    subheader="Learn something"
-    routerLink="/farmer/payments"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/payments"></p-button>
-  </p-card>
+    <p-card
+      header="Payments"
+      subheader="Learn something"
+      routerLink="/farmer/payments"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/payments"></p-button>
+    </p-card>
 
-  <p-card
-    header="History"
-    subheader="Learn something"
-    routerLink="/farmer/history"
-  >
-    <ng-template pTemplate="header">
-      <img
-        alt="Card"
-        src="https://primefaces.org/cdn/primeng/images/usercard.png"
-      />
-    </ng-template>
-    <p-button label="View" routerLink="/farmer/history"></p-button>
-  </p-card>
-</div>
+    <p-card
+      header="History"
+      subheader="Learn something"
+      routerLink="/farmer/history"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/farmer/history"></p-button>
+    </p-card>
+  </div>
+</main>
