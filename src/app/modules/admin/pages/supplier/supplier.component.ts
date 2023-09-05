@@ -18,6 +18,11 @@ export class SupplierComponent {
   confirmationDialog = false;
 
   statusSelected: string = '';
+  search = '';
+  empty = true;
+
+  totalAds: number = 0;
+  page: number = 0;
 
   constructor(
     private userService: UserService,
@@ -109,4 +114,22 @@ export class SupplierComponent {
   closeDetailsDialog(): void {
     this.detailsDialog = false;
   }
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.suppliers = this.suppliers.filter(
+        (supplier: any) =>
+          supplier.firstName.toLowerCase().includes(search.toLowerCase()) ||
+          supplier.lastName.toLowerCase().includes(search.toLowerCase()) ||
+          supplier.middleName?.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.suppliers.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getSuppliers();
+    }
+  };
 }
