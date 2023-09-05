@@ -68,7 +68,7 @@
 
           <p-button
             label="View More"
-            routerLink="/farmer/farming-tips"
+            routerLink="/admin/complaints"
             class="tips-button"
           ></p-button>
         </div>
@@ -79,7 +79,7 @@
   <div class="card-container">
     <p-card
       header="Complaints"
-      subheader="Learn something"
+      subheader="Review what people has to say"
       routerLink="/admin/complaints"
     >
       <ng-template pTemplate="header">
@@ -93,7 +93,7 @@
 
     <p-card
       header="Courses"
-      subheader="Learn something"
+      subheader="Sharpen skills and knowledge"
       routerLink="/admin/course"
     >
       <ng-template pTemplate="header">
@@ -107,7 +107,7 @@
 
     <p-card
       header="Farming Tips"
-      subheader="Learn something"
+      subheader="Encourage quality"
       routerLink="/admin/farming-tips"
     >
       <ng-template pTemplate="header">
@@ -120,7 +120,7 @@
     </p-card>
     <p-card
       header="Farmers"
-      subheader="Learn something"
+      subheader="Manage farmer accounts"
       routerLink="/admin/farmers"
     >
       <ng-template pTemplate="header">
@@ -133,7 +133,7 @@
     </p-card>
     <p-card
       header="Suppliers"
-      subheader="Learn something"
+      subheader="Manage supplier accounts"
       routerLink="/admin/farming-tips"
     >
       <ng-template pTemplate="header">
@@ -143,6 +143,20 @@
         />
       </ng-template>
       <p-button label="View" routerLink="/admin/suppliers"></p-button>
+    </p-card>
+
+    <p-card
+      header="Profile"
+      subheader="Manage your account"
+      routerLink="/admin/profile"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://primefaces.org/cdn/primeng/images/usercard.png"
+        />
+      </ng-template>
+      <p-button label="View" routerLink="/admin/profile"></p-button>
     </p-card>
   </div>
 </main>
