@@ -71,34 +71,38 @@ export class AdvertisementComponent implements OnInit {
   }
 
   getAllAdvertisement = () => {
-    this.advertisementService.getAllAdvertisement().subscribe(
-      (data: any) => {
-        this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
-        this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
-        this.totalAds = this.tempAds.length;
-        this.ads = this.tempAds.splice(this.page * 5, 5);
-      },
-      () => {
-        this.authService.logout();
-      }
-    );
-  };
-
-  onCategoryChange = (category: string) => {
-    if (this.categorySelected !== '') {
-      this.advertisementService.getAllAdvertisement().subscribe(
+    this.advertisementService
+      .getAllAdvertisement(this.authService.getUserId())
+      .subscribe(
         (data: any) => {
           this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
           this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
           this.totalAds = this.tempAds.length;
           this.ads = this.tempAds.splice(this.page * 5, 5);
-
-          this.ads = this.ads.filter((ad: any) => ad.category == category);
         },
         () => {
           this.authService.logout();
         }
       );
+  };
+
+  onCategoryChange = (category: string) => {
+    if (this.categorySelected !== '') {
+      this.advertisementService
+        .getAllAdvertisement(this.authService.getUserId())
+        .subscribe(
+          (data: any) => {
+            this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
+            this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
+            this.totalAds = this.tempAds.length;
+            this.ads = this.tempAds.splice(this.page * 5, 5);
+
+            this.ads = this.ads.filter((ad: any) => ad.category == category);
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
     }
   };
 
