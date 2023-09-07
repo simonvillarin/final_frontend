@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
+import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
+import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
 
 @Component({
   selector: 'app-transaction',
@@ -29,16 +31,20 @@ export class TransactionComponent implements OnInit {
   isError = false;
 
   user: any = {};
-  farmer: any = {};
+  farmers: any = {};
+  farmer: any;
   offers: any = {};
   transactions: any = {};
   payment: any;
   payments: any;
   alertMessage: string = '';
   post: any = {};
+  paymentDetails: any;
+  paymentAccount: any;
 
   ngOnInit(): void {
     this.getUserById();
+    this.getPaymentAccountById();
     this.getTransactionById();
   }
 
@@ -50,6 +56,8 @@ export class TransactionComponent implements OnInit {
     private offerService: OfferService,
     private transactionService: TransactionService,
     private advertisementService: AdvertisementService,
+    private paymentDetailsService: PaymentDetailsService,
+    private paymentAccountService: PaymentAccountService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private router: Router,
@@ -57,7 +65,10 @@ export class TransactionComponent implements OnInit {
   ) {
     this.paymentForm = this.fb.group({
       transactionId: [''],
+      paymentAccountId: [''],
       paymentMode: ['', Validators.required],
+      accountNumber: ['', Validators.required],
+      accountName: ['', Validators.required],
     });
 
     this.transactionForm = this.fb.group({
@@ -68,6 +79,22 @@ export class TransactionComponent implements OnInit {
 
   get paymentMode() {
     return this.paymentForm.get('paymentMode') as FormControl;
+  }
+
+  get accountNumber() {
+    return this.paymentForm.get('accountNumber') as FormControl;
+  }
+
+  get accountName() {
+    return this.paymentForm.get('accountName') as FormControl;
+  }
+
+  get expirationDate() {
+    return this.paymentForm.get('expirationDate') as FormControl;
+  }
+
+  get securityCode() {
+    return this.paymentForm.get('securityCode') as FormControl;
   }
 
   getUserById = () => {
@@ -104,7 +131,7 @@ export class TransactionComponent implements OnInit {
 
       const farmerId = data.farmerId;
       this.userService.getUserById(farmerId).subscribe((data: any) => {
-        this.farmer = data;
+        this.farmers = data;
         console.log(data);
       });
     });
@@ -116,6 +143,11 @@ export class TransactionComponent implements OnInit {
     this.transactionService.getTransactionById(param).subscribe((data: any) => {
       this.transactions = data;
       console.log(data);
+
+      this.paymentForm.patchValue({
+        transactionId: this.transactions.transactionId,
+        paymentMode: this.payment.paymentMode,
+      });
 
       const transactionId = data.transactionId;
       this.paymentService
@@ -134,6 +166,7 @@ export class TransactionComponent implements OnInit {
             paidTime: this.payment.paymentTime,
             isViewed: true,
           };
+
           this.transactionService
             .updateTransaction(this.transactions.transactionId, payload)
             .subscribe((data) => {
@@ -175,14 +208,25 @@ export class TransactionComponent implements OnInit {
           });
 
           this.payment = '';
-          this.paymentForm.reset();
           console.log(data);
 
+          this.getTransactionById();
           this.getPaymentByTransactionId();
+
+          this.paymentDetailsService
+            .addPaymentDetails(this.paymentForm.value)
+            .subscribe((data) => {
+              this.paymentDetails = data;
+              console.log(data);
+            });
+
+          this.paymentForm.reset();
         });
     } else {
       this.paymentForm.markAllAsTouched();
     }
+
+    this.closeOnCardDialog();
   };
 
   onPlaceOffer = (id: any) => {
@@ -197,6 +241,10 @@ export class TransactionComponent implements OnInit {
     this.cardDialog = true;
   };
 
+  closeOnCardDialog = () => {
+    this.cardDialog = false;
+  };
+
   onGCashDialog = () => {
     this.gCashDialog = true;
   };
@@ -204,4 +252,30 @@ export class TransactionComponent implements OnInit {
   onPayMayaDialog = () => {
     this.payMayaDialog = true;
   };
+
+  getPaymentAccountById = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.paymentAccountService
+      .getPaymentAccountById(param)
+      .subscribe((data: any) => {
+        this.paymentAccount = data;
+        console.log(data);
+
+        this.paymentForm.patchValue({
+          paymentAccountId: this.paymentAccount.paymentAccountId,
+        });
+      });
+  };
+
+  getPaymentDetailsById = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.paymentDetailsService
+      .getPaymentDetailsById(param)
+      .subscribe((data: any) => {
+        this.paymentDetails = data;
+        console.log(data);
+      });
+  }
 }

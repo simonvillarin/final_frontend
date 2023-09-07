@@ -265,6 +265,18 @@ img {
   border-right: 2px solid var(--primary);
 }
 
+.data-0 {
+  padding: 0.77rem 1rem;
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+  display: flex;
+  flex-direction: row;
+}
+
+.data-2 {
+  padding-left: 7px;
+}
+
 @media screen and (min-width: 992px) {
   .actions {
     flex-direction: row;

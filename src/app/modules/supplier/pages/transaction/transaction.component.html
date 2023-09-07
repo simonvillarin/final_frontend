@@ -117,7 +117,7 @@
               <div>
                 <div class="title-offer">Delivery Origin</div>
                 <div class="data-offer">
-                  {{ farmer.city }}, {{ farmer.region }}
+                  {{ farmers.city }}, {{ farmers.region }}
                 </div>
               </div>
               <div>
@@ -250,11 +250,100 @@
   <p-header>
     <div class="dialog-title">Billing Address</div>
   </p-header>
-  <div class="dialog-body">Are you sure you want to cancel this offer?</div>
-  <div class="dialog-actions">
-    <button class="dialog-btn cancel">Cancel</button>
-    <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
-  </div>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Card Number<span class="required">*</span></label>
+        <input type="text" pInputText formControlName="accountNumber" />
+        <div
+          *ngIf="
+            accountNumber &&
+            accountNumber.invalid &&
+            (accountNumber.dirty || accountNumber.touched)
+          "
+        >
+          <small
+            style="color: var(--red)"
+            *ngIf="accountNumber?.errors?.['required']"
+          >
+            Card number is required
+          </small>
+        </div>
+      </div>
+
+      <!-- <div class="input-group">
+        <label>Expiration Date<span class="required">*</span></label>
+        <input type="text" pInputText formControlName="expirationDate" />
+        <div
+          *ngIf="
+            expirationDate &&
+            expirationDate.invalid &&
+            (expirationDate.dirty || expirationDate.touched)
+          "
+        >
+          <small
+            style="color: var(--red)"
+            *ngIf="expirationDate?.errors?.['required']"
+          >
+            Expiration Date is required
+          </small>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="input-group"> 
+      <label>Security Code<span class="required">*</span></label>
+      <input type="text" pInputText formControlName="securityCode" />
+      <div
+        *ngIf="
+          securityCode &&
+          securityCode.invalid &&
+          (securityCode.dirty || securityCode.touched)
+        "
+      >
+        <small
+          style="color: var(--red)"
+          *ngIf="securityCode?.errors?.['required']"
+        >
+          Security Code is required
+        </small>
+      </div>
+
+    </div> -->
+
+    <div class="input-group">
+      <label>Cardholder Name<span class="required">*</span></label>
+      <textarea
+        rows="4"
+        cols="30"
+        pInputTextarea
+        formControlName="accountName"
+      ></textarea>
+      <div
+        *ngIf="
+          accountName?.invalid && (accountName?.dirty || accountName?.touched)
+        "
+      >
+        <small
+          [style]="{ color: 'var(--red)' }"
+          *ngIf="accountName?.errors?.['required']"
+        >
+          Cardholder name is required
+        </small>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button
+        type="button"
+        class="dialog-btn cancel"
+        (click)="closeOnCardDialog()"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="dialog-btn submit">Save</button>
+    </div>
+    </div>
+  </form>
 </p-dialog>
 
 <p-dialog

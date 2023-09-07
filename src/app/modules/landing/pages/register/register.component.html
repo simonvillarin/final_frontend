@@ -71,7 +71,7 @@
     <div class="form-group">
       <div class="input-group">
         <label>First Name<span class="required">*</span></label>
-        <input pInputText formControlName="firstName" />
+        <input pInputText formControlName="firstName" style="text-transform: capitalize"/>
         <div
           *ngIf="firstName.invalid && (firstName?.dirty || firstName?.touched)"
         >
@@ -84,11 +84,11 @@
       </div>
       <div class="input-group">
         <label>Middle Name</label>
-        <input pInputText formControlName="middleName" />
+        <input pInputText formControlName="middleName" style="text-transform: capitalize"/>
       </div>
       <div class="input-group">
         <label>Last Name<span class="required">*</span></label>
-        <input pInputText formControlName="lastName" />
+        <input pInputText formControlName="lastName" style="text-transform: capitalize"/>
         <div *ngIf="lastName.invalid && (lastName?.dirty || lastName?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -99,7 +99,7 @@
       </div>
       <div class="input-group">
         <label>Suffix</label>
-        <input pInputText formControlName="suffix" />
+        <input pInputText formControlName="suffix" style="text-transform: uppercase"/>
       </div>
       <div class="input-group">
         <label>Gender<span class="required">*</span></label>
@@ -107,7 +107,7 @@
           [options]="genders"
           placeholder="Select a gender"
           [style]="{
-            width: '100%'
+            width: '100%',
           }"
           appendTo="body"
           formControlName="gender"
@@ -146,19 +146,19 @@
         </div>
       </div>
       <div class="input-group">
-        <label>Unit No / House No<span class="required">*</span></label>
-        <input pInputText formControlName="unit" />
+        <label>Unit Number / House Number<span class="required">*</span></label>
+        <input pInputText formControlName="unit" style="text-transform: capitalize"/>
         <div *ngIf="unit.invalid && (unit?.dirty || unit.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="unit.errors?.['required']"
-            >Unit No / House No is required</small
+            >Unit Number / House Number is required</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>Street<span class="required">*</span></label>
-        <input pInputText formControlName="street" />
+        <input pInputText formControlName="street" style="text-transform: capitalize"/>
         <div *ngIf="street.invalid && (street?.dirty || street.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -171,7 +171,7 @@
         <label
           >Subdivision / Village / Bldg<span class="required">*</span></label
         >
-        <input pInputText formControlName="village" />
+        <input pInputText formControlName="village" style="text-transform: capitalize"/>
         <div *ngIf="village.invalid && (village?.dirty || village.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -267,18 +267,18 @@
         </div>
       </div>
       <div class="input-group">
-        <label>Contact No<span class="required">*</span></label>
+        <label>Contact Number<span class="required">*</span></label>
         <input pInputText formControlName="contact" />
         <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="contact.errors?.['required']"
-            >Contact No is required</small
+            >Contact Number is required</small
           >
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="contact?.errors?.['mobileNoIsValid']"
-            >Invalid mobile no. format</small
+            >Invalid mobile number format</small
           >
         </div>
       </div>
@@ -398,10 +398,10 @@
 
     <div class="f-group">
       <div class="input-group">
-        <label>Id Type<span class="required">*</span></label>
+        <label>ID Type<span class="required">*</span></label>
         <p-dropdown
           [options]="idTypes"
-          placeholder="Select a Id Type"
+          placeholder="Select an ID Type"
           [style]="{
             width: '100%'
           }"
@@ -413,7 +413,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="idType.errors?.['required']"
-            >Id type is required</small
+            >ID type is required</small
           >
         </div>
       </div>
@@ -421,7 +421,7 @@
 
     <div class="form-group">
       <div class="input-group">
-        <label>Front Id<span class="required">*</span></label>
+        <label>Front ID<span class="required">*</span></label>
         <div
           class="id-img-container {{ idFrontEmpty ? 'border' : 'show-border' }}"
         >
@@ -437,7 +437,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="filename2?.errors?.['required']"
-            >Front id is required</small
+            >Front ID is required</small
           >
         </div>
         <button class="btn-upload">
@@ -451,7 +451,7 @@
         </button>
       </div>
       <div class="input-group">
-        <label>Back Id<span class="required">*</span></label>
+        <label>Back ID<span class="required">*</span></label>
         <div
           class="id-img-container {{ idBackEmpty ? 'border' : 'show-border' }}"
         >
@@ -467,7 +467,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="filename1?.errors?.['required']"
-            >Back id is required</small
+            >Back ID is required</small
           >
         </div>
         <button class="btn-upload">
@@ -545,7 +545,7 @@
                 type="button"
               >
                 <span class="material-symbols-rounded icon"> photo_camera </span
-                >Take Another
+                >Take Another Selfie
               </button>
               <button class="btn-file" type="button">
                 <span class="material-symbols-rounded icon"> upload </span

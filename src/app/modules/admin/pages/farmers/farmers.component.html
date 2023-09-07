@@ -70,11 +70,11 @@
               </div>
             </div>
           </td>
-          <td>{{ farmer.firstName }}</td>
-          <td>
+          <td style="text-transform: capitalize;">{{ farmer.firstName }}</td>
+          <td style="text-transform: capitalize;">
             {{ farmer.middleName }}
           </td>
-          <td>
+          <td style="text-transform: capitalize;">
             {{ farmer.lastName }}
           </td>
           <td>
@@ -178,9 +178,14 @@
       <div class="card-content">
         <div>
           <div class="title">Name</div>
-          <div class="data">
-            {{ farmer.firstName }} {{ farmer.middleName }} {{ farmer.lastName }}
-            {{ farmer.suffix }}
+          <div class="data-0">
+            <div class="data-1" style="text-transform: capitalize;">
+              {{ farmer.firstName }} {{ farmer.middleName }}
+              {{ farmer.lastName }}
+            </div>
+            <div class="data-2" style="text-transform: uppercase;">
+              {{ farmer.suffix }}
+            </div>
           </div>
         </div>
         <div>
@@ -195,15 +200,15 @@
         </div>
         <div>
           <div class="title">Email</div>
-          <div class="data">{{ farmer.email }} pcs.</div>
+          <div class="data">{{ farmer.email }}</div>
         </div>
         <div>
-          <div class="title">Contact No</div>
+          <div class="title">Contact Number</div>
           <div class="data">{{ farmer.contact }}</div>
         </div>
         <div>
           <div class="title t1">Address</div>
-          <div class="data d1">
+          <div class="data d1" style="text-transform: capitalize;">
             {{ farmer.unit }}, {{ farmer.street }}, {{ farmer.village }},
             {{ farmer.barangay }}, {{ farmer.city }}, {{ farmer.province }},
             {{ farmer.region }}
