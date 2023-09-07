@@ -68,7 +68,9 @@
           <div class="img-container-offer">
             <img
               class="img-offer"
-              [src]="post.image"
+              [src]="
+                post.image || '../../../../../../../assets/images/no-image.jpg'
+              "
               alt="Crop"
             />
           </div>
@@ -92,11 +94,7 @@
               </div>
               <div>
                 <div class="title-offer">
-                  {{
-                    post.measurement === "Weight"
-                      ? "Weight"
-                      : "Quantity"
-                  }}
+                  {{ post.measurement === "Weight" ? "Weight" : "Quantity" }}
                 </div>
                 <div class="data-offer">
                   {{ post.value }}
@@ -123,7 +121,7 @@
                 </div>
               </div>
               <div>
-                <div class="title-offer t1 ">Estimated Delivery</div>
+                <div class="title-offer t1">Estimated Delivery</div>
                 <div class="data-offer d1">
                   <!-- {{ farmer.city }}, {{ farmer.region }} -->
                 </div>
@@ -224,7 +222,7 @@
         <div class="error-types" [class.error-types-active]="error">
           <div
             *ngIf="
-            paymentMode.invalid &&
+              paymentMode.invalid &&
               (paymentMode?.dirty || paymentMode?.touched)
             "
           >
@@ -254,9 +252,7 @@
   </p-header>
   <div class="dialog-body">Are you sure you want to cancel this offer?</div>
   <div class="dialog-actions">
-    <button class="dialog-btn cancel">
-      Cancel
-    </button>
+    <button class="dialog-btn cancel">Cancel</button>
     <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
   </div>
 </p-dialog>
@@ -274,9 +270,7 @@
   </p-header>
   <div class="dialog-body">Are you sure you want to cancel this offer?</div>
   <div class="dialog-actions">
-    <button class="dialog-btn cancel">
-      Cancel
-    </button>
+    <button class="dialog-btn cancel">Cancel</button>
     <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
   </div>
 </p-dialog>
@@ -294,10 +288,7 @@
   </p-header>
   <div class="dialog-body">Are you sure you want to cancel this offer?</div>
   <div class="dialog-actions">
-    <button class="dialog-btn cancel">
-      Cancel
-    </button>
+    <button class="dialog-btn cancel">Cancel</button>
     <button class="dialog-btn submit" (ngSubmit)="onSubmit()">Confirm</button>
   </div>
 </p-dialog>
-
