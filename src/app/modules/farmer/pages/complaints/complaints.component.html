@@ -109,11 +109,15 @@
       </ng-template>
     </p-table>
     <ng-template #emptyTableMessage>
-      <img
-        src="{{ '../../../../../assets/images/no-content.png' }}"
-        class="error-image"
-      />
-      <p class="empty-table-message">No Complaint to display.</p>
+      <div class="empty">
+        <div class="empty-img-container">
+          <img
+            src="{{ '../../../../../assets/images/no-content.png' }}"
+            class="error-image"
+          />
+        </div>
+        <p class="empty-message">No Complaint to display.</p>
+      </div>
     </ng-template>
   </div>
 
