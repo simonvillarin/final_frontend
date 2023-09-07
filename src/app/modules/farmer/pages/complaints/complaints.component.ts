@@ -25,6 +25,11 @@ export class ComplaintsComponent {
   file: any;
 
   categorySelected = '';
+  search = '';
+  empty = true;
+
+  totalAds: number = 0;
+  page: number = 0;
 
   constructor(
     private complaintService: ComplaintsService,
@@ -227,5 +232,24 @@ export class ComplaintsComponent {
 
   onCloseConfirmationDialog = () => {
     this.confirmationDialog = false;
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.complaints = this.complaints.filter(
+        (complaint: any) =>
+          complaint.complaintDetails
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          complaint.complaintType.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.complaints.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getComplaints();
+    }
   };
 }

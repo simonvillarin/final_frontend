@@ -5,6 +5,23 @@ main {
   background-color: var(--light-grayish-blue);
 }
 
+.filter {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.search-container {
+  position: relative;
+}
+
+span {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
 .no-ads-message {
   font-size: 25px;
   text-align: center;
@@ -308,5 +325,9 @@ button {
 
   .t1 {
     border-bottom: 2px solid var(--primary);
+  }
+
+  .filter-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

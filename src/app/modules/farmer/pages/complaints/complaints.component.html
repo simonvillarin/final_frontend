@@ -20,6 +20,23 @@
         [(ngModel)]="categorySelected"
         (ngModelChange)="onCategoryChange($event)"
       ></p-dropdown>
+
+      <div class="search-container">
+        <span class="material-symbols-rounded icon"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
     </div>
   </div>
   <div class="table">
@@ -92,11 +109,15 @@
       </ng-template>
     </p-table>
     <ng-template #emptyTableMessage>
-      <img
-        src="{{ '../../../../../assets/images/no-content.png' }}"
-        class="error-image"
-      />
-      <p class="empty-table-message">No Complaint to display.</p>
+      <div class="empty">
+        <div class="empty-img-container">
+          <img
+            src="{{ '../../../../../assets/images/no-content.png' }}"
+            class="error-image"
+          />
+        </div>
+        <p class="empty-message">No Complaint to display.</p>
+      </div>
     </ng-template>
   </div>
 

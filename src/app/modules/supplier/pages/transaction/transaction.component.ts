@@ -21,6 +21,7 @@ import { AdvertisementService } from 'src/app/shared/services/advertisement/adve
 })
 export class TransactionComponent implements OnInit {
   paymentForm: FormGroup;
+  transactionForm: FormGroup;
 
   error = false;
 
@@ -57,6 +58,11 @@ export class TransactionComponent implements OnInit {
     this.paymentForm = this.fb.group({
       transactionId: [''],
       paymentMode: ['', Validators.required],
+    });
+
+    this.transactionForm = this.fb.group({
+      paidDate: [''],
+      paidTime: [''],
     });
   }
 
@@ -118,6 +124,22 @@ export class TransactionComponent implements OnInit {
           this.payment = data;
           console.log(data);
 
+          this.transactionForm.patchValue({
+            paidDate: this.payment.paymentDate,
+            paidTime: this.payment.paymentTime,
+          });
+
+          const payload = {
+            paidDate: this.payment.paymentDate,
+            paidTime: this.payment.paymentTime,
+            isViewed: true,
+          };
+          this.transactionService
+            .updateTransaction(this.transactions.transactionId, payload)
+            .subscribe((data) => {
+              console.log(data);
+            });
+
           const id = data.paymentId;
           this.router.navigate([`/supplier/payment/${id}`]);
         });
@@ -155,12 +177,12 @@ export class TransactionComponent implements OnInit {
           this.payment = '';
           this.paymentForm.reset();
           console.log(data);
+
+          this.getPaymentByTransactionId();
         });
     } else {
       this.paymentForm.markAllAsTouched();
     }
-
-    this.getPaymentByTransactionId();
   };
 
   onPlaceOffer = (id: any) => {
@@ -173,13 +195,13 @@ export class TransactionComponent implements OnInit {
 
   onCardDialog = () => {
     this.cardDialog = true;
-  }
+  };
 
   onGCashDialog = () => {
     this.gCashDialog = true;
-  }
+  };
 
   onPayMayaDialog = () => {
     this.payMayaDialog = true;
-  }
+  };
 }
