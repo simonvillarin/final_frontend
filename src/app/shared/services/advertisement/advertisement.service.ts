@@ -14,8 +14,8 @@ export class AdvertisementService {
     return this.http.get<any[]>(`${this.baseUrl}/ad/${id}`);
   };
 
-  getAllAdvertisement = (): Observable<any[]> => {
-    return this.http.get<any[]>(`${this.baseUrl}/advertisements`);
+  getAllAdvertisement = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.baseUrl}/ads/${id}`);
   };
 
   getAdBySupplierId = (id: number): Observable<any[]> => {

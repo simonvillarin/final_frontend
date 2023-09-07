@@ -41,6 +41,9 @@ export class AdvertisementComponent implements OnInit {
   page: number = 0;
   totalAds: number = 0;
 
+  empty = true;
+  search = '';
+
   constructor(
     private advertisementService: AdvertisementService,
     private authService: AuthService,
@@ -71,34 +74,38 @@ export class AdvertisementComponent implements OnInit {
   }
 
   getAllAdvertisement = () => {
-    this.advertisementService.getAllAdvertisement().subscribe(
-      (data: any) => {
-        this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
-        this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
-        this.totalAds = this.tempAds.length;
-        this.ads = this.tempAds.splice(this.page * 5, 5);
-      },
-      () => {
-        this.authService.logout();
-      }
-    );
-  };
-
-  onCategoryChange = (category: string) => {
-    if (this.categorySelected !== '') {
-      this.advertisementService.getAllAdvertisement().subscribe(
+    this.advertisementService
+      .getAllAdvertisement(this.authService.getUserId())
+      .subscribe(
         (data: any) => {
           this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
           this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
           this.totalAds = this.tempAds.length;
           this.ads = this.tempAds.splice(this.page * 5, 5);
-
-          this.ads = this.ads.filter((ad: any) => ad.category == category);
         },
         () => {
           this.authService.logout();
         }
       );
+  };
+
+  onCategoryChange = (category: string) => {
+    if (this.categorySelected !== '') {
+      this.advertisementService
+        .getAllAdvertisement(this.authService.getUserId())
+        .subscribe(
+          (data: any) => {
+            this.tempAds = data.sort((a: any, b: any) => b.postId - a.postId);
+            this.tempAds = this.tempAds.filter((ad: any) => ad.status === true);
+            this.totalAds = this.tempAds.length;
+            this.ads = this.tempAds.splice(this.page * 5, 5);
+
+            this.ads = this.ads.filter((ad: any) => ad.category == category);
+          },
+          () => {
+            this.authService.logout();
+          }
+        );
     }
   };
 
@@ -187,6 +194,18 @@ export class AdvertisementComponent implements OnInit {
       this.confirmationDialog = true;
     } else {
       this.offerForm.markAllAsTouched();
+    }
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.ads = this.ads.filter(
+        (ad: any) =>
+          ad.name.toLowerCase().includes(search.toLowerCase()) ||
+          ad.description.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      this.getAllAdvertisement();
     }
   };
 }

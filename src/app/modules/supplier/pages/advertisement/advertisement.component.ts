@@ -40,6 +40,8 @@ export class AdvertisementComponent implements OnInit {
 
   page: number = 0;
   totalAds: number = 0;
+  empty = true;
+  search = '';
 
   alertMessage = '';
   categorySelected: string = '';
@@ -325,5 +327,17 @@ export class AdvertisementComponent implements OnInit {
 
   onViewOffers = (id: any) => {
     this.router.navigate([`/supplier/offers/${id}`]);
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.ads = this.ads.filter(
+        (ad: any) =>
+          ad.name.toLowerCase().includes(search.toLowerCase()) ||
+          ad.description.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      this.getAdBySupplierId();
+    }
   };
 }
