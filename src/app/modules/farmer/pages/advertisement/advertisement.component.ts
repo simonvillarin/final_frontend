@@ -41,6 +41,9 @@ export class AdvertisementComponent implements OnInit {
   page: number = 0;
   totalAds: number = 0;
 
+  empty = true;
+  search = '';
+
   constructor(
     private advertisementService: AdvertisementService,
     private authService: AuthService,
@@ -191,6 +194,18 @@ export class AdvertisementComponent implements OnInit {
       this.confirmationDialog = true;
     } else {
       this.offerForm.markAllAsTouched();
+    }
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.ads = this.ads.filter(
+        (ad: any) =>
+          ad.name.toLowerCase().includes(search.toLowerCase()) ||
+          ad.description.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      this.getAllAdvertisement();
     }
   };
 }
