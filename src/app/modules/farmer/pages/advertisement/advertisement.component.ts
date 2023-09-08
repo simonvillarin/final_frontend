@@ -8,6 +8,7 @@ import {
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
 import { SmsService } from 'src/app/shared/services/sms/sms.service';
 
 @Component({
@@ -17,10 +18,12 @@ import { SmsService } from 'src/app/shared/services/sms/sms.service';
 })
 export class AdvertisementComponent implements OnInit {
   offerForm: FormGroup;
+  paymentForm: FormGroup;
 
   tempAds = [];
   ads: any = [];
   ad: any = {};
+  paymentAccount: any = {};
   categories = [
     'Food Crops',
     'Feed Crops',
@@ -32,11 +35,14 @@ export class AdvertisementComponent implements OnInit {
 
   offerDialog = false;
   confirmationDialog = false;
+  paymentDialog = false;
   alert = false;
   checked = false;
+  hasPaymentAcc = false;
 
   alertMessage = '';
   categorySelected = '';
+  btnLabel = '';
 
   page: number = 0;
   totalAds: number = 0;
@@ -50,6 +56,7 @@ export class AdvertisementComponent implements OnInit {
     private offerService: OfferService,
     private adService: AdvertisementService,
     private fb: FormBuilder,
+    private paymentAccountService: PaymentAccountService,
     private smsService: SmsService
   ) {
     this.offerForm = this.fb.group({
@@ -58,6 +65,25 @@ export class AdvertisementComponent implements OnInit {
       postId: [''],
       value: ['', Validators.required],
       price: ['', Validators.required],
+    });
+    this.paymentForm = this.fb.group({
+      farmerId: ['', Validators.required],
+      accountNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(17),
+        ],
+      ],
+      accountName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(80),
+        ],
+      ],
     });
   }
 
@@ -71,6 +97,7 @@ export class AdvertisementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAdvertisement();
+    this.getPaymentAccount();
   }
 
   getAllAdvertisement = () => {
@@ -87,6 +114,19 @@ export class AdvertisementComponent implements OnInit {
           this.authService.logout();
         }
       );
+  };
+
+  getPaymentAccount = () => {
+    this.paymentAccountService
+      .getPaymentAccountByFarmerId(this.authService.getUserId())
+      .subscribe((data) => {
+        if (data) {
+          this.hasPaymentAcc = true;
+          this.paymentAccount = data;
+        } else {
+          this.hasPaymentAcc = false;
+        }
+      });
   };
 
   onCategoryChange = (category: string) => {
@@ -129,6 +169,18 @@ export class AdvertisementComponent implements OnInit {
     }
   };
 
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.ads = this.ads.filter(
+        (ad: any) =>
+          ad.name.toLowerCase().includes(search.toLowerCase()) ||
+          ad.description.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      this.getAllAdvertisement();
+    }
+  };
+
   onClear = () => {
     this.categorySelected = '';
     this.getAllAdvertisement();
@@ -136,15 +188,20 @@ export class AdvertisementComponent implements OnInit {
 
   onOffer = (ad: any) => {
     if (!ad.isOffered) {
-      this.ad = ad;
-      this.offerForm.reset();
-
-      this.offerForm.patchValue({
+      this.paymentForm.reset();
+      this.paymentForm.patchValue({
         farmerId: this.authService.getUserId(),
-        supplierId: ad.supplier.userId,
-        postId: ad.postId,
       });
-      this.offerDialog = true;
+
+      if (this.hasPaymentAcc) {
+        this.paymentForm.patchValue({
+          accountNumber: this.paymentAccount.accountNumber,
+          accountName: this.paymentAccount.accountName,
+        });
+      }
+      this.paymentDialog = true;
+
+      this.ad = ad;
     }
   };
 
@@ -197,15 +254,29 @@ export class AdvertisementComponent implements OnInit {
     }
   };
 
-  onSearchChange = (search: string) => {
-    if (search !== '') {
-      this.ads = this.ads.filter(
-        (ad: any) =>
-          ad.name.toLowerCase().includes(search.toLowerCase()) ||
-          ad.description.toLowerCase().includes(search.toLowerCase())
-      );
+  onSubmitPayment = () => {
+    if (this.paymentForm.valid) {
+      this.paymentAccountService
+        .addPaymentAccount(this.paymentForm.value)
+        .subscribe(() => {
+          this.offerDialog = true;
+          this.paymentDialog = false;
+          this.getPaymentAccount();
+
+          this.checked = false;
+          this.offerForm.reset();
+          this.offerForm.patchValue({
+            farmerId: this.authService.getUserId(),
+            supplierId: this.ad.supplier.userId,
+            postId: this.ad.postId,
+          });
+        });
     } else {
-      this.getAllAdvertisement();
+      this.paymentForm.markAllAsTouched();
     }
+  };
+
+  onCancelPaymentDialog = () => {
+    this.paymentDialog = false;
   };
 }

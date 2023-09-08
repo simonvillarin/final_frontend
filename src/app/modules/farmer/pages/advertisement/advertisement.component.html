@@ -204,6 +204,89 @@
 </p-dialog>
 
 <p-dialog
+  [(visible)]="paymentDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Setup your Payment Account</div>
+  </p-header>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPayment()">
+    <div class="form-container">
+      <div class="form-group">
+        <div class="input-group">
+          <label>Account No<span class="required">*</span></label>
+          <input pInputText pKeyFilter="int" formControlName="accountNumber" />
+          <div
+            *ngIf="
+              paymentForm.get('accountNumber')?.invalid &&
+              (paymentForm.get('accountNumber')?.dirty ||
+                paymentForm.get('accountNumber')?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountNumber')?.errors?.['required']"
+              >Account Number is required</small
+            >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountNumber')?.errors?.['minlength']"
+              >Minimum length is 8</small
+            >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountNumber')?.errors?.['maxlength']"
+              >Maximum length is 17</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Account Name<span class="required">*</span></label>
+          <input pInputText formControlName="accountName" />
+          <div
+            *ngIf="
+              paymentForm.get('accountName')?.invalid &&
+              (paymentForm.get('accountName')?.dirty ||
+                paymentForm.get('accountName')?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountName')?.errors?.['required']"
+              >Account Name is required</small
+            >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountName')?.errors?.['minlength']"
+              >Minimum length is 3</small
+            >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="paymentForm.get('accountName')?.errors?.['maxlength']"
+              >Maximum length is 80</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button
+        type="button"
+        class="dialog-btn cancel"
+        (click)="onCancelPaymentDialog()"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="dialog-btn submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
   [(visible)]="confirmationDialog"
   [modal]="true"
   [breakpoints]="{ '600px': '90vw' }"

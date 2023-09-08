@@ -418,10 +418,12 @@ export class RegisterComponent implements OnInit {
       scroll(0, 0);
     }
     if (this.idFront === null) {
+      this.idFrontPreview = true;
       this.idFrontEmpty = true;
     }
     if (this.idBack === null) {
       this.idBackEmpty = true;
+      this.idBackPreview = true;
     }
 
     if (this.registerForm.valid) {
@@ -451,8 +453,8 @@ export class RegisterComponent implements OnInit {
             this.alertMessage = 'Username already exists';
             setTimeout(() => (this.alert = false), 3000);
           } else {
-            this.idFront = '';
-            this.idBack = '';
+            this.idFront = null;
+            this.idBack = null;
             this.idFrontPreview = false;
             this.idBackPreview = false;
             this.alert = true;
@@ -462,14 +464,14 @@ export class RegisterComponent implements OnInit {
             scroll(0, 0);
 
             const radioButtons =
-              this.elementRef.nativeElement.querySelectorAll('.radio');
+              this.elementRef.nativeElement.querySelectorAll('.radio1');
             radioButtons.forEach((radio: any) => {
               this.renderer.setProperty(radio, 'checked', false);
             });
             this.type = '';
-            this.registerForm.reset();
             this.hasChoosen = false;
             this.uploadImage = null;
+            this.registerForm.reset();
           }
         });
     } else {

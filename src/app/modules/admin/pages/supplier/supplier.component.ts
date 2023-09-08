@@ -89,11 +89,11 @@ export class SupplierComponent {
         this.getSuppliers();
         this.confirmationDialog = false;
         const summary =
-          this.supplier.status === 'Inactive' ? 'Activated' : 'Deactivated';
+          this.supplier.status === 'Inactive' ? 'Deactivated' : 'Activated';
         const details =
           this.supplier.status === 'Inactive'
-            ? 'Activated Successfully'
-            : 'Deactivated Sucessfully';
+            ? 'Dectivated Successfully'
+            : 'Activated Sucessfully';
         this.messageService.add({
           severity: 'success',
           summary: summary,

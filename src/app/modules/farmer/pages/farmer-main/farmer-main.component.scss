@@ -178,6 +178,18 @@ span {
   display: flex;
 }
 
+.badge {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: var(--light);
+  background-color: var(--red);
+  font-size: 0.875rem;
+}
+
 @media screen and (max-width: 992px) {
   .sidebar {
     width: 100%;
