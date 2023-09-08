@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
 
 @Component({
   selector: 'app-payment',
@@ -20,6 +21,10 @@ import { OfferService } from 'src/app/shared/services/offer/offer.service';
   styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent implements OnInit {
+  paymentForm: FormGroup;
+  farmers: any = {};
+  paymentAccount: any;
+
   user: any = {};
   transactions: any = {};
   payment: any;
@@ -46,11 +51,20 @@ export class PaymentComponent implements OnInit {
     private transactionService: TransactionService,
     private offerService: OfferService,
     private advertisementService: AdvertisementService,
+    private paymentAccountService: PaymentAccountService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.paymentForm = this.fb.group({
+      transactionId: [''],
+      paymentAccountId: [''],
+      paymentMode: ['', Validators.required],
+      accountNumber: ['', Validators.required],
+      accountName: ['', Validators.required],
+    });
+  }
 
   getUserById = () => {
     this.userService
@@ -110,4 +124,50 @@ export class PaymentComponent implements OnInit {
         });
     });
   };
+
+  /**getTransactionById = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+
+      this.paymentForm.patchValue({
+        transactionId: this.transactions.transactionId,
+      });
+
+      const offerId = data.offerId;
+      this.offerService.getOfferById(offerId).subscribe((data: any) => {
+        this.offers = data;
+        console.log(data);
+
+        const postId = data.postId;
+        this.advertisementService.getAdById(postId).subscribe((data: any) => {
+          this.post = data;
+          console.log(data);
+        });
+      });
+
+      const farmerId = data.farmerId;
+      this.userService.getUserById(farmerId).subscribe((data: any) => {
+        this.farmers = data;
+        console.log(data);
+      });
+    });
+  }; **/
+
+  /**getPaymentAccountById = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.paymentAccountService
+      .getPaymentAccountById(param)
+      .subscribe((data: any) => {
+        this.paymentAccount = data;
+        console.log(data);
+
+        this.paymentForm.patchValue({
+          paymentAccountId: this.paymentAccount.paymentAccountId,
+        });
+      });
+  };**/
 }
