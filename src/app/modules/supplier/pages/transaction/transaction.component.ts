@@ -46,6 +46,11 @@ export class TransactionComponent implements OnInit {
     this.getUserById();
     this.getPaymentAccountById();
     this.getTransactionById();
+    this.getPaymentAccountByFarmerId();
+    //this.getAllPayments();
+    //this.getAllPaymentAccount();
+    //this.getPaymentsByTransactionId();
+    // this.getPaymentAccountById();
   }
 
   constructor(
@@ -220,6 +225,7 @@ export class TransactionComponent implements OnInit {
               console.log(data);
             });
 
+          //this.getPaymentDetailsByTransactionId();
           this.paymentForm.reset();
         });
     } else {
@@ -277,5 +283,95 @@ export class TransactionComponent implements OnInit {
         this.paymentDetails = data;
         console.log(data);
       });
-  }
+  };
+
+  getPaymentDetailsByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+
+      const transactionId = this.transactions.transactionId;
+      this.paymentDetailsService
+        .getPaymentDetailsByTransactionId(transactionId)
+        .subscribe((data) => {
+          this.paymentDetails = data;
+          console.log(data);
+        });
+    });
+  };
+
+  paidDate: any;
+  allPayments: any = {};
+
+  onTransaction = (id: any) => {
+    this.router.navigate([`/supplier/payment/${id}`]);
+  };
+
+  onPayment = (id: any) => {
+    this.router.navigate([`/supplier/transaction/${id}`]);
+  };
+
+  getAllPayments = () => {
+    this.paymentService.getAllPayments().subscribe((data: any) => {
+      this.allPayments = data;
+    });
+  };
+
+  getPaymentsByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.paymentService.getPaymentByTransactionId(param).subscribe((data) => {
+      this.payment = data;
+      console.log(data);
+
+      console.log('payment Id:', this.payment.paymentId);
+    });
+  };
+
+  getPaymentAccountByFarmerId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+
+      const farmerId = this.transactions.farmerId;
+      this.paymentAccountService
+        .getPaymentAccountByFarmerId(farmerId)
+        .subscribe((data: any) => {
+          this.paymentAccount = data;
+          console.log('Payment Account By Farmer ID:', data);
+
+          const paymentAccountId = this.paymentAccount.paymentAccountId;
+          this.paymentAccountService
+            .getPaymentAccountById(paymentAccountId)
+            .subscribe((data: any) => {
+              this.paymentAccount = data;
+              console.log(data);
+
+              this.paymentForm.patchValue({
+                paymentAccountId: this.paymentAccount.paymentAccountId,
+              });
+            });
+
+          this.paymentForm.patchValue({
+            paymentAccountId: this.paymentAccount.paymentAccountId,
+          });
+
+          console.log(
+            'Payment Account By Farmer ID:',
+            this.paymentAccount.paymentAccountId
+          );
+        });
+    });
+  };
+
+  getAllPaymentAccount = () => {
+    this.paymentAccount.getAllPaymentAccount().subscribe((data: any) => {
+      this.paymentAccount = data;
+      console.log(data);
+    });
+  };
 }
