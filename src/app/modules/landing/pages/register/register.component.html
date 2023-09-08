@@ -71,7 +71,11 @@
     <div class="form-group">
       <div class="input-group">
         <label>First Name<span class="required">*</span></label>
-        <input pInputText formControlName="firstName" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="firstName"
+          style="text-transform: capitalize"
+        />
         <div
           *ngIf="firstName.invalid && (firstName?.dirty || firstName?.touched)"
         >
@@ -84,11 +88,19 @@
       </div>
       <div class="input-group">
         <label>Middle Name</label>
-        <input pInputText formControlName="middleName" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="middleName"
+          style="text-transform: capitalize"
+        />
       </div>
       <div class="input-group">
         <label>Last Name<span class="required">*</span></label>
-        <input pInputText formControlName="lastName" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="lastName"
+          style="text-transform: capitalize"
+        />
         <div *ngIf="lastName.invalid && (lastName?.dirty || lastName?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -99,7 +111,11 @@
       </div>
       <div class="input-group">
         <label>Suffix</label>
-        <input pInputText formControlName="suffix" style="text-transform: uppercase"/>
+        <input
+          pInputText
+          formControlName="suffix"
+          style="text-transform: uppercase"
+        />
       </div>
       <div class="input-group">
         <label>Gender<span class="required">*</span></label>
@@ -147,7 +163,11 @@
       </div>
       <div class="input-group">
         <label>Unit Number / House Number<span class="required">*</span></label>
-        <input pInputText formControlName="unit" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="unit"
+          style="text-transform: capitalize"
+        />
         <div *ngIf="unit.invalid && (unit?.dirty || unit.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -158,7 +178,11 @@
       </div>
       <div class="input-group">
         <label>Street<span class="required">*</span></label>
-        <input pInputText formControlName="street" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="street"
+          style="text-transform: capitalize"
+        />
         <div *ngIf="street.invalid && (street?.dirty || street.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -171,7 +195,11 @@
         <label
           >Subdivision / Village / Bldg<span class="required">*</span></label
         >
-        <input pInputText formControlName="village" style="text-transform: capitalize"/>
+        <input
+          pInputText
+          formControlName="village"
+          style="text-transform: capitalize"
+        />
         <div *ngIf="village.invalid && (village?.dirty || village.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -415,6 +443,19 @@
             *ngIf="idType.errors?.['required']"
             >ID type is required</small
           >
+        </div>
+        <div class="input-group">
+          <label>ID NUMBER<span class="required">*</span></label>
+          <input pInputText formControlName="idNumber" />
+          <div
+            *ngIf="idNumber.invalid && (idNumber?.dirty || idNumber.touched)"
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="idNumber.errors?.['required']"
+              >ID Number is required</small
+            >
+          </div>
         </div>
       </div>
     </div>
