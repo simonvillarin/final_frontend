@@ -45,14 +45,17 @@ export class SupplierMainComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data) => {
         this.user = data;
-        this.username =
-          data.firstName +
-          ' ' +
-          data.middleName +
-          ' ' +
-          data.lastName +
-          ' ' +
-          data.suffix;
+        this.username = data.firstName;
+        if (data.middleName) {
+          this.username += ' ' + data.middleName;
+        }
+        if (data.lastName) {
+          this.username += ' ' + data.lastName;
+        }
+        if (data.suffix) {
+          this.username += ' ' + data.suffix;
+        }
+
         this.userPic = data.image;
       });
   };
