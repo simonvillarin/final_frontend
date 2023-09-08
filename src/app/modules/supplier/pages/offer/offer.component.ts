@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { OfferCountService } from 'src/app/shared/services/offer-count/offer-count.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 
@@ -33,7 +34,8 @@ export class OfferComponent implements OnInit {
     private offerService: OfferService,
     private transactionService: TransactionService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private offerCountService: OfferCountService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +53,25 @@ export class OfferComponent implements OnInit {
         );
         this.totalOffers = this.tempOffers.length;
         this.offers = this.tempOffers.splice(this.page * 5, 5);
+
+        this.offers.forEach((offer: any) => {
+          const payload = {
+            isViewed: true,
+          };
+          this.offerService.updateOffer(offer.offerId, payload).subscribe();
+        });
+
+        this.offerService
+          .getOfferBySupplierId(this.authService.getUserId())
+          .subscribe((data: any) => {
+            let count = 0;
+            data.forEach((offer: any) => {
+              if (!offer.isViewed) {
+                count += 1;
+              }
+            });
+            this.offerCountService.setOffer(count);
+          });
       },
       () => {
         this.authService.logout();

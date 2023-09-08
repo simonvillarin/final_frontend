@@ -11,6 +11,9 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SmsService } from 'src/app/shared/services/sms/sms.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { OfferService } from 'src/app/shared/services/offer/offer.service';
+import { OfferCountService } from 'src/app/shared/services/offer-count/offer-count.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-advertisement',
@@ -38,11 +41,7 @@ export class AdvertisementComponent implements OnInit {
   supplier: any = {};
   postId: any;
 
-  page: number = 0;
-  totalAds: number = 0;
-  empty = true;
   search = '';
-
   alertMessage = '';
   categorySelected: string = '';
   measurementSelected: string = '';
@@ -55,6 +54,13 @@ export class AdvertisementComponent implements OnInit {
   gridTwo = false;
   alert = false;
 
+  empty = true;
+
+  page: number = 0;
+  totalAds: number = 0;
+  offers: number = 0;
+  subscription: Subscription | undefined;
+
   constructor(
     private advertisementService: AdvertisementService,
     private authService: AuthService,
@@ -62,7 +68,9 @@ export class AdvertisementComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private smsService: SmsService,
-    private userService: UserService
+    private offerService: OfferService,
+    private userService: UserService,
+    private offerCountService: OfferCountService
   ) {
     this.adForm = fb.group({
       supplierId: ['', Validators.required],
@@ -76,6 +84,12 @@ export class AdvertisementComponent implements OnInit {
       mimeType: [''],
       data: [''],
     });
+
+    this.subscription = this.offerCountService.offerCount.subscribe(
+      (offerCount) => {
+        this.offers = offerCount;
+      }
+    );
   }
 
   get name() {
@@ -105,6 +119,7 @@ export class AdvertisementComponent implements OnInit {
   ngOnInit(): void {
     this.getAdBySupplierId();
     this.getSupplierById();
+    this.getBadge();
   }
 
   getSupplierById = () => {
@@ -112,7 +127,6 @@ export class AdvertisementComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data) => {
         this.supplier = data;
-        console.log(data);
       });
   };
 
@@ -130,6 +144,18 @@ export class AdvertisementComponent implements OnInit {
           this.authService.logout();
         }
       );
+  };
+
+  getBadge = () => {
+    this.offerService
+      .getOfferBySupplierId(this.authService.getUserId())
+      .subscribe((data: any) => {
+        data.forEach((offer: any) => {
+          if (!offer.isViewed) {
+            this.offers += 1;
+          }
+        });
+      });
   };
 
   onMeasurementChange = (measurement: string) => {
@@ -246,7 +272,7 @@ export class AdvertisementComponent implements OnInit {
           .updateAdvertisement(this.postId, this.adForm.value)
           .subscribe(() => {
             this.messageService.add({
-              severity: 'sucess',
+              severity: 'success',
               summary: 'Updated',
               detail: 'Updated Successfully',
             });

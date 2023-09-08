@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { AcceptedOfferCountService } from 'src/app/shared/services/accepted-offer-count/accepted-offer-count.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 
 @Component({
@@ -29,7 +30,8 @@ export class AcceptedOfferComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private acceptedOfferCountService: AcceptedOfferCountService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,27 @@ export class AcceptedOfferComponent implements OnInit {
         );
         this.totalOffers = this.tempAcceptedOffers.length;
         this.acceptedOffers = this.tempAcceptedOffers.splice(this.page * 5, 5);
+
+        this.acceptedOffers.forEach((acceptedOffer: any) => {
+          const payload = {
+            isViewed: true,
+          };
+          this.transactionService
+            .updateTransaction(acceptedOffer.transactionId, payload)
+            .subscribe(() => {
+              this.transactionService
+                .getTransactionByFarmerId(this.authService.getUserId())
+                .subscribe((acceptedOffer: any) => {
+                  let count = 0;
+                  acceptedOffer.forEach((offer: any) => {
+                    if (!offer.isViewed) {
+                      count = 0;
+                    }
+                  });
+                  this.acceptedOfferCountService.setAcceptedOffer(count);
+                });
+            });
+        });
       });
   };
 

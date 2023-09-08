@@ -8,7 +8,7 @@
         alt="Profile"
       />
     </div>
-    <button class="btn-upload" style="cursor: pointer;">
+    <button class="btn-upload" style="cursor: pointer">
       <span class="material-symbols-rounded icon"> upload </span>
       Upload<input
         type="file"
@@ -22,8 +22,8 @@
     <div>
       <div class="title">Full Name</div>
       <div class="data">
-        {{ user.firstName }} {{ user.middleName }} {{ user.lastName }}
-        {{ user.suffix }}
+        {{ user.firstName }} {{ user?.middleName }} {{ user.lastName }}
+        {{ user?.suffix }}
       </div>
     </div>
     <div>

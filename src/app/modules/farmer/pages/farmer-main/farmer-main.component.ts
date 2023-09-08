@@ -6,6 +6,8 @@ import { AdminService } from 'src/app/shared/services/admin/admin.service';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
+import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
+import { AcceptedOfferCountService } from 'src/app/shared/services/accepted-offer-count/accepted-offer-count.service';
 
 @Component({
   selector: 'app-farmer-main',
@@ -23,12 +25,16 @@ export class FarmerMainComponent {
   userPic: string = '';
   subscription: Subscription | undefined;
 
+  acceptedOffers: number = 0;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private location: Location,
     private userService: UserService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private transactionService: TransactionService,
+    private acceptedOfferCountService: AcceptedOfferCountService
   ) {
     this.subscription = this.profileService.usernameSubject.subscribe(
       (user) => (this.username = user)
@@ -36,10 +42,15 @@ export class FarmerMainComponent {
     this.subscription = this.profileService.userPicSubject.subscribe(
       (user) => (this.userPic = user)
     );
+    this.subscription =
+      this.acceptedOfferCountService.acceptedOfferCount.subscribe(
+        (acceptedOffer) => (this.acceptedOffers = acceptedOffer)
+      );
   }
 
   ngOnInit(): void {
     this.getUserById();
+    this.getAcceptedOffers();
   }
 
   getUserById = () => {
@@ -47,15 +58,30 @@ export class FarmerMainComponent {
       .getUserById(this.authService.getUserId())
       .subscribe((data) => {
         this.user = data;
-        this.username =
-          data.firstName +
-          ' ' +
-          data.middleName +
-          ' ' +
-          data.lastName +
-          ' ' +
-          data.suffix;
+        this.username = data.firstName;
+        if (data.middleName) {
+          this.username += ' ' + data.middleName;
+        }
+        if (data.lastName) {
+          this.username += ' ' + data.lastName;
+        }
+        if (data.suffix) {
+          this.username += ' ' + data.suffix;
+        }
+
         this.userPic = data.image;
+      });
+  };
+
+  getAcceptedOffers = () => {
+    this.transactionService
+      .getTransactionByFarmerId(this.authService.getUserId())
+      .subscribe((data: any) => {
+        data.forEach((acceptedOffer: any) => {
+          if (!acceptedOffer.isViewed) {
+            this.acceptedOffers += 1;
+          }
+        });
       });
   };
 

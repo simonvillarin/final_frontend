@@ -96,11 +96,11 @@ export class FarmersComponent {
       this.getFarmers();
       this.confirmationDialog = false;
       const summary =
-        this.farmer.status === 'Inactive' ? 'Activated' : 'Deactivated';
+        this.farmer.status === 'Inactive' ? 'Deactivated' : 'Activated';
       const details =
         this.farmer.status === 'Inactive'
-          ? 'Activated Successfully'
-          : 'Deactivated Sucessfully';
+          ? 'Dectivated Successfully'
+          : 'Activated Sucessfully';
       this.messageService.add({
         severity: 'success',
         summary: summary,
