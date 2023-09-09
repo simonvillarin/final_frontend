@@ -18,9 +18,31 @@
   </div>
 
   <div class="card-container">
-    <h3 style="padding-top: 20px; font-weight: 600">
-      Your order has been placed.
-    </h3>
+    <div class="card flex justify-content-center" style="margin-bottom: 0px">
+      <p-card header="Your order has been placed">
+        <div class="card-content-offer">
+          <div>
+            <div>
+              <div class="m-1">Payment Reference Number</div>
+              <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template pTemplate="title">
+          <span
+            class="material-symbols-rounded"
+            style="
+              color: var(--darker-primary);
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            done
+          </span>
+        </ng-template>
+      </p-card>
+    </div>
     <div class="role-container">
       <div class="card flex justify-content-center">
         <p-card header="Delivery Address">
@@ -45,8 +67,8 @@
 
           <ng-template pTemplate="content">
             <p class="contact" style="font-weight: 500">{{ user.contact }}</p>
-            {{ user.unit }} {{ user.street }} {{ user.village }}
-            {{ user.barangay }} {{ user.city }} {{ user.region }}
+            {{ user.unit }} {{ user.street }}, {{ user.village }},
+            {{ user.barangay }} {{ user.city }}, {{ user.region }}
           </ng-template>
         </p-card>
       </div>
@@ -71,8 +93,17 @@
                 <div class="m-2">{{ payment?.paymentMode }}</div>
               </div>
               <div>
-                <div class="m-1">Delivery Date</div>
-                <div class="m-2">(wala pa data)</div>
+                <div class="m-1">Estimated Delivery</div>
+                <div class="m-2">
+                  <ng-container *ngIf="transactions.deliverDate == null">
+                    This will be updated
+                  </ng-container>
+
+                  <ng-container *ngIf="transactions.deliverDate != null">
+                    {{ transactions?.deliverDate | date : "MMMM d" }} to
+                    {{ transactions.deliverDate | dateSecondAdd : 3 | date : "MMMM d"}}
+                  </ng-container>        
+                </div>
               </div>
             </div>
           </div>

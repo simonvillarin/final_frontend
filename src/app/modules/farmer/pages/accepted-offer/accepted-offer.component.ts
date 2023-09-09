@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AcceptedOfferCountService } from 'src/app/shared/services/accepted-offer-count/accepted-offer-count.service';
 import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
@@ -31,7 +32,8 @@ export class AcceptedOfferComponent implements OnInit {
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private acceptedOfferCountService: AcceptedOfferCountService
+    private acceptedOfferCountService: AcceptedOfferCountService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,8 @@ export class AcceptedOfferComponent implements OnInit {
                 });
             });
         });
+
+        console.log(data);
       });
   };
 
@@ -106,5 +110,9 @@ export class AcceptedOfferComponent implements OnInit {
   onPageChange = (page: any) => {
     this.page = page.page;
     this.categorySelected = '';
+  };
+
+  onViewTransaction = (id: any) => {
+    this.router.navigate([`/farmer/accepted-offers/transaction-history/${id}`]);
   };
 }

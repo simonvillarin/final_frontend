@@ -13,7 +13,7 @@ import { OfferComponent } from './pages/offer/offer.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { DateSecondAddPipe } from './pages/transaction/pipe/date-second-add.pipe';
 @NgModule({
   declarations: [
     SupplierMainComponent,
@@ -25,6 +25,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     OfferComponent,
     TransactionComponent,
     PaymentComponent,
+    DateSecondAddPipe,
   ],
   imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule, ConfirmDialogModule],
 })

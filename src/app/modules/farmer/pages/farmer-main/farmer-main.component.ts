@@ -107,6 +107,9 @@ export class FarmerMainComponent {
     const currentLocation = this.location.path();
     const splitLocation = currentLocation.split('/');
     const loc = splitLocation[splitLocation.length - 1];
+    const loc1 = splitLocation[splitLocation.length - 2];
+    const loc2 = splitLocation[splitLocation.length - 3];
+
     if (loc == 'dashboard') {
       return 'Dashboard';
     } else if (loc == 'farming-tips') {
@@ -123,9 +126,9 @@ export class FarmerMainComponent {
       return 'Accepted Offers';
     } else if (loc == 'payments') {
       return 'Payments';
-    } else if (loc == 'history') {
-      return 'History';
-    } else if (loc == 'history') {
+    } else if (loc1 == 'transaction-history' || loc2 == 'accepted-offers') {
+      return 'Transaction History';
+    } else if (loc == 'transactions') {
       return 'History';
     } else if (loc == 'profile') {
       return 'Profile';

@@ -6,14 +6,14 @@ import { PaymentsComponent } from './pages/payments/payments.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { CoursesComponent } from './pages/courses/courses.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
-import { SellProductComponent } from './pages/sell-product/sell-product.component';
-import { HistoryComponent } from './pages/history/history.component';
+import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
 import { FarmerProfileComponent } from './pages/farmer-profile/farmer-profile.component';
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { FarmerMainComponent } from './pages/farmer-main/farmer-main.component';
 import { FarmingTipsComponent } from './pages/farming-tips/farming-tips.component';
 import { OfferComponent } from './pages/offer/offer.component';
 import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
 
 const routes: Routes = [
   {
@@ -57,8 +57,12 @@ const routes: Routes = [
         component: ScheduleComponent,
       },
       {
-        path: 'history',
-        component: HistoryComponent,
+        path: 'accepted-offers/transaction-history/:id',
+        component: TransactionHistoryComponent,
+      },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
       },
       {
         path: 'profile',

@@ -1,0 +1,192 @@
+<main>
+  <div class="actions">
+    <div class="btn-actions"></div>
+    <div class="filter-container">
+      <div class="search-container">
+        <span class="material-symbols-rounded icon"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="table">
+    <div class="empty" *ngIf="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No transactions to display</p>
+    </div>
+
+    <p-table
+      *ngIf="!empty"
+      [value]="transactions"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      paginatorDropdownAppendTo="body"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%">Number</th>
+          <th style="width: 30%">Order Reference Number</th>
+          <th style="width: 30%">Payment Reference Number</th>
+          <th style="width: 30%">Supplier Name</th>
+          <th style="width: 20%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-tip>
+        <ng-container *ngIf="transactions.status">
+          <tr>
+            <td>
+              <div class="tip-wrapper">
+                <div class="tip-container" *ngFor="let i">
+                  {{ i + 1 }}
+                </div>
+              </div>
+            </td>
+            <td>{{ payment?.orderIdRef }}</td>
+            <td>{{ paymentDetails?.paymentIdRef }}</td>
+            <td>   {{ suppliers?.firstName }} {{ suppliers?.middleName }} {{ suppliers?.lastName }}
+              {{ suppliers?.suffix }}</td>
+            <td>
+              <div class="table-actions">
+                <button
+                  class="table-btn edit"
+                  title="Edit"
+                  (click)="onEditTip(tip)"
+                >
+                  <span class="material-symbols-rounded"> edit </span>
+                </button>
+                <button
+                  class="table-btn delete"
+                  title="Delete"
+                >
+                  <span class="material-symbols-rounded"> delete </span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-dialog
+    [(visible)]="addDialog"
+    [modal]="true"
+    [breakpoints]="{ '992px': '90vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Post Farming Tip</div>
+    </p-header>
+    <!-- <form [formGroup]="tipForm" (ngSubmit)="onSubmit()"> 
+      <div class="form-container">
+        <div class="upload">
+          <div class="img-container" [class.error-border]="emptyImage">
+            <img
+              [src]="imagePreview"
+              alt="Crop"
+              class="image"
+              [class.img-active]="showImage"
+            />
+          </div>
+          <button class="btn-upload">
+            <span class="material-symbols-rounded icon"> upload </span>
+            Upload<input type="file" class="file" accept="image/*" />
+          </button>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Subject<span class="required">*</span></label>
+            <textarea
+              rows="2"
+              cols="30"
+              pInputTextarea
+              formControlName="subject"
+            ></textarea>
+            <div
+              *ngIf="subject.invalid && (subject?.dirty || subject?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="subject?.errors?.['required']"
+              >
+                Subject is required
+              </small>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Farming Tip<span class="required">*</span></label>
+            <textarea
+              rows="2"
+              cols="30"
+              pInputTextarea
+              formControlName="tip"
+            ></textarea>
+            <div *ngIf="tip.invalid && (tip?.dirty || tip?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="tip?.errors?.['required']"
+              >
+                Farming tip is required
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button
+          type="button"
+          class="dialog-btn cancel"
+          (click)="closeAddDialog()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="dialog-btn submit">Save</button>
+      </div>
+    </form> -->
+  </p-dialog>
+
+  <p-dialog
+    [(visible)]="confirmationDialog"
+    [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Delete</div>
+    </p-header>
+    <div class="dialog-body">
+      Are you sure you want to delete this farming tip?
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel">
+        Cancel
+      </button>
+      <button class="dialog-btn submit">Yes</button>
+    </div>
+  </p-dialog>
+
+  <p-toast></p-toast>
+</main>

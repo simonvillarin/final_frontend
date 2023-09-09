@@ -15,11 +15,15 @@ import { TransactionService } from 'src/app/shared/services/transaction/transact
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
 import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.scss'],
+  providers: [
+    DatePipe
+  ],
 })
 export class TransactionComponent implements OnInit {
   paymentForm: FormGroup;
@@ -41,16 +45,14 @@ export class TransactionComponent implements OnInit {
   post: any = {};
   paymentDetails: any;
   paymentAccount: any;
+  paidDate: any;
+  allPayments: any = {};
 
   ngOnInit(): void {
     this.getUserById();
-    this.getPaymentAccountById();
     this.getTransactionById();
     this.getPaymentAccountByFarmerId();
-    //this.getAllPayments();
-    //this.getAllPaymentAccount();
-    //this.getPaymentsByTransactionId();
-    // this.getPaymentAccountById();
+    this.getPaymentDetailsByTransactionId();
   }
 
   constructor(
@@ -72,8 +74,22 @@ export class TransactionComponent implements OnInit {
       transactionId: [''],
       paymentAccountId: [''],
       paymentMode: ['', Validators.required],
-      accountNumber: ['', Validators.required],
-      accountName: ['', Validators.required],
+      accountNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(17),
+        ],
+      ],
+      accountName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(80),
+        ],
+      ],
     });
 
     this.transactionForm = this.fb.group({
@@ -151,7 +167,7 @@ export class TransactionComponent implements OnInit {
 
       this.paymentForm.patchValue({
         transactionId: this.transactions.transactionId,
-        paymentMode: this.payment.paymentMode,
+        paymentAccountId: this.paymentAccount.paymentAccountId,
       });
 
       const transactionId = data.transactionId;
@@ -179,18 +195,49 @@ export class TransactionComponent implements OnInit {
             });
 
           const id = data.paymentId;
+          scroll(0, 0);
           this.router.navigate([`/supplier/payment/${id}`]);
         });
     });
   };
 
-  onMethodChange = (paymentMode: string) => {
-    if (paymentMode != '') {
-      this.error = false;
-      this.paymentForm.patchValue({
-        paymentMode: paymentMode,
-      });
-    }
+  getPaymentDetailsByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+      console.log(data);
+
+      const transactionId = this.transactions.transactionId;
+      this.paymentDetailsService
+        .getPaymentDetailsByTransactionId(transactionId)
+        .subscribe((data) => {
+          this.paymentDetails = data;
+          console.log(data);
+
+          this.getPaymentByTransactionId(); 
+        });
+    });
+  };
+
+  getPaymentAccountByFarmerId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+
+      const farmerId = this.transactions.farmerId;
+      this.paymentAccountService
+        .getPaymentAccountByFarmerId(farmerId)
+        .subscribe((data: any) => {
+          this.paymentAccount = data;
+          console.log('Payment Account By Farmer ID:', data);
+
+          this.paymentForm.patchValue({
+            paymentAccountId: this.paymentAccount.paymentAccountId,
+          });
+        });
+    });
   };
 
   onSubmit = () => {
@@ -212,36 +259,46 @@ export class TransactionComponent implements OnInit {
             this.renderer.setProperty(radio, 'checked', false);
           });
 
-          this.payment = '';
           console.log(data);
-
-          this.getTransactionById();
-          this.getPaymentByTransactionId();
 
           this.paymentDetailsService
             .addPaymentDetails(this.paymentForm.value)
             .subscribe((data) => {
-              this.paymentDetails = data;
+              scroll(1000, 1000);
               console.log(data);
             });
 
-          //this.getPaymentDetailsByTransactionId();
-          this.paymentForm.reset();
+          this.getPaymentByTransactionId();
+          this.getPaymentDetailsByTransactionId();
         });
     } else {
       this.paymentForm.markAllAsTouched();
     }
-
-    this.closeOnCardDialog();
+    this.closeOnPlaceOfferDialog();
   };
 
-  onPlaceOffer = (id: any) => {
-    this.router.navigate([`/supplier/transaction/payment/${id}`]);
+  onMethodChange = (paymentMode: string) => {
+    if (paymentMode != '') {
+      this.error = false;
+      scroll(2000, 2000);
+      this.paymentForm.patchValue({
+        paymentMode: paymentMode,
+      });
+    }
   };
 
   cardDialog = false;
   gCashDialog = false;
   payMayaDialog = false;
+  placeOfferDialog = false;
+
+  /**onTransaction = () => {
+    if (this.isViewed = true) {
+      this.getPaymentByTransactionId();
+    } else {
+      this.authService.logout();
+    }
+  }; **/
 
   onCardDialog = () => {
     this.cardDialog = true;
@@ -259,119 +316,12 @@ export class TransactionComponent implements OnInit {
     this.payMayaDialog = true;
   };
 
-  getPaymentAccountById = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.paymentAccountService
-      .getPaymentAccountById(param)
-      .subscribe((data: any) => {
-        this.paymentAccount = data;
-        console.log(data);
-
-        this.paymentForm.patchValue({
-          paymentAccountId: this.paymentAccount.paymentAccountId,
-        });
-      });
+  onPlaceOfferDialog = () => {
+    console.log(this.paymentForm.value);
+    this.placeOfferDialog = true;
   };
 
-  getPaymentDetailsById = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.paymentDetailsService
-      .getPaymentDetailsById(param)
-      .subscribe((data: any) => {
-        this.paymentDetails = data;
-        console.log(data);
-      });
-  };
-
-  getPaymentDetailsByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-      console.log(data);
-
-      const transactionId = this.transactions.transactionId;
-      this.paymentDetailsService
-        .getPaymentDetailsByTransactionId(transactionId)
-        .subscribe((data) => {
-          this.paymentDetails = data;
-          console.log(data);
-        });
-    });
-  };
-
-  paidDate: any;
-  allPayments: any = {};
-
-  onTransaction = (id: any) => {
-    this.router.navigate([`/supplier/payment/${id}`]);
-  };
-
-  onPayment = (id: any) => {
-    this.router.navigate([`/supplier/transaction/${id}`]);
-  };
-
-  getAllPayments = () => {
-    this.paymentService.getAllPayments().subscribe((data: any) => {
-      this.allPayments = data;
-    });
-  };
-
-  getPaymentsByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.paymentService.getPaymentByTransactionId(param).subscribe((data) => {
-      this.payment = data;
-      console.log(data);
-
-      console.log('payment Id:', this.payment.paymentId);
-    });
-  };
-
-  getPaymentAccountByFarmerId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-      console.log(data);
-
-      const farmerId = this.transactions.farmerId;
-      this.paymentAccountService
-        .getPaymentAccountByFarmerId(farmerId)
-        .subscribe((data: any) => {
-          this.paymentAccount = data;
-          console.log('Payment Account By Farmer ID:', data);
-
-          const paymentAccountId = this.paymentAccount.paymentAccountId;
-          this.paymentAccountService
-            .getPaymentAccountById(paymentAccountId)
-            .subscribe((data: any) => {
-              this.paymentAccount = data;
-              console.log(data);
-
-              this.paymentForm.patchValue({
-                paymentAccountId: this.paymentAccount.paymentAccountId,
-              });
-            });
-
-          this.paymentForm.patchValue({
-            paymentAccountId: this.paymentAccount.paymentAccountId,
-          });
-
-          console.log(
-            'Payment Account By Farmer ID:',
-            this.paymentAccount.paymentAccountId
-          );
-        });
-    });
-  };
-
-  getAllPaymentAccount = () => {
-    this.paymentAccount.getAllPaymentAccount().subscribe((data: any) => {
-      this.paymentAccount = data;
-      console.log(data);
-    });
+  closeOnPlaceOfferDialog = () => {
+    this.placeOfferDialog = false;
   };
 }

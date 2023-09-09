@@ -14,6 +14,8 @@ import { TransactionService } from 'src/app/shared/services/transaction/transact
 import { AdvertisementService } from 'src/app/shared/services/advertisement/advertisement.service';
 import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
+import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
+import { AcceptedOfferCountService } from 'src/app/shared/services/accepted-offer-count/accepted-offer-count.service';
 
 @Component({
   selector: 'app-payment',
@@ -22,8 +24,6 @@ import { PaymentAccountService } from 'src/app/shared/services/payment-account/p
 })
 export class PaymentComponent implements OnInit {
   paymentForm: FormGroup;
-  farmers: any = {};
-  paymentAccount: any;
 
   user: any = {};
   transactions: any = {};
@@ -31,27 +31,25 @@ export class PaymentComponent implements OnInit {
   farmer: any = {};
   offers: any = {};
   post: any = {};
-  allPayments: any = {};
   payments: any;
+  paymentDetails: any;
+
+  isViewed = false;
 
   ngOnInit(): void {
     this.getUserById();
-    this.getAllPayments();
-    //this.getTransactionById();
-    //this.getPaymentByTransactionId();
     this.getPaymentById();
   }
 
   constructor(
     private fb: FormBuilder,
-    private addressService: AddressService,
     private paymentService: PaymentService,
     private userService: UserService,
     private authService: AuthService,
     private transactionService: TransactionService,
     private offerService: OfferService,
     private advertisementService: AdvertisementService,
-    private paymentAccountService: PaymentAccountService,
+    private paymentDetailsService: PaymentDetailsService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private router: Router,
@@ -75,12 +73,6 @@ export class PaymentComponent implements OnInit {
       });
   };
 
-  getAllPayments = () => {
-    this.paymentService.getAllPayments().subscribe((data: any) => {
-      this.allPayments = data;
-      console.log(data);
-    });
-  };
 
   getPaymentById = () => {
     const param = this.route.snapshot.params['id'];
@@ -93,6 +85,13 @@ export class PaymentComponent implements OnInit {
         .getPaymentByTransactionId(transactionId)
         .subscribe((data) => {
           this.payment = data;
+          console.log(data);
+        });
+
+      this.paymentDetailsService
+        .getPaymentDetailsByTransactionId(transactionId)
+        .subscribe((data) => {
+          this.paymentDetails = data;
           console.log(data);
         });
 
@@ -124,50 +123,4 @@ export class PaymentComponent implements OnInit {
         });
     });
   };
-
-  /**getTransactionById = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-      console.log(data);
-
-      this.paymentForm.patchValue({
-        transactionId: this.transactions.transactionId,
-      });
-
-      const offerId = data.offerId;
-      this.offerService.getOfferById(offerId).subscribe((data: any) => {
-        this.offers = data;
-        console.log(data);
-
-        const postId = data.postId;
-        this.advertisementService.getAdById(postId).subscribe((data: any) => {
-          this.post = data;
-          console.log(data);
-        });
-      });
-
-      const farmerId = data.farmerId;
-      this.userService.getUserById(farmerId).subscribe((data: any) => {
-        this.farmers = data;
-        console.log(data);
-      });
-    });
-  }; **/
-
-  /**getPaymentAccountById = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.paymentAccountService
-      .getPaymentAccountById(param)
-      .subscribe((data: any) => {
-        this.paymentAccount = data;
-        console.log(data);
-
-        this.paymentForm.patchValue({
-          paymentAccountId: this.paymentAccount.paymentAccountId,
-        });
-      });
-  };**/
 }

@@ -150,3 +150,19 @@ export function confirmPasswordValidator(): ValidatorFn {
     }
   };
 }
+
+// delivery date
+export const deliveryDateValidator = (): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const selectedDate = control.value;
+    const today = new Date();
+    const selectedDateObj = new Date(selectedDate);
+
+    if (selectedDateObj < today) {
+      return { pastDate: true };
+    }
+
+    return null;
+  };
+};
+

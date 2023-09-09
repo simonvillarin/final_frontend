@@ -32,10 +32,20 @@
             alt="Crop"
           />
         </div>
-        <button class="btn-transaction">
-          <span class="material-symbols-rounded"> payments </span>View
-          Transaction
-        </button>
+
+        <ng-container *ngIf="acceptedOffer.paidDate != null ">
+          <button class="btn-transaction" (click)="onViewTransaction(acceptedOffer.transactionId)">
+            <span class="material-symbols-rounded"> payments </span>View
+            Transaction
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="acceptedOffer.paidDate == null ">
+          <button class="btn-transaction" style="cursor: not-allowed;">
+            <span class="material-symbols-rounded"> payments </span>View
+            Transaction
+          </button>
+        </ng-container>
       </div>
       <div class="card-content">
         <div>
