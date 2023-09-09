@@ -30,6 +30,9 @@ export class OfferComponent implements OnInit {
   page: number = 0;
   totalOffers: number = 0;
 
+  empty = true;
+  search = '';
+
   constructor(
     private offerService: OfferService,
     private transactionService: TransactionService,
@@ -150,5 +153,21 @@ export class OfferComponent implements OnInit {
 
   onBack = () => {
     history.back();
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.offers = this.offers.filter(
+        (offer: any) =>
+          offer.advertisement.name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          offer.advertisement.description
+            .toLowerCase()
+            .includes(search.toLowerCase())
+      );
+    } else {
+      this.getOffersBySupplierId();
+    }
   };
 }

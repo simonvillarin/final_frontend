@@ -29,6 +29,9 @@ export class OfferComponent implements OnInit {
   page: number = 0;
   totalOffers: number = 0;
 
+  empty = true;
+  search = '';
+
   constructor(
     private offerService: OfferService,
     private adService: AdvertisementService,
@@ -126,5 +129,25 @@ export class OfferComponent implements OnInit {
         this.authService.logout();
       }
     );
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.offers = this.offers.filter(
+        (offer: any) =>
+          offer.supplier.firstName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          offer.supplier.middleName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          offer.supplier.lastName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          offer.advertisement.name.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      this.getOffersByFarmerId();
+    }
   };
 }
