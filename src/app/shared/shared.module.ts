@@ -20,6 +20,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TimelineModule } from 'primeng/timeline';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [NavbarComponent, FooterComponent],
@@ -36,6 +37,7 @@ import { TimelineModule } from 'primeng/timeline';
     TabViewModule,
     CardModule,
     LandingRoutingModule,
+    ChartModule,
   ],
   exports: [
     NavbarComponent,
@@ -58,6 +60,7 @@ import { TimelineModule } from 'primeng/timeline';
     ToastModule,
     CheckboxModule,
     TimelineModule,
+    ChartModule,
   ],
 })
 export class SharedModule {}

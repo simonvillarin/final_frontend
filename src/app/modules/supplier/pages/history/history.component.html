@@ -1,0 +1,181 @@
+<main>
+  <p-tabView>
+    <p-tabPanel header="Transactions">
+      <div class="table">
+        <p-table
+          *ngIf="payments.length > 0; else emptyTableMessage"
+          [value]="payments"
+          [paginator]="true"
+          [rows]="5"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 20, 30]"
+          paginatorDropdownAppendTo="body"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 20%">Order Id Reference</th>
+              <th style="width: 15%">Payment Mode</th>
+              <th style="width: 15%">Paid Amount</th>
+              <th style="width: 22%">Payment Date</th>
+              <th style="width: 15%">Payment Time</th>
+              <th style="width: 13%">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-payment>
+            <tr>
+              <td>
+                {{ payment.orderIdRef }}
+              </td>
+              <td>{{ payment.paymentMode }}</td>
+              <td>
+                {{
+                  payment.payment.transaction.offer.price
+                    | currency : "PHP" : "symbol" : "1.2-2"
+                }}
+              </td>
+              <td>{{ payment.paymentDate | date : "MMMM d, y" }}</td>
+              <td>{{ convertTime(payment.paymentTime) }}</td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="table-btn"
+                    title="View Details"
+                    (click)="onView(payment)"
+                  >
+                    <span class="material-symbols-rounded"> info </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Received Crops">
+      <p-chart type="bar" [data]="soldCrops"></p-chart>
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template #emptyTableMessage>
+    <div class="empty">
+      <div class="empty-img-container">
+        <img
+          src="{{ '../../../../../assets/images/no-content.png' }}"
+          class="error-image"
+        />
+      </div>
+      <p class="empty-message">No Complaint to display.</p>
+    </div>
+  </ng-template>
+
+  <p-dialog
+    [(visible)]="detailsDialog"
+    [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '75vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Order Details</div>
+    </p-header>
+    <div>
+      <div class="card">
+        <div class="img-container">
+          <img
+            src="{{
+              image || '../../../../../../../assets/images/no-image.jpg'
+            }}"
+            alt="Crop"
+          />
+        </div>
+        <div class="card-content">
+          <div>
+            <div>
+              <div class="title">Crop Name</div>
+              <div class="data">
+                {{ name }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Category</div>
+              <div class="data">
+                {{ category }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Description</div>
+              <p class="data">
+                {{ description }}
+              </p>
+            </div>
+            <div>
+              <div class="title">
+                {{ measurement === "Weight" ? "Weight" : "Quantity" }}
+              </div>
+              <div class="data">
+                {{ value }}
+                {{ measurement === "Weight" ? "kg" : "" }}
+              </div>
+            </div>
+            <div>
+              <div class="title t1">Price</div>
+              <p class="data d1">
+                {{ price | currency : "PHP" : "symbol" : "1.2-2" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-container">
+        <div class="card-content">
+          <div>
+            <div>
+              <div class="title">Payment Id Ref</div>
+              <div class="data">
+                {{ paymentIdRef }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Payment Date</div>
+              <div class="data">
+                {{ paymentDate | date : "MMMM d, y" }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Delivered Date</div>
+              <p class="data">
+                {{ deliverDate | date : "MMMM d, y" }}
+              </p>
+            </div>
+            <div>
+              <div class="title">Farmer</div>
+              <div class="data">
+                {{ deliveredTo }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Farmer Contact No</div>
+              <div class="data">
+                {{ contact }}
+              </div>
+            </div>
+            <div>
+              <div class="title t1">Farmer Address</div>
+              <p class="data d1">
+                {{ address }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn submit" (click)="onCloseDetailsDialog()">
+        OK
+      </button>
+    </div>
+  </p-dialog>
+</main>

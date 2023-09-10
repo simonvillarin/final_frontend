@@ -131,7 +131,7 @@ export class FarmerMainComponent {
       return 'Payments';
     } else if (loc1 == 'transaction-history' || loc2 == 'accepted-offers') {
       return 'Transaction History';
-    } else if (loc == 'transactions') {
+    } else if (loc == 'history') {
       return 'History';
     } else if (loc == 'profile') {
       return 'Profile';

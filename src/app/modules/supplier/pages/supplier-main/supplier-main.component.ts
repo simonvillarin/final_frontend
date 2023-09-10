@@ -97,6 +97,8 @@ export class SupplierMainComponent implements OnInit {
       return 'Accepted Offers';
     } else if (loc == 'received') {
       return 'Crop Received';
+    } else if (loc == 'history') {
+      return 'History';
     } else if (loc == 'transaction' || loc1 == 'transaction') {
       return 'Transaction';
     } else if (loc == 'payment' || loc1 == 'payment') {
