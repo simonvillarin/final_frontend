@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScheduleComponent } from './schedule.component';
+import { HistoryComponent } from './history.component';
 
-describe('ScheduleComponent', () => {
-  let component: ScheduleComponent;
-  let fixture: ComponentFixture<ScheduleComponent>;
+describe('HistoryComponent', () => {
+  let component: HistoryComponent;
+  let fixture: ComponentFixture<HistoryComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ScheduleComponent]
+      declarations: [HistoryComponent]
     });
-    fixture = TestBed.createComponent(ScheduleComponent);
+    fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

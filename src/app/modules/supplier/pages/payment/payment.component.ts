@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AddressService } from 'src/app/shared/services/address/address.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from 'src/app/shared/services/payment/payment.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
@@ -35,6 +34,8 @@ export class PaymentComponent implements OnInit {
   paymentDetails: any;
 
   isViewed = false;
+  isPaid = false;
+  isDelivered = false;
 
   ngOnInit(): void {
     this.getUserById();
@@ -50,9 +51,6 @@ export class PaymentComponent implements OnInit {
     private offerService: OfferService,
     private advertisementService: AdvertisementService,
     private paymentDetailsService: PaymentDetailsService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private router: Router,
     private route: ActivatedRoute
   ) {
     this.paymentForm = this.fb.group({
@@ -69,10 +67,8 @@ export class PaymentComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
-        console.log(data);
       });
   };
-
 
   getPaymentById = () => {
     const param = this.route.snapshot.params['id'];
@@ -85,42 +81,90 @@ export class PaymentComponent implements OnInit {
         .getPaymentByTransactionId(transactionId)
         .subscribe((data) => {
           this.payment = data;
-          console.log(data);
         });
 
       this.paymentDetailsService
         .getPaymentDetailsByTransactionId(transactionId)
         .subscribe((data) => {
           this.paymentDetails = data;
-          console.log(data);
         });
 
       this.transactionService
         .getTransactionById(transactionId)
         .subscribe((data: any) => {
           this.transactions = data;
-          console.log(data);
+
+          if (data.paidDate) {
+            this.isPaid = true;
+          }
+          if (data.deliverDate) {
+            this.isDelivered = true;
+          }
 
           const offerId = data.offerId;
           this.offerService.getOfferById(offerId).subscribe((data: any) => {
             this.offers = data;
-            console.log(data);
 
             const postId = data.postId;
             this.advertisementService
               .getAdById(postId)
               .subscribe((data: any) => {
                 this.post = data;
-                console.log(data);
               });
           });
 
           const farmerId = data.farmerId;
           this.userService.getUserById(farmerId).subscribe((data: any) => {
             this.farmer = data;
-            console.log(data);
           });
         });
     });
+  };
+
+  convertTime = (time: any) => {
+    if (time) {
+      const splitTime = time.split(':');
+      let hour;
+      let zone;
+      if (parseInt(splitTime[0]) == 13) {
+        hour = 1;
+      } else if (parseInt(splitTime[0]) == 13) {
+        hour = 1;
+      } else if (parseInt(splitTime[0]) == 14) {
+        hour = 2;
+      } else if (parseInt(splitTime[0]) == 15) {
+        hour = 3;
+      } else if (parseInt(splitTime[0]) == 16) {
+        hour = 4;
+      } else if (parseInt(splitTime[0]) == 17) {
+        hour = 5;
+      } else if (parseInt(splitTime[0]) == 18) {
+        hour = 6;
+      } else if (parseInt(splitTime[0]) == 19) {
+        hour = 7;
+      } else if (parseInt(splitTime[0]) == 20) {
+        hour = 8;
+      } else if (parseInt(splitTime[0]) == 21) {
+        hour = 9;
+      } else if (parseInt(splitTime[0]) == 22) {
+        hour = 10;
+      } else if (parseInt(splitTime[0]) == 23) {
+        hour = 11;
+      } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
+        hour = 12;
+      } else {
+        hour = splitTime[0];
+      }
+
+      if (parseInt(splitTime[0]) > 12) {
+        zone = 'PM';
+      } else {
+        zone = 'AM';
+      }
+
+      return hour + ':' + splitTime[1] + ' ' + zone;
+    } else {
+      return null;
+    }
   };
 }

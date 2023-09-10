@@ -17,6 +17,23 @@
         [(ngModel)]="categorySelected"
         (ngModelChange)="onCategoryChange($event)"
       ></p-dropdown>
+
+      <div class="search-container">
+        <span class="material-symbols-rounded icon"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
     </div>
   </div>
 
@@ -79,6 +96,7 @@
             <span class="material-symbols-rounded"> payments </span>Payment
           </button>
           <button
+            *ngIf="!acceptedOffer.paidDate"
             class="btn-cancel"
             title="Cancel"
             (click)="onCancel(acceptedOffer)"

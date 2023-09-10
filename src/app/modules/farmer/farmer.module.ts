@@ -3,9 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CoursesComponent } from './pages/courses/courses.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
-import { SellProductComponent } from './pages/sell-product/sell-product.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
-import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
 import { AdvertisementComponent } from './pages/advertisement/advertisement.component';
 import { FarmerProfileComponent } from './pages/farmer-profile/farmer-profile.component';
@@ -21,15 +19,14 @@ import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.co
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { DateAddPipe } from './pages/transaction-history/pipe/date-add.pipe';
+import { HistoryComponent } from './pages/history/history.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     CoursesComponent,
     ComplaintsComponent,
-    SellProductComponent,
     PaymentsComponent,
-    ScheduleComponent,
     TransactionHistoryComponent,
     AdvertisementComponent,
     FarmerProfileComponent,
@@ -38,7 +35,8 @@ import { DateAddPipe } from './pages/transaction-history/pipe/date-add.pipe';
     OfferComponent,
     AcceptedOfferComponent,
     TransactionsComponent,
-    DateAddPipe
+    DateAddPipe,
+    HistoryComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +46,6 @@ import { DateAddPipe } from './pages/transaction-history/pipe/date-add.pipe';
     MatIconModule,
     AccordionModule,
     YouTubePlayerModule,
-  ]
+  ],
 })
 export class FarmerModule {}

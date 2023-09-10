@@ -84,7 +84,9 @@
             <button class="card-view" (click)="onViewOffers(ad.postId)">
               <span class="material-symbols-rounded"> contract </span>
               Offers
-              <div class="badge" *ngIf="offers > 0">{{ offers }}</div>
+              <div class="badge" *ngIf="ad.numOfOffers > 0">
+                {{ ad.numOfOffers }}
+              </div>
             </button>
             <button
               class="card-edit"

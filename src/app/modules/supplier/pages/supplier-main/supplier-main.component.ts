@@ -41,9 +41,8 @@ export class SupplierMainComponent implements OnInit {
   }
 
   getUserById = () => {
-    this.userService
-      .getUserById(this.authService.getUserId())
-      .subscribe((data) => {
+    this.userService.getUserById(this.authService.getUserId()).subscribe(
+      (data) => {
         this.user = data;
         this.username = data.firstName;
         if (data.middleName) {
@@ -57,7 +56,11 @@ export class SupplierMainComponent implements OnInit {
         }
 
         this.userPic = data.image;
-      });
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   toggleMobile = () => {
@@ -94,6 +97,8 @@ export class SupplierMainComponent implements OnInit {
       return 'Accepted Offers';
     } else if (loc == 'received') {
       return 'Crop Received';
+    } else if (loc == 'history') {
+      return 'History';
     } else if (loc == 'transaction' || loc1 == 'transaction') {
       return 'Transaction';
     } else if (loc == 'payment' || loc1 == 'payment') {

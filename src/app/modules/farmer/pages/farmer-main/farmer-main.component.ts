@@ -54,9 +54,8 @@ export class FarmerMainComponent {
   }
 
   getUserById = () => {
-    this.userService
-      .getUserById(this.authService.getUserId())
-      .subscribe((data) => {
+    this.userService.getUserById(this.authService.getUserId()).subscribe(
+      (data) => {
         this.user = data;
         this.username = data.firstName;
         if (data.middleName) {
@@ -70,7 +69,11 @@ export class FarmerMainComponent {
         }
 
         this.userPic = data.image;
-      });
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   getAcceptedOffers = () => {
@@ -128,7 +131,7 @@ export class FarmerMainComponent {
       return 'Payments';
     } else if (loc1 == 'transaction-history' || loc2 == 'accepted-offers') {
       return 'Transaction History';
-    } else if (loc == 'transactions') {
+    } else if (loc == 'history') {
       return 'History';
     } else if (loc == 'profile') {
       return 'Profile';

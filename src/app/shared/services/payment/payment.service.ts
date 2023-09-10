@@ -22,6 +22,18 @@ export class PaymentService {
     return this.http.get<any>(`${this.baseUrl}/payment/transaction/${id}`);
   };
 
+  getPaymentByFarmerId = (id: number): Observable<any> => {
+    return this.http.get<any>(
+      `${this.baseUrl}/payment/transaction/farmer/${id}`
+    );
+  };
+
+  getPaymentBySupplierId = (id: number): Observable<any> => {
+    return this.http.get<any>(
+      `${this.baseUrl}/payment/transaction/supplier/${id}`
+    );
+  };
+
   addPayment = (payment: any): Observable<any> => {
     return this.http.post<any>(`${this.baseUrl}/payment`, payment);
   };

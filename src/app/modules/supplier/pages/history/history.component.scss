@@ -1,0 +1,255 @@
+main {
+  min-height: calc(100vh - 4rem);
+  padding: 1rem;
+  background-color: var(--light-grayish-blue);
+}
+
+.table {
+  overflow-x: auto;
+}
+
+tr th {
+  font-weight: 400;
+  text-align: center;
+  color: var(--light);
+  background-color: var(--primary);
+}
+
+tr td {
+  font-weight: 400;
+  text-align: center;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.table-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--primary);
+  transition: background-color 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.table-btn:hover,
+.table-btn:focus {
+  background-color: var(--darker-primary);
+}
+
+.dialog-title {
+  font-size: clamp(1.25rem, 0.91rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
+}
+
+.dialog-body {
+  font-size: clamp(1.125rem, 0.9286rem + 0.3571vw, 1.2rem);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.dialog-btn {
+  width: 7rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  color: var(--light);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover,
+  &:focus {
+    background-color: var(--darker-primary);
+  }
+}
+
+.cancel {
+  color: var(--light);
+  background-color: var(--red);
+
+  &:hover,
+  &:focus {
+    background-color: var(--darker-red);
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--light);
+}
+
+.img-container {
+  width: 100%;
+  height: 240px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-content-offer {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0.5rem;
+}
+
+.card-content-offer > div > div {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  text-align: center;
+}
+
+.title-offer,
+.data-offer {
+  padding: 0.77rem 1rem;
+}
+
+.title-offer {
+  font-weight: 400;
+  border-top: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.t1 {
+  border-bottom: none;
+}
+
+.d1 {
+  border-bottom: 2px solid var(--primary);
+}
+
+.data-offer {
+  border-left: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.card-content {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0.5rem;
+}
+
+.card-content > div > div {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  text-align: center;
+}
+
+.title,
+.data {
+  display: flex;
+  align-items: center;
+  padding: 0.77rem 1rem;
+}
+
+.title {
+  font-weight: 400;
+  border-top: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.t1 {
+  border-bottom: none;
+}
+
+.d1 {
+  border-bottom: 2px solid var(--primary);
+}
+
+.data {
+  font-weight: 400;
+  border-left: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+}
+
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.empty-img-container {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty-message {
+  font-size: clamp(1.5rem, 1.4024rem + 0.4878vw, 1.75rem);
+  color: gray;
+}
+
+@media screen and (min-width: 768px) {
+  .dialog-btn {
+    width: 7rem;
+    height: 3rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .actions {
+    flex-direction: row;
+  }
+
+  .card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .card-content > div > div {
+    grid-template-columns: clamp(12rem, 15rem, 18rem) 1fr;
+    text-align: left;
+  }
+
+  .img-container {
+    width: 100%;
+    height: 260px;
+  }
+
+  .data {
+    border-left: none;
+  }
+
+  .t1 {
+    border-bottom: 2px solid var(--primary);
+  }
+}

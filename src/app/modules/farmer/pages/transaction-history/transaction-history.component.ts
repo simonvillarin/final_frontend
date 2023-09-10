@@ -20,9 +20,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-history',
   templateUrl: './transaction-history.component.html',
   styleUrls: ['./transaction-history.component.scss'],
-  providers: [
-    DatePipe
-  ],
+  providers: [DatePipe],
 })
 export class TransactionHistoryComponent implements OnInit {
   paymentForm: FormGroup;
@@ -162,9 +160,9 @@ export class TransactionHistoryComponent implements OnInit {
     this.updateDeliveryDialog = true;
   };
 
-  onCancelUpdateDeliveryDialog = () =>{
+  onCancelUpdateDeliveryDialog = () => {
     this.updateDeliveryDialog = false;
-  }
+  };
 
   onCancelDeliveryDialog = () => {
     this.addDeliveryDialog = false;

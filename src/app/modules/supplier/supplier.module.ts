@@ -14,6 +14,7 @@ import { TransactionComponent } from './pages/transaction/transaction.component'
 import { PaymentComponent } from './pages/payment/payment.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DateSecondAddPipe } from './pages/transaction/pipe/date-second-add.pipe';
+import { HistoryComponent } from './pages/history/history.component';
 @NgModule({
   declarations: [
     SupplierMainComponent,
@@ -26,6 +27,7 @@ import { DateSecondAddPipe } from './pages/transaction/pipe/date-second-add.pipe
     TransactionComponent,
     PaymentComponent,
     DateSecondAddPipe,
+    HistoryComponent,
   ],
   imports: [CommonModule, SharedModule, SupplierRoutingModule, MatIconModule, ConfirmDialogModule],
 })

@@ -5,6 +5,23 @@ main {
   background-color: var(--light-grayish-blue);
 }
 
+.filter-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.search-container {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
 .actions {
   display: flex;
   flex-direction: column;
@@ -54,7 +71,7 @@ main {
 
 .card {
   display: grid;
-  grid-template-columns: repeat(1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   padding: 1rem;
   border-radius: 0.25rem;
@@ -266,5 +283,9 @@ img {
   .btn-transaction,
   .btn-cancel {
     width: auto;
+  }
+
+  .filter-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

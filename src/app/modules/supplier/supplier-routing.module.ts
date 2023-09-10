@@ -10,7 +10,7 @@ import { OfferComponent } from './pages/offer/offer.component';
 import { AcceptedOfferComponent } from './pages/accepted-offer/accepted-offer.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { PaymentComponent } from './pages/payment/payment.component';
-
+import { HistoryComponent } from './pages/history/history.component';
 
 const routes: Routes = [
   {
@@ -44,6 +44,10 @@ const routes: Routes = [
       {
         path: 'received',
         component: ReceivedComponent,
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
       },
       {
         path: 'profile',
