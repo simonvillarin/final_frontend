@@ -33,17 +33,23 @@
           />
         </div>
 
-        <ng-container *ngIf="acceptedOffer.paidDate != null ">
-          <button class="btn-transaction" (click)="onViewTransaction(acceptedOffer.transactionId)">
+        <ng-container *ngIf="acceptedOffer.paidDate != null">
+          <button
+            class="btn-transaction"
+            (click)="onViewTransaction(acceptedOffer.transactionId)"
+          >
             <span class="material-symbols-rounded"> payments </span>View
             Transaction
           </button>
         </ng-container>
 
-        <ng-container *ngIf="acceptedOffer.paidDate == null ">
-          <button class="btn-transaction" style="cursor: not-allowed;">
-            <span class="material-symbols-rounded"> payments </span>View
-            Transaction
+        <ng-container *ngIf="acceptedOffer.paidDate == null">
+          <button
+            class="btn-awaiting-payment"
+            style="cursor: not-allowed;"
+          >
+            <span class="material-symbols-rounded"> payments </span>Awaiting
+            Payment
           </button>
         </ng-container>
       </div>
