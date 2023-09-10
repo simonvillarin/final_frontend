@@ -56,7 +56,6 @@ export class AcceptedOfferComponent {
         );
         this.totalOffers = this.tempAcceptedOffers.length;
         this.acceptedOffers = this.tempAcceptedOffers.splice(this.page * 5, 5);
-        console.log(data);
       });
   };
 

@@ -41,9 +41,8 @@ export class SupplierMainComponent implements OnInit {
   }
 
   getUserById = () => {
-    this.userService
-      .getUserById(this.authService.getUserId())
-      .subscribe((data) => {
+    this.userService.getUserById(this.authService.getUserId()).subscribe(
+      (data) => {
         this.user = data;
         this.username = data.firstName;
         if (data.middleName) {
@@ -57,7 +56,11 @@ export class SupplierMainComponent implements OnInit {
         }
 
         this.userPic = data.image;
-      });
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   };
 
   toggleMobile = () => {

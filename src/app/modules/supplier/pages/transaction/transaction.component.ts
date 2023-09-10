@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AddressService } from 'src/app/shared/services/address/address.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from 'src/app/shared/services/payment/payment.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
@@ -21,9 +20,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.scss'],
-  providers: [
-    DatePipe
-  ],
+  providers: [DatePipe],
 })
 export class TransactionComponent implements OnInit {
   paymentForm: FormGroup;
@@ -33,6 +30,9 @@ export class TransactionComponent implements OnInit {
 
   alert = false;
   isError = false;
+  billingAddress = false;
+  confirmationDialog = false;
+  shippingDialog = false;
 
   user: any = {};
   farmers: any = {};
@@ -78,18 +78,27 @@ export class TransactionComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(17),
+          // Validators.minLength(8),
+          // Validators.maxLength(17),
         ],
       ],
       accountName: [
         '',
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(80),
+          // Validators.minLength(3),
+          // Validators.maxLength(80),
         ],
       ],
+      fullName: ['', Validators.required],
+      unit: ['', Validators.required],
+      street: ['', Validators.required],
+      village: ['', Validators.required],
+      barangay: ['', Validators.required],
+      city: ['', Validators.required],
+      province: ['', Validators.required],
+      region: ['', Validators.required],
+      contact: ['', Validators.required],
     });
 
     this.transactionForm = this.fb.group({
@@ -123,7 +132,6 @@ export class TransactionComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
-        console.log(data);
       });
   };
 
@@ -215,7 +223,7 @@ export class TransactionComponent implements OnInit {
           this.paymentDetails = data;
           console.log(data);
 
-          this.getPaymentByTransactionId(); 
+          this.getPaymentByTransactionId();
         });
     });
   };
@@ -232,7 +240,6 @@ export class TransactionComponent implements OnInit {
         .subscribe((data: any) => {
           this.paymentAccount = data;
           console.log('Payment Account By Farmer ID:', data);
-
           this.paymentForm.patchValue({
             paymentAccountId: this.paymentAccount.paymentAccountId,
           });
@@ -241,87 +248,63 @@ export class TransactionComponent implements OnInit {
   };
 
   onSubmit = () => {
-    console.log(this.paymentForm.value);
-    if (this.payment === '') {
-      this.error = true;
-      scroll(1000, 1000);
-    }
+    const fullName =
+      this.user.firstName +
+      ' ' +
+      this.user.middleName +
+      ' ' +
+      this.user.lastName +
+      ' ' +
+      this.user.suffix;
+
+    this.paymentForm.patchValue({
+      fullName: fullName,
+      unit: this.user.unit,
+      street: this.user.street,
+      village: this.user.village,
+      barangay: this.user.barangay,
+      city: this.user.city,
+      province: this.user.province,
+      region: this.user.region,
+      contact: this.user.contact,
+    });
 
     if (this.paymentForm.valid) {
-      this.paymentService
-        .addPayment(this.paymentForm.value)
-        .subscribe((data) => {
-          scroll(1000, 1000);
-
-          const radioButtons =
-            this.elementRef.nativeElement.querySelectorAll('.radio');
-          radioButtons.forEach((radio: any) => {
-            this.renderer.setProperty(radio, 'checked', false);
-          });
-
-          console.log(data);
-
-          this.paymentDetailsService
-            .addPaymentDetails(this.paymentForm.value)
-            .subscribe((data) => {
-              scroll(1000, 1000);
-              console.log(data);
-            });
-
-          this.getPaymentByTransactionId();
-          this.getPaymentDetailsByTransactionId();
-        });
+      this.confirmationDialog = true;
     } else {
       this.paymentForm.markAllAsTouched();
     }
-    this.closeOnPlaceOfferDialog();
+  };
+
+  onConfirm = () => {
+    this.paymentService.addPayment(this.paymentForm.value).subscribe(() => {
+      const radioButtons =
+        this.elementRef.nativeElement.querySelectorAll('.radio');
+      radioButtons.forEach((radio: any) => {
+        this.renderer.setProperty(radio, 'checked', false);
+      });
+
+      this.paymentDetailsService
+        .addPaymentDetails(this.paymentForm.value)
+        .subscribe(() => {
+          this.confirmationDialog = false;
+        });
+
+      this.getPaymentByTransactionId();
+      this.getPaymentDetailsByTransactionId();
+    });
+  };
+
+  onCloseConfirmationDialog = () => {
+    this.confirmationDialog = false;
   };
 
   onMethodChange = (paymentMode: string) => {
     if (paymentMode != '') {
-      this.error = false;
-      scroll(2000, 2000);
+      this.billingAddress = true;
       this.paymentForm.patchValue({
         paymentMode: paymentMode,
       });
     }
-  };
-
-  cardDialog = false;
-  gCashDialog = false;
-  payMayaDialog = false;
-  placeOfferDialog = false;
-
-  /**onTransaction = () => {
-    if (this.isViewed = true) {
-      this.getPaymentByTransactionId();
-    } else {
-      this.authService.logout();
-    }
-  }; **/
-
-  onCardDialog = () => {
-    this.cardDialog = true;
-  };
-
-  closeOnCardDialog = () => {
-    this.cardDialog = false;
-  };
-
-  onGCashDialog = () => {
-    this.gCashDialog = true;
-  };
-
-  onPayMayaDialog = () => {
-    this.payMayaDialog = true;
-  };
-
-  onPlaceOfferDialog = () => {
-    console.log(this.paymentForm.value);
-    this.placeOfferDialog = true;
-  };
-
-  closeOnPlaceOfferDialog = () => {
-    this.placeOfferDialog = false;
   };
 }

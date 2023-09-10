@@ -7,12 +7,12 @@
     <div class="icon icon2">
       <span class="material-symbols-rounded"> handshake </span>
     </div>
-    <div class="line line2"></div>
-    <div class="icon icon3">
+    <div class="line" [class.line2]="isPaid"></div>
+    <div class="icon" [class.icon3]="isPaid">
       <span class="material-symbols-rounded"> payment </span>
     </div>
-    <div class="line line3"></div>
-    <div class="icon icon4">
+    <div class="line" [class.line3]="isDelivered"></div>
+    <div class="icon icon4" [class.ic4]="isDelivered">
       <span class="material-symbols-rounded"> local_shipping </span>
     </div>
   </div>
@@ -20,7 +20,7 @@
   <div class="card-container">
     <div class="card flex justify-content-center" style="margin-bottom: 0px">
       <p-card header="Your order has been placed">
-        <div class="card-content-offer">
+        <div class="card-content">
           <div>
             <div>
               <div class="m-1">Payment Reference Number</div>
@@ -46,7 +46,7 @@
     <div class="role-container">
       <div class="card flex justify-content-center">
         <p-card header="Delivery Address">
-          Order will be shipped to:
+          <p style="font-weight: 400">Order will be shipped to:</p>
           <p class="m-0">
             {{ user.firstName }} {{ user.middleName }} {{ user.lastName }}
             {{ user.suffix }}
@@ -67,15 +67,17 @@
 
           <ng-template pTemplate="content">
             <p class="contact" style="font-weight: 500">{{ user.contact }}</p>
-            {{ user.unit }} {{ user.street }}, {{ user.village }},
-            {{ user.barangay }} {{ user.city }}, {{ user.region }}
+            <p style="font-weight: 500">
+              {{ user.unit }} {{ user.street }}, {{ user.village }},
+              {{ user.barangay }} {{ user.city }}, {{ user.region }}
+            </p>
           </ng-template>
         </p-card>
       </div>
 
       <div class="card1 flex justify-content-center">
         <p-card header="Order Details">
-          <div class="card-content-offer">
+          <div class="card-content">
             <div>
               <div>
                 <div class="m-1">Order Reference Number</div>
@@ -85,7 +87,7 @@
                 <div class="m-1">Order Date</div>
                 <div class="m-2">
                   {{ payment?.paymentDate | date : "MMMM d, y" }}
-                  {{ payment?.paymentTime }}
+                  {{ convertTime(payment?.paymentTime) }}
                 </div>
               </div>
               <div>
@@ -101,8 +103,12 @@
 
                   <ng-container *ngIf="transactions.deliverDate != null">
                     {{ transactions?.deliverDate | date : "MMMM d" }} to
-                    {{ transactions.deliverDate | dateSecondAdd : 3 | date : "MMMM d"}}
-                  </ng-container>        
+                    {{
+                      transactions.deliverDate
+                        | dateSecondAdd : 3
+                        | date : "MMMM d"
+                    }}
+                  </ng-container>
                 </div>
               </div>
             </div>
@@ -141,68 +147,74 @@
           </ng-template>
 
           <ng-template pTemplate="content">
-            <div class="card-offer">
-              <div class="img-container-offer">
-                <img class="img-offer" [src]="post.image" alt="Crop" />
+            <div class="card2">
+              <div class="img-container">
+                <img
+                  src="{{
+                    post.image ||
+                      '../../../../../../../assets/images/no-image.jpg'
+                  }}"
+                  alt="Crop"
+                />
               </div>
-              <div class="card-content-offer">
+              <div class="card-content">
                 <div>
                   <div>
-                    <div class="title-offer">Crop Name</div>
-                    <div class="data-offer">{{ post.name }}</div>
+                    <div class="title">Crop Name</div>
+                    <div class="data">
+                      {{ post.name }}
+                    </div>
                   </div>
                   <div>
-                    <div class="title-offer">Category</div>
-                    <div class="data-offer">
+                    <div class="title">Category</div>
+                    <div class="data">
                       {{ post.category }}
                     </div>
                   </div>
                   <div>
-                    <div class="title-offer">Description</div>
-                    <p class="data-offer">
+                    <div class="title">Description</div>
+                    <p class="data">
                       {{ post.description }}
                     </p>
                   </div>
                   <div>
-                    <div class="title-offer">
+                    <div class="title">
                       {{
-                        post.measurement === "Weight" ? "Weight" : "Quantity"
+                        offers.measurement === "Weight" ? "Weight" : "Quantity"
                       }}
                     </div>
-                    <div class="data-offer">
-                      {{ post.value }}
-                      {{ post.measurement === "Weight" ? "kg" : "" }}
+                    <div class="data">
+                      {{ offers.value }}
+                      {{ offers.measurement === "Weight" ? "kg" : "" }}
                     </div>
                   </div>
                   <div>
-                    <div class="title-offer t1">Price</div>
-                    <p class="data-offer d1">₱ {{ post.price }}</p>
+                    <div class="title t1">Price</div>
+                    <p class="data d1">
+                      {{ offers.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div
-              class="card-content-offer"
-              style="
-                margin: 20px;
-                justify-content: center;
-                margin-left: 100px;
-                line-height: 30px;
-              "
-            >
+            <div class="card-content cc">
               <div>
                 <div>
-                  <div class="m-1">Subtotal</div>
-                  <div class="m-1">₱ {{ post.price }}</div>
+                  <div class="title">Subtotal</div>
+                  <div class="data">
+                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                  </div>
                 </div>
                 <div>
-                  <div class="m-1">Shipping</div>
-                  <div class="m-1">(wala pa data)</div>
+                  <div class="title">Shipping</div>
+                  <div class="data">(wala pa data)</div>
                 </div>
                 <div>
-                  <div class="m-1">Total</div>
-                  <div class="m-2">₱ {{ post.price }}</div>
+                  <div class="title t1">Total</div>
+                  <div class="data d1">
+                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                  </div>
                 </div>
               </div>
             </div>

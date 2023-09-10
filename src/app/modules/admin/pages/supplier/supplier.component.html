@@ -186,8 +186,8 @@
           <div class="title">Name</div>
           <div class="data-0">
             <div class="data-1" style="text-transform: capitalize">
-              {{ supplier.firstName }} {{ supplier.middleName }}
-              {{ supplier.lastName }}
+              {{ supplier.firstName }} {{ supplier.middleName || "" }}
+              {{ supplier.lastName }} {{ supplier.suffix || "" }}
             </div>
             <div class="data-2" style="text-transform: uppercase">
               {{ supplier.suffix }}
