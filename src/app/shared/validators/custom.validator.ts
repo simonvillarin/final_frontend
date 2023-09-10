@@ -166,3 +166,15 @@ export const deliveryDateValidator = (): ValidatorFn => {
   };
 };
 
+//Validate Change Mobile Number (forgot password)
+export const changeMobileNumberValidator = (): ValidatorFn => {
+  const regexPattern = /^(09|\+639)\d{9}$/;
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === null || control.value === '') {
+      return null; // Return null for null or empty values
+    }
+
+    const isValid = regexPattern.test(control.value);
+    return isValid ? null : { mobileNoIsValid: true };
+  };
+};

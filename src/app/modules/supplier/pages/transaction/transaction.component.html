@@ -51,7 +51,7 @@
             </ng-template>
 
             <ng-template pTemplate="footer">
-              <p-button label="Change"
+              <p-button label="Change" (click)="onChangeDialog()"
                 ><span class="material-symbols-rounded">
                   navigate_next
                 </span></p-button
@@ -128,16 +128,20 @@
                 <div>
                   <div class="title-offer t1">Estimated Delivery</div>
                   <div class="data-offer d1">
-                    <ng-container *ngIf="transactions.transactionsdeliverDate == null">
+                    <ng-container
+                      *ngIf="transactions.transactionsdeliverDate == null"
+                    >
                       This will be updated
                     </ng-container>
-  
+
                     <ng-container *ngIf="transactions.deliverDate != null">
                       {{ transactions?.deliverDate | date : "MMMM d" }} to
                       {{
-                        transactions.deliverDate | dateSecondAdd : 3 | date : "MMMM d"
+                        transactions.deliverDate
+                          | dateSecondAdd : 3
+                          | date : "MMMM d"
                       }}
-                    </ng-container>    
+                    </ng-container>
                   </div>
                 </div>
               </div>
@@ -256,11 +260,6 @@
                   </small>
                   <small
                     [style]="{ color: 'var(--red)' }"
-                    *ngIf="paymentForm.get('accountNumber')?.errors?.['required']"
-                    >Account Number is required</small
-                  >
-                  <small
-                    [style]="{ color: 'var(--red)' }"
                     *ngIf="paymentForm.get('accountNumber')?.errors?.['minlength']"
                     >Minimum length is 8</small
                   >
@@ -329,11 +328,6 @@
                   </small>
                   <small
                     [style]="{ color: 'var(--red)' }"
-                    *ngIf="paymentForm.get('accountName')?.errors?.['required']"
-                    >Cardholder name is required</small
-                  >
-                  <small
-                    [style]="{ color: 'var(--red)' }"
                     *ngIf="paymentForm.get('accountName')?.errors?.['minlength']"
                     >Minimum length is 3</small
                   >
@@ -371,212 +365,6 @@
       </div>
     </div>
   </ng-container>
-
-  <!-- <ng-container> 
-    <div class="timeline">
-      <div class="icon icon1">
-        <span class="material-symbols-rounded"> contract </span>
-      </div>
-      <div class="line line1"></div>
-      <div class="icon icon2">
-        <span class="material-symbols-rounded"> handshake </span>
-      </div>
-      <div class="line line4"></div>
-      <div class="icon icon5">
-        <span class="material-symbols-rounded"> payment </span>
-      </div>
-      <div class="line line5"></div>
-      <div class="icon icon6">
-        <span class="material-symbols-rounded"> local_shipping </span>
-      </div>
-    </div>
-
-    <div class="card-container">
-      <div class="card flex justify-content-center" style="margin-bottom: 0px">
-        <p-card header="Your order has been placed">
-          <div class="card-content-offer">
-            <div>
-              <div>
-                <div class="m-1">Payment Reference Number</div>
-                <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
-              </div>
-            </div>
-          </div>
-  
-          <ng-template pTemplate="title">
-            <span
-              class="material-symbols-rounded"
-              style="
-                color: var(--darker-primary);
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              done
-            </span>
-          </ng-template>
-        </p-card>
-      </div>
-      <div class="role-container">
-        <div class="card flex justify-content-center">
-          <p-card header="Delivery Address">
-            Order will be shipped to:
-            <p class="m-0">
-              {{ user.firstName }} {{ user.middleName }} {{ user.lastName }}
-              {{ user.suffix }}
-            </p>
-  
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                location_on
-              </span>
-            </ng-template>
-  
-            <ng-template pTemplate="content">
-              <p class="contact" style="font-weight: 500">{{ user.contact }}</p>
-              {{ user.unit }} {{ user.street }}, {{ user.village }},
-              {{ user.barangay }} {{ user.city }}, {{ user.region }}
-            </ng-template>
-          </p-card>
-        </div>
-  
-        <div class="card1 flex justify-content-center">
-          <p-card header="Order Details">
-            <div class="card-content-offer">
-              <div>
-                <div>
-                  <div class="m-1">Order Reference Number</div>
-                  <div class="m-2">{{ payment?.orderIdRef }}</div>
-                </div>
-                <div>
-                  <div class="m-1">Order Date</div>
-                  <div class="m-2">
-                    {{ payment?.paymentDate | date : "MMMM d, y" }}
-                    {{ payment?.paymentTime }}
-                  </div>
-                </div>
-                <div>
-                  <div class="m-1">Payment Method</div>
-                  <div class="m-2">{{ payment?.paymentMode }}</div>
-                </div>
-                <div>
-                  <div class="m-1">Delivery Date</div>
-                  <div class="m-2">This will be updated</div>
-                </div>
-              </div>
-            </div>
-  
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                info
-              </span>
-            </ng-template>
-          </p-card>
-        </div>
-  
-        <div class="card flex justify-content-center">
-          <p-card header="Order Summary">
-            <p class="m-0"></p>
-  
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                receipt_long
-              </span>
-            </ng-template>
-  
-            <ng-template pTemplate="content">
-              <div class="card-offer">
-                <div class="img-container-offer">
-                  <img class="img-offer" [src]="post.image" alt="Crop" />
-                </div>
-                <div class="card-content-offer">
-                  <div>
-                    <div>
-                      <div class="title-offer">Crop Name</div>
-                      <div class="data-offer">{{ post.name }}</div>
-                    </div>
-                    <div>
-                      <div class="title-offer">Category</div>
-                      <div class="data-offer">
-                        {{ post.category }}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="title-offer">Description</div>
-                      <p class="data-offer">
-                        {{ post.description }}
-                      </p>
-                    </div>
-                    <div>
-                      <div class="title-offer">
-                        {{
-                          post.measurement === "Weight" ? "Weight" : "Quantity"
-                        }}
-                      </div>
-                      <div class="data-offer">
-                        {{ post.value }}
-                        {{ post.measurement === "Weight" ? "kg" : "" }}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="title-offer t1">Price</div>
-                      <p class="data-offer d1">₱ {{ post.price }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <div
-                class="card-content-offer"
-                style="
-                  margin: 20px;
-                  justify-content: center;
-                  margin-left: 100px;
-                  line-height: 30px;
-                "
-              >
-                <div>
-                  <div>
-                    <div class="m-1">Subtotal</div>
-                    <div class="m-1">₱ {{ post.price }}</div>
-                  </div>
-                  <div>
-                    <div class="m-1">Shipping</div>
-                    <div class="m-1">(wala pa data)</div>
-                  </div>
-                  <div>
-                    <div class="m-1">Total</div>
-                    <div class="m-2">₱ {{ post.price }}</div>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </p-card>
-        </div>
-      </div>
-    </div>
-  </ng-container> -->
 </main>
 
 <p-dialog
@@ -634,5 +422,222 @@
   <div class="dialog-actions">
     <button class="dialog-btn cancel">Cancel</button>
     <button class="dialog-btn submit">Confirm</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="changeDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Change Address</div>
+  </p-header>
+  <form [formGroup]="addressForm" (ngSubmit)="onChange()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Full Name<span class="required">*</span></label>
+        <input
+          type="text"
+          pInputText
+          formControlName="fullName"
+          placeholder="First and Last Name"
+        />
+        <div
+          *ngIf="fullName?.invalid && (fullName?.dirty || fullName?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="fullName?.errors?.['required']"
+          >
+            Full name is required
+          </small>
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="paymentForm.get('fullName')?.errors?.['minlength']"
+            >Minimum length is 3</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="paymentForm.get('fullName')?.errors?.['maxlength']"
+            >Maximum length is 80</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Contact Number<span class="required">*</span></label>
+        <input pInputText formControlName="contact" />
+        <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact?.errors?.['required']"
+          >
+            Contact number is required
+          </small>
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact?.errors?.['mobileNoIsValid']"
+            >Invalid mobile number format</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label>Unit Number / House Number<span class="required">*</span></label>
+        <input
+          pInputText
+          formControlName="unit"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="unit.invalid && (unit?.dirty || unit.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="unit.errors?.['required']"
+            >Unit Number / House Number is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Street<span class="required">*</span></label>
+        <input
+          pInputText
+          formControlName="street"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="street.invalid && (street?.dirty || street.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="street.errors?.['required']"
+            >Street is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label
+          >Subdivision / Village / Bldg<span class="required">*</span></label
+        >
+        <input
+          pInputText
+          formControlName="village"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="village.invalid && (village?.dirty || village.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="village.errors?.['required']"
+            >Subdivision / Village / Bldg is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Region<span class="required">*</span></label>
+        <p-dropdown
+          [options]="regions"
+          optionLabel="name"
+          placeholder="Select a region"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="region"
+          [(ngModel)]="regionSelected"
+          (ngModelChange)="onRegionChange($event)"
+        ></p-dropdown>
+        <div *ngIf="region.invalid && (region?.dirty || region.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="region.errors?.['required']"
+            >Region is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label>Province<span class="required">*</span></label>
+        <p-dropdown
+          [options]="provinces"
+          optionLabel="name"
+          placeholder="Select a province"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="province"
+          [(ngModel)]="provinceSelected"
+          (ngModelChange)="onProvinceChange($event)"
+        ></p-dropdown>
+        <div *ngIf="province.invalid && (province?.dirty || province.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="province.errors?.['required']"
+            >Province is required</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>City<span class="required">*</span></label>
+        <p-dropdown
+          [options]="cities"
+          optionLabel="name"
+          placeholder="Select a city"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="city"
+          [(ngModel)]="citySelected"
+          (ngModelChange)="onCityChange($event)"
+        ></p-dropdown>
+        <div *ngIf="city.invalid && (city?.dirty || city.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="city.errors?.['required']"
+            >City is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Barangay<span class="required">*</span></label>
+      <p-dropdown
+        [options]="barangays"
+        optionLabel="name"
+        placeholder="Select a barangay"
+        [style]="{
+          width: '100%'
+        }"
+        appendTo="body"
+        formControlName="barangay"
+      ></p-dropdown>
+      <div *ngIf="barangay.invalid && (barangay?.dirty || barangay.touched)">
+        <small
+          [style]="{ color: 'var(--red)' }"
+          *ngIf="barangay.errors?.['required']"
+          >Barangay is required</small
+        >
+      </div>
+    </div>
+  </form>
+
+  <div class="dialog-actions">
+    <button class="dialog-btn cancel" (click)="closeOnChangeDialog()">
+      Cancel
+    </button>
+    <form [formGroup]="addressForm" (ngSubmit)="onChange()">
+      <button class="dialog-btn submit">Yes</button>
+    </form>
   </div>
 </p-dialog>

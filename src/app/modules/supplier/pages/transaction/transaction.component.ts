@@ -16,21 +16,24 @@ import { AdvertisementService } from 'src/app/shared/services/advertisement/adve
 import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
 import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
 import { DatePipe } from '@angular/common';
+import {
+  changeMobileNumberValidator,
+  mobileNumberValidator,
+} from 'src/app/shared/validators/custom.validator';
+import { ChangeAddressService } from 'src/app/shared/services/change-address/change-address.service';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.scss'],
-  providers: [
-    DatePipe
-  ],
+  providers: [DatePipe],
 })
 export class TransactionComponent implements OnInit {
   paymentForm: FormGroup;
+  addressForm: FormGroup;
   transactionForm: FormGroup;
 
   error = false;
-
   alert = false;
   isError = false;
 
@@ -47,16 +50,36 @@ export class TransactionComponent implements OnInit {
   paymentAccount: any;
   paidDate: any;
   allPayments: any = {};
+  changeAddress: any = {};
+
+  barangays: any = [];
+  cities: any = [];
+  provinces: any = [];
+  regions: any = [];
+
+  tempBarangays: any = [];
+  tempCities: any = [];
+  tempProvinces: any = [];
+  tempRegions: any = [];
+
+  regionSelected: any;
+  provinceSelected: any;
+  citySelected: any;
 
   ngOnInit(): void {
     this.getUserById();
     this.getTransactionById();
     this.getPaymentAccountByFarmerId();
-    this.getPaymentDetailsByTransactionId();
+    this.getAllPayments();
+    this.getBarangay();
+    this.getCity();
+    this.getProvince();
+    this.getRegion();
   }
 
   constructor(
     private fb: FormBuilder,
+    private addressService: AddressService,
     private paymentService: PaymentService,
     private authService: AuthService,
     private userService: UserService,
@@ -65,6 +88,7 @@ export class TransactionComponent implements OnInit {
     private advertisementService: AdvertisementService,
     private paymentDetailsService: PaymentDetailsService,
     private paymentAccountService: PaymentAccountService,
+    private changeAddressService: ChangeAddressService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private router: Router,
@@ -92,6 +116,25 @@ export class TransactionComponent implements OnInit {
       ],
     });
 
+    this.addressForm = this.fb.group({
+      fullName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(80),
+        ],
+      ],
+      unit: ['', Validators.required],
+      street: ['', Validators.required],
+      village: ['', Validators.required],
+      barangay: ['', Validators.required],
+      city: ['', Validators.required],
+      province: ['', Validators.required],
+      region: ['', Validators.required],
+      contact: ['', [Validators.required, changeMobileNumberValidator()]],
+    });
+
     this.transactionForm = this.fb.group({
       paidDate: [''],
       paidTime: [''],
@@ -117,6 +160,101 @@ export class TransactionComponent implements OnInit {
   get securityCode() {
     return this.paymentForm.get('securityCode') as FormControl;
   }
+
+  get fullName() {
+    return this.addressForm.get('fullName') as FormControl;
+  }
+
+  get unit() {
+    return this.addressForm.get('unit') as FormControl;
+  }
+
+  get street() {
+    return this.addressForm.get('street') as FormControl;
+  }
+
+  get village() {
+    return this.addressForm.get('village') as FormControl;
+  }
+
+  get barangay() {
+    return this.addressForm.get('barangay') as FormControl;
+  }
+
+  get city() {
+    return this.addressForm.get('city') as FormControl;
+  }
+
+  get province() {
+    return this.addressForm.get('province') as FormControl;
+  }
+
+  get region() {
+    return this.addressForm.get('region') as FormControl;
+  }
+
+  get contact() {
+    return this.addressForm.get('contact') as FormControl;
+  }
+
+  getBarangay = () => {
+    this.addressService.getBarangay().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempBarangays.push(arr);
+      });
+    });
+  };
+
+  getCity = () => {
+    this.addressService.getCity().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempCities.push(arr);
+      });
+    });
+  };
+
+  getProvince = () => {
+    this.addressService.getProvince().subscribe((data: any) => {
+      data.map((arr: any) => {
+        this.tempProvinces.push(arr);
+      });
+    });
+  };
+
+  getRegion = () => {
+    this.addressService.getRegion().subscribe((data: any) => {
+      data.map((region: any) => {
+        this.regions.push(region);
+      });
+    });
+  };
+
+  onRegionChange = (region: any) => {
+    if (region != '') {
+      this.barangays = [];
+      this.cities = [];
+      this.provinces = [];
+      this.provinces = this.tempProvinces.filter(
+        (province: any) => province.region_code === region.id
+      );
+    }
+  };
+
+  onProvinceChange = (province: any) => {
+    if (province != '') {
+      this.cities = this.tempCities.filter(
+        (city: any) => city.province_code == province.id
+      );
+    }
+  };
+
+  onCityChange = (city: any) => {
+    if (city != '') {
+      this.barangays = this.tempBarangays.filter(
+        (barangay: any) => barangay.city_code == city.id
+      );
+    }
+  };
 
   getUserById = () => {
     this.userService
@@ -215,7 +353,7 @@ export class TransactionComponent implements OnInit {
           this.paymentDetails = data;
           console.log(data);
 
-          this.getPaymentByTransactionId(); 
+          this.getPaymentByTransactionId();
         });
     });
   };
@@ -238,6 +376,23 @@ export class TransactionComponent implements OnInit {
           });
         });
     });
+  };
+
+  getAllPayments = () => {
+    this.paymentService.getAllPayments().subscribe((data) => {
+      console.log(data);
+    });
+  };
+
+  getChangeAddressByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.changeAddressService
+      .getChangeAddressByTransactionId(param)
+      .subscribe((data: any) => {
+        this.changeAddress = data;
+        console.log(data);
+      });
   };
 
   onSubmit = () => {
@@ -274,6 +429,7 @@ export class TransactionComponent implements OnInit {
     } else {
       this.paymentForm.markAllAsTouched();
     }
+
     this.closeOnPlaceOfferDialog();
   };
 
@@ -287,18 +443,36 @@ export class TransactionComponent implements OnInit {
     }
   };
 
+  onChange = () => {
+    console.log(this.addressForm.value);
+
+    if (this.addressForm.valid) {
+      this.changeAddressService
+        .addChangeAddress(this.addressForm.value)
+        .subscribe((data) => {
+          console.log(data);
+
+          // this.getChangeAddressByTransactionId();
+        });
+    } else {
+      this.addressForm.markAllAsTouched();
+    }
+    this.closeOnChangeDialog();
+  };
+
+  changeDialog = false;
   cardDialog = false;
   gCashDialog = false;
   payMayaDialog = false;
   placeOfferDialog = false;
 
-  /**onTransaction = () => {
-    if (this.isViewed = true) {
-      this.getPaymentByTransactionId();
-    } else {
-      this.authService.logout();
-    }
-  }; **/
+  onChangeDialog = () => {
+    this.changeDialog = true;
+  };
+
+  closeOnChangeDialog = () => {
+    this.changeDialog = false;
+  };
 
   onCardDialog = () => {
     this.cardDialog = true;
