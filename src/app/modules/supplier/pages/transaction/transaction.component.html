@@ -56,7 +56,7 @@
           </ng-template>
 
           <ng-template pTemplate="footer">
-            <p-button label="Change"
+            <p-button label="Change" (click)="onChangeDialog()"
               ><span class="material-symbols-rounded">
                 navigate_next
               </span></p-button
@@ -64,92 +64,60 @@
           </ng-template>
         </p-card>
       </div>
-
-            <ng-template pTemplate="content">
-              <p class="contact" style="font-weight: 500">{{ user.contact }}</p>
-              {{ user.unit }} {{ user.street }}, {{ user.village }},
-              {{ user.barangay }} {{ user.city }}, {{ user.region }}
-            </ng-template>
-
-            <ng-template pTemplate="footer">
-              <p-button label="Change" (click)="onChangeDialog()"
-                ><span class="material-symbols-rounded">
-                  navigate_next
-                </span></p-button
-              >
-            </ng-template>
-          </p-card>
+    </div>
+    <div class="card-container-offer">
+      <h3>Please review the offer below before full payment.</h3>
+      <div class="card">
+        <div class="img-container">
+          <img
+            src="{{
+              post.image || '../../../../../../../assets/images/no-image.jpg'
+            }}"
+            alt="Crop"
+          />
         </div>
-
-        <div class="card-container-offer">
-          <h3 style="padding-top: 20px; font-weight: 600">
-            Please review the offer below before full payment.
-          </h3>
-          <div class="card-offer">
-            <div class="img-container-offer">
-              <img
-                class="img-offer"
-                [src]="
-                  post.image ||
-                  '../../../../../../../assets/images/no-image.jpg'
-                "
-                alt="Crop"
-              />
-            </div>
-            <div class="card-content-offer">
-      <div class="card-container-offer">
-        <h3>Please review the offer below before full payment.</h3>
-        <div class="card">
-          <div class="img-container">
-            <img
-              src="{{
-                post.image || '../../../../../../../assets/images/no-image.jpg'
-              }}"
-              alt="Crop"
-            />
-          </div>
-          <div class="card-content">
+        <div class="card-content">
+          <div>
             <div>
-              <div>
-                <div class="title">Crop Name</div>
-                <div class="data">
-                  {{ post.name }}
-                </div>
+              <div class="title">Crop Name</div>
+              <div class="data">
+                {{ post.name }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Category</div>
+              <div class="data">
+                {{ post.category }}
+              </div>
+            </div>
+            <div>
+              <div class="title">Description</div>
+              <p class="data">
+                {{ post.description }}
+              </p>
+            </div>
+            <div>
+              <div class="title">
+                {{ offers.measurement === "Weight" ? "Weight" : "Quantity" }}
               </div>
               <div>
-                <div class="title">Category</div>
-                <div class="data">
-                  {{ post.category }}
-                </div>
-              </div>
-              <div>
-                <div class="title">Description</div>
-                <p class="data">
-                  {{ post.description }}
-                </p>
-              </div>
-              <div>
-                <div class="title">
-                  {{ offers.measurement === "Weight" ? "Weight" : "Quantity" }}
-                </div>
-                <div>
-                  <div class="title-offer t1">Estimated Delivery</div>
-                  <div class="data-offer d1">
-                    <ng-container
-                      *ngIf="transactions.transactionsdeliverDate == null"
-                    >
-                      This will be updated
-                    </ng-container>
+                <div class="title-offer t1">Estimated Delivery</div>
+                <div class="data-offer d1">
+                  <ng-container
+                    *ngIf="transactions.transactionsdeliverDate == null"
+                  >
+                    This will be updated
+                  </ng-container>
 
-                    <ng-container *ngIf="transactions.deliverDate != null">
-                      {{ transactions?.deliverDate | date : "MMMM d" }} to
-                      {{
-                        transactions.deliverDate
-                          | dateSecondAdd : 3
-                          | date : "MMMM d"
-                      }}
-                    </ng-container>
-                  </div>
+                  <ng-container *ngIf="transactions.deliverDate != null">
+                    {{ transactions?.deliverDate | date : "MMMM d" }} to
+                    {{
+                      transactions.deliverDate
+                        | dateSecondAdd : 3
+                        | date : "MMMM d"
+                    }}
+                  </ng-container>
+                </div>
                 <div class="data">
                   {{ offers.value }}
                   {{ offers.measurement === "Weight" ? "kg" : "" }}
@@ -297,16 +265,6 @@
                   }}
                   is required</small
                 >
-                <!-- <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="paymentForm.get('accountNumber')?.errors?.['minlength']"
-                  >Minimum length is 8</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="paymentForm.get('accountNumber')?.errors?.['maxlength']"
-                  >Maximum length is 17</small
-                > -->
               </div>
             </div>
 
@@ -335,16 +293,6 @@
                   }}
                   is required</small
                 >
-                <!-- <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="paymentForm.get('accountName')?.errors?.['minlength']"
-                  >Minimum length is 3</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="paymentForm.get('accountName')?.errors?.['maxlength']"
-                  >Maximum length is 80</small
-                > -->
               </div>
             </div>
           </div>
