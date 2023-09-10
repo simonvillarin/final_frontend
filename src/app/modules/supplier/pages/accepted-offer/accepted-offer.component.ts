@@ -26,6 +26,8 @@ export class AcceptedOfferComponent {
   confirmationDialog = false;
 
   categorySelected = '';
+  search = '';
+  empty = true;
 
   page: number = 0;
   totalOffers: number = 0;
@@ -128,5 +130,26 @@ export class AcceptedOfferComponent {
 
   onPayment = (id: any) => {
     this.router.navigate([`/supplier/transaction/${id}`]);
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.acceptedOffers = this.acceptedOffers.filter(
+        (acceptedOffer: any) =>
+          acceptedOffer.offer.advertisement.name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.offer.advertisement.description
+            .toLowerCase()
+            .includes(search.toLowerCase())
+      );
+      if (this.acceptedOffers.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getTransactionsBySupplierId();
+    }
   };
 }
