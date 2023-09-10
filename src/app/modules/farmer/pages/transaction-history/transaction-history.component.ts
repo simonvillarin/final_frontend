@@ -152,10 +152,19 @@ export class TransactionHistoryComponent implements OnInit {
 
   addDeliveryDialog = false;
   confirmDeliveryDialog = false;
+  updateDeliveryDialog = false;
 
   onAddDeliveryDate = () => {
     this.addDeliveryDialog = true;
   };
+
+  onUpdateDeliveryDate = () => {
+    this.updateDeliveryDialog = true;
+  };
+
+  onCancelUpdateDeliveryDialog = () =>{
+    this.updateDeliveryDialog = false;
+  }
 
   onCancelDeliveryDialog = () => {
     this.addDeliveryDialog = false;
@@ -166,6 +175,7 @@ export class TransactionHistoryComponent implements OnInit {
     console.log(this.transactions.transactionId);
     this.addDeliveryDialog = false;
     this.confirmDeliveryDialog = true;
+    this.updateDeliveryDialog = false;
   };
 
   onCancelConfrimDeliveryDialog = () => {

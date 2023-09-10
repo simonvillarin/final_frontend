@@ -138,7 +138,7 @@ img {
   object-fit: cover;
 }
 
-button {
+.btn-transaction {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -153,9 +153,29 @@ button {
   cursor: pointer;
 }
 
-button:hover,
-button:focus {
+.btn-awaiting-payment {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--light);
+  background-color: var(--yellow);
+  transition: background-color 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.btn-transaction:hover,
+.btn-transaction:focus {
   background-color: var(--darker-primary);
+}
+
+.btn-awaiting-payment:hover,
+.btn-awaiting-payment:focus {
+  background-color: var(--orange);
 }
 
 .card-content > div {

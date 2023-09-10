@@ -1,6 +1,6 @@
 <main>
-  <ng-container *ngIf="transactions.paidDate != null">
-    <div class="card-container" >
+  <ng-container *ngIf="transactions.paidDate !== null">
+    <div class="card-container">
       <div class="card flex justify-content-center" style="margin-bottom: 0px">
         <p-card header="This transaction was paid.">
           <div class="card-content-offer">
@@ -11,7 +11,7 @@
               </div>
             </div>
           </div>
-  
+
           <ng-template pTemplate="title">
             <span
               class="material-symbols-rounded"
@@ -35,7 +35,7 @@
               {{ suppliers?.lastName }}
               {{ suppliers?.suffix }}
             </p>
-  
+
             <ng-template pTemplate="title">
               <span
                 class="material-symbols-rounded"
@@ -48,7 +48,7 @@
                 location_on
               </span>
             </ng-template>
-  
+
             <ng-template pTemplate="content">
               <p class="contact" style="font-weight: 500">
                 {{ suppliers?.contact }}
@@ -59,7 +59,7 @@
             </ng-template>
           </p-card>
         </div>
-  
+
         <div class="card1 flex justify-content-center">
           <p-card header="Order Details">
             <div class="card-content-offer">
@@ -86,18 +86,20 @@
                     <ng-container *ngIf="transactions.deliverDate == null">
                       This will be updated
                     </ng-container>
-  
+
                     <ng-container *ngIf="transactions.deliverDate != null">
                       {{ transactions?.deliverDate | date : "MMMM d" }} to
                       {{
-                        transactions.deliverDate | dateAdd : 3 | date : "MMMM d"
+                        transactions?.deliverDate
+                          | dateAdd : 3
+                          | date : "MMMM d" 
                       }}
-                    </ng-container>        
+                    </ng-container>
                   </div>
                 </div>
               </div>
             </div>
-  
+
             <ng-template pTemplate="title">
               <span
                 class="material-symbols-rounded"
@@ -121,14 +123,25 @@
                   >Add Delivery Date
                 </button>
               </ng-container>
+
+              <ng-container *ngIf="transactions?.deliverDate !== null">
+                <button (click)="onUpdateDeliveryDate()">
+                  <span
+                    class="material-symbols-rounded"
+                    style="color: var(--light); padding-right: 10px"
+                  >
+                    edit</span
+                  >Update Delivery Date
+                </button>
+              </ng-container>
             </div>
           </p-card>
         </div>
-  
+
         <div class="card flex justify-content-center">
           <p-card header="Order Summary">
             <p class="m-0"></p>
-  
+
             <ng-template pTemplate="title">
               <span
                 class="material-symbols-rounded"
@@ -141,7 +154,7 @@
                 receipt_long
               </span>
             </ng-template>
-  
+
             <ng-template pTemplate="content">
               <div class="card-offer">
                 <div class="img-container-offer">
@@ -168,7 +181,9 @@
                     <div>
                       <div class="title-offer">
                         {{
-                          offers.measurement === "Weight" ? "Weight" : "Quantity"
+                          offers.measurement === "Weight"
+                            ? "Weight"
+                            : "Quantity"
                         }}
                       </div>
                       <div class="data-offer">
@@ -183,7 +198,7 @@
                   </div>
                 </div>
               </div>
-  
+
               <div
                 class="card-content-offer"
                 style="
@@ -214,35 +229,6 @@
       </div>
     </div>
   </ng-container>
-
-  <ng-container *ngIf="transactions.paidDate == null">
-    <div class="card-container" >
-      <div class="card flex justify-content-center" style="margin-bottom: 0px">
-        <p-card header="This transaction is not yet paid.">
-          <div class="card-content-offer">
-            <div>
-              <div>
-
-              </div>
-            </div>
-          </div>
-  
-          <ng-template pTemplate="title">
-            <span
-              class="material-symbols-rounded"
-              style="
-                color: var(--darker-primary);
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              done
-            </span>
-          </ng-template>
-        </p-card>
-      </div>
-    </div>
-  </ng-container>
 </main>
 
 <p-dialog
@@ -254,7 +240,7 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="dialog-title">Delivery Date</div>
+    <div class="dialog-title">Add</div>
   </p-header>
   <div class="dialog-body">
     <form [formGroup]="transactionsForm">
@@ -288,12 +274,17 @@
     </form>
   </div>
   <div class="dialog-actions">
-    <button class="dialog-btn cancel" (click)="onCancelDeliveryDialog()">
-      Cancel
-    </button>
-    <button class="dialog-btn submit" (click)="onConfirmDeliveryDialog()">
-      Confirm
-    </button>
+    <p-button
+      label="Cancel"
+      styleClass="p-button-danger"
+      (click)="onCancelDeliveryDialog()"
+    ></p-button>
+    <ng-container *ngIf="this.transactionsForm.invalid">
+      <p-button label="Confirm" [disabled]="true"> </p-button>
+    </ng-container>
+    <ng-container *ngIf="this.transactionsForm.valid">
+      <p-button label="Confirm" (click)="onConfirmDeliveryDialog()"> </p-button>
+    </ng-container>
   </div>
 </p-dialog>
 
@@ -318,5 +309,59 @@
     <form [formGroup]="transactionsForm" (ngSubmit)="onSubmit()">
       <button class="dialog-btn submit">Yes</button>
     </form>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="updateDeliveryDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Update</div>
+  </p-header>
+  <div class="dialog-body">
+    <form [formGroup]="transactionsForm">
+      <div class="input-group">
+        <label>Delivery Date<span class="required">*</span></label>
+        <p-calendar
+          [style]="{
+            width: '100%',
+          }"
+          appendTo="body"
+          [showIcon]="true"
+          formControlName="deliverDate"
+        ></p-calendar>
+        <div
+          *ngIf="
+            deliverDate.invalid && (deliverDate?.dirty || deliverDate.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="deliverDate?.errors?.['required']"
+            >Delivery date is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="deliverDate?.errors?.['pastDate']"
+            >You cannot select past date</small
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="dialog-actions">
+    <p-button
+      label="Cancel"
+      styleClass="p-button-danger"
+      (click)="onCancelUpdateDeliveryDialog()"
+    ></p-button>
+    <ng-container *ngIf="transactions.deliverDate !== null">
+      <p-button label="Confirm" (click)="onConfirmDeliveryDialog()"> </p-button>
+    </ng-container>
   </div>
 </p-dialog>
