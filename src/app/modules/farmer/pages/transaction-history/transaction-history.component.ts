@@ -40,6 +40,7 @@ export class TransactionHistoryComponent implements OnInit {
   isViewed = false;
   isPaid = false;
   isDelivered = false;
+  confirmationDialog = false;
 
   changeAddress: any = {};
 
@@ -164,6 +165,10 @@ export class TransactionHistoryComponent implements OnInit {
   };
 
   updateDelivery = () => {
+    this.confirmationDialog = true;
+  };
+
+  onConfirm = () => {
     const payload = {
       deliveredDate: '2023-02-21',
       deliveredTime: '11:56:22',
@@ -172,8 +177,13 @@ export class TransactionHistoryComponent implements OnInit {
     this.transactionService
       .updateTransaction(this.transactions.transactionId, payload)
       .subscribe(() => {
+        this.confirmationDialog = false;
         this.getPaymentById();
       });
+  };
+
+  onCancelConfirmationDialog = () => {
+    this.confirmationDialog = false;
   };
 
   convertTime = (time: any) => {

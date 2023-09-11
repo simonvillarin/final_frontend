@@ -150,59 +150,86 @@ export class HistoryComponent implements OnInit {
   }
 
   onView = (payment: any) => {
-    this.changeAddressService
-      .getChangeAddressByTransactionId(
-        payment.payment.transaction.transactionId
-      )
-      .subscribe((data: any) => {
-        this.userService
-          .getUserById(this.authService.getUserId())
-          .subscribe((res: any) => {
-            this.payment = payment;
-            this.image =
-              this.payment.payment.transaction.offer.advertisement.image;
-            this.name =
-              this.payment.payment.transaction.offer.advertisement.name;
-            this.category =
-              this.payment.payment.transaction.offer.advertisement.category;
-            this.description =
-              this.payment.payment.transaction.offer.advertisement.description;
-            this.measurement =
-              this.payment.payment.transaction.offer.advertisement.measurement;
-            this.value = this.payment.payment.transaction.offer.value;
-            this.price = this.payment.payment.transaction.offer.price;
-            this.paymentIdRef = this.payment.payment.paymentIdRef;
-            this.paymentDate = this.payment.payment.transaction.paidDate;
-            this.deliverDate = this.payment.payment.transaction.deliverDate;
+    this.payment = payment;
+    this.image = this.payment.payment.transaction.offer.advertisement.image;
+    this.name = this.payment.payment.transaction.offer.advertisement.name;
+    this.category =
+      this.payment.payment.transaction.offer.advertisement.category;
+    this.description =
+      this.payment.payment.transaction.offer.advertisement.description;
+    this.measurement =
+      this.payment.payment.transaction.offer.advertisement.measurement;
+    this.value = this.payment.payment.transaction.offer.value;
+    this.price = this.payment.payment.transaction.offer.price;
+    this.paymentIdRef = this.payment.payment.paymentIdRef;
+    this.paymentDate = this.payment.payment.transaction.paidDate;
+    this.deliverDate = this.payment.payment.transaction.deliverDate;
 
-            this.deliveredTo =
-              data.fullName ||
-              res.firstName +
+    this.changeAddressService
+      .getChangeAddressByTransactionId(this.authService.getUserId())
+      .subscribe(
+        (data: any) => {
+          this.userService
+            .getUserById(this.authService.getUserId())
+            .subscribe((res: any) => {
+              this.deliveredTo =
+                data.fullName ||
+                res.firstName +
+                  ' ' +
+                  res.middleName +
+                  ' ' +
+                  res.lastName +
+                  ' ' +
+                  res.suffix;
+              this.contact = data.contact || res.contact;
+              this.address =
+                (data.unit || res.unit) +
+                ', ' +
+                (data.street || res.street) +
+                ', ' +
+                (data.village || res.village) +
+                ', ' +
+                (data.barangay || res.barangay) +
+                ', ' +
+                (data.city || res.city) +
+                ', ' +
+                (data.province || res.province) +
+                ', ' +
+                (data.region || res.region);
+              this.detailsDialog = true;
+            });
+        },
+        () => {
+          this.userService
+            .getUserById(this.authService.getUserId())
+            .subscribe((res: any) => {
+              this.deliveredTo =
+                res.firstName +
                 ' ' +
                 res.middleName +
                 ' ' +
                 res.lastName +
                 ' ' +
                 res.suffix;
-            this.contact = data.contact || res.contact;
-            this.address =
-              (data.unit || res.unit) +
-              ', ' +
-              (data.street || res.street) +
-              ', ' +
-              (data.village || res.village) +
-              ', ' +
-              (data.barangay || res.barangay) +
-              ', ' +
-              (data.city || res.city) +
-              ', ' +
-              (data.province || res.province) +
-              ', ' +
-              (data.region || res.region);
-          });
-
-        this.detailsDialog = true;
-      });
+              this.contact = res.contact;
+              this.address =
+                res.unit +
+                ', ' +
+                res.street +
+                ', ' +
+                res.village +
+                ', ' +
+                res.barangay +
+                ', ' +
+                res.city +
+                ', ' +
+                res.province +
+                ', ' +
+                res.region;
+              this.detailsDialog = true;
+            });
+        }
+      );
   };
 
   onCloseDetailsDialog = () => {

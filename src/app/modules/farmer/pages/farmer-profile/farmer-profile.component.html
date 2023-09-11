@@ -52,140 +52,6 @@
   </div>
   <div class="additional">
     <p-tabView>
-      <p-tabPanel header="Edit Personal Information">
-        <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()">
-          <div class="alert" [class.error]="isError" *ngIf="alert">
-            <span class="material-symbols-rounded" *ngIf="!isError">
-              done
-            </span>
-            <span class="material-symbols-rounded" *ngIf="isError">
-              error
-            </span>
-            {{ alertMessage }}
-          </div>
-          <div class="form-group">
-            <div class="input-group">
-              <label>First Name<span class="required">*</span></label>
-              <input pInputText formControlName="firstName" />
-              <div
-                *ngIf="
-                  firstName.invalid && (firstName?.dirty || firstName?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="firstName?.errors?.['required']"
-                  >First name is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Middle Name</label>
-              <input pInputText formControlName="middleName" />
-            </div>
-            <div class="input-group">
-              <label>Last Name<span class="required">*</span></label>
-              <input pInputText formControlName="lastName" />
-              <div
-                *ngIf="
-                  lastName.invalid && (lastName?.dirty || lastName?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="lastName?.errors?.['required']"
-                  >Last name is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Suffix</label>
-              <input pInputText formControlName="suffix" />
-            </div>
-            <div class="input-group">
-              <label>Gender<span class="required">*</span></label>
-              <p-dropdown
-                [options]="genders"
-                placeholder="Select a gender"
-                [style]="{
-                  width: '100%'
-                }"
-                appendTo="body"
-                formControlName="gender"
-              ></p-dropdown>
-              <div *ngIf="gender.invalid && (gender?.dirty || gender.touched)">
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="gender.errors?.['required']"
-                  >Gender is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Birthday<span class="required">*</span></label>
-              <p-calendar
-                [style]="{
-              width: '100%',
-            }"
-                appendTo="body"
-                [showIcon]="true"
-                formControlName="birthdate"
-              ></p-calendar>
-              <div
-                *ngIf="
-                  birthdate.invalid && (birthdate?.dirty || birthdate.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="birthdate?.errors?.['required']"
-                  >Birthday is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="birthdate?.errors?.['futureDate']"
-                  >You cannot select future date</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Contact No<span class="required">*</span></label>
-              <input pInputText formControlName="contact" />
-              <div
-                *ngIf="contact.invalid && (contact?.dirty || contact.touched)"
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="contact.errors?.['required']"
-                  >Contact No is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="contact?.errors?.['mobileNoIsValid']"
-                  >Invalid mobile no. format</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Email Address<span class="required">*</span></label>
-              <input pInputText formControlName="email" />
-              <div *ngIf="email.invalid && (email?.dirty || email.touched)">
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="email.errors?.['required']"
-                  >Email address is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="email.errors?.['email']"
-                  >Invalid email</small
-                >
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="submit">Submit</button>
-        </form>
-      </p-tabPanel>
       <p-tabPanel header="Edit Address Information">
         <form [formGroup]="addressForm" (ngSubmit)="onSubmitAddress()">
           <div class="alert" [class.error]="isError" *ngIf="alert">
@@ -336,6 +202,56 @@
           <button type="submit" class="submit">Submit</button>
         </form>
       </p-tabPanel>
+      <p-tabPanel header="Edit Contact Information">
+        <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()">
+          <div class="alert half" [class.error]="isError" *ngIf="alert">
+            <span class="material-symbols-rounded" *ngIf="!isError">
+              done
+            </span>
+            <span class="material-symbols-rounded" *ngIf="isError">
+              error
+            </span>
+            {{ alertMessage }}
+          </div>
+          <div class="f-group">
+            <div class="input-group">
+              <label>Contact No<span class="required">*</span></label>
+              <input pInputText formControlName="contact" />
+              <div
+                *ngIf="contact.invalid && (contact?.dirty || contact.touched)"
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="contact.errors?.['required']"
+                  >Contact No is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="contact?.errors?.['mobileNoIsValid']"
+                  >Invalid mobile no. format</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Email Address<span class="required">*</span></label>
+              <input pInputText formControlName="email" />
+              <div *ngIf="email.invalid && (email?.dirty || email.touched)">
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="email.errors?.['required']"
+                  >Email address is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="email.errors?.['email']"
+                  >Invalid email</small
+                >
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      </p-tabPanel>
       <p-tabPanel header="Edit Login Information">
         <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
           <div class="alert half" [class.error]="isError" *ngIf="alert">
@@ -394,7 +310,7 @@
                 <small
                   [style]="{ color: 'var(--red)' }"
                   *ngIf="password?.errors?.['hasNumber']"
-                  >Password should contain atleast one number</small
+                  >Password should contain at least one number</small
                 >
                 <small
                   [style]="{ color: 'var(--red)' }"
@@ -451,7 +367,7 @@
   [(visible)]="confirmationDialog"
   [modal]="true"
   [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '40vw' }"
+  [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
 >
@@ -461,6 +377,6 @@
   <div class="dialog-body">Are you sure you want to edit this information?</div>
   <div class="dialog-actions">
     <button class="dialog-btn cancel" (click)="onCancelSave()">Cancel</button>
-    <button class="dialog-btn submit" (click)="onSave()">Yes</button>
+    <button class="dialog-btn submit" (click)="onSave()">Confirm</button>
   </div>
 </p-dialog>

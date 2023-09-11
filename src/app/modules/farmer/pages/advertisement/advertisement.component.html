@@ -94,7 +94,9 @@
         </div>
         <div>
           <div class="title t1">Price</div>
-          <p class="data d1">₱ {{ ad.price }}</p>
+          <p class="data d1">
+            {{ ad.price | currency : "PHP" : "symbol" : "1.2-2" }}
+          </p>
         </div>
       </div>
     </div>
@@ -120,88 +122,6 @@
     </div>
   </ng-container>
 </main>
-
-<p-dialog
-  [(visible)]="offerDialog"
-  [modal]="true"
-  [breakpoints]="{ '992px': '90vw', }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="dialog-title">Offer Advertisement</div>
-  </p-header>
-  <div class="checkbox">
-    <p-checkbox
-      [(ngModel)]="checked"
-      (ngModelChange)="onCheckboxChange($event)"
-      [binary]="true"
-      inputId="binary"
-    ></p-checkbox>
-    <label
-      >Offer same
-      {{ this.ad.measurement === "Weight" ? "weight" : "quantity" }} and price
-      as the advertisement</label
-    >
-  </div>
-  <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
-    <div class="form-container">
-      <div class="form-group">
-        <div class="input-group">
-          <label
-            >{{ this.ad.measurement === "Weight" ? "Weight" : "Quantity"
-            }}<span class="required">*</span></label
-          >
-          <p-inputNumber
-            inputId="locale-user"
-            [minFractionDigits]="this.ad.measurement === 'Weight' ? 2 : 0"
-            [style]="{
-              width: '100%'
-            }"
-            formControlName="value"
-          ></p-inputNumber>
-          <div *ngIf="value.invalid && (value?.dirty || value?.touched)">
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="value?.errors?.['required']"
-              >{{ this.ad.measurement === "Weight" ? "Weight" : "Quantity" }} is
-              required</small
-            >
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Price<span class="required">*</span></label>
-          <p-inputNumber
-            inputId="locale-user"
-            [minFractionDigits]="2"
-            [style]="{
-              width: '100%'
-            }"
-            formControlName="price"
-          ></p-inputNumber>
-          <div *ngIf="price.invalid && (price?.dirty || price?.touched)">
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="price?.errors?.['required']"
-              >Price is required</small
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="dialog-actions">
-      <button
-        type="button"
-        class="dialog-btn cancel"
-        (click)="onCancelOfferDialog()"
-      >
-        Cancel
-      </button>
-      <button type="submit" class="dialog-btn submit">Save</button>
-    </div>
-  </form>
-</p-dialog>
 
 <p-dialog
   [(visible)]="paymentDialog"

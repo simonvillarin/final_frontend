@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ComplaintsComponent implements OnInit {
   complaints: any = [];
-  complaintTypes = ['Dispute', 'Service', 'Website Issue'];
+  complaintTypes = ['Dispute', 'Service', 'Website Issue', 'Others'];
   complaint: any = {};
 
   confirmationDialog = false;

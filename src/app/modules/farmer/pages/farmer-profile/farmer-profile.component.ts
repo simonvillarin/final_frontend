@@ -68,12 +68,6 @@ export class FarmerProfileComponent implements OnInit {
     private profileService: ProfileService
   ) {
     this.personalForm = fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      suffix: [''],
-      gender: ['', Validators.required],
-      birthdate: ['', [Validators.required, birthdateValidator()]],
       contact: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
     });
@@ -86,44 +80,26 @@ export class FarmerProfileComponent implements OnInit {
       province: ['', Validators.required],
       region: ['', Validators.required],
     });
-    this.passwordForm = fb.group({
-      password: [
-        '',
-        [
-          Validators.required,
-          PasswordLengthValidator(),
-          hasUppercaseValidator(),
-          hasLowercaseValidator(),
-          hasNumberValidator(),
-          hasSymbolValidator(),
+    this.passwordForm = fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            PasswordLengthValidator(),
+            hasUppercaseValidator(),
+            hasLowercaseValidator(),
+            hasNumberValidator(),
+            hasSymbolValidator(),
+          ],
         ],
-      ],
-      confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
-    });
-  }
-
-  get firstName() {
-    return this.personalForm.get('firstName') as FormControl;
-  }
-
-  get middleName() {
-    return this.personalForm.get('middleName') as FormControl;
-  }
-
-  get lastName() {
-    return this.personalForm.get('lastName') as FormControl;
-  }
-
-  get suffix() {
-    return this.personalForm.get('suffix') as FormControl;
-  }
-
-  get gender() {
-    return this.personalForm.get('gender') as FormControl;
-  }
-
-  get birthdate() {
-    return this.personalForm.get('birthdate') as FormControl;
+        confirmPassword: [
+          '',
+          [Validators.required, confirmPasswordValidator()],
+        ],
+      },
+      { validators: confirmPasswordValidator() }
+    );
   }
 
   get unit() {
@@ -389,25 +365,7 @@ export class FarmerProfileComponent implements OnInit {
     if (this.personal) {
       if (this.personalForm.valid) {
         let payload: any = {};
-        payload.middleName = this.personalForm.get('middleName')?.value;
-        payload.suffix = this.personalForm.get('suffix')?.value;
 
-        if (this.user.firstName !== this.personalForm.get('firstName')?.value) {
-          payload.firstName = this.personalForm.get('firstName')?.value;
-        }
-        if (this.user.lastName !== this.personalForm.get('lastName')?.value) {
-          payload.lastName = this.personalForm.get('lastName')?.value;
-        }
-        if (this.user.gender !== this.personalForm.get('gender')?.value) {
-          payload.gender = this.personalForm.get('gender')?.value;
-        }
-        const splitDate = this.personalForm.get('birthdate')?.value.split('/');
-        if (
-          this.user.birthdate !==
-          splitDate[2] + '-' + splitDate[0] + '-' + splitDate[1]
-        ) {
-          payload.birthdate = this.personalForm.get('birthdate')?.value;
-        }
         if (this.user.contact !== this.personalForm.get('contact')?.value) {
           payload.contact = this.personalForm.get('contact')?.value;
         }
@@ -422,7 +380,7 @@ export class FarmerProfileComponent implements OnInit {
               if (res.message == 'Contact number already exists') {
                 this.alert = true;
                 this.isError = true;
-                this.alertMessage = 'Contact no already exists';
+                this.alertMessage = 'Contact number already exists';
                 setTimeout(() => (this.alert = false), 3000);
               } else if (res.message == 'Email already exists') {
                 this.alert = true;
@@ -433,7 +391,7 @@ export class FarmerProfileComponent implements OnInit {
                 this.getUserById();
                 this.personalForm.reset();
                 this.alert = true;
-                this.alertMessage = 'Personal information successfully updated';
+                this.alertMessage = 'Contact information successfully updated';
                 setTimeout(() => (this.alert = false), 3000);
                 this.confirmationDialog = false;
               }

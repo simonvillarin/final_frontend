@@ -14,7 +14,7 @@ export class ComplaintsComponent {
   complaintForm: FormGroup;
   complaints: any = [];
   complaint: any = {};
-  complaintTypes: any = ['Dispute', 'Service', 'Website Issue'];
+  complaintTypes: any = ['Dispute', 'Service', 'Website Issue', 'Others'];
 
   addDialog = false;
   confirmationDialog = false;

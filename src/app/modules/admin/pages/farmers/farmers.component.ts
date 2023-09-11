@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { MessageService } from 'primeng/api';
+import { EmailService } from 'src/app/shared/services/email/email.service';
+import { SmsService } from 'src/app/shared/services/sms/sms.service';
 
 @Component({
   selector: 'app-farmers',
@@ -27,7 +29,9 @@ export class FarmersComponent {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private emailService: EmailService,
+    private smsService: SmsService
   ) {}
 
   ngOnInit(): void {
@@ -92,21 +96,56 @@ export class FarmersComponent {
       payload.status = 'Active';
     }
 
-    this.userService.updateUser(this.farmer.userId, payload).subscribe(() => {
-      this.getFarmers();
-      this.confirmationDialog = false;
-      const summary =
-        this.farmer.status === 'Inactive' ? 'Deactivated' : 'Activated';
-      const details =
-        this.farmer.status === 'Inactive'
-          ? 'Dectivated Successfully'
-          : 'Activated Sucessfully';
-      this.messageService.add({
-        severity: 'success',
-        summary: summary,
-        detail: details,
-      });
-    });
+    this.userService.updateUser(this.farmer.userId, payload).subscribe(
+      () => {
+        this.getFarmers();
+        this.confirmationDialog = false;
+        const summary =
+          this.farmer.status === 'Inactive' ? 'Deactivated' : 'Activated';
+        const details =
+          this.farmer.status === 'Inactive'
+            ? 'Dectivated Successfully'
+            : 'Activated Sucessfully';
+        this.messageService.add({
+          severity: 'success',
+          summary: summary,
+          detail: details,
+        });
+
+        const payload = {
+          email: this.farmer.email,
+          subject: `Account Activation`,
+          message: `
+                  Dear ${this.farmer.firstName},
+
+                  We're thrilled to inform you that your account has been successfully activated! You can now enjoy and explore all the features of our platform.
+
+                  Thank you!.
+
+                  Warm regards,
+                  Hacienda
+                `,
+        };
+
+        this.emailService.sendEmail1(payload).subscribe();
+        const payload1 = {
+          message: `
+                  Dear ${this.farmer.firstName},
+
+                  We're thrilled to inform you that your account has been successfully activated! You can now enjoy and explore all the features of our platform.
+
+                  Thank you!.
+
+                  Warm regards,
+                  Hacienda
+                `,
+        };
+        // this.smsService.sendFarmerSMS(payload1).subscribe();
+      },
+      () => {
+        this.authService.logout();
+      }
+    );
   }
 
   openDetailsDialog = (farmer: any) => {

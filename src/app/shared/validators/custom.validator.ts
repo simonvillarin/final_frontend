@@ -99,6 +99,7 @@ export const birthdateValidator = (): ValidatorFn => {
     return null;
   };
 };
+
 // age >= 17
 export const ageValidator = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -110,7 +111,7 @@ export const ageValidator = (): ValidatorFn => {
 
     const ageDifferenceYears = ageDifferenceMs / (1000 * 60 * 60 * 24 * 365);
 
-    if (ageDifferenceYears < 17) {
+    if (ageDifferenceYears < 18) {
       return { underage: true };
     }
 
@@ -138,7 +139,7 @@ export function minUnitsArrayValidator(): ValidatorFn {
 
 export function confirmPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const passwordControl = control.get('newPassword');
+    const passwordControl = control.get('password');
     const confirmPasswordControl = control.get('confirmPassword');
 
     if (passwordControl?.value !== confirmPasswordControl?.value) {

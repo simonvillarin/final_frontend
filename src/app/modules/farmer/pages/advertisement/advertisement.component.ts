@@ -17,13 +17,13 @@ import { SmsService } from 'src/app/shared/services/sms/sms.service';
   styleUrls: ['./advertisement.component.scss'],
 })
 export class AdvertisementComponent implements OnInit {
-  offerForm: FormGroup;
   paymentForm: FormGroup;
 
   tempAds = [];
   ads: any = [];
   ad: any = {};
   paymentAccount: any = {};
+  payload: any = {};
   categories = [
     'Food Crops',
     'Feed Crops',
@@ -37,7 +37,6 @@ export class AdvertisementComponent implements OnInit {
   confirmationDialog = false;
   paymentDialog = false;
   alert = false;
-  checked = false;
   hasPaymentAcc = false;
 
   alertMessage = '';
@@ -59,13 +58,6 @@ export class AdvertisementComponent implements OnInit {
     private paymentAccountService: PaymentAccountService,
     private smsService: SmsService
   ) {
-    this.offerForm = this.fb.group({
-      farmerId: [''],
-      supplierId: [''],
-      postId: [''],
-      value: ['', Validators.required],
-      price: ['', Validators.required],
-    });
     this.paymentForm = this.fb.group({
       farmerId: ['', Validators.required],
       accountNumber: [
@@ -85,14 +77,6 @@ export class AdvertisementComponent implements OnInit {
         ],
       ],
     });
-  }
-
-  get value() {
-    return this.offerForm.get('value') as FormControl;
-  }
-
-  get price() {
-    return this.offerForm.get('price') as FormControl;
   }
 
   ngOnInit(): void {
@@ -155,20 +139,6 @@ export class AdvertisementComponent implements OnInit {
     this.getAllAdvertisement();
   };
 
-  onCheckboxChange = (checked: boolean) => {
-    if (checked) {
-      this.offerForm.patchValue({
-        value: this.ad.value,
-        price: this.ad.price,
-      });
-    } else {
-      this.offerForm.patchValue({
-        value: '',
-        price: '',
-      });
-    }
-  };
-
   onSearchChange = (search: string) => {
     if (search !== '') {
       this.ads = this.ads.filter(
@@ -214,7 +184,7 @@ export class AdvertisementComponent implements OnInit {
   };
 
   onConfirm = () => {
-    this.offerService.addOffer(this.offerForm.value).subscribe(() => {
+    this.offerService.addOffer(this.payload).subscribe(() => {
       const payload = {
         isOffered: true,
       };
@@ -225,19 +195,20 @@ export class AdvertisementComponent implements OnInit {
           this.confirmationDialog = false;
           this.offerDialog = false;
 
-          const value = this.offerForm.get('value')?.value;
-          const price = this.offerForm.get('price')?.value;
-
-          const payload = {
+          const payload1 = {
             message: `A farmer has an offer on the advertisement that you've posted that you are in need of ${
               this.ad.name
-            }. The amount that the farmer offered is P${price} for the ${this.ad.measurement.toLowerCase()} of ${value} ${
+            }. The amount that the farmer offered is ₱ ${
+              this.ad.price
+            } for the ${
+              this.ad.measurement === 'Quantity' ? 'quantity' : 'weight'
+            } of ${this.ad.value} ${
               this.ad.measurement === 'Weight' ? 'kg.' : ''
             }`,
           };
 
           // ONLY USE WHEN DEMO
-          // this.smsService.sendSupplierSMS(payload).subscribe(() => {});
+          // this.smsService.sendSupplierSMS(payload1).subscribe(() => {});
         },
         () => {
           this.authService.logout();
@@ -246,30 +217,20 @@ export class AdvertisementComponent implements OnInit {
     });
   };
 
-  onSubmit = () => {
-    if (this.offerForm.valid) {
-      this.confirmationDialog = true;
-    } else {
-      this.offerForm.markAllAsTouched();
-    }
-  };
-
   onSubmitPayment = () => {
     if (this.paymentForm.valid) {
       this.paymentAccountService
         .addPaymentAccount(this.paymentForm.value)
         .subscribe(() => {
-          this.offerDialog = true;
           this.paymentDialog = false;
           this.getPaymentAccount();
 
-          this.checked = false;
-          this.offerForm.reset();
-          this.offerForm.patchValue({
-            farmerId: this.authService.getUserId(),
-            supplierId: this.ad.supplier.userId,
-            postId: this.ad.postId,
-          });
+          this.payload.farmerId = this.authService.getUserId();
+          this.payload.supplierId = this.ad.supplier.userId;
+          this.payload.postId = this.ad.postId;
+          this.payload.value = this.ad.value;
+          this.payload.price = this.ad.price;
+          this.confirmationDialog = true;
         });
     } else {
       this.paymentForm.markAllAsTouched();

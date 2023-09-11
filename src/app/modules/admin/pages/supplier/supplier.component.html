@@ -49,8 +49,9 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 15%">Image</th>
-          <th style="width: 45%">Name</th>
-          <th style="width: 20%">Status</th>
+          <th style="width: 30%">Name</th>
+          <th style="width: 20%">Username</th>
+          <th style="width: 15%">Status</th>
           <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
@@ -72,6 +73,7 @@
             {{ supplier.firstName }} {{ supplier.middleName }}
             {{ supplier.lastName }} {{ supplier.suffix }}
           </td>
+          <td>{{ supplier.username }}</td>
           <td>
             <div
               class="status {{
@@ -217,11 +219,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="dialog-actions">
-      <button class="dialog-btn submit" (click)="closeDetailsDialog()">
-        OK
-      </button>
     </div>
   </p-dialog>
 

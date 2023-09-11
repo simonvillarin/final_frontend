@@ -1,10 +1,17 @@
 <app-navbar></app-navbar>
+
 <div class="container">
-  <div class="alert" [class.error]="isError" *ngIf="alert">
+  <h1>
+    <div class="img-wrapper">
+      <img src="../../../../../assets/images/profile.webp" alt="Profile" />
+    </div>
+    Sign Up
+  </h1>
+  <p class="alert" [class.error]="isError" *ngIf="alert">
     <span class="material-symbols-rounded" *ngIf="!isError"> done </span>
     <span class="material-symbols-rounded" *ngIf="isError"> error </span>
     {{ alertMessage }}
-  </div>
+  </p>
   <div class="role-container">
     <h3>Choose a User Type<span class="required">*</span></h3>
     <div class="type-container" [class.mb]="!error">
@@ -75,6 +82,7 @@
           pInputText
           formControlName="firstName"
           style="text-transform: capitalize"
+          pKeyFilter="alpha"
         />
         <div
           *ngIf="firstName.invalid && (firstName?.dirty || firstName?.touched)"
@@ -92,6 +100,7 @@
           pInputText
           formControlName="middleName"
           style="text-transform: capitalize"
+          pKeyFilter="alpha"
         />
       </div>
       <div class="input-group">
@@ -100,6 +109,7 @@
           pInputText
           formControlName="lastName"
           style="text-transform: capitalize"
+          pKeyFilter="alpha"
         />
         <div *ngIf="lastName.invalid && (lastName?.dirty || lastName?.touched)">
           <small
@@ -115,6 +125,7 @@
           pInputText
           formControlName="suffix"
           style="text-transform: uppercase"
+          pKeyFilter="alpha"
         />
       </div>
       <div class="input-group">
@@ -158,6 +169,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="birthdate?.errors?.['futureDate']"
             >You cannot select a future date</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate?.errors?.['underage']"
+            >You should be 18 and above</small
           >
         </div>
       </div>
@@ -296,7 +312,7 @@
       </div>
       <div class="input-group">
         <label>Contact Number<span class="required">*</span></label>
-        <input pInputText formControlName="contact" />
+        <input pInputText formControlName="contact" pKeyFilter="int" />
         <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
           <small
             [style]="{ color: 'var(--red)' }"

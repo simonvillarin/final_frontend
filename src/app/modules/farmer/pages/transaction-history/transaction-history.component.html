@@ -19,7 +19,7 @@
 
   <div class="card-container">
     <ng-container *ngIf="!transactions.deliveredDate">
-      <button (click)="updateDelivery()">
+      <button class="btn-deliver" (click)="updateDelivery()">
         <span class="material-symbols-rounded"> local_shipping </span>Crops
         Delivered
       </button></ng-container
@@ -260,4 +260,24 @@
       </div>
     </div>
   </div>
+
+  <p-dialog
+    [(visible)]="confirmationDialog"
+    [modal]="true"
+    [breakpoints]="{ '600px': '90vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p-header>
+      <div class="dialog-title">Confirmation</div>
+    </p-header>
+    <div class="dialog-body">Are you sure that this crop is delivered?</div>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel" (click)="onCancelConfirmationDialog()">
+        Cancel
+      </button>
+      <button class="dialog-btn submit" (click)="onConfirm()">Confirm</button>
+    </div>
+  </p-dialog>
 </main>

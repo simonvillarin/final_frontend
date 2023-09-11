@@ -16,6 +16,7 @@ import {
   mobileNumberValidator,
   birthdateValidator,
   confirmPasswordValidator,
+  ageValidator,
 } from 'src/app/shared/validators/custom.validator';
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { Subject } from 'rxjs';
@@ -95,47 +96,56 @@ export class RegisterComponent implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer2
   ) {
-    this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      suffix: [''],
-      gender: ['', Validators.required],
-      birthdate: ['', [Validators.required, birthdateValidator()]],
-      unit: ['', Validators.required],
-      street: ['', Validators.required],
-      village: ['', Validators.required],
-      barangay: ['', Validators.required],
-      city: ['', Validators.required],
-      province: ['', Validators.required],
-      region: ['', Validators.required],
-      contact: ['', [Validators.required, mobileNumberValidator()]],
-      email: ['', [Validators.required, Validators.email]],
-      idType: ['', Validators.required],
-      idNumber: ['', Validators.required],
-      filename1: ['', Validators.required],
-      selfie: ['', Validators.required],
-      mimeType1: ['', Validators.required],
-      data1: ['', Validators.required],
-      filename2: ['', Validators.required],
-      mimeType2: ['', Validators.required],
-      data2: ['', Validators.required],
-      username: ['', Validators.required],
-      password: [
-        '',
-        [
-          Validators.required,
-          PasswordLengthValidator(),
-          hasUppercaseValidator(),
-          hasLowercaseValidator(),
-          hasNumberValidator(),
-          hasSymbolValidator(),
+    this.registerForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        middleName: [''],
+        lastName: ['', Validators.required],
+        suffix: [''],
+        gender: ['', Validators.required],
+        birthdate: [
+          '',
+          [Validators.required, birthdateValidator(), ageValidator()],
         ],
-      ],
-      confirmPassword: ['', [Validators.required, confirmPasswordValidator()]],
-      role: ['', Validators.required],
-      status: ['Pending'],
-    });
+        unit: ['', Validators.required],
+        street: ['', Validators.required],
+        village: ['', Validators.required],
+        barangay: ['', Validators.required],
+        city: ['', Validators.required],
+        province: ['', Validators.required],
+        region: ['', Validators.required],
+        contact: ['', [Validators.required, mobileNumberValidator()]],
+        email: ['', [Validators.required, Validators.email]],
+        idType: ['', Validators.required],
+        idNumber: ['', Validators.required],
+        filename1: ['', Validators.required],
+        selfie: ['', Validators.required],
+        mimeType1: ['', Validators.required],
+        data1: ['', Validators.required],
+        filename2: ['', Validators.required],
+        mimeType2: ['', Validators.required],
+        data2: ['', Validators.required],
+        username: ['', Validators.required],
+        password: [
+          '',
+          [
+            Validators.required,
+            PasswordLengthValidator(),
+            hasUppercaseValidator(),
+            hasLowercaseValidator(),
+            hasNumberValidator(),
+            hasSymbolValidator(),
+          ],
+        ],
+        confirmPassword: [
+          '',
+          [Validators.required, confirmPasswordValidator()],
+        ],
+        role: ['', Validators.required],
+        status: ['Pending'],
+      },
+      { validators: confirmPasswordValidator() }
+    );
   }
 
   get firstName() {
@@ -441,16 +451,19 @@ export class RegisterComponent implements OnInit {
             this.isError = true;
             this.alertMessage = 'Contact number already exists';
             setTimeout(() => (this.alert = false), 3000);
+            scroll(0, 0);
           } else if (response.message === 'Email already exists') {
             this.alert = true;
             this.isError = true;
             this.alertMessage = 'Email address already exists';
             setTimeout(() => (this.alert = false), 3000);
+            scroll(0, 0);
           } else if (response.message === 'Username already exists') {
             this.alert = true;
             this.isError = true;
             this.alertMessage = 'Username already exists';
             setTimeout(() => (this.alert = false), 3000);
+            scroll(0, 0);
           } else {
             this.idFront = null;
             this.idBack = null;
@@ -458,7 +471,8 @@ export class RegisterComponent implements OnInit {
             this.idBackPreview = false;
             this.alert = true;
             this.isError = false;
-            this.alertMessage = 'User successfully registered';
+            this.alertMessage =
+              'Registered successful! Please wait for the email or text message upon the activation of your account';
             setTimeout(() => (this.alert = false), 3000);
             scroll(0, 0);
 

@@ -77,7 +77,9 @@
             </div>
             <div>
               <div class="title t1">Price</div>
-              <div class="data d1">₱ {{ ad.price }}</div>
+              <div class="data d1">
+                {{ ad.price | currency : "PHP" : "symbol" : "1.2-2" }}
+              </div>
             </div>
           </div>
           <div class="card-actions">

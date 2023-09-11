@@ -33,4 +33,8 @@ export class EmailService {
   updateUser = (id: number, user: any): Observable<any> => {
     return this.http.put<any>(`${this.baseUrl}/user/${id}`, user);
   };
+
+  sendEmail1 = (email: any): Observable<any> => {
+    return this.http.post<any>(`${this.baseUrl}/message`, email);
+  };
 }
