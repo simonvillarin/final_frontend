@@ -56,65 +56,47 @@ export class HistoryComponent implements OnInit {
           this.payments = res.sort(
             (a: any, b: any) => b.paymentId - a.paymentId
           );
-          console.log(res);
 
-          this.payments.forEach((payment: any) => {
-            if (this.salesLabels.length > 0) {
-              this.salesLabels.forEach((label: any) => {
-                if (
-                  label !== payment.payment.transaction.offer.advertisement.name
-                ) {
-                  this.salesLabels.push(
-                    payment.payment.transaction.offer.advertisement.name
-                  );
-                  const measurement =
-                    payment.payment.transaction.offer.advertisement
-                      .measurement === 'Quantity'
-                      ? 'Quantity'
-                      : 'Kilos';
-                  const val =
-                    payment.payment.transaction.offer.advertisement.name +
-                    ' (' +
-                    measurement +
-                    ')';
-                  this.soldLabels.push(val);
-                  this.salesData.push(payment.payment.transaction.offer.price);
-                  this.soldData.push(payment.payment.transaction.offer.value);
-                  this.generateRandomColor();
-                } else {
-                  const pay = this.salesData.find(
-                    (pay: any) =>
-                      pay.payment.transaction.offer.advertisement.name ===
-                      payment.payment.transaction.offer.advertisement.name
-                  );
-                  const index = this.salesData.indexOf(pay);
-                  this.salesData[index] =
-                    this.salesData[index] +
-                    payment.payment.transaction.offer.price;
-                  this.soldData[index] =
-                    this.soldData[index] +
-                    payment.payment.transaction.offer.value;
-                }
-              });
-            } else {
-              this.salesLabels.push(
+          const uniqueLabels = this.getUniqueObjects(this.payments);
+          uniqueLabels.forEach((payment: any) => {
+            const filter = this.payments.filter(
+              (pay: any) =>
+                pay.payment.transaction.offer.advertisement.name ===
                 payment.payment.transaction.offer.advertisement.name
-              );
-              const measurement =
-                payment.payment.transaction.offer.advertisement.measurement ===
-                'Quantity'
-                  ? 'Quantity'
-                  : 'Kilos';
-              const val =
-                payment.payment.transaction.offer.advertisement.name +
-                ' (' +
-                measurement +
-                ')';
-              this.soldLabels.push(val);
-              this.salesData.push(payment.payment.transaction.offer.price);
-              this.soldData.push(payment.payment.transaction.offer.value);
-              this.generateRandomColor();
-            }
+            );
+            let sales = 0;
+            sales = filter.reduce(
+              (total: any, currentItem: any) =>
+                total +
+                currentItem.payment.transaction.offer.advertisement.price,
+              0
+            );
+            this.salesData.push(sales);
+
+            let qty = 0;
+            qty = filter.reduce(
+              (total: any, currentItem: any) =>
+                total +
+                currentItem.payment.transaction.offer.advertisement.value,
+              0
+            );
+            this.soldData.push(qty);
+
+            const measurement =
+              payment.payment.transaction.offer.advertisement.measurement ===
+              'Quantity'
+                ? 'Quantity'
+                : 'Kilos';
+            const val =
+              payment.payment.transaction.offer.advertisement.name +
+              ' (' +
+              measurement +
+              ')';
+            this.soldLabels.push(val);
+            this.salesLabels.push(
+              payment.payment.transaction.offer.advertisement.name
+            );
+            this.generateRandomColor();
           });
 
           this.sales = {
@@ -147,9 +129,22 @@ export class HistoryComponent implements OnInit {
           this.authService.logout();
         }
       );
-
-    this.payments;
   }
+
+  isObjectUnique = (obj1: any, obj2: any) => {
+    return (
+      obj1.payment.transaction.offer.advertisement.name ===
+      obj2.payment.transaction.offer.advertisement.name
+    );
+  };
+
+  getUniqueObjects = (arr: any) => {
+    return arr.filter((item: any, index: any, self: any) => {
+      return (
+        self.findIndex((obj: any) => this.isObjectUnique(obj, item)) === index
+      );
+    });
+  };
 
   onView = (payment: any) => {
     this.payment = payment;
@@ -297,10 +292,9 @@ export class HistoryComponent implements OnInit {
   }
 
   getRandomColor(): string {
-    const r = Math.floor(Math.random() * 156) + 100;
-    const g = Math.floor(Math.random() * 156) + 100;
-    const b = Math.floor(Math.random() * 156) + 100;
-
+    const r = Math.floor(Math.random() * 101) + 100;
+    const g = Math.floor(Math.random() * 101) + 100;
+    const b = Math.floor(Math.random() * 101) + 100;
     return `${r},${g},${b}`;
   }
 }
