@@ -17,6 +17,23 @@
         [(ngModel)]="categorySelected"
         (ngModelChange)="onCategoryChange($event)"
       ></p-dropdown>
+
+      <div class="search-container">
+        <span class="material-symbols-rounded"> search </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem',
+            paddingLeft: '2.75rem'
+          }"
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
     </div>
   </div>
 
@@ -44,10 +61,7 @@
         </ng-container>
 
         <ng-container *ngIf="acceptedOffer.paidDate == null">
-          <button
-            class="btn-awaiting-payment"
-            style="cursor: not-allowed;"
-          >
+          <button class="btn-awaiting-payment" style="cursor: not-allowed">
             <span class="material-symbols-rounded"> payments </span>Awaiting
             Payment
           </button>

@@ -28,6 +28,8 @@ export class AcceptedOfferComponent implements OnInit {
 
   page: number = 0;
   totalOffers: number = 0;
+  empty = true;
+  search = '';
 
   constructor(
     private transactionService: TransactionService,
@@ -114,5 +116,36 @@ export class AcceptedOfferComponent implements OnInit {
 
   onViewTransaction = (id: any) => {
     this.router.navigate([`/farmer/accepted-offers/transaction-history/${id}`]);
+  };
+
+  onSearchChange = (search: string) => {
+    if (search !== '') {
+      this.acceptedOffers = this.acceptedOffers.filter(
+        (acceptedOffer: any) =>
+          acceptedOffer.supplier.firstName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.supplier.middleName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.supplier.lastName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.offer.advertisement.description
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.offer.advertisement.name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          acceptedOffer.offer.price.toLowerCase().includes(search.toLowerCase())
+      );
+      if (this.acceptedOffers.length > 0) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    } else {
+      this.getAcceptedOffers();
+    }
   };
 }
