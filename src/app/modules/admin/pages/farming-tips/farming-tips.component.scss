@@ -14,12 +14,12 @@ main {
   position: relative;
 }
 
-.icon {
+.icon-search {
   position: absolute;
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
-  color: var(--light);
+  color: black;
 }
 
 .table {
@@ -41,7 +41,8 @@ tr td {
 
 .actions {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -284,6 +285,10 @@ img {
 }
 
 @media screen and (min-width: 768px) {
+  .actions {
+    flex-direction: row;
+  }
+
   .img-container,
   .btn-upload {
     width: 50%;
@@ -298,9 +303,5 @@ img {
     height: 3rem;
     font-size: 1rem;
     padding: 0.5rem;
-  }
-
-  .filter-container {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -15,6 +15,7 @@ import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
 import { deliveryDateValidator } from 'src/app/shared/validators/custom.validator';
 import { DatePipe } from '@angular/common';
+import { ChangeAddressService } from 'src/app/shared/services/change-address/change-address.service';
 
 @Component({
   selector: 'app-history',
@@ -24,23 +25,29 @@ import { DatePipe } from '@angular/common';
 })
 export class TransactionHistoryComponent implements OnInit {
   paymentForm: FormGroup;
-  transactionsForm: FormGroup;
+
+  todayDate = new Date();
 
   user: any = {};
   transactions: any = {};
   payment: any;
+  farmer: any = {};
   offers: any = {};
   post: any = {};
+  payments: any;
   paymentDetails: any;
-  suppliers: any;
-  paymentAccount: any;
-  transanction: any;
+
+  isViewed = false;
+  isPaid = false;
+  isDelivered = false;
+
+  changeAddress: any = {};
 
   ngOnInit(): void {
     this.getUserById();
-    this.getTransactionById();
-    this.getPaymentByTransactionId();
-    this.getPaymentDetailsByTransactionId();
+    this.getPaymentById();
+    this.getAllChangeAddress();
+    this.getChangeAddressByTransactionId();
   }
 
   constructor(
@@ -52,9 +59,7 @@ export class TransactionHistoryComponent implements OnInit {
     private offerService: OfferService,
     private advertisementService: AdvertisementService,
     private paymentDetailsService: PaymentDetailsService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private router: Router,
+    private changeAddressService: ChangeAddressService,
     private route: ActivatedRoute
   ) {
     this.paymentForm = this.fb.group({
@@ -64,14 +69,6 @@ export class TransactionHistoryComponent implements OnInit {
       accountNumber: ['', Validators.required],
       accountName: ['', Validators.required],
     });
-
-    this.transactionsForm = this.fb.group({
-      deliverDate: ['', [Validators.required, deliveryDateValidator()]],
-    });
-  }
-
-  get deliverDate() {
-    return this.transactionsForm.get('deliverDate') as FormControl;
   }
 
   getUserById = () => {
@@ -79,46 +76,14 @@ export class TransactionHistoryComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
-        console.log(data);
       });
   };
 
-  getTransactionById = () => {
+  getPaymentById = () => {
     const param = this.route.snapshot.params['id'];
 
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-      console.log(data);
-
-      this.paymentForm.patchValue({
-        transactionId: this.transactions.transactionId,
-      });
-
-      const offerId = data.offerId;
-      this.offerService.getOfferById(offerId).subscribe((data: any) => {
-        this.offers = data;
-        console.log(data);
-
-        const postId = data.postId;
-        this.advertisementService.getAdById(postId).subscribe((data: any) => {
-          this.post = data;
-          console.log(data);
-        });
-      });
-
-      const supplierId = data.supplierId;
-      this.userService.getUserById(supplierId).subscribe((data: any) => {
-        this.suppliers = data;
-        console.log(data);
-      });
-    });
-  };
-
-  getPaymentByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
+    this.paymentService.getPaymentById(param).subscribe((data: any) => {
+      this.payments = data;
       console.log(data);
 
       const transactionId = data.transactionId;
@@ -126,84 +91,135 @@ export class TransactionHistoryComponent implements OnInit {
         .getPaymentByTransactionId(transactionId)
         .subscribe((data) => {
           this.payment = data;
-          console.log(data);
         });
-    });
-  };
 
-  getPaymentDetailsByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
-
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-      console.log(data);
-
-      const transactionId = this.transactions.transactionId;
       this.paymentDetailsService
         .getPaymentDetailsByTransactionId(transactionId)
         .subscribe((data) => {
           this.paymentDetails = data;
-          console.log(data);
+        });
+
+      this.transactionService
+        .getTransactionById(transactionId)
+        .subscribe((data: any) => {
+          this.transactions = data;
+
+          if (data.paidDate) {
+            this.isPaid = true;
+          }
+          if (data.deliveredDate) {
+            this.isDelivered = true;
+          }
+
+          const offerId = data.offerId;
+          this.offerService.getOfferById(offerId).subscribe((data: any) => {
+            this.offers = data;
+
+            const postId = data.postId;
+            this.advertisementService
+              .getAdById(postId)
+              .subscribe((data: any) => {
+                this.post = data;
+              });
+          });
+
+          const farmerId = data.farmerId;
+          this.userService.getUserById(farmerId).subscribe((data: any) => {
+            this.farmer = data;
+          });
         });
     });
   };
 
-  addDeliveryDialog = false;
-  confirmDeliveryDialog = false;
-  updateDeliveryDialog = false;
+  getChangeAddressByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
 
-  onAddDeliveryDate = () => {
-    this.addDeliveryDialog = true;
-  };
+    this.paymentService.getPaymentById(param).subscribe((data: any) => {
+      this.payments = data;
 
-  onUpdateDeliveryDate = () => {
-    this.updateDeliveryDialog = true;
-  };
-
-  onCancelUpdateDeliveryDialog = () => {
-    this.updateDeliveryDialog = false;
-  };
-
-  onCancelDeliveryDialog = () => {
-    this.addDeliveryDialog = false;
-  };
-
-  onConfirmDeliveryDialog = () => {
-    console.log(this.transactionsForm.value);
-    console.log(this.transactions.transactionId);
-    this.addDeliveryDialog = false;
-    this.confirmDeliveryDialog = true;
-    this.updateDeliveryDialog = false;
-  };
-
-  onCancelConfrimDeliveryDialog = () => {
-    this.confirmDeliveryDialog = false;
-  };
-
-  error = false;
-
-  onSubmit = () => {
-    console.log(this.transactionsForm.value);
-    if (this.transanction === '') {
-      this.error = true;
-      scroll(1000, 1000);
-    }
-
-    if (this.transactionsForm.valid) {
-      this.transactionService
-        .updateTransaction(
-          this.transactions.transactionId,
-          this.transactionsForm.value
-        )
+      const transactionId = data.transactionId;
+      this.paymentService
+        .getPaymentByTransactionId(transactionId)
         .subscribe((data) => {
-          scroll(1000, 1000);
-          console.log(data);
+          this.payment = data;
 
-          this.getTransactionById();
+          this.transactionService
+            .getTransactionById(transactionId)
+            .subscribe((data) => {
+              this.changeAddressService
+                .getChangeAddressByTransactionId(data.supplierId)
+                .subscribe((data: any) => {
+                  this.changeAddress = data;
+                });
+            });
         });
+    });
+  };
+
+  getAllChangeAddress = () => {
+    this.changeAddressService.getAllChangeAddress().subscribe((data) => {
+      this.changeAddress = data;
+      console.log(data);
+    });
+  };
+
+  updateDelivery = () => {
+    const payload = {
+      deliveredDate: '2023-02-21',
+      deliveredTime: '11:56:22',
+    };
+
+    this.transactionService
+      .updateTransaction(this.transactions.transactionId, payload)
+      .subscribe(() => {
+        this.getPaymentById();
+      });
+  };
+
+  convertTime = (time: any) => {
+    if (time) {
+      const splitTime = time.split(':');
+      let hour;
+      let zone;
+      if (parseInt(splitTime[0]) == 13) {
+        hour = 1;
+      } else if (parseInt(splitTime[0]) == 13) {
+        hour = 1;
+      } else if (parseInt(splitTime[0]) == 14) {
+        hour = 2;
+      } else if (parseInt(splitTime[0]) == 15) {
+        hour = 3;
+      } else if (parseInt(splitTime[0]) == 16) {
+        hour = 4;
+      } else if (parseInt(splitTime[0]) == 17) {
+        hour = 5;
+      } else if (parseInt(splitTime[0]) == 18) {
+        hour = 6;
+      } else if (parseInt(splitTime[0]) == 19) {
+        hour = 7;
+      } else if (parseInt(splitTime[0]) == 20) {
+        hour = 8;
+      } else if (parseInt(splitTime[0]) == 21) {
+        hour = 9;
+      } else if (parseInt(splitTime[0]) == 22) {
+        hour = 10;
+      } else if (parseInt(splitTime[0]) == 23) {
+        hour = 11;
+      } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
+        hour = 12;
+      } else {
+        hour = splitTime[0];
+      }
+
+      if (parseInt(splitTime[0]) > 12) {
+        zone = 'PM';
+      } else {
+        zone = 'AM';
+      }
+
+      return hour + ':' + splitTime[1] + ' ' + zone;
     } else {
-      this.transactionsForm.markAllAsTouched();
+      return null;
     }
-    this.onCancelConfrimDeliveryDialog();
   };
 }

@@ -412,18 +412,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit = () => {
-    console.log(this.registerForm.value);
     if (this.type === '') {
       this.error = true;
       scroll(0, 0);
     }
     if (this.idFront === null) {
-      this.idFrontPreview = true;
+      this.idFrontPreview = false;
       this.idFrontEmpty = true;
     }
     if (this.idBack === null) {
       this.idBackEmpty = true;
-      this.idBackPreview = true;
+      this.idBackPreview = false;
     }
 
     if (this.registerForm.valid) {

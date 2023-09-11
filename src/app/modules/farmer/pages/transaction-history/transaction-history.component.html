@@ -1,13 +1,152 @@
 <main>
-  <ng-container *ngIf="transactions.paidDate !== null">
-    <div class="card-container">
-      <div class="card flex justify-content-center" style="margin-bottom: 0px">
-        <p-card header="This transaction was paid.">
-          <div class="card-content-offer">
+  <div class="timeline">
+    <div class="icon icon1">
+      <span class="material-symbols-rounded"> contract </span>
+    </div>
+    <div class="line line1"></div>
+    <div class="icon icon2">
+      <span class="material-symbols-rounded"> handshake </span>
+    </div>
+    <div class="line" [class.line2]="isPaid"></div>
+    <div class="icon" [class.icon3]="isPaid">
+      <span class="material-symbols-rounded"> payment </span>
+    </div>
+    <div class="line" [class.line3]="isDelivered"></div>
+    <div class="icon icon4" [class.ic4]="isDelivered">
+      <span class="material-symbols-rounded"> local_shipping </span>
+    </div>
+  </div>
+
+  <div class="card-container">
+    <ng-container *ngIf="!transactions.deliveredDate">
+      <button (click)="updateDelivery()">
+        <span class="material-symbols-rounded"> local_shipping </span>Crops
+        Delivered
+      </button></ng-container
+    >
+    <div class="card flex justify-content-center" style="margin-bottom: 0px">
+      <p-card header="Your order has been placed">
+        <div class="card-content">
+          <div>
+            <div>
+              <div class="m-1">Payment Reference Number</div>
+              <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template pTemplate="title">
+          <span
+            class="material-symbols-rounded"
+            style="
+              color: var(--darker-primary);
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            done
+          </span>
+        </ng-template>
+      </p-card>
+    </div>
+    <div class="role-container">
+      <div class="card flex justify-content-center">
+        <p-card header="Delivery Address">
+          <p style="font-weight: 400">Order will be shipped to:</p>
+          <p class="m-0">
+            <ng-container *ngIf="this.changeAddress.transactionId === null">
+              {{ user.firstName }}
+              {{ user.middleName }} {{ user.lastName }}
+              {{ user.suffix }}
+            </ng-container>
+
+            <ng-container *ngIf="this.changeAddress.transactionId !== null">
+              {{ this.changeAddress.fullName }}
+            </ng-container>
+          </p>
+
+          <ng-template pTemplate="title">
+            <span
+              class="material-symbols-rounded"
+              style="
+                color: var(--darker-primary);
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              location_on
+            </span>
+          </ng-template>
+
+          <ng-template pTemplate="content">
+            <p class="contact" style="font-weight: 500">
+              <ng-container *ngIf="this.changeAddress.transactionId === null">
+                {{ user.contact }}
+              </ng-container>
+
+              <ng-container *ngIf="this.changeAddress.transactionId !== null">
+                {{ this.changeAddress.contact }}
+              </ng-container>
+            </p>
+            <p style="font-weight: 500">
+              <ng-container *ngIf="this.changeAddress.transactionId === null">
+                {{ user.unit }}
+                {{ user.street }}, {{ user.village }}, {{ user.barangay }}
+                {{ user.city }}, {{ this.user.province }},
+                {{ user.region }}
+              </ng-container>
+
+              <ng-container *ngIf="this.changeAddress.transactionId !== null">
+                {{ this.changeAddress.unit }}
+                {{ this.changeAddress.street }},
+                {{ this.changeAddress.village }},
+                {{ this.changeAddress.barangay }}
+                {{ this.changeAddress.city }},
+                {{ this.changeAddress.province }},
+                {{ this.changeAddress.region }}
+              </ng-container>
+            </p>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <div class="card1 flex justify-content-center">
+        <p-card header="Order Details">
+          <div class="card-content">
             <div>
               <div>
-                <div class="m-1">Payment Reference Number</div>
-                <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
+                <div class="m-1">Order Reference Number</div>
+                <div class="m-2">{{ payment?.orderIdRef }}</div>
+              </div>
+              <div>
+                <div class="m-1">Order Date</div>
+                <div class="m-2">
+                  {{ payment?.paymentDate | date : "MMMM d, y" }}
+                  {{ convertTime(payment?.paymentTime) }}
+                </div>
+              </div>
+              <div>
+                <div class="m-1">Payment Method</div>
+                <div class="m-2">{{ payment?.paymentMode }}</div>
+              </div>
+              <div>
+                <div class="m-1">Estimated Delivery</div>
+                <div class="m-2" *ngIf="transactions.deliverDate === null">
+                  <ng-container *ngIf="transactions.deliverDate === null">
+                    {{ transactions.paidDate | date : "MMMM d, y" }}
+                    to
+                    {{
+                      transactions.paidDate | dateAdd : 3 | date : "MMMM d, y"
+                    }}
+                  </ng-container>
+
+                  <ng-container *ngIf="transactions.deliverDate !== null">
+                    {{ transactions?.deliverDate | date : "MMMM d" }} to
+                    {{
+                      transactions.deliverDate | dateAdd : 3 | date : "MMMM d"
+                    }}
+                  </ng-container>
+                </div>
               </div>
             </div>
           </div>
@@ -21,347 +160,104 @@
                 align-items: center;
               "
             >
-              done
+              info
             </span>
           </ng-template>
         </p-card>
       </div>
-      <div class="role-container">
-        <div class="card flex justify-content-center">
-          <p-card header="Delivery Address">
-            Order will be shipped to:
-            <p class="m-0">
-              {{ suppliers?.firstName }} {{ suppliers?.middleName }}
-              {{ suppliers?.lastName }}
-              {{ suppliers?.suffix }}
-            </p>
 
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                location_on
-              </span>
-            </ng-template>
+      <div class="card flex justify-content-center">
+        <p-card header="Order Summary">
+          <p class="m-0"></p>
 
-            <ng-template pTemplate="content">
-              <p class="contact" style="font-weight: 500">
-                {{ suppliers?.contact }}
-              </p>
-              {{ suppliers?.unit }} {{ suppliers?.street }},
-              {{ suppliers?.village }}, {{ suppliers?.barangay }}
-              {{ suppliers?.city }}, {{ suppliers?.region }}
-            </ng-template>
-          </p-card>
-        </div>
+          <ng-template pTemplate="title">
+            <span
+              class="material-symbols-rounded"
+              style="
+                color: var(--darker-primary);
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              receipt_long
+            </span>
+          </ng-template>
 
-        <div class="card1 flex justify-content-center">
-          <p-card header="Order Details">
-            <div class="card-content-offer">
-              <div></div>
+          <ng-template pTemplate="content">
+            <div class="card2">
+              <div class="img-container">
+                <img
+                  src="{{
+                    post.image ||
+                      '../../../../../../../assets/images/no-image.jpg'
+                  }}"
+                  alt="Crop"
+                />
+              </div>
+              <div class="card-content">
+                <div>
+                  <div>
+                    <div class="title">Crop Name</div>
+                    <div class="data">
+                      {{ post.name }}
+                    </div>
+                  </div>
+                  <div>
+                    <div class="title">Category</div>
+                    <div class="data">
+                      {{ post.category }}
+                    </div>
+                  </div>
+                  <div>
+                    <div class="title">Description</div>
+                    <p class="data">
+                      {{ post.description }}
+                    </p>
+                  </div>
+                  <div>
+                    <div class="title">
+                      {{
+                        offers.measurement === "Weight" ? "Weight" : "Quantity"
+                      }}
+                    </div>
+                    <div class="data">
+                      {{ offers.value }}
+                      {{ offers.measurement === "Weight" ? "kg" : "" }}
+                    </div>
+                  </div>
+                  <div>
+                    <div class="title t1">Price</div>
+                    <p class="data d1">
+                      {{ offers.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-content cc">
               <div>
                 <div>
-                  <div class="m-1">Order Reference Number</div>
-                  <div class="m-2">{{ payment?.orderIdRef }}</div>
-                </div>
-                <div>
-                  <div class="m-1">Order Date</div>
-                  <div class="m-2">
-                    {{ payment?.paymentDate | date : "MMMM d, y" }}
-                    {{ payment?.paymentTime }}
+                  <div class="title">Subtotal</div>
+                  <div class="data">
+                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
                   </div>
                 </div>
                 <div>
-                  <div class="m-1">Payment Method</div>
-                  <div class="m-2">{{ payment?.paymentMode }}</div>
+                  <div class="title">Shipping</div>
+                  <div class="data">(wala pa data)</div>
                 </div>
                 <div>
-                  <div class="m-1">Estimated Delivery</div>
-                  <div class="m-2">
-                    <ng-container *ngIf="transactions.deliverDate == null">
-                      This will be updated
-                    </ng-container>
-
-                    <ng-container *ngIf="transactions.deliverDate != null">
-                      {{ transactions?.deliverDate | date : "MMMM d" }} to
-                      {{
-                        transactions?.deliverDate
-                          | dateAdd : 3
-                          | date : "MMMM d"
-                      }}
-                    </ng-container>
+                  <div class="title t1">Total</div>
+                  <div class="data d1">
+                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
                   </div>
                 </div>
               </div>
             </div>
-
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                info
-              </span>
-            </ng-template>
-            <div style="display: flex; justify-content: flex-end">
-              <ng-container *ngIf="transactions?.deliverDate === null">
-                <button (click)="onAddDeliveryDate()">
-                  <span
-                    class="material-symbols-rounded"
-                    style="color: var(--light); padding-right: 10px"
-                  >
-                    add</span
-                  >Add Delivery Date
-                </button>
-              </ng-container>
-
-              <ng-container *ngIf="transactions?.deliverDate !== null">
-                <button (click)="onUpdateDeliveryDate()">
-                  <span
-                    class="material-symbols-rounded"
-                    style="color: var(--light); padding-right: 10px"
-                  >
-                    edit</span
-                  >Update Delivery Date
-                </button>
-              </ng-container>
-            </div>
-          </p-card>
-        </div>
-
-        <div class="card flex justify-content-center">
-          <p-card header="Order Summary">
-            <p class="m-0"></p>
-
-            <ng-template pTemplate="title">
-              <span
-                class="material-symbols-rounded"
-                style="
-                  color: var(--darker-primary);
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                receipt_long
-              </span>
-            </ng-template>
-
-            <ng-template pTemplate="content">
-              <div class="card-offer">
-                <div class="img-container-offer">
-                  <img class="img-offer" [src]="post.image" alt="Crop" />
-                </div>
-                <div class="card-content-offer">
-                  <div>
-                    <div>
-                      <div class="title-offer">Crop Name</div>
-                      <div class="data-offer">{{ post.name }}</div>
-                    </div>
-                    <div>
-                      <div class="title-offer">Category</div>
-                      <div class="data-offer">
-                        {{ post.category }}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="title-offer">Description</div>
-                      <p class="data-offer">
-                        {{ post.description }}
-                      </p>
-                    </div>
-                    <div>
-                      <div class="title-offer">
-                        {{
-                          offers.measurement === "Weight"
-                            ? "Weight"
-                            : "Quantity"
-                        }}
-                      </div>
-                      <div class="data-offer">
-                        {{ offers.value }}
-                        {{ offers.measurement === "Weight" ? "kg" : "" }}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="title-offer t1">Price</div>
-                      <p class="data-offer d1">₱ {{ post.price }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="card-content-offer"
-                style="
-                  margin: 20px;
-                  justify-content: center;
-                  margin-left: 100px;
-                  line-height: 30px;
-                "
-              >
-                <div>
-                  <div>
-                    <div class="m-1">Subtotal</div>
-                    <div class="m-1">₱ {{ offers.price }}</div>
-                  </div>
-                  <div>
-                    <div class="m-1">Shipping</div>
-                    <div class="m-1">(wala pa data)</div>
-                  </div>
-                  <div>
-                    <div class="m-1">Total</div>
-                    <div class="m-2">₱ {{ offers.price }}</div>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </p-card>
-        </div>
+          </ng-template>
+        </p-card>
       </div>
     </div>
-  </ng-container>
+  </div>
 </main>
-
-<p-dialog
-  [(visible)]="addDeliveryDialog"
-  [modal]="true"
-  [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="dialog-title">Add</div>
-  </p-header>
-  <div class="dialog-body">
-    <form [formGroup]="transactionsForm">
-      <div class="input-group">
-        <label>Delivery Date<span class="required">*</span></label>
-        <p-calendar
-          [style]="{
-            width: '100%',
-          }"
-          appendTo="body"
-          [showIcon]="true"
-          formControlName="deliverDate"
-        ></p-calendar>
-        <div
-          *ngIf="
-            deliverDate.invalid && (deliverDate?.dirty || deliverDate.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="deliverDate?.errors?.['required']"
-            >Delivery date is required</small
-          >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="deliverDate?.errors?.['pastDate']"
-            >You cannot select past date</small
-          >
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="dialog-actions">
-    <p-button
-      label="Cancel"
-      styleClass="p-button-danger"
-      (click)="onCancelDeliveryDialog()"
-    ></p-button>
-    <ng-container *ngIf="this.transactionsForm.invalid">
-      <p-button label="Confirm" [disabled]="true"> </p-button>
-    </ng-container>
-    <ng-container *ngIf="this.transactionsForm.valid">
-      <p-button label="Confirm" (click)="onConfirmDeliveryDialog()"> </p-button>
-    </ng-container>
-  </div>
-</p-dialog>
-
-<p-dialog
-  [(visible)]="confirmDeliveryDialog"
-  [modal]="true"
-  [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="dialog-title">Delivery Date Confirmation</div>
-  </p-header>
-  <div class="dialog-body">
-    Are you sure you want to proceed with the delivery date?
-  </div>
-  <div class="dialog-actions">
-    <button class="dialog-btn cancel" (click)="onCancelConfrimDeliveryDialog()">
-      No
-    </button>
-    <form [formGroup]="transactionsForm" (ngSubmit)="onSubmit()">
-      <button class="dialog-btn submit">Yes</button>
-    </form>
-  </div>
-</p-dialog>
-
-<p-dialog
-  [(visible)]="updateDeliveryDialog"
-  [modal]="true"
-  [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="dialog-title">Update</div>
-  </p-header>
-  <div class="dialog-body">
-    <form [formGroup]="transactionsForm">
-      <div class="input-group">
-        <label>Delivery Date<span class="required">*</span></label>
-        <p-calendar
-          [style]="{
-            width: '100%',
-          }"
-          appendTo="body"
-          [showIcon]="true"
-          formControlName="deliverDate"
-        ></p-calendar>
-        <div
-          *ngIf="
-            deliverDate.invalid && (deliverDate?.dirty || deliverDate.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="deliverDate?.errors?.['required']"
-            >Delivery date is required</small
-          >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="deliverDate?.errors?.['pastDate']"
-            >You cannot select past date</small
-          >
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="dialog-actions">
-    <p-button
-      label="Cancel"
-      styleClass="p-button-danger"
-      (click)="onCancelUpdateDeliveryDialog()"
-    ></p-button>
-    <ng-container *ngIf="transactions.deliverDate !== null">
-      <p-button label="Confirm" (click)="onConfirmDeliveryDialog()"> </p-button>
-    </ng-container>
-  </div>
-</p-dialog>

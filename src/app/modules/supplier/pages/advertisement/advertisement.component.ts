@@ -311,9 +311,9 @@ export class AdvertisementComponent implements OnInit {
                   this.supplier.lastName
                 } has posted an advertisement that ${
                   this.supplier.gender === 'Male' ? 'he' : 'she'
-                } is in need of a ${name} with a ${measurement.toLowercase()} of ${value} ${
-                  measurement === 'Weight' ? 'kg.' : ''
-                }`,
+                } is in need of a ${name} with a ${
+                  measurement === 'Quantity' ? 'quantity' : 'weight'
+                } of ${value} ${measurement === 'Weight' ? 'kg.' : ''}`,
               };
               // ONLY USE WHEN DEMO
               // this.smsService.sendFarmerSMS(payload).subscribe(() => {});

@@ -86,15 +86,18 @@
               <ng-container *ngIf="this.changeAddress.transactionId === null">
                 {{ user.unit }}
                 {{ user.street }}, {{ user.village }}, {{ user.barangay }}
-                {{ user.city }}, {{ user.region }}
+                {{ user.city }}, {{ this.user.province }},
+                {{ user.region }}
               </ng-container>
 
               <ng-container *ngIf="this.changeAddress.transactionId !== null">
-                  {{ this.changeAddress.unit }}
-                  {{ this.changeAddress.street }},
-                  {{ this.changeAddress.village }},
-                  {{ this.changeAddress.barangay }}
-                  {{ this.changeAddress.city }}, {{ this.changeAddress.region }}
+                {{ this.changeAddress.unit }}
+                {{ this.changeAddress.street }},
+                {{ this.changeAddress.village }},
+                {{ this.changeAddress.barangay }}
+                {{ this.changeAddress.city }},
+                {{ this.changeAddress.province }},
+                {{ this.changeAddress.region }}
               </ng-container>
             </p>
           </ng-template>
@@ -124,9 +127,13 @@
                 <div class="m-1">Estimated Delivery</div>
                 <div class="m-2" *ngIf="transactions.deliverDate === null">
                   <ng-container *ngIf="transactions.deliverDate === null">
-                    {{ todayDate | dateSecondAdd : 3 | date : "MMMM d" }}
+                    {{ transactions.paidDate | date : "MMMM d, y" }}
                     to
-                    {{ todayDate | dateSecondAdd : 6 | date : "MMMM d" }}
+                    {{
+                      transactions.paidDate
+                        | dateSecondAdd : 3
+                        | date : "MMMM d, y"
+                    }}
                   </ng-container>
 
                   <ng-container *ngIf="transactions.deliverDate !== null">

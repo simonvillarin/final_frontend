@@ -40,7 +40,11 @@ export class TransactionComponent implements OnInit {
   isError = false;
   billingAddress = false;
   confirmationDialog = false;
+  confirmationDialog1 = false;
   shippingDialog = false;
+  isPaid = false;
+  isDelivered = false;
+  isEmptyChangeAddress = true;
 
   user: any = {};
   farmers: any = {};
@@ -56,6 +60,7 @@ export class TransactionComponent implements OnInit {
   paidDate: any;
   allPayments: any = {};
   changeAddress: any = {};
+  fullN: any;
 
   barangays: any = [];
   cities: any = [];
@@ -70,13 +75,13 @@ export class TransactionComponent implements OnInit {
   regionSelected: any;
   provinceSelected: any;
   citySelected: any;
+  barangaySelected: any;
 
   ngOnInit(): void {
     this.getUserById();
     this.getTransactionById();
     this.getPaymentAccountByFarmerId();
     this.getAllPayments();
-    //this.getAllChangeAddress();
     this.getBarangay();
     this.getCity();
     this.getProvince();
@@ -259,6 +264,8 @@ export class TransactionComponent implements OnInit {
 
   onProvinceChange = (province: any) => {
     if (province != '') {
+      this.barangays = [];
+      this.cities = [];
       this.cities = this.tempCities.filter(
         (city: any) => city.province_code == province.id
       );
@@ -267,6 +274,7 @@ export class TransactionComponent implements OnInit {
 
   onCityChange = (city: any) => {
     if (city != '') {
+      this.barangays = [];
       this.barangays = this.tempBarangays.filter(
         (barangay: any) => barangay.city_code == city.id
       );
@@ -278,7 +286,14 @@ export class TransactionComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
-        console.log(data);
+        this.fullN =
+          data.firstName +
+          ' ' +
+          data.middleName +
+          ' ' +
+          data.lastName +
+          ' ' +
+          data.suffix;
       });
   };
 
@@ -287,7 +302,21 @@ export class TransactionComponent implements OnInit {
 
     this.transactionService.getTransactionById(param).subscribe((data: any) => {
       this.transactions = data;
-      console.log(data);
+
+      if (data.paidDate) {
+        this.isPaid = true;
+      }
+      if (data.deliverDate) {
+        this.isDelivered = true;
+      }
+
+      this.paymentService
+        .getPaymentByTransactionId(param)
+        .subscribe((res: any) => {
+          if (data.paidDate) {
+            this.router.navigate([`/supplier/payment/${res.paymentId}`]);
+          }
+        });
 
       this.paymentForm.patchValue({
         transactionId: this.transactions.transactionId,
@@ -300,19 +329,16 @@ export class TransactionComponent implements OnInit {
       const offerId = data.offerId;
       this.offerService.getOfferById(offerId).subscribe((data: any) => {
         this.offers = data;
-        console.log(data);
 
         const postId = data.postId;
         this.advertisementService.getAdById(postId).subscribe((data: any) => {
           this.post = data;
-          console.log(data);
         });
       });
 
       const farmerId = data.farmerId;
       this.userService.getUserById(farmerId).subscribe((data: any) => {
         this.farmers = data;
-        console.log(data);
       });
     });
   };
@@ -322,7 +348,6 @@ export class TransactionComponent implements OnInit {
 
     this.transactionService.getTransactionById(param).subscribe((data: any) => {
       this.transactions = data;
-      console.log(data);
 
       this.paymentForm.patchValue({
         transactionId: this.transactions.transactionId,
@@ -334,7 +359,6 @@ export class TransactionComponent implements OnInit {
         .getPaymentByTransactionId(transactionId)
         .subscribe((data) => {
           this.payment = data;
-          console.log(data);
 
           this.transactionForm.patchValue({
             paidDate: this.payment.paymentDate,
@@ -349,9 +373,7 @@ export class TransactionComponent implements OnInit {
 
           this.transactionService
             .updateTransaction(this.transactions.transactionId, payload)
-            .subscribe((data) => {
-              console.log(data);
-            });
+            .subscribe();
 
           const id = data.paymentId;
           scroll(0, 0);
@@ -407,24 +429,22 @@ export class TransactionComponent implements OnInit {
   getAllChangeAddress = () => {
     this.changeAddressService.getAllChangeAddress().subscribe((data) => {
       this.changeAddress = data;
-      console.log(data);
     });
   };
 
   getChangeAddressByTransactionId = () => {
-    const param = this.route.snapshot.params['id'];
+    this.changeAddressService
+      .getChangeAddressByTransactionId(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.changeAddress = data;
+        console.log(data);
 
-    this.transactionService.getTransactionById(param).subscribe((data: any) => {
-      this.transactions = data;
-
-      const transactionId = this.transactions.transactionId;
-      this.changeAddressService
-        .getChangeAddressByTransactionId(transactionId)
-        .subscribe((data: any) => {
-          this.changeAddress = data;
-          console.log(data);
-        });
-    });
+        if (data) {
+          this.isEmptyChangeAddress = false;
+        } else {
+          this.isEmptyChangeAddress = true;
+        }
+      });
   };
 
   onSubmit = () => {
@@ -447,7 +467,7 @@ export class TransactionComponent implements OnInit {
       province: this.user.province,
       region: this.user.region,
       contact: this.user.contact,
-    }); 
+    });
 
     if (this.paymentForm.valid) {
       this.confirmationDialog = true;
@@ -489,54 +509,42 @@ export class TransactionComponent implements OnInit {
   };
 
   onChange = () => {
-    console.log(this.addressForm.value);
-
     if (this.addressForm.valid) {
-      this.addressForm.patchValue({
-        region: this.addressForm.get('region')?.value.name,
-        province: this.addressForm.get('province')?.value.name,
-        city: this.addressForm.get('city')?.value.name,
-        barangay: this.addressForm.get('barangay')?.value.name,
-      });
-
-      this.changeAddressService
-        .addChangeAddress(this.addressForm.value)
-        .subscribe((data) => {
-          this.changeAddress = data;
-          console.log(data);
-
-          this.getChangeAddressByTransactionId();
-        });
+      this.confirmationDialog1 = true;
     } else {
       this.addressForm.markAllAsTouched();
     }
-    this.closeOnChangeDialog();
   };
 
-  onUpdateChange = () => {
-    if (this.addressForm.valid) {
-      this.addressForm.patchValue({
-        region: this.addressForm.get('region')?.value.name,
-        province: this.addressForm.get('province')?.value.name,
-        city: this.addressForm.get('city')?.value.name,
-        barangay: this.addressForm.get('barangay')?.value.name,
-      });
+  onConfirm1 = () => {
+    this.addressForm.patchValue({
+      transactionId: this.authService.getUserId(),
+      region: this.addressForm.get('region')?.value.name,
+      province: this.addressForm.get('province')?.value.name,
+      city: this.addressForm.get('city')?.value.name,
+      barangay: this.addressForm.get('barangay')?.value.name,
+    });
 
+    if (!this.isEmptyChangeAddress) {
       this.changeAddressService
         .updateChangeAddress(
           this.changeAddress.changeAddressId,
           this.addressForm.value
         )
-        .subscribe((data) => {
-          this.changeAddress = data;
-          console.log(data);
-
+        .subscribe(() => {
+          this.confirmationDialog1 = false;
+          this.changeDialog = false;
           this.getChangeAddressByTransactionId();
         });
     } else {
-      this.addressForm.markAllAsTouched();
+      this.changeAddressService
+        .addChangeAddress(this.addressForm.value)
+        .subscribe(() => {
+          this.confirmationDialog1 = false;
+          this.changeDialog = false;
+          this.getChangeAddressByTransactionId();
+        });
     }
-    this.closeOnUpdateChangeDialog();
   };
 
   changeDialog = false;
@@ -548,14 +556,176 @@ export class TransactionComponent implements OnInit {
 
   onChangeDialog = () => {
     this.changeDialog = true;
+
+    this.changeAddressService
+      .getChangeAddressByTransactionId(this.authService.getUserId())
+      .subscribe(
+        (data: any) => {
+          this.addressForm.patchValue({
+            fullName: data.fullName,
+            contact: data.contact,
+            unit: data.unit,
+            street: data.street,
+            village: data.village,
+          });
+
+          this.addressService.getRegion().subscribe((data: any) => {
+            data.map((region: any) => {
+              this.regions.push(region);
+            });
+            let indexOfRegion: number = 0;
+            this.regions.forEach((region: any, i: number) => {
+              if (region.name === data.region) {
+                indexOfRegion = i;
+              }
+            });
+            this.regionSelected = this.regions[indexOfRegion];
+
+            this.addressService.getProvince().subscribe((data: any) => {
+              data.map((arr: any) => {
+                this.tempProvinces.push(arr);
+              });
+
+              this.provinces = this.tempProvinces.filter(
+                (province: any) =>
+                  province.region_code === this.regionSelected.id
+              );
+              let index: number = 0;
+              this.provinces.forEach((province: any, i: number) => {
+                if (province.name === data.province) {
+                  index = i;
+                }
+              });
+              this.provinceSelected = this.provinces[index];
+
+              this.addressService.getCity().subscribe((data: any) => {
+                data.map((arr: any) => {
+                  this.tempCities.push(arr);
+                });
+
+                this.cities = this.tempCities.filter(
+                  (city: any) => city.province_code == this.provinceSelected.id
+                );
+
+                let index: number = 0;
+                this.cities.forEach((city: any, i: number) => {
+                  if (city.name == data.city) {
+                    index = i;
+                  }
+                });
+                this.citySelected = this.cities[index];
+
+                this.addressService.getBarangay().subscribe((data: any) => {
+                  data.map((arr: any) => {
+                    this.tempBarangays.push(arr);
+                  });
+
+                  this.barangays = this.tempBarangays.filter(
+                    (barangay: any) =>
+                      barangay.city_code == this.citySelected.id
+                  );
+
+                  let index: number = 0;
+                  this.barangays.forEach((barangay: any, i: number) => {
+                    if (barangay.name === data.barangay) {
+                      index = i;
+                    }
+                  });
+                  this.barangaySelected = this.barangays[index];
+                });
+              });
+            });
+          });
+        },
+        () => {
+          this.addressForm.patchValue({
+            fullName:
+              this.user.firstName +
+              ' ' +
+              this.user.middleName +
+              ' ' +
+              this.user.lastName +
+              ' ' +
+              this.user.suffix,
+            contact: this.user.contact,
+            unit: this.user.unit,
+            street: this.user.street,
+            village: this.user.village,
+          });
+
+          this.addressService.getRegion().subscribe((data: any) => {
+            data.map((region: any) => {
+              this.regions.push(region);
+            });
+            let indexOfRegion: number = 0;
+            this.regions.forEach((region: any, i: number) => {
+              if (region.name === this.user.region) {
+                indexOfRegion = i;
+              }
+            });
+            this.regionSelected = this.regions[indexOfRegion];
+
+            this.addressService.getProvince().subscribe((data: any) => {
+              data.map((arr: any) => {
+                this.tempProvinces.push(arr);
+              });
+
+              this.provinces = this.tempProvinces.filter(
+                (province: any) =>
+                  province.region_code === this.regionSelected.id
+              );
+              let index: number = 0;
+              this.provinces.forEach((province: any, i: number) => {
+                if (province.name === this.user.province) {
+                  index = i;
+                }
+              });
+              this.provinceSelected = this.provinces[index];
+
+              this.addressService.getCity().subscribe((data: any) => {
+                data.map((arr: any) => {
+                  this.tempCities.push(arr);
+                });
+
+                this.cities = this.tempCities.filter(
+                  (city: any) => city.province_code == this.provinceSelected.id
+                );
+
+                let index: number = 0;
+                this.cities.forEach((city: any, i: number) => {
+                  if (city.name == this.user.city) {
+                    index = i;
+                  }
+                });
+                this.citySelected = this.cities[index];
+
+                this.addressService.getBarangay().subscribe((data: any) => {
+                  data.map((arr: any) => {
+                    this.tempBarangays.push(arr);
+                  });
+
+                  this.barangays = this.tempBarangays.filter(
+                    (barangay: any) =>
+                      barangay.city_code == this.citySelected.id
+                  );
+
+                  let index: number = 0;
+                  this.barangays.forEach((barangay: any, i: number) => {
+                    if (barangay.name === this.user.barangay) {
+                      index = i;
+                    }
+                  });
+                  this.barangaySelected = this.barangays[index];
+                });
+              });
+            });
+          });
+        }
+      );
   };
 
-  onUpdateChangeDialog = () => {
-    this.updateChangeDialog = true;
-  };
-
-  closeOnUpdateChangeDialog = () => {
-    this.updateChangeDialog = false;
+  onCloseConfirmationDialog1 = () => {
+    this.confirmationDialog1 = false;
   };
 
   closeOnChangeDialog = () => {
@@ -579,7 +749,6 @@ export class TransactionComponent implements OnInit {
   };
 
   onPlaceOfferDialog = () => {
-    console.log(this.paymentForm.value);
     this.placeOfferDialog = true;
   };
 

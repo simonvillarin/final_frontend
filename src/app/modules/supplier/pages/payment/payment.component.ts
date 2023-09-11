@@ -22,7 +22,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class PaymentComponent implements OnInit {
   paymentForm: FormGroup;
@@ -108,7 +108,7 @@ export class PaymentComponent implements OnInit {
           if (data.paidDate) {
             this.isPaid = true;
           }
-          if (data.deliverDate) {
+          if (data.deliveredDate) {
             this.isDelivered = true;
           }
 
@@ -137,7 +137,6 @@ export class PaymentComponent implements OnInit {
 
     this.paymentService.getPaymentById(param).subscribe((data: any) => {
       this.payments = data;
-      console.log(data);
 
       const transactionId = data.transactionId;
       this.paymentService
@@ -146,12 +145,11 @@ export class PaymentComponent implements OnInit {
           this.payment = data;
 
           this.changeAddressService
-          .getChangeAddressByTransactionId(transactionId)
-          .subscribe((data: any) => {
-            this.changeAddress = data;
-            console.log(data);
-          });
-        });     
+            .getChangeAddressByTransactionId(this.authService.getUserId())
+            .subscribe((data: any) => {
+              this.changeAddress = data;
+            });
+        });
     });
   };
 
@@ -161,7 +159,6 @@ export class PaymentComponent implements OnInit {
       console.log(data);
     });
   };
-
 
   convertTime = (time: any) => {
     if (time) {

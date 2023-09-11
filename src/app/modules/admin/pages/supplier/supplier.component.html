@@ -48,12 +48,10 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 10%">Image</th>
-          <th style="width: 25%">First Name</th>
-          <th style="width: 15%">Middle Name</th>
-          <th style="width: 20%">Last Name</th>
-          <th style="width: 15%">Status</th>
-          <th style="width: 15%">Actions</th>
+          <th style="width: 15%">Image</th>
+          <th style="width: 45%">Name</th>
+          <th style="width: 20%">Status</th>
+          <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-supplier>
@@ -70,12 +68,9 @@
               </div>
             </div>
           </td>
-          <td style="text-transform: capitalize">{{ supplier.firstName }}</td>
           <td style="text-transform: capitalize">
-            {{ supplier.middleName }}
-          </td>
-          <td style="text-transform: capitalize">
-            {{ supplier.lastName }}
+            {{ supplier.firstName }} {{ supplier.middleName }}
+            {{ supplier.lastName }} {{ supplier.suffix }}
           </td>
           <td>
             <div

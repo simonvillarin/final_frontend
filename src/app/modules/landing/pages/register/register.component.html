@@ -378,7 +378,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="password?.errors?.['hasNumber']"
-            >Password should contain atleast one number</small
+            >Password should contain at least one number</small
           >
           <small
             [style]="{ color: 'var(--red)' }"
@@ -422,9 +422,6 @@
           >
         </div>
       </div>
-    </div>
-
-    <div class="f-group">
       <div class="input-group">
         <label>ID Type<span class="required">*</span></label>
         <p-dropdown
@@ -434,7 +431,6 @@
             width: '100%'
           }"
           appendTo="body"
-          w
           formControlName="idType"
         ></p-dropdown>
         <div *ngIf="idType.invalid && (idType?.dirty || idType.touched)">
@@ -444,18 +440,16 @@
             >ID type is required</small
           >
         </div>
-        <div class="input-group">
-          <label>ID NUMBER<span class="required">*</span></label>
-          <input pInputText formControlName="idNumber" />
-          <div
-            *ngIf="idNumber.invalid && (idNumber?.dirty || idNumber.touched)"
+      </div>
+      <div class="input-group">
+        <label>ID Number<span class="required">*</span></label>
+        <input pInputText formControlName="idNumber" pKeyFilter="int" />
+        <div *ngIf="idNumber.invalid && (idNumber?.dirty || idNumber.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="idNumber.errors?.['required']"
+            >ID Number is required</small
           >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="idNumber.errors?.['required']"
-              >ID Number is required</small
-            >
-          </div>
         </div>
       </div>
     </div>
@@ -466,11 +460,7 @@
         <div
           class="id-img-container {{ idFrontEmpty ? 'border' : 'show-border' }}"
         >
-          <img
-            src="{{ idFront }}"
-            alt="Front Id"
-            [class.show-img]="!idFrontPreview"
-          />
+          <img src="{{ idFront }}" alt="Front Id" *ngIf="idFrontPreview" />
         </div>
         <div
           *ngIf="filename2.invalid && (filename2?.dirty || filename2?.touched)"
@@ -496,11 +486,7 @@
         <div
           class="id-img-container {{ idBackEmpty ? 'border' : 'show-border' }}"
         >
-          <img
-            src="{{ idBack }}"
-            alt="Back Id"
-            [class.show-img]="!idBackPreview"
-          />
+          <img src="{{ idBack }}" alt="Back Id" *ngIf="idBackPreview" />
         </div>
         <div
           *ngIf="filename1.invalid && (filename1?.dirty || filename1?.touched)"
@@ -601,6 +587,15 @@
             </div>
           </ng-container>
         </ng-container>
+        <div
+          *ngIf="selfieImg.invalid && (selfieImg?.dirty || selfieImg?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="selfieImg?.errors?.['required']"
+            >Selfie is required</small
+          >
+        </div>
       </div>
     </div>
 

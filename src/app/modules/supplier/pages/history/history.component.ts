@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { ChangeAddressService } from 'src/app/shared/services/change-address/change-address.service';
 import { PaymentService } from 'src/app/shared/services/payment/payment.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-history',
@@ -41,7 +43,9 @@ export class HistoryComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private changeAddressService: ChangeAddressService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -146,46 +150,59 @@ export class HistoryComponent implements OnInit {
   }
 
   onView = (payment: any) => {
-    this.payment = payment;
-    console.log(this.payment);
-    this.image = this.payment.payment.transaction.offer.advertisement.image;
-    this.name = this.payment.payment.transaction.offer.advertisement.name;
-    this.category =
-      this.payment.payment.transaction.offer.advertisement.category;
-    this.description =
-      this.payment.payment.transaction.offer.advertisement.description;
-    this.measurement =
-      this.payment.payment.transaction.offer.advertisement.measurement;
-    this.value = this.payment.payment.transaction.offer.value;
-    this.price = this.payment.payment.transaction.offer.price;
-    this.paymentIdRef = this.payment.payment.paymentIdRef;
-    this.paymentDate = this.payment.payment.transaction.paidDate;
-    this.deliverDate = this.payment.payment.transaction.deliverDate;
-    this.deliveredTo =
-      this.payment.payment.transaction.farmer.firstName +
-      ' ' +
-      this.payment.payment.transaction.farmer.middleName +
-      ' ' +
-      this.payment.payment.transaction.farmer.lastName +
-      ' ' +
-      this.payment.payment.transaction.farmer.suffix;
-    this.contact = this.payment.payment.transaction.farmer.contact;
-    this.address =
-      this.payment.payment.transaction.farmer.unit +
-      ', ' +
-      this.payment.payment.transaction.farmer.street +
-      ', ' +
-      this.payment.payment.transaction.farmer.village +
-      ', ' +
-      this.payment.payment.transaction.farmer.barangay +
-      ', ' +
-      this.payment.payment.transaction.farmer.city +
-      ', ' +
-      this.payment.payment.transaction.farmer.province +
-      ', ' +
-      this.payment.payment.transaction.farmer.region;
+    this.changeAddressService
+      .getChangeAddressByTransactionId(
+        payment.payment.transaction.transactionId
+      )
+      .subscribe((data: any) => {
+        this.userService
+          .getUserById(this.authService.getUserId())
+          .subscribe((res: any) => {
+            this.payment = payment;
+            this.image =
+              this.payment.payment.transaction.offer.advertisement.image;
+            this.name =
+              this.payment.payment.transaction.offer.advertisement.name;
+            this.category =
+              this.payment.payment.transaction.offer.advertisement.category;
+            this.description =
+              this.payment.payment.transaction.offer.advertisement.description;
+            this.measurement =
+              this.payment.payment.transaction.offer.advertisement.measurement;
+            this.value = this.payment.payment.transaction.offer.value;
+            this.price = this.payment.payment.transaction.offer.price;
+            this.paymentIdRef = this.payment.payment.paymentIdRef;
+            this.paymentDate = this.payment.payment.transaction.paidDate;
+            this.deliverDate = this.payment.payment.transaction.deliverDate;
 
-    this.detailsDialog = true;
+            this.deliveredTo =
+              data.fullName ||
+              res.firstName +
+                ' ' +
+                res.middleName +
+                ' ' +
+                res.lastName +
+                ' ' +
+                res.suffix;
+            this.contact = data.contact || res.contact;
+            this.address =
+              (data.unit || res.unit) +
+              ', ' +
+              (data.street || res.street) +
+              ', ' +
+              (data.village || res.village) +
+              ', ' +
+              (data.barangay || res.barangay) +
+              ', ' +
+              (data.city || res.city) +
+              ', ' +
+              (data.province || res.province) +
+              ', ' +
+              (data.region || res.region);
+          });
+
+        this.detailsDialog = true;
+      });
   };
 
   onCloseDetailsDialog = () => {

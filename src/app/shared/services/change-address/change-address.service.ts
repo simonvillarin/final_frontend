@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChangeAddressService {
   baseUrl = 'http://localhost:8080/api/farming';
@@ -11,7 +11,7 @@ export class ChangeAddressService {
   constructor(private http: HttpClient) {}
 
   getAllChangeAddress = (): Observable<any[]> => {
-    return this.http.get<any[]>(`${this.baseUrl}/change-address`);
+    return this.http.get<any[]>(`${this.baseUrl}/change-addresss`);
   };
 
   getChangeAddressById = (id: number): Observable<any> => {
@@ -19,14 +19,22 @@ export class ChangeAddressService {
   };
 
   getChangeAddressByTransactionId = (id: number): Observable<any> => {
-    return this.http.get<any>(`${this.baseUrl}/change-address/transaction/${id}`);
+    return this.http.get<any>(
+      `${this.baseUrl}/change-address/transaction/${id}`
+    );
   };
 
   addChangeAddress = (changeAddress: any): Observable<any> => {
-    return this.http.post<any>(`${this.baseUrl}/change-address`, changeAddress);
+    return this.http.post<any>(
+      `${this.baseUrl}/transaction/change-address`,
+      changeAddress
+    );
   };
 
   updateChangeAddress = (id: any, changeAddress: any): Observable<any> => {
-    return this.http.put<any>(`${this.baseUrl}/change-address/${id}`, changeAddress);
+    return this.http.put<any>(
+      `${this.baseUrl}/change-address/${id}`,
+      changeAddress
+    );
   };
 }

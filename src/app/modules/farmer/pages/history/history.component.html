@@ -69,7 +69,7 @@
           class="error-image"
         />
       </div>
-      <p class="empty-message">No Complaint to display.</p>
+      <p class="empty-message">No transactions to display.</p>
     </div>
   </ng-template>
 
@@ -154,19 +154,19 @@
               </p>
             </div>
             <div>
-              <div class="title">Supplier</div>
+              <div class="title">Receiver</div>
               <div class="data">
                 {{ deliveredTo }}
               </div>
             </div>
             <div>
-              <div class="title">Supplier Contact No</div>
+              <div class="title">Receiver Contact No</div>
               <div class="data">
                 {{ contact }}
               </div>
             </div>
             <div>
-              <div class="title t1">Supplier Address</div>
+              <div class="title t1">Receiver Address</div>
               <p class="data d1">
                 {{ address }}
               </p>
@@ -174,11 +174,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="dialog-actions">
-      <button class="dialog-btn submit" (click)="onCloseDetailsDialog()">
-        OK
-      </button>
     </div>
   </p-dialog>
 </main>
