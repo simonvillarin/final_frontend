@@ -41,26 +41,61 @@
 
           <ng-template pTemplate="content">
             <p class="content">
-              <span class="subtitle">Receiver: </span> {{ user.firstName }}
-              {{ user.middleName }} {{ user.lastName }}
-              {{ user.suffix }}
+              <ng-container *ngIf="this.changeAddress.transactionId === null">
+                <span class="subtitle">Receiver: </span> {{ user.firstName }}
+                {{ user.middleName }} {{ user.lastName }}
+                {{ user.suffix }}
+              </ng-container>
+
+              <ng-container *ngIf="this.changeAddress.transactionId !== null">
+                <span class="subtitle">Receiver: </span> {{ this.changeAddress.fullName }}
+              </ng-container>
             </p>
             <p class="content">
-              <span class="subtitle">Contact No: </span> {{ user.contact }}
+              <ng-container *ngIf="this.changeAddress.transactionId === null">
+                <span class="subtitle">Contact #: </span> {{ user.contact }}
+              </ng-container>
+
+              <ng-container *ngIf="this.changeAddress.transactionId !== null">
+                <span class="subtitle">Contact #: </span> {{ this.changeAddress.contact }}
+              </ng-container>
             </p>
             <p class="content">
-              <span class="subtitle">Address:</span> {{ user.unit }}
-              {{ user.street }}, {{ user.village }}, {{ user.barangay }}
-              {{ user.city }}, {{ user.region }}
+              <ng-container *ngIf="this.changeAddress.transactionId === null">
+                <span class="subtitle">Address:</span> {{ user.unit }}
+                {{ user.street }}, {{ user.village }}, {{ user.barangay }}
+                {{ user.city }}, {{ user.region }}
+              </ng-container>
+
+              <ng-container *ngIf="this.changeAddress.transactionId !== null">
+                <span class="subtitle">Address:</span>
+                <span>
+                  {{ this.changeAddress.unit }}
+                  {{ this.changeAddress.street }},
+                  {{ this.changeAddress.village }},
+                  {{ this.changeAddress.barangay }}
+                  {{ this.changeAddress.city }}, {{ this.changeAddress.region }}
+                </span>
+              </ng-container>
             </p>
           </ng-template>
 
           <ng-template pTemplate="footer">
-            <p-button label="Change" (click)="onChangeDialog()"
-              ><span class="material-symbols-rounded">
-                navigate_next
-              </span></p-button
-            >
+            <ng-container *ngIf="this.changeAddress.transactionId !== null">
+              <p-button label="Update" (click)="onUpdateChangeDialog()"
+                ><span class="material-symbols-rounded">
+                  navigate_next
+                </span></p-button
+              >
+            </ng-container>
+
+            <ng-container *ngIf="this.changeAddress.transactionId === null">
+              <p-button label="Change" (click)="onChangeDialog()"
+                ><span class="material-symbols-rounded">
+                  navigate_next
+                </span></p-button
+              >
+            </ng-container>
           </ng-template>
         </p-card>
       </div>
@@ -103,13 +138,13 @@
               <div>
                 <div class="title-offer t1">Estimated Delivery</div>
                 <div class="data-offer d1">
-                  <ng-container
-                    *ngIf="transactions.transactionsdeliverDate == null"
-                  >
-                    This will be updated
+                  <ng-container *ngIf="transactions.deliverDate === null">
+                    {{ todayDate | dateSecondAdd : 3 | date : "MMMM d" }}
+                    to
+                    {{ todayDate | dateSecondAdd : 6 | date : "MMMM d" }}
                   </ng-container>
 
-                  <ng-container *ngIf="transactions.deliverDate != null">
+                  <ng-container *ngIf="transactions.deliverDate !== null">
                     {{ transactions?.deliverDate | date : "MMMM d" }} to
                     {{
                       transactions.deliverDate
@@ -147,10 +182,10 @@
             <div>
               <div class="title-offer t1">Estimated Delivery</div>
               <div class="data-offer d1">
-                <ng-container
-                  *ngIf="transactions.transactionsdeliverDate == null"
-                >
-                  This will be updated
+                <ng-container *ngIf="transactions.deliverDate === null">
+                  {{ todayDate | dateSecondAdd : 3 | date : "MMMM d" }}
+                  to
+                  {{ todayDate | dateSecondAdd : 6 | date : "MMMM d" }}
                 </ng-container>
 
                 <ng-container *ngIf="transactions.deliverDate != null">
@@ -566,4 +601,218 @@
       <button class="dialog-btn submit">Yes</button>
     </form>
   </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="updateChangeDialog"
+  [modal]="true"
+  [breakpoints]="{ '600px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="dialog-title">Update Address</div>
+  </p-header>
+  <form [formGroup]="addressForm" (ngSubmit)="onUpdateChange()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Full Name<span class="required">*</span></label>
+        <input
+          type="text"
+          pInputText
+          formControlName="fullName"
+          placeholder="First and Last Name"
+        />
+        <div
+          *ngIf="fullName?.invalid && (fullName?.dirty || fullName?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="fullName?.errors?.['required']"
+          >
+            Full name is required
+          </small>
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="paymentForm.get('fullName')?.errors?.['minlength']"
+            >Minimum length is 3</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="paymentForm.get('fullName')?.errors?.['maxlength']"
+            >Maximum length is 80</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Contact Number<span class="required">*</span></label>
+        <input pInputText formControlName="contact" />
+        <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact?.errors?.['required']"
+          >
+            Contact number is required
+          </small>
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contact?.errors?.['mobileNoIsValid']"
+            >Invalid mobile number format</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label>Unit Number / House Number<span class="required">*</span></label>
+        <input
+          pInputText
+          formControlName="unit"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="unit.invalid && (unit?.dirty || unit.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="unit.errors?.['required']"
+            >Unit Number / House Number is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Street<span class="required">*</span></label>
+        <input
+          pInputText
+          formControlName="street"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="street.invalid && (street?.dirty || street.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="street.errors?.['required']"
+            >Street is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label
+          >Subdivision / Village / Bldg<span class="required">*</span></label
+        >
+        <input
+          pInputText
+          formControlName="village"
+          style="text-transform: capitalize"
+        />
+        <div *ngIf="village.invalid && (village?.dirty || village.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="village.errors?.['required']"
+            >Subdivision / Village / Bldg is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Region<span class="required">*</span></label>
+        <p-dropdown
+          [options]="regions"
+          optionLabel="name"
+          placeholder="Select a region"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="region"
+          [(ngModel)]="regionSelected"
+          (ngModelChange)="onRegionChange($event)"
+        ></p-dropdown>
+        <div *ngIf="region.invalid && (region?.dirty || region.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="region.errors?.['required']"
+            >Region is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <label>Province<span class="required">*</span></label>
+        <p-dropdown
+          [options]="provinces"
+          optionLabel="name"
+          placeholder="Select a province"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="province"
+          [(ngModel)]="provinceSelected"
+          (ngModelChange)="onProvinceChange($event)"
+        ></p-dropdown>
+        <div *ngIf="province.invalid && (province?.dirty || province.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="province.errors?.['required']"
+            >Province is required</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>City<span class="required">*</span></label>
+        <p-dropdown
+          [options]="cities"
+          optionLabel="name"
+          placeholder="Select a city"
+          [style]="{
+            width: '100%'
+          }"
+          appendTo="body"
+          formControlName="city"
+          [(ngModel)]="citySelected"
+          (ngModelChange)="onCityChange($event)"
+        ></p-dropdown>
+        <div *ngIf="city.invalid && (city?.dirty || city.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="city.errors?.['required']"
+            >City is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Barangay<span class="required">*</span></label>
+      <p-dropdown
+        [options]="barangays"
+        optionLabel="name"
+        placeholder="Select a barangay"
+        [style]="{
+          width: '100%'
+        }"
+        appendTo="body"
+        formControlName="barangay"
+      ></p-dropdown>
+      <div *ngIf="barangay.invalid && (barangay?.dirty || barangay.touched)">
+        <small
+          [style]="{ color: 'var(--red)' }"
+          *ngIf="barangay.errors?.['required']"
+          >Barangay is required</small
+        >
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel" (click)="closeOnChangeDialog()">
+        Cancel
+      </button>
+      <button class="dialog-btn submit">Yes</button>
+    </div>
+  </form>
 </p-dialog>

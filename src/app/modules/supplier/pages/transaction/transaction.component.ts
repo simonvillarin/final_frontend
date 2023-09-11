@@ -33,6 +33,8 @@ export class TransactionComponent implements OnInit {
   addressForm: FormGroup;
   transactionForm: FormGroup;
 
+  todayDate = new Date();
+
   error = false;
   alert = false;
   isError = false;
@@ -74,10 +76,12 @@ export class TransactionComponent implements OnInit {
     this.getTransactionById();
     this.getPaymentAccountByFarmerId();
     this.getAllPayments();
+    //this.getAllChangeAddress();
     this.getBarangay();
     this.getCity();
     this.getProvince();
     this.getRegion();
+    this.getChangeAddressByTransactionId();
   }
 
   constructor(
@@ -129,6 +133,7 @@ export class TransactionComponent implements OnInit {
     });
 
     this.addressForm = this.fb.group({
+      transactionId: [''],
       fullName: [
         '',
         [
@@ -273,6 +278,7 @@ export class TransactionComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
+        console.log(data);
       });
   };
 
@@ -284,6 +290,10 @@ export class TransactionComponent implements OnInit {
       console.log(data);
 
       this.paymentForm.patchValue({
+        transactionId: this.transactions.transactionId,
+      });
+
+      this.addressForm.patchValue({
         transactionId: this.transactions.transactionId,
       });
 
@@ -394,15 +404,27 @@ export class TransactionComponent implements OnInit {
     });
   };
 
+  getAllChangeAddress = () => {
+    this.changeAddressService.getAllChangeAddress().subscribe((data) => {
+      this.changeAddress = data;
+      console.log(data);
+    });
+  };
+
   getChangeAddressByTransactionId = () => {
     const param = this.route.snapshot.params['id'];
 
-    this.changeAddressService
-      .getChangeAddressByTransactionId(param)
-      .subscribe((data: any) => {
-        this.changeAddress = data;
-        console.log(data);
-      });
+    this.transactionService.getTransactionById(param).subscribe((data: any) => {
+      this.transactions = data;
+
+      const transactionId = this.transactions.transactionId;
+      this.changeAddressService
+        .getChangeAddressByTransactionId(transactionId)
+        .subscribe((data: any) => {
+          this.changeAddress = data;
+          console.log(data);
+        });
+    });
   };
 
   onSubmit = () => {
@@ -425,7 +447,7 @@ export class TransactionComponent implements OnInit {
       province: this.user.province,
       region: this.user.region,
       contact: this.user.contact,
-    });
+    }); 
 
     if (this.paymentForm.valid) {
       this.confirmationDialog = true;
@@ -470,12 +492,20 @@ export class TransactionComponent implements OnInit {
     console.log(this.addressForm.value);
 
     if (this.addressForm.valid) {
+      this.addressForm.patchValue({
+        region: this.addressForm.get('region')?.value.name,
+        province: this.addressForm.get('province')?.value.name,
+        city: this.addressForm.get('city')?.value.name,
+        barangay: this.addressForm.get('barangay')?.value.name,
+      });
+
       this.changeAddressService
         .addChangeAddress(this.addressForm.value)
         .subscribe((data) => {
+          this.changeAddress = data;
           console.log(data);
 
-          // this.getChangeAddressByTransactionId();
+          this.getChangeAddressByTransactionId();
         });
     } else {
       this.addressForm.markAllAsTouched();
@@ -483,7 +513,34 @@ export class TransactionComponent implements OnInit {
     this.closeOnChangeDialog();
   };
 
+  onUpdateChange = () => {
+    if (this.addressForm.valid) {
+      this.addressForm.patchValue({
+        region: this.addressForm.get('region')?.value.name,
+        province: this.addressForm.get('province')?.value.name,
+        city: this.addressForm.get('city')?.value.name,
+        barangay: this.addressForm.get('barangay')?.value.name,
+      });
+
+      this.changeAddressService
+        .updateChangeAddress(
+          this.changeAddress.changeAddressId,
+          this.addressForm.value
+        )
+        .subscribe((data) => {
+          this.changeAddress = data;
+          console.log(data);
+
+          this.getChangeAddressByTransactionId();
+        });
+    } else {
+      this.addressForm.markAllAsTouched();
+    }
+    this.closeOnUpdateChangeDialog();
+  };
+
   changeDialog = false;
+  updateChangeDialog = false;
   cardDialog = false;
   gCashDialog = false;
   payMayaDialog = false;
@@ -491,6 +548,14 @@ export class TransactionComponent implements OnInit {
 
   onChangeDialog = () => {
     this.changeDialog = true;
+  };
+
+  onUpdateChangeDialog = () => {
+    this.updateChangeDialog = true;
+  };
+
+  closeOnUpdateChangeDialog = () => {
+    this.updateChangeDialog = false;
   };
 
   closeOnChangeDialog = () => {

@@ -15,14 +15,19 @@ import { OfferService } from 'src/app/shared/services/offer/offer.service';
 import { PaymentAccountService } from 'src/app/shared/services/payment-account/payment-account.service';
 import { PaymentDetailsService } from 'src/app/shared/services/payment-details/payment-details.service';
 import { AcceptedOfferCountService } from 'src/app/shared/services/accepted-offer-count/accepted-offer-count.service';
+import { ChangeAddressService } from 'src/app/shared/services/change-address/change-address.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
+  providers: [DatePipe]
 })
 export class PaymentComponent implements OnInit {
   paymentForm: FormGroup;
+
+  todayDate = new Date();
 
   user: any = {};
   transactions: any = {};
@@ -37,9 +42,13 @@ export class PaymentComponent implements OnInit {
   isPaid = false;
   isDelivered = false;
 
+  changeAddress: any = {};
+
   ngOnInit(): void {
     this.getUserById();
     this.getPaymentById();
+    this.getAllChangeAddress();
+    this.getChangeAddressByTransactionId();
   }
 
   constructor(
@@ -51,6 +60,7 @@ export class PaymentComponent implements OnInit {
     private offerService: OfferService,
     private advertisementService: AdvertisementService,
     private paymentDetailsService: PaymentDetailsService,
+    private changeAddressService: ChangeAddressService,
     private route: ActivatedRoute
   ) {
     this.paymentForm = this.fb.group({
@@ -75,6 +85,7 @@ export class PaymentComponent implements OnInit {
 
     this.paymentService.getPaymentById(param).subscribe((data: any) => {
       this.payments = data;
+      console.log(data);
 
       const transactionId = data.transactionId;
       this.paymentService
@@ -120,6 +131,37 @@ export class PaymentComponent implements OnInit {
         });
     });
   };
+
+  getChangeAddressByTransactionId = () => {
+    const param = this.route.snapshot.params['id'];
+
+    this.paymentService.getPaymentById(param).subscribe((data: any) => {
+      this.payments = data;
+      console.log(data);
+
+      const transactionId = data.transactionId;
+      this.paymentService
+        .getPaymentByTransactionId(transactionId)
+        .subscribe((data) => {
+          this.payment = data;
+
+          this.changeAddressService
+          .getChangeAddressByTransactionId(transactionId)
+          .subscribe((data: any) => {
+            this.changeAddress = data;
+            console.log(data);
+          });
+        });     
+    });
+  };
+
+  getAllChangeAddress = () => {
+    this.changeAddressService.getAllChangeAddress().subscribe((data) => {
+      this.changeAddress = data;
+      console.log(data);
+    });
+  };
+
 
   convertTime = (time: any) => {
     if (time) {
