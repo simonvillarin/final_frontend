@@ -133,6 +133,9 @@ export class ComplaintsComponent implements OnInit {
             .includes(search.toLowerCase()) ||
           complaint.farmer.middleName
             .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          complaint.complaintDetails
+            .toLowerCase()
             .includes(search.toLowerCase())
       );
       if (this.complaints.length > 0) {
