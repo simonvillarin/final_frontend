@@ -292,9 +292,9 @@ export class HistoryComponent implements OnInit {
   }
 
   getRandomColor(): string {
-    const r = Math.floor(Math.random() * 101) + 100; // Range: 100-200
-    const g = Math.floor(Math.random() * 101) + 100; // Range: 100-200
-    const b = Math.floor(Math.random() * 101) + 100; // Range: 100-200
+    const r = Math.floor(Math.random() * 101) + 100;
+    const g = Math.floor(Math.random() * 101) + 100;
+    const b = Math.floor(Math.random() * 101) + 100;
     return `${r},${g},${b}`;
   }
 }
