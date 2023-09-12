@@ -77,6 +77,7 @@ export class PaymentComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
+        console.log(data);
       });
   };
 

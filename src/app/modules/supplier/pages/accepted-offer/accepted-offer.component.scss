@@ -96,6 +96,7 @@ img {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .btn-transaction,
@@ -112,6 +113,26 @@ img {
   font-size: 1rem;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
+}
+
+.btn-awaiting-payment {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 2rem;
+  border-radius: 0.25rem;
+  color: var(--light);
+  background-color: var(--yellow);
+  font-size: 1rem;
+  transition: background-color 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.btn-awaiting-payment:hover,
+.btn-awaiting-payment:focus {
+  background-color: var(--orange);
 }
 
 .btn-transaction:hover,
@@ -280,6 +301,7 @@ img {
     flex-direction: row;
   }
 
+  .btn-awaiting-payment,
   .btn-transaction,
   .btn-cancel {
     width: auto;

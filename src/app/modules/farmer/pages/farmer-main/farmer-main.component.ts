@@ -64,9 +64,9 @@ export class FarmerMainComponent {
         if (data.lastName) {
           this.username += ' ' + data.lastName;
         }
-        if (data.suffix) {
+        /**if (data.suffix) {
           this.username += ' ' + data.suffix;
-        }
+        }**/
 
         this.userPic = data.image;
       },

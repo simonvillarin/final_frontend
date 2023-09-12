@@ -31,7 +31,7 @@ export class TransactionHistoryComponent implements OnInit {
   user: any = {};
   transactions: any = {};
   payment: any;
-  farmer: any = {};
+  supplier: any;
   offers: any = {};
   post: any = {};
   payments: any;
@@ -104,6 +104,7 @@ export class TransactionHistoryComponent implements OnInit {
         .getTransactionById(transactionId)
         .subscribe((data: any) => {
           this.transactions = data;
+          console.log(data);
 
           if (data.paidDate) {
             this.isPaid = true;
@@ -124,9 +125,9 @@ export class TransactionHistoryComponent implements OnInit {
               });
           });
 
-          const farmerId = data.farmerId;
-          this.userService.getUserById(farmerId).subscribe((data: any) => {
-            this.farmer = data;
+          const supplierId = data.supplierId;
+          this.userService.getUserById(supplierId).subscribe((data: any) => {
+            this.supplier = data;
           });
         });
     });

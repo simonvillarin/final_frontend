@@ -18,19 +18,75 @@
   </div>
 
   <div class="card-container">
-    <ng-container *ngIf="!transactions.deliveredDate">
-      <button class="btn-deliver" (click)="updateDelivery()">
-        <span class="material-symbols-rounded"> local_shipping </span>Crops
-        Delivered
-      </button></ng-container
+    <div
+      class="card flex justify-content-center"
+      style="margin-bottom: 0px"
+      *ngIf="transactions.deliveredDate"
     >
-    <div class="card flex justify-content-center" style="margin-bottom: 0px">
-      <p-card header="Your order has been placed">
+      <p-card header="This order was delivered">
         <div class="card-content">
           <div>
             <div>
               <div class="m-1">Payment Reference Number</div>
               <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
+            </div>
+            <div>
+              <div class="m-1">Date Delivered</div>
+              <div class="m-2">
+                {{ transactions?.deliveredDate | date : "MMMM d, y"}}
+                {{ convertTime(transactions?.deliveredTime) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template pTemplate="title">
+          <span
+            class="material-symbols-rounded"
+            style="
+              color: var(--darker-primary);
+              justify-content: center;
+              align-items: center;
+              padding-left: 5px;
+            "
+          >
+            local_shipping
+          </span>
+        </ng-template>
+      </p-card>
+    </div>
+    <div
+      class="card flex justify-content-center"
+      style="margin-bottom: 0px"
+      *ngIf="!transactions.deliveredDate"
+    >
+      <p-card class="paid" header="This order was paid">
+        <div class="card-content">
+          <div>
+            <div>
+              <div class="m-1">Payment Reference Number</div>
+              <div class="m-2">{{ paymentDetails?.paymentIdRef }}</div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <div class="m-1">Estimated Delivery</div>
+              <div class="m-2" *ngIf="transactions.deliverDate === null">
+                <ng-container *ngIf="transactions.deliverDate === null">
+                  {{ transactions.paidDate | date : "MMMM d, y" }}
+                  to
+                  {{
+                    transactions.paidDate | dateAdd : 3 | date : "MMMM d, y"
+                  }}
+                </ng-container>
+
+                <ng-container *ngIf="transactions.deliverDate !== null">
+                  {{ transactions?.deliverDate | date : "MMMM d" }} to
+                  {{
+                    transactions.deliverDate | dateAdd : 3 | date : "MMMM d"
+                  }}
+                </ng-container>
+              </div>
             </div>
           </div>
         </div>
@@ -47,6 +103,11 @@
             done
           </span>
         </ng-template>
+
+        <button class="btn-deliver" (click)="updateDelivery()">
+          <span class="material-symbols-rounded"> local_shipping </span>Mark as
+          Delivered
+        </button>
       </p-card>
     </div>
     <div class="role-container">
@@ -54,14 +115,26 @@
         <p-card header="Delivery Address">
           <p style="font-weight: 400">Order will be shipped to:</p>
           <p class="m-0">
-            <ng-container *ngIf="this.changeAddress.transactionId === null">
-              {{ user.firstName }}
-              {{ user.middleName }} {{ user.lastName }}
-              {{ user.suffix }}
+            <ng-container *ngIf="changeAddress.transactionId === null">
+              <div style="font-weight: 600">
+                {{ supplier?.firstName }}
+                {{ supplier?.middleName }} {{ supplier?.lastName }}
+              </div>
+              <div>
+                <p
+                  style="
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    padding-left: 5px;
+                  "
+                >
+                  {{ supplier?.suffix }}
+                </p>
+              </div>
             </ng-container>
 
-            <ng-container *ngIf="this.changeAddress.transactionId !== null">
-              {{ this.changeAddress.fullName }}
+            <ng-container *ngIf="changeAddress.transactionId !== null">
+              {{ changeAddress.fullName }}
             </ng-container>
           </p>
 
@@ -80,30 +153,28 @@
 
           <ng-template pTemplate="content">
             <p class="contact" style="font-weight: 500">
-              <ng-container *ngIf="this.changeAddress.transactionId === null">
+              <ng-container *ngIf="changeAddress.transactionId === null">
                 {{ user.contact }}
               </ng-container>
 
-              <ng-container *ngIf="this.changeAddress.transactionId !== null">
-                {{ this.changeAddress.contact }}
+              <ng-container *ngIf="changeAddress.transactionId !== null">
+                {{ changeAddress.contact }}
               </ng-container>
             </p>
-            <p style="font-weight: 500">
-              <ng-container *ngIf="this.changeAddress.transactionId === null">
+            <p style="font-weight: 500; text-transform: capitalize">
+              <ng-container *ngIf="changeAddress.transactionId === null">
                 {{ user.unit }}
                 {{ user.street }}, {{ user.village }}, {{ user.barangay }}
-                {{ user.city }}, {{ this.user.province }},
+                {{ user.city }}, {{ user.province }},
                 {{ user.region }}
               </ng-container>
 
-              <ng-container *ngIf="this.changeAddress.transactionId !== null">
-                {{ this.changeAddress.unit }}
-                {{ this.changeAddress.street }},
-                {{ this.changeAddress.village }},
-                {{ this.changeAddress.barangay }}
-                {{ this.changeAddress.city }},
-                {{ this.changeAddress.province }},
-                {{ this.changeAddress.region }}
+              <ng-container *ngIf="changeAddress.transactionId !== null">
+                {{ changeAddress.unit }}
+                {{ changeAddress.street }}, {{ changeAddress.village }},
+                {{ changeAddress.barangay }}
+                {{ changeAddress.city }}, {{ changeAddress.province }},
+                {{ changeAddress.region }}
               </ng-container>
             </p>
           </ng-template>
@@ -128,25 +199,6 @@
               <div>
                 <div class="m-1">Payment Method</div>
                 <div class="m-2">{{ payment?.paymentMode }}</div>
-              </div>
-              <div>
-                <div class="m-1">Estimated Delivery</div>
-                <div class="m-2" *ngIf="transactions.deliverDate === null">
-                  <ng-container *ngIf="transactions.deliverDate === null">
-                    {{ transactions.paidDate | date : "MMMM d, y" }}
-                    to
-                    {{
-                      transactions.paidDate | dateAdd : 3 | date : "MMMM d, y"
-                    }}
-                  </ng-container>
-
-                  <ng-container *ngIf="transactions.deliverDate !== null">
-                    {{ transactions?.deliverDate | date : "MMMM d" }} to
-                    {{
-                      transactions.deliverDate | dateAdd : 3 | date : "MMMM d"
-                    }}
-                  </ng-container>
-                </div>
               </div>
             </div>
           </div>
@@ -226,31 +278,18 @@
                     </div>
                   </div>
                   <div>
-                    <div class="title t1">Price</div>
-                    <p class="data d1">
+                    <div class="title">Price</div>
+                    <p class="data">
                       {{ offers.price | currency : "PHP" : "symbol" : "1.2-2" }}
                     </p>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-content cc">
-              <div>
-                <div>
-                  <div class="title">Subtotal</div>
-                  <div class="data">
-                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
-                  </div>
-                </div>
-                <div>
-                  <div class="title">Shipping</div>
-                  <div class="data">(wala pa data)</div>
-                </div>
-                <div>
-                  <div class="title t1">Total</div>
-                  <div class="data d1">
-                    {{ post.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                  <div>
+                    <div class="title t1" style="font-weight: 500">
+                      Amount Paid
+                    </div>
+                    <p class="data d1" style="font-weight: 600">
+                      {{ offers.price | currency : "PHP" : "symbol" : "1.2-2" }}
+                    </p>
                   </div>
                 </div>
               </div>

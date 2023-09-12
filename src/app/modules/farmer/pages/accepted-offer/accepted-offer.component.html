@@ -70,15 +70,17 @@
       <div class="card-content">
         <div>
           <div class="title">Supplier Name</div>
-          <div class="data">
+          <div class="data" style="text-transform: capitalize;">
             {{ acceptedOffer.supplier.firstName }}
             {{ acceptedOffer.supplier.middleName }}
             {{ acceptedOffer.supplier.lastName }}
-            {{ acceptedOffer.supplier.suffix }}
+            <span style="text-transform: uppercase;">
+              {{ acceptedOffer.supplier.suffix }}
+            </span>
           </div>
         </div>
         <div>
-          <div class="title">Supplier Contact No</div>
+          <div class="title">Supplier Contact Number</div>
           <div class="data">{{ acceptedOffer.supplier.contact }}</div>
         </div>
         <div>
@@ -115,10 +117,18 @@
           </div>
         </div>
         <div>
-          <div class="title t1">Price</div>
-          <p class="data d1">
+          <div class="title">Price</div>
+          <p class="data">
             {{
               acceptedOffer.offer.price | currency : "PHP" : "symbol" : "1.2-2"
+            }}
+          </p>
+        </div>
+        <div>
+          <div class="title t1">Date Accepted</div>
+          <p class="data d1">
+            {{
+              acceptedOffer.acceptDate | date : "MMMM d, y"
             }}
           </p>
         </div>

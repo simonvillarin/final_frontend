@@ -59,13 +59,18 @@
       <div class="card-content">
         <div>
           <div class="title">Supplier Name</div>
-          <div class="data">
+          <div class="data" style="text-transform: capitalize;">
             {{ ad.supplier.firstName }} {{ ad.supplier.middleName }}
-            {{ ad.supplier.lastName }} {{ ad.supplier.suffix }}
+            {{ ad.supplier.lastName }} 
+            <span style="text-transform: uppercase;">
+              {{ ad.supplier.suffix }}
+            </span>
           </div>
         </div>
         <div>
-          <div class="title">Supplier Contact No</div>
+          <div class="title">Supplier Contact Number
+            
+          </div>
           <div class="data">
             {{ ad.supplier.contact }}
           </div>

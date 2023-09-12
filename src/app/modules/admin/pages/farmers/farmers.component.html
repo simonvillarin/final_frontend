@@ -49,7 +49,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 15%">Image</th>
-          <th style="width: 30%">Name</th>
+          <th style="width: 30%">Full Name</th>
           <th style="width: 20%">Username</th>
           <th style="width: 15%">Status</th>
           <th style="width: 20%">Actions</th>
@@ -71,7 +71,10 @@
           </td>
           <td style="text-transform: capitalize">
             {{ farmer.firstName }} {{ farmer.middleName || "" }}
-            {{ farmer.lastName }} {{ farmer.suffix || "" }}
+            {{ farmer.lastName }}
+            <span style="text-transform: uppercase; color: black;">{{
+              farmer.suffix || ""
+            }}</span>
           </td>
           <td>{{ farmer.username }}</td>
           <td>
@@ -210,7 +213,7 @@
         <div>
           <div class="title t1">Address</div>
           <div class="data d1" style="text-transform: capitalize">
-            {{ farmer.unit }}, {{ farmer.street }}, {{ farmer.village }},
+            {{ farmer.unit }} {{ farmer.street }}, {{ farmer.village }},
             {{ farmer.barangay }}, {{ farmer.city }}, {{ farmer.province }},
             {{ farmer.region }}
           </div>

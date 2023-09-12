@@ -294,6 +294,7 @@ export class TransactionComponent implements OnInit {
           data.lastName +
           ' ' +
           data.suffix;
+          console.log(data);
       });
   };
 
@@ -453,9 +454,7 @@ export class TransactionComponent implements OnInit {
       ' ' +
       this.user.middleName +
       ' ' +
-      this.user.lastName +
-      ' ' +
-      this.user.suffix;
+      this.user.lastName
 
     this.paymentForm.patchValue({
       fullName: fullName,

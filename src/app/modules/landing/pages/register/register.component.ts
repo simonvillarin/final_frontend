@@ -472,7 +472,7 @@ export class RegisterComponent implements OnInit {
             this.alert = true;
             this.isError = false;
             this.alertMessage =
-              'Registered successful! Please wait for the email or text message upon the activation of your account';
+              'Registered successfully! Please wait for the email or text message upon the activation of your account';
             setTimeout(() => (this.alert = false), 3000);
             scroll(0, 0);
 

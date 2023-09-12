@@ -99,7 +99,10 @@
         </div>
         <div class="name">
           <div class="type" (click)="toggleShowDropdown()">
-            <span>{{ username }}</span>
+            <span style="text-transform: capitalize"
+              >{{ username }}
+              <span style="text-transform: uppercase;">{{ user.suffix }}</span>
+            </span>
             <div>Admin</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

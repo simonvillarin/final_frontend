@@ -156,6 +156,7 @@
           appendTo="body"
           [showIcon]="true"
           formControlName="birthdate"
+          placeholder="MM/DD/YYYY"
         ></p-calendar>
         <div
           *ngIf="birthdate.invalid && (birthdate?.dirty || birthdate.touched)"

@@ -43,24 +43,48 @@
             <p class="content">
               <ng-container>
                 <span class="subtitle">Receiver: </span>
-                {{ changeAddress.fullName || fullN }}
+                <span *ngIf="!changeAddress.transactionId" style="text-transform: capitalize;">
+                  {{ user.firstName }} {{ user.middleName }} {{ user.lastName }}
+                  <span style="text-transform: uppercase; color: black;">
+                    {{ user.suffix }}
+                  </span>
+                </span>
+                <span *ngIf="changeAddress.transactionId" style="text-transform: capitalize;">
+                  {{ changeAddress.fullName || fullN }}
+                </span>
               </ng-container>
             </p>
             <p class="content">
               <ng-container>
                 <span class="subtitle">Contact #: </span>
-                {{ changeAddress.contact || user.contact }}
+                <span *ngIf="!changeAddress.transactionId">
+                  {{ user.contact }}
+                </span>
+                <span *ngIf="changeAddress.transactionId">
+                  {{ changeAddress.contact }}
+                </span>
               </ng-container>
             </p>
             <p class="content">
               <ng-container>
                 <span class="subtitle">Address:</span>
-                {{ changeAddress.unit || user.unit }}
-                {{ changeAddress.street || user.street }},
-                {{ changeAddress.village || user.village }},
-                {{ changeAddress.barangay || user.barangay }}
-                {{ changeAddress.city || user.city }},
-                {{ changeAddress.region || user.region }}
+                <span *ngIf="!changeAddress.transactionId">
+                  {{ user.unit }}
+                  {{ user.street }},
+                  {{ user.village }},
+                  {{ user.barangay }}
+                  {{ user.city }},
+                  {{ user.region }}
+                </span>
+                <span *ngIf="changeAddress.transactionId">
+                  {{ changeAddress.unit }}
+                  {{ changeAddress.street }},
+                  {{ changeAddress.village }},
+                  {{ changeAddress.barangay}}
+                  {{ changeAddress.city }},
+                  {{ changeAddress.region }}
+                </span>
+
               </ng-container>
             </p>
           </ng-template>
@@ -523,7 +547,13 @@
       >
         Cancel
       </button>
-      <button class="dialog-btn submit" type="submit">Save</button>
+      <button
+        class="dialog-btn submit"
+        type="submit"
+        (click)="closeOnChangeDialog()"
+      >
+        Save
+      </button>
     </div>
   </form>
 </p-dialog>

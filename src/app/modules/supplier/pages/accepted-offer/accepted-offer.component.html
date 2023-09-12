@@ -84,22 +84,40 @@
             </div>
           </div>
           <div>
-            <div class="title t1">Price</div>
-            <p class="data d1">
+            <div class="title">Price</div>
+            <p class="data">
               {{
                 acceptedOffer.offer.price
                   | currency : "PHP" : "symbol" : "1.2-2"
               }}
             </p>
           </div>
+          <div>
+            <div class="title t1">Date Accepted</div>
+            <p class="data d1">
+              {{ acceptedOffer.acceptDate | date : "MMMM d, y" }}
+            </p>
+          </div>
         </div>
         <div class="card-actions">
-          <button
-            class="btn-transaction"
-            (click)="onPayment(acceptedOffer.transactionId)"
-          >
-            <span class="material-symbols-rounded"> payments </span>Payment
-          </button>
+            <button
+            *ngIf="acceptedOffer.paidDate"
+              class="btn-transaction"
+              (click)="onPayment(acceptedOffer.transactionId)"
+            >
+              <span class="material-symbols-rounded"> payments </span>View
+              Transaction
+            </button>
+
+            <button
+            *ngIf="!acceptedOffer.paidDate"
+              class="btn-awaiting-payment"
+              (click)="onPayment(acceptedOffer.transactionId)"
+            >
+              <span class="material-symbols-rounded"> payments </span>Awaiting
+              Payment
+            </button>
+
           <button
             *ngIf="!acceptedOffer.paidDate"
             class="btn-cancel"

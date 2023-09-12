@@ -76,9 +76,15 @@
               </div>
             </div>
             <div>
-              <div class="title t1">Price</div>
-              <div class="data d1">
+              <div class="title">Price</div>
+              <div class="data">
                 {{ ad.price | currency : "PHP" : "symbol" : "1.2-2" }}
+              </div>
+            </div>
+            <div>
+              <div class="title t1">Date Posted</div>
+              <div class="data d1">
+                {{ ad.postDate | date : "MMMM d, y"  }}
               </div>
             </div>
           </div>

@@ -164,6 +164,9 @@ img {
 
 .m-0 {
   font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  text-transform: capitalize;
 }
 
 .m-1 {
@@ -248,7 +251,6 @@ img {
 .card-content {
   display: grid;
   grid-template-rows: 1fr auto;
-  gap: 0.5rem;
 }
 
 .card-content > div > div {
